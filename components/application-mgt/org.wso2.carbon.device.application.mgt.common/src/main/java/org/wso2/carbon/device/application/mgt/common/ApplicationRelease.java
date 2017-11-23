@@ -20,289 +20,108 @@ package org.wso2.carbon.device.application.mgt.common;
 
 import org.wso2.carbon.device.application.mgt.common.jaxrs.Exclude;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * This class holds the details when releasing an Application to application store.
  */
 public class ApplicationRelease {
 
+    private enum Channel {
+        PRODUCTION, ALPHA, BETA
+    }
+
     @Exclude
     private int id;
 
-    private String version;
+    private int versionId;
 
-    private String tenantId;
+    private String versionName;
 
-    private String uuid;
+    private String resource;
 
-    private String appStoredLoc;
+    private Channel releaseChannel;
 
-    private String bannerLoc;
+    private String releaseDetails;
 
-    private String screenshotLoc1;
+    private Date createdAt;
 
-    private String screenshotLoc2;
+    private Application application;
 
-    private String screenshotLoc3;
+    private Map<String, String> properties;
 
-    private String applicationCreator;
+    private boolean isDefault;
 
-    private String releaseType;
-
-    private Double price;
-
-    private Timestamp createdAt;
-
-    private String publishedBy;
-
-    private Timestamp publishedAt;
-
-    private int starts;
-
-    private  String modifiedBy;
-
-    private Timestamp modifiedAt;
-
-    private ImageArtifact icon;
-
-    private ImageArtifact banner;
-
-    private String currentState;
-
-    private String previouseState;
-
-    private String stateModifiedBy;
-
-    private Timestamp stateModifiedAt;
-
-    private List<ImageArtifact> screenShots = new ArrayList<>();
-
-    private String appHashValue;
-
-    private int isSharedWithAllTenants;
-
-    private String metaData;
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public String getVersionName() {
+        return versionName;
     }
 
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getResource() {
+        return resource;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
-    public String getReleaseType() {
-        return releaseType;
+    public Channel getReleaseChannel() {
+        return releaseChannel;
     }
 
-    public void setReleaseType(String releaseType) {
-        this.releaseType = releaseType;
+    public void setReleaseChannel(String releaseChannel) {
+        this.releaseChannel = Channel.valueOf(releaseChannel);
     }
 
-    public void setIcon(ImageArtifact icon) {
-        this.icon = icon;
+    public String getReleaseDetails() {
+        return releaseDetails;
     }
 
-    public void setBanner(ImageArtifact banner) {
-        this.banner = banner;
+    public void setReleaseDetails(String releaseDetails) {
+        this.releaseDetails = releaseDetails;
     }
 
-    public void setScreenShots(List<ImageArtifact> screenShots) {
-        this.screenShots = screenShots;
-    }
-
-    public void setAppHashValue(String appHashValue) {
-        this.appHashValue = appHashValue;
-    }
-
-    public void setIsSharedWithAllTenants(int isSharedWithAllTenants) { this.isSharedWithAllTenants = isSharedWithAllTenants; }
-
-    public void setMetaData(String metaData) {
-        this.metaData = metaData;
-    }
-
-    public int getId() { return id; }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getCurrentState() {
-        return currentState;
-    }
-
-    public void setCurrentState(String currentState) {
-        this.currentState = currentState;
-    }
-
-    public String getPreviouseState() {
-        return previouseState;
-    }
-
-    public void setPreviouseState(String previouseState) {
-        this.previouseState = previouseState;
-    }
-
-    public String getStateModifiedBy() {
-        return stateModifiedBy;
-    }
-
-    public void setStateModifiedBy(String stateModifiedBy) {
-        this.stateModifiedBy = stateModifiedBy;
-    }
-
-    public Timestamp getStateModifiedAt() {
-        return stateModifiedAt;
-    }
-
-    public void setStateModifiedAt(Timestamp stateModifiedAt) {
-        this.stateModifiedAt = stateModifiedAt;
-    }
-
-    public ImageArtifact getIcon() {
-        return icon;
-    }
-
-    public ImageArtifact getBanner() {
-        return banner;
-    }
-
-    public List<ImageArtifact> getScreenShots() {
-        return screenShots;
-    }
-
-    public String getAppHashValue() {
-        return appHashValue;
-    }
-
-    public int getIsSharedWithAllTenants() {
-        return isSharedWithAllTenants;
-    }
-
-    public String getMetaData() {
-        return metaData;
-    }
-
-    public String getAppStoredLoc() {
-        return appStoredLoc;
-    }
-
-    public void setAppStoredLoc(String appStoredLoc) {
-        this.appStoredLoc = appStoredLoc;
-    }
-
-    public String getBannerLoc() {
-        return bannerLoc;
-    }
-
-    public void setBannerLoc(String bannerLoc) {
-        this.bannerLoc = bannerLoc;
-    }
-
-    public String getScreenshotLoc1() {
-        return screenshotLoc1;
-    }
-
-    public void setScreenshotLoc1(String screenshotLoc1) {
-        this.screenshotLoc1 = screenshotLoc1;
-    }
-
-    public String getScreenshotLoc2() {
-        return screenshotLoc2;
-    }
-
-    public void setScreenshotLoc2(String screenshotLoc2) {
-        this.screenshotLoc2 = screenshotLoc2;
-    }
-
-    public String getScreenshotLoc3() {
-        return screenshotLoc3;
-    }
-
-    public void setScreenshotLoc3(String screenshotLoc3) {
-        this.screenshotLoc3 = screenshotLoc3;
-    }
-
-    public String getApplicationCreator() {
-        return applicationCreator;
-    }
-
-    public void setApplicationCreator(String applicationCreator) {
-        this.applicationCreator = applicationCreator;
-    }
-
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getPublishedBy() {
-        return publishedBy;
+    public Application getApplication() {
+        return application;
     }
 
-    public void setPublishedBy(String publishedBy) {
-        this.publishedBy = publishedBy;
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
-    public Timestamp getPublishedAt() {
-        return publishedAt;
+    public Map<String, String> getProperties() {
+        return properties;
     }
 
-    public void setPublishedAt(Timestamp publishedAt) {
-        this.publishedAt = publishedAt;
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 
-    public int getStarts() {
-        return starts;
+    public boolean isDefault() {
+        return isDefault;
     }
 
-    public void setStarts(int starts) {
-        this.starts = starts;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public Timestamp getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(Timestamp modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 }

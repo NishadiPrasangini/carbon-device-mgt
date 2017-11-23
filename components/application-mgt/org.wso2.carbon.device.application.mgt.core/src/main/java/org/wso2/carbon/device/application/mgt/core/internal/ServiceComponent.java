@@ -29,10 +29,12 @@ import org.wso2.carbon.device.application.mgt.common.services.ApplicationStorage
 import org.wso2.carbon.device.application.mgt.common.services.CategoryManager;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 import org.wso2.carbon.device.application.mgt.common.services.LifecycleStateManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformStorageManager;
 import org.wso2.carbon.device.application.mgt.common.services.SubscriptionManager;
 import org.wso2.carbon.device.application.mgt.common.services.VisibilityManager;
 import org.wso2.carbon.device.application.mgt.core.config.ConfigurationManager;
-import org.wso2.carbon.device.application.mgt.core.dao.common.ApplicationManagementDAOFactory;
+import org.wso2.carbon.device.application.mgt.core.dao.common.DAOFactory;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 import org.wso2.carbon.device.application.mgt.core.util.ApplicationManagementUtil;
 import org.wso2.carbon.device.mgt.core.service.DeviceManagementProviderService;
@@ -73,7 +75,7 @@ public class ServiceComponent {
         BundleContext bundleContext = componentContext.getBundleContext();
         try {
             String datasourceName = ConfigurationManager.getInstance().getConfiguration().getDatasourceName();
-//            ApplicationManagementDAOFactory.init(datasourceName);
+            DAOFactory.init(datasourceName);
 
             ApplicationManager applicationManager = ApplicationManagementUtil.getApplicationManagerInstance();
             DataHolder.getInstance().setApplicationManager(applicationManager);
@@ -96,7 +98,6 @@ public class ServiceComponent {
             DataHolder.getInstance().setLifecycleStateManager(lifecycleStateManager);
             bundleContext.registerService(LifecycleStateManager.class.getName(), lifecycleStateManager, null);
 
-            //remove this
             PlatformManager platformManager = ApplicationManagementUtil.getPlatformManagerInstance();
             DataHolder.getInstance().setPlatformManager(platformManager);
             bundleContext.registerService(PlatformManager.class.getName(), platformManager, null);
@@ -114,18 +115,16 @@ public class ServiceComponent {
             DataHolder.getInstance().setApplicationStorageManager(applicationStorageManager);
             bundleContext.registerService(ApplicationStorageManager.class.getName(), applicationStorageManager, null);
 
-            //can remove
             PlatformStorageManager platformStorageManager = ApplicationManagementUtil
                     .getPlatformStorageManagerInstance();
             DataHolder.getInstance().setPlatformStorageManager(platformStorageManager);
             bundleContext.registerService(PlatformStorageManager.class.getName(), platformStorageManager, null);
 
-            //can remove
             bundleContext.registerService(Axis2ConfigurationContextObserver.class.getName(),
                     new PlatformManagementAxis2ConfigurationObserverImpl(), null);
 
-            ApplicationManagementDAOFactory.init(datasourceName);
-            ApplicationManagementDAOFactory.initDatabases();
+            DAOFactory.init(datasourceName);
+            DAOFactory.initDatabases();
             log.info("ApplicationManagement core bundle has been successfully initialized");
         } catch (InvalidConfigurationException e) {
             log.error("Error while activating Application Management core component. ", e);

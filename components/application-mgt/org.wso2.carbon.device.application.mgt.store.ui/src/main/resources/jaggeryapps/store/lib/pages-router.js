@@ -35,13 +35,11 @@ var route;
     function getPageData(pageUri, lookupTable) {
         var uriPagesMap = lookupTable.uriPagesMap;
         var uriMatcher = new URIMatcher(pageUri);
-        // log.error(pageUri);
         var uriPatterns = Object.keys(uriPagesMap);
         var numberOfUriPatterns = uriPatterns.length;
 
         for (var i = 0; i < numberOfUriPatterns; i++) {
             var uriPattern = uriPatterns[i];
-            // log.error(uriPattern);
             if (uriMatcher.match(uriPattern)) {
                 return {
                     page: lookupTable.pages[uriPagesMap[uriPattern]],
@@ -62,17 +60,14 @@ var route;
     function getLoginPageUri(renderingContext, lookupTable) {
         var appData = renderingContext.app;
         var loginPageFullName = appData.conf[constants.APP_CONF_LOGIN_PAGE];
-        log.error(loginPageFullName);
         if (loginPageFullName) {
             var loginPage = lookupTable.pages[loginPageFullName];
-            log.error(loginPage);
             if (loginPage) {
                 loginPage = utils.getFurthestChild(loginPage);
                 if (loginPage.disabled) {
                     log.warn("Login page '" + loginPage.fullName + " mentioned in application "
                              + "configuration file '" + constants.FILE_APP_CONF + "' is disabled.");
                 } else {
-                    log.error(appData.context + loginPage.definition[constants.PAGE_DEFINITION_URI]);
                     return (appData.context + loginPage.definition[constants.PAGE_DEFINITION_URI]);
                 }
             } else {
@@ -183,7 +178,6 @@ var route;
         }
 
         var renderer = require("/lib/dynamic-files-renderer.js").renderer;
-        log.error("pages-router.js --------------------");
         renderer.renderUiComponent(pageData.page, {}, renderingContext, lookupTable, response);
     };
 })();

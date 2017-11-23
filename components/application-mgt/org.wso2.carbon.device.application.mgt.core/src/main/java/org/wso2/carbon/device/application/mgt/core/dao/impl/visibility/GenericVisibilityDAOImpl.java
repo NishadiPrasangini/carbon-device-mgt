@@ -17,9 +17,7 @@
 */
 package org.wso2.carbon.device.application.mgt.core.dao.impl.visibility;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.device.application.mgt.common.UnrestrictedRole;
+import org.wso2.carbon.device.application.mgt.common.Visibility;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.core.dao.VisibilityDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
@@ -38,106 +36,121 @@ import java.util.List;
  */
 public class GenericVisibilityDAOImpl extends AbstractDAOImpl implements VisibilityDAO {
 
-    private static final Log log = LogFactory.getLog(GenericVisibilityDAOImpl.class);
-
     @Override
-    public void addUnrestrictedRoles(List<UnrestrictedRole> unrestrictedRoles, int applicationId, int tenantId) throws
-            VisibilityManagementDAOException {
-        if (log.isDebugEnabled()) {
-            log.debug("Request received in DAO Layer to add unrestricted roles");
-        }
-        Connection conn;
+    public int getVisibilityID(Visibility.Type visibilityType) throws VisibilityManagementDAOException {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int index = 0;
-        String sql = "INSERT INTO AP_UNRESTRICTED_ROLES (ROLE, TENANT_ID, AP_APP_ID) VALUES (?, ?, ?)";
-        try{
-            conn = this.getDBConnection();
-            conn.setAutoCommit(false);
-            stmt = conn.prepareStatement(sql);
-            for (UnrestrictedRole role : unrestrictedRoles) {
-                stmt.setString(++index, role.getRole());
-                stmt.setInt(++index, tenantId);
-                stmt.setInt(++index, applicationId);
-                stmt.addBatch();
+        ResultSet resultSet = null;
+        try {
+            Connection connection = getDBConnection();
+            String sql = "SELECT ID FROM APPM_RESOURCE_TYPE WHERE NAME = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, visibilityType.toString().toUpperCase());
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("ID");
             }
-            stmt.executeBatch();
-
-        }catch (DBConnectionException e) {
-            throw new VisibilityManagementDAOException("Error occurred while obtaining the DB connection when adding roles", e);
-        }catch (SQLException e) {
-            throw new VisibilityManagementDAOException("Error occurred while adding unrestricted roles", e);
+            return -1;
+        } catch (DBConnectionException e) {
+            throw new VisibilityManagementDAOException("Error occurred while obtaining the connection " +
+                    "for the visibility management of applications", e);
+        } catch (SQLException e) {
+            throw new VisibilityManagementDAOException("Error occurred when trying to get the ID of the" +
+                    " visibility type - " + visibilityType.toString(), e);
         } finally {
-            Util.cleanupResources(stmt, rs);
+            Util.cleanupResources(stmt, resultSet);
         }
     }
 
     @Override
-    public List<UnrestrictedRole> getUnrestrictedRoles(int applicationId, int tenantId) throws VisibilityManagementDAOException {
-        if (log.isDebugEnabled()) {
-            log.debug("Request received in DAO Layer to get unrestricted roles");
-        }
-        Connection conn;
+    public void add(int applicationID, int visibilityTypeID, List<String> allowedList)
+            throws VisibilityManagementDAOException {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<UnrestrictedRole> unrestrictedRoles = new ArrayList<>();
-        UnrestrictedRole unrestrictedRole = null;
-        int index = 0;
-        String sql = "SELECT ID, ROLE FROM AP_UNRESTRICTED_ROLES WHERE AP_APP_ID = ? AND TENANT_ID = ?;";
-        try{
-            conn = this.getDBConnection();
-            conn.setAutoCommit(false);
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(++index, applicationId);
-            stmt.setInt(++index, tenantId);
-            rs = stmt.executeQuery();
-
-            while (rs.next()){
-                unrestrictedRole = new UnrestrictedRole();
-                unrestrictedRole.setId(rs.getInt("ID"));
-                unrestrictedRole.setRole(rs.getString("ROLE"));
-                unrestrictedRoles.add(unrestrictedRole);
+        try {
+            Connection connection = getDBConnection();
+            String sql = "INSERT INTO APPM_VISIBILITY (VALUE, RESOURCE_TYPE_ID, APPLICATION_ID) VALUES (?, ?, ?)";
+            stmt = connection.prepareStatement(sql);
+            if (allowedList == null) {
+                stmt.setString(1, null);
+                stmt.setInt(2, visibilityTypeID);
+                stmt.setInt(3, applicationID);
+                stmt.execute();
+            } else {
+                for (String allowed : allowedList) {
+                    stmt.setString(1, allowed);
+                    stmt.setInt(2, visibilityTypeID);
+                    stmt.setInt(3, applicationID);
+                    stmt.addBatch();
+                }
+                stmt.executeBatch();
             }
-            return unrestrictedRoles;
-
-        }catch (DBConnectionException e) {
-            throw new VisibilityManagementDAOException("Error occurred while obtaining the DB connection when adding roles", e);
-        }catch (SQLException e) {
-            throw new VisibilityManagementDAOException("Error occurred while adding unrestricted roles", e);
+        } catch (DBConnectionException e) {
+            throw new VisibilityManagementDAOException("Error occurred while obtaining the connection " +
+                    "for adding the visibility mapping for the application ID - " + applicationID, e);
+        } catch (SQLException e) {
+            throw new VisibilityManagementDAOException("Error occurred while adding the visibility mapping " +
+                    "for the application ID - " + applicationID, e);
         } finally {
-            Util.cleanupResources(stmt, rs);
+            Util.cleanupResources(stmt, null);
         }
     }
 
     @Override
-    public void deleteUnrestrictedRoles(List<UnrestrictedRole> unrestrictedRoles, int applicationId, int tenantId) throws VisibilityManagementDAOException {
-        if (log.isDebugEnabled()) {
-            log.debug("Request received in DAO Layer to delete unrestricted roles");
-        }
-        Connection conn;
+    public void delete(int applicationId) throws VisibilityManagementDAOException {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int index = 0;
-        String sql = "DELETE FROM AP_UNRESTRICTED_ROLES WHERE AP_APP_ID = 1 AND ROLE = 'role1' AND TENANT_ID = -1234;";
-        try{
-            conn = this.getDBConnection();
-            conn.setAutoCommit(false);
-            stmt = conn.prepareStatement(sql);
-
-            for (UnrestrictedRole role : unrestrictedRoles) {
-                stmt.setInt(++index, applicationId);
-                stmt.setString(++index, role.getRole());
-                stmt.setInt(++index, role.getTenantId());
-                stmt.addBatch();
-            }
-            stmt.executeBatch();
-
-        }catch (DBConnectionException e) {
-            throw new VisibilityManagementDAOException("Error occurred while obtaining the DB connection when adding roles", e);
-        }catch (SQLException e) {
-            throw new VisibilityManagementDAOException("Error occurred while adding unrestricted roles", e);
+        try {
+            Connection connection = getDBConnection();
+            String sql = "DELETE FROM APPM_VISIBILITY WHERE APPLICATION_ID = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, applicationId);
+            stmt.execute();
+        } catch (DBConnectionException e) {
+            throw new VisibilityManagementDAOException("Error occurred while obtaining the connection " +
+                    "for deleting the visibility mapping for the application ID - " + applicationId, e);
+        } catch (SQLException e) {
+            throw new VisibilityManagementDAOException("Error occurred while deleting the visibility mapping " +
+                    "for the application ID - " + applicationId, e);
         } finally {
-            Util.cleanupResources(stmt, rs);
+            Util.cleanupResources(stmt, null);
+        }
+    }
+
+    public Visibility get(int applicationId) throws VisibilityManagementDAOException {
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        final String visibilityTypeColumn = "VISIBILITY_TYPE";
+        final String allowedValColumn = "ALLOWED_VAL";
+        try {
+            Connection connection = getDBConnection();
+            String sql = "SELECT APPM_VISIBILITY.VALUE as " + allowedValColumn + ", APPM_RESOURCE_TYPE.NAME AS " +
+                    visibilityTypeColumn + " FROM APPM_VISIBILITY JOIN APPM_RESOURCE_TYPE " +
+                    "ON APPM_VISIBILITY.RESOURCE_TYPE_ID = APPM_RESOURCE_TYPE.ID " +
+                    "WHERE APPM_VISIBILITY.APPLICATION_ID = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, applicationId);
+            resultSet = stmt.executeQuery();
+            Visibility visibility = new Visibility();
+            List<String> allowedVal = new ArrayList<>();
+            while (resultSet.next()) {
+                if (visibility.getType() == null) {
+                    visibility.setType(Visibility.Type.valueOf(resultSet.getString(visibilityTypeColumn)));
+                }
+                String val = resultSet.getString(allowedValColumn);
+                if (val != null) {
+                    allowedVal.add(val);
+                }
+            }
+            if (!allowedVal.isEmpty()) {
+                visibility.setAllowedList(allowedVal);
+            }
+            return visibility;
+        } catch (DBConnectionException e) {
+            throw new VisibilityManagementDAOException("Error occurred while obtaining the connection " +
+                    "for getting the visibility mapping for the application ID - " + applicationId, e);
+        } catch (SQLException e) {
+            throw new VisibilityManagementDAOException("Error occurred while getting the visibility mapping " +
+                    "for the application ID - " + applicationId, e);
+        } finally {
+            Util.cleanupResources(stmt, resultSet);
         }
     }
 }

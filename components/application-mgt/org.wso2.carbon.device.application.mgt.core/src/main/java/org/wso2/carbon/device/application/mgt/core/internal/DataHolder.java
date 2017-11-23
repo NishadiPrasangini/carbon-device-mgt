@@ -24,6 +24,8 @@ import org.wso2.carbon.device.application.mgt.common.services.ApplicationStorage
 import org.wso2.carbon.device.application.mgt.common.services.CategoryManager;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 import org.wso2.carbon.device.application.mgt.common.services.LifecycleStateManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformStorageManager;
 import org.wso2.carbon.device.application.mgt.common.services.SubscriptionManager;
 import org.wso2.carbon.device.application.mgt.common.services.VisibilityManager;
 import org.wso2.carbon.device.mgt.core.service.DeviceManagementProviderService;
@@ -48,11 +50,15 @@ public class DataHolder {
 
     private LifecycleStateManager lifecycleStateManager;
 
+    private PlatformManager platformManager;
+
     private SubscriptionManager subscriptionManager;
 
     private VisibilityManager visibilityManager;
 
     private ApplicationStorageManager applicationStorageManager;
+
+    private PlatformStorageManager platformStorageManager;
 
     private static final DataHolder applicationMgtDataHolder = new DataHolder();
 
@@ -112,6 +118,14 @@ public class DataHolder {
         this.lifecycleStateManager = lifecycleStateManager;
     }
 
+    public PlatformManager getPlatformManager() {
+        return platformManager;
+    }
+
+    public void setPlatformManager(PlatformManager platformManager) {
+        this.platformManager = platformManager;
+    }
+
     public SubscriptionManager getSubscriptionManager() {
         return subscriptionManager;
     }
@@ -142,5 +156,13 @@ public class DataHolder {
 
     public ApplicationStorageManager getApplicationStorageManager() {
         return applicationStorageManager;
+    }
+
+    public void setPlatformStorageManager(PlatformStorageManager platformStorageManager) {
+        this.platformStorageManager = platformStorageManager;
+    }
+
+    public PlatformStorageManager getPlatformStorageManager() {
+        return platformStorageManager;
     }
 }

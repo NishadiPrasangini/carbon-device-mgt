@@ -18,37 +18,33 @@
  */
 package org.wso2.carbon.device.application.mgt.common;
 
-import java.util.Date;
-
 /**
  * Represents a comment for an {@link Application}.
  */
 public class Comment {
 
-    private int id;
+    private String id;
 
     private String comment;
 
-
+    private int rating;
 
     //TODO: Pagination, comment ID for child
     private Comment parent;
 
     private String createdBy;
 
-    private Date createdAt;
+    private String createdAt;
 
     private String modifiedAt;
 
     private Application application;
 
-
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -58,6 +54,14 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public Comment getParent() {
@@ -76,11 +80,11 @@ public class Comment {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 

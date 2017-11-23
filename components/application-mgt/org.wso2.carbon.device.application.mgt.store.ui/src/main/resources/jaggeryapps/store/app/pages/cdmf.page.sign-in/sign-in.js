@@ -18,11 +18,6 @@ function onRequest(context) {
 
     var viewModel = {};
     var loginActionUrl = context.app.context + "/uuf/login";
-
-    var log = new Log();
-    log.error("cdmf.page.sign-in/sign-in.js");
-    log.error(loginActionUrl);
-
     if (sessionDataKey) {
         loginActionUrl = "/commonauth";
     }
