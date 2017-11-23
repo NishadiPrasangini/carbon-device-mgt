@@ -16,6 +16,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This handles CommentDAO related operations.
+ */
 public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     private static final Log log = LogFactory.getLog(CommentDAOImpl.class);
@@ -29,7 +32,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
-//        ResultSet rs = null;
+
         int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO `AP_APP_COMMENT` (`TENANT_ID`, `COMMENT_TEXT`, `CREATED_BY`, `PARENT_ID`, `AP_APP_RELEASE_ID`, `AP_APP_ID`) VALUES (?,?,?,?,?,?);"
@@ -127,8 +130,6 @@ int commentId = -1;
             Util.cleanupResources(stmt, null);
         }
     }
-
-//
 
     @Override
     public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
