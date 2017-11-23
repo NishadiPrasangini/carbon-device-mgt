@@ -593,20 +593,90 @@ int commentId = -1;
     @Override
     public void deleteComments(String appType, String appName, String version) throws CommentManagementException {
 
-    }
+        Connection conn;
+        PreparedStatement stmt = null;
+        try {
+            conn = this.getDBConnection();
+            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
+                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?');";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, version);
+            stmt.setString(2,appName);
+            stmt.setString(3,appType);
+            stmt.setString(4,appName);
+            stmt.setString(5,appType);
+
+
+            stmt.executeUpdate();
+
+        } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
+        }
 
     @Override
     public void deleteComments(String appType, String appName, String version, String createdBy) throws CommentManagementException {
+        Connection conn;
+        PreparedStatement stmt = null;
+        try {
+            conn = this.getDBConnection();
+            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
+                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?') and `CREATED_BY`='?';";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, version);
+            stmt.setString(2,appName);
+            stmt.setString(3,appType);
+            stmt.setString(4,appName);
+            stmt.setString(5,appType);
+            stmt.setString(6,createdBy);
 
-    }
 
-    @Override
-    public void deleteCommentsByUser(String createdBy, int tenantId)throws CommentManagementException {
+            stmt.executeUpdate();
 
+        } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
     }
 
     @Override
     public void deleteComments(String appType, String appName, String version, int parentId) throws CommentManagementException {
+        Connection conn;
+        PreparedStatement stmt = null;
+        try {
+            conn = this.getDBConnection();
+            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
+                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
+                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?') and `PARENT_ID`='?';";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, version);
+            stmt.setString(2,appName);
+            stmt.setString(3,appType);
+            stmt.setString(4,appName);
+            stmt.setString(5,appType);
+            stmt.setInt(6,parentId);
 
+
+            stmt.executeUpdate();
+
+        } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
     }
 }

@@ -215,6 +215,7 @@ public class ApplicationManagementDAOFactory {
         }
     }
 
+
     public static CommentDAO getCommentDAO() {
         if (databaseEngine != null) {
             switch (databaseEngine) {

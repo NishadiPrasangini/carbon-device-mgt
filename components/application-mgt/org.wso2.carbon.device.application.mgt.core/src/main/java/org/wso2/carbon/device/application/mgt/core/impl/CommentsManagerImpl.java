@@ -82,7 +82,7 @@ public class CommentsManagerImpl implements CommentsManager {
      * @param apAppCommentId ID of the comment.
      * @return Application related with the UUID
      *
-     * how should we validate comment.
+     *
      */
     private Comment validateComment(int apAppCommentId,String comment) throws CommentManagementException{
         if (apAppCommentId == 0) {

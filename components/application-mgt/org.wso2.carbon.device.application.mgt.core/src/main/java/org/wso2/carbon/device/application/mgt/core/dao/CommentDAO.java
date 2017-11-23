@@ -269,14 +269,6 @@ public interface CommentDAO  {
      */
     void deleteComments(String appType,String appName,String version,String createdBy)throws CommentManagementException;
 
-    /**
-     * To delete comments by users.
-     *
-     * @param createdBy Username of the created person.
-     * @param tenantId tenant id of the commented application
-     * @throws CommentManagementException Exceptions of the comment management.
-     */
-    void deleteCommentsByUser(String createdBy,int tenantId)throws CommentManagementException;
 
     /**
      * To delete comments by parent id of the comment.
