@@ -58,7 +58,7 @@ public class CommentsManagerImpl implements CommentsManager {
         Comment validation= validateComment(comment.getId(),comment.getComment());
 
         if (log.isDebugEnabled()) {
-            log.debug("Comment release request is received for the comment " + validation.toString());
+            log.debug("Request for comment is received. " + validation.toString());
         }
         comment.setCreatedAt(new Date());
         try {
@@ -110,11 +110,11 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public boolean updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws Exception {
+    public boolean updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment validation= validateComment(apAppCommentId,updatedComment);
         if (log.isDebugEnabled()) {
-            log.debug("Comment release retrieval request is received for the comment id " +
+            log.debug("Comment retrieval request is received for the comment id " +
                     apAppCommentId + " and version " + version);
         }
         try {
@@ -134,16 +134,16 @@ public class CommentsManagerImpl implements CommentsManager {
 
 
     @Override
-    public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws Exception {
+    public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
         return 0;
     }
 
     @Override
-    public Comment addcomment(Comment comment) throws CommentManagementException {
+    public Comment addComment(Comment comment) throws CommentManagementException {
         Comment validation= validateComment(comment.getId(),comment.getComment());
 
         if (log.isDebugEnabled()) {
-            log.debug("Comment release request is received for the comment " + validation.toString());
+            log.debug("Request for comment is received. " + validation.toString());
         }
         comment.setCreatedAt(new Date());
         try {
@@ -164,7 +164,7 @@ public class CommentsManagerImpl implements CommentsManager {
 
 
     @Override
-    public Comment getComment(int apAppCommentId) throws Exception {
+    public Comment getComment(int apAppCommentId) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation= validateComment(apAppCommentId,comment.getComment());
@@ -186,7 +186,7 @@ public class CommentsManagerImpl implements CommentsManager {
 
 
     @Override
-    public List<Comment> getComments(int appReleasedId, int appId) throws Exception {
+    public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
 
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
@@ -207,7 +207,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getComments(String appType, String appName, String version) throws Exception {
+    public List<Comment> getComments(String appType, String appName, String version) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -227,7 +227,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getComments(int tenantId) throws Exception {
+    public List<Comment> getComments(int tenantId) throws CommentManagementException {
         int tenantId1 = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -247,7 +247,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getCommentsByUser(String createdBy) throws Exception {
+    public List<Comment> getCommentsByUser(String createdBy) throws CommentManagementException {
 
             int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
             Comment comment=new Comment();
@@ -268,7 +268,7 @@ public class CommentsManagerImpl implements CommentsManager {
         }
 
     @Override
-    public List<Comment> getCommentsByUser(String createdBy, Timestamp createdAt) throws Exception {
+    public List<Comment> getCommentsByUser(String createdBy, Timestamp createdAt) throws CommentManagementException {
 
             int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
             Comment comment=new Comment();
@@ -289,7 +289,7 @@ public class CommentsManagerImpl implements CommentsManager {
         }
 
     @Override
-    public List<Comment> getCommentsByModifiedUser(String modifiedBy) throws Exception {
+    public List<Comment> getCommentsByModifiedUser(String modifiedBy) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -309,7 +309,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getCommentsByModifiedUser(String modifiedBy, Timestamp modifiedAt) throws Exception {
+    public List<Comment> getCommentsByModifiedUser(String modifiedBy, Timestamp modifiedAt) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -329,7 +329,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getComments(String appType, String appName, String version, int parentId) throws Exception {
+    public List<Comment> getComments(String appType, String appName, String version, int parentId) throws CommentManagementException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -349,44 +349,59 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public int getCommentCountByUser(String commUser) throws Exception {
+    public int getCommentCountByUser(String createdBy) throws CommentManagementException {
         return 0;
     }
 
     @Override
-    public int getCommentCountByUser(String modifiedBy, Timestamp modifedAt) throws Exception {
+    public int getCommentCountByUser(String modifiedBy, Timestamp modifiedAt) throws CommentManagementException {
         return 0;
     }
 
     @Override
-    public int getCommentCountByApp(int appId, int appReleaseId) throws Exception {
+    public int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException {
         return 0;
     }
 
     @Override
-    public int getCommentCountByApp(String appType, String appName, String version) throws Exception {
+    public int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException {
         return 0;
     }
 
     @Override
-    public void deleteComment(int apAppCommentId) throws Exception {
-        List<Comment> comments = getComments(apAppCommentId);
-
-        for (Comment comm : comments) {
-            deleteComment(apAppCommentId);
-        }
-    }
-
-
-    @Override
-    public void deleteComments(int appId, int appReleaseID) throws Exception {
+    public void deleteComment(int apAppCommentId) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
             throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the " + "application with application id"
+                    "Cannot delete a non-existing application comments for the application with application id"
+                            + apAppCommentId);
+        }
+        try {
+            ConnectionManagerUtil.beginDBTransaction();
+            ApplicationManagementDAOFactory.getCommentDAO().deleteComment(apAppCommentId);
+
+            ConnectionManagerUtil.commitDBTransaction();
+        } catch (ApplicationManagementDAOException e) {
+            ConnectionManagerUtil.rollbackDBTransaction();
+            throw e;
+        } finally {
+            ConnectionManagerUtil.closeDBConnection();
+        }
+    }
+
+
+    @Override
+    public void deleteComments(int appId, int appReleaseID) throws CommentManagementException {
+        Comment comment=new Comment();
+        Comment validation=validateComment(comment.getId(),comment.getComment());
+
+        Comment comment1 = getComment(comment.getId());
+        if (comment1 == null) {
+            throw new ApplicationManagementException(
+                    "Cannot delete a non-existing application comments for the application with application id"
                             + comment.getId());
         }
         try {
@@ -403,14 +418,14 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public void deleteComments(String appType, String appName, String version) throws Exception {
+    public void deleteComments(String appType, String appName, String version) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
             throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the " + "application with application id"
+                    "Cannot delete a non-existing application comments for the application with application id"
                             + comment.getId());
         }
         try {
@@ -427,14 +442,14 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public void deleteComments(String appType, String appName, String version, String createdBy) throws Exception {
+    public void deleteComments(String appType, String appName, String version, String createdBy) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
             throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the " + "application with application id"
+                    "Cannot delete a non-existing application comments for the application with application id"
                             + comment.getId());
         }
         try {
@@ -451,14 +466,14 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public void deleteCommentsByUser(String createdBy, int tenantId) throws Exception {
+    public void deleteCommentsByUser(String createdBy, int tenantId) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
             throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the " + "application with application id"
+                    "Cannot delete a non-existing application comments for the application with application id"
                             + comment.getId());
         }
         try {
@@ -475,14 +490,14 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public void deleteComments(String appType, String appName, String version, int parentId) throws Exception {
+    public void deleteComments(String appType, String appName, String version, int parentId) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
             throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the " + "application with application id"
+                    "Cannot delete a non-existing application comments for the application with application id"
                             + comment.getId());
         }
         try {
