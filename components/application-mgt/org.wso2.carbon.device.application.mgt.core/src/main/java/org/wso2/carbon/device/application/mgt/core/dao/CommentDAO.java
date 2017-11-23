@@ -47,7 +47,7 @@ public interface CommentDAO  {
 
     Comment getComment(int apAppCommentId)throws CommentManagementException;
 
-//    int getStars(int apAppCommentId)throws Exception;
+//    int getStars(int apAppCommentId)throws Exception 2;
 
     List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
 
