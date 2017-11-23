@@ -16,6 +16,10 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Comment Management related jax-rs APIs.
+ */
+@Path("/comments")
 public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     private static Log log = LogFactory.getLog(CommentManagementAPIImpl.class);
@@ -58,8 +62,20 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     }
 
     @Override
+    @PUT
+    @Consumes("comment/json")
     public Response editComment(Comment comment) {
-        return null;
+        CommentsManager commentsManager = APIUtil.getCommentsManager();
+        try {
+            comment = commentsManager.editComment(comment);
+        } catch (NotFoundException e) {
+            return APIUtil.getResponse(e, Response.Status.NOT_FOUND);
+        } catch (CommentManagementException e) {
+            String msg = "Error occurred while editing a comment.";
+            log.error(msg, e);
+            return APIUtil.getResponse(e, Response.Status.BAD_REQUEST);
+        }
+        return Response.status(Response.Status.OK).entity(comment).build();
     }
 
 
@@ -78,7 +94,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Response.status(Response.Status.OK).entity("comment is deleted successfully.").build();
+        return Response.status(Response.Status.OK).entity("Comment is deleted successfully.").build();
     }
     }
 
