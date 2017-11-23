@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
-        * APIs to handle application management related tasks.
+        * APIs to handle comment management related tasks.
         */
 @SwaggerDefinition(
         info = @Info(
@@ -45,16 +45,16 @@ import java.util.List;
                         permissions = {"/device-mgt/comment/add"}
                 ),
                 @Scope(
-                        name = "Update a Comment",
-                        description = "Update a Commnent",
-                        key = "perm:comment:update",
-                        permissions = {"/device-mgt/comment/update"}
+                        name = "Edit a Comment",
+                        description = "Edit a Commnent",
+                        key = "perm:comment:edit",
+                        permissions = {"/device-mgt/comment/edit"}
                 ),
 
                 @Scope(
                         name = "Delete a Comment",
                         description = "Delete a comment",
-                        key = "perm:acomment:delete",
+                        key = "perm:comment:delete",
                         permissions = {"/device-mgt/comment/delete"}
                 ),
 
@@ -119,7 +119,7 @@ public interface CommentManagementAPI {
                     @ApiResponse(
                             code = 201,
                             message = "OK. \n Successfully add a comment.",
-                            response = Application.class),
+                            response = Comment.class),
                     @ApiResponse(
                             code = 304,
                             message = "Not Modified. \n " +
@@ -127,7 +127,7 @@ public interface CommentManagementAPI {
                                     + "resource."),
                     @ApiResponse(
                             code = 500,
-                            message = "Internal Server Error. \n Error occurred adding a lifecycle state.",
+                            message = "Internal Server Error. \n Error occurred adding a comment.",
                             response = ErrorResponse.class)
             })
     Response addComments(Comment comment);
@@ -153,7 +153,7 @@ public interface CommentManagementAPI {
                     @ApiResponse(
                             code = 201,
                             message = "OK. \n Successfully edited comment.",
-                            response = Application.class),
+                            response = Comment.class),
                     @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred while editing the comment.",
@@ -178,7 +178,7 @@ public interface CommentManagementAPI {
             tags = "Comment Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:coment:create")
+                            @ExtensionProperty(name = SCOPE, value = "perm:comment:create")
                     })
             }
     )
@@ -187,7 +187,7 @@ public interface CommentManagementAPI {
                     @ApiResponse(
                             code = 201,
                             message = "OK. \n Successfully created a comment.",
-                            response = Application.class),
+                            response = Comment.class),
                     @ApiResponse(
                             code = 304,
                             message = "Not Modified. \n " +
