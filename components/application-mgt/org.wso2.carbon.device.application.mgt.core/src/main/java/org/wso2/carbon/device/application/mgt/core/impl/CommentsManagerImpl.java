@@ -56,7 +56,7 @@ public class CommentsManagerImpl implements CommentsManager {
     @Override
     public int addComment(int tenantId, Comment comment, String createdBy, int parentId, int appReleaseId, int appId)  throws CommentManagementException  {
         Comment validation= validateComment(comment.getId(),comment.getComment());
-//        validateCommentCreateRequest( comment.getComment(),comment);
+
         if (log.isDebugEnabled()) {
             log.debug("Comment release request is received for the comment " + validation.toString());
         }
@@ -67,9 +67,7 @@ public class CommentsManagerImpl implements CommentsManager {
            comment = ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
             ConnectionManagerUtil.commitDBTransaction();
             return comment.getId();
-//        } catch (ApplicationManagementDAOException e) {
-//            ConnectionManagerUtil.rollbackDBTransaction();
-//            throw e;
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -110,26 +108,6 @@ public class CommentsManagerImpl implements CommentsManager {
 
         return comm;
     }
-//    /**
-//     * To validate a create release request to make sure all the pre-conditions satisfied.
-//     *
-//     * @param applicationUuid    UUID of the Application.
-//     * @param applicationRelease ApplicationRelease that need to be created.
-//     * @throws ApplicationManagementException Application Management Exception.
-//     */
-//    private void validateCommentCreateRequest(String applicationUuid, Comment applicationRelease)
-//            throws ApplicationManagementException {
-//        if (applicationRelease == null || applicationRelease.getVersion() == null) {
-//            throw new ApplicationManagementException("ApplicationRelease version name is a mandatory parameter for "
-//                    + "creating release. It cannot be found.");
-//        }
-//        if (getRelease(applicationUuid, applicationRelease.getVersion()) != null) {
-//            throw new ApplicationManagementException(
-//                    "Application Release for the Application UUID " + applicationUuid + " " + "with the version "
-//                            + applicationRelease.getVersion() + " already exists. Cannot create an "
-//                            + "application release with the same version.");
-//        }
-//    }
 
     @Override
     public boolean updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws Exception {
@@ -153,10 +131,7 @@ public class CommentsManagerImpl implements CommentsManager {
         return null;
     }
 
-//    @Override
-//    public int addComment(int tenantId, Comment comment, String createdBy, int parentId, int appReleaseId, int appId) throws Exception {
-//        return 0;
-//    }
+
 
     @Override
     public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws Exception {
@@ -166,7 +141,7 @@ public class CommentsManagerImpl implements CommentsManager {
     @Override
     public Comment addcomment(Comment comment) throws CommentManagementException {
         Comment validation= validateComment(comment.getId(),comment.getComment());
-//        validateCommentCreateRequest( comment.getComment(),comment);
+
         if (log.isDebugEnabled()) {
             log.debug("Comment release request is received for the comment " + validation.toString());
         }
@@ -186,10 +161,7 @@ public class CommentsManagerImpl implements CommentsManager {
         return comment;
     }
 
-//    @Override
-//    public boolean updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws Exception {
-//        return false;
-//    }
+
 
     @Override
     public Comment getComment(int apAppCommentId) throws Exception {
@@ -420,7 +392,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appId,appReleaseID);
-//            ApplicationManagementDAOFactory.getApplicationReleaseDAO().deleteReleaseProperties(applicationRelease.getId());
+
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
@@ -444,7 +416,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version);
-//            ApplicationManagementDAOFactory.getApplicationReleaseDAO().deleteReleaseProperties(applicationRelease.getId());
+
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
@@ -468,7 +440,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version,createdBy);
-//            ApplicationManagementDAOFactory.getApplicationReleaseDAO().deleteReleaseProperties(applicationRelease.getId());
+
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
@@ -492,7 +464,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteCommentsByUser(createdBy,tenantId);
-//            ApplicationManagementDAOFactory.getApplicationReleaseDAO().deleteReleaseProperties(applicationRelease.getId());
+
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
@@ -516,7 +488,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version,parentId);
-//            ApplicationManagementDAOFactory.getApplicationReleaseDAO().deleteReleaseProperties(applicationRelease.getId());
+
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
