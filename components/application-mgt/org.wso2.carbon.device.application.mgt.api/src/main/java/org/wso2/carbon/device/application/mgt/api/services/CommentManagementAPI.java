@@ -50,30 +50,13 @@ import java.util.List;
                         key = "perm:comment:update",
                         permissions = {"/device-mgt/comment/update"}
                 ),
-//                @Scope(
-//                        name = "Create an Application",
-//                        description = "Create an application",
-//                        key = "perm:application-mgt:login",
-//                        permissions = {"/device-mgt/application-mgt/login"}
-//                ),
+
                 @Scope(
                         name = "Delete a Comment",
                         description = "Delete a comment",
                         key = "perm:acomment:delete",
                         permissions = {"/device-mgt/comment/delete"}
                 ),
-//                @Scope(
-//                        name = "Create an application category",
-//                        description = "Create an application category",
-//                        key = "perm:application-category:create",
-//                        permissions = {"/device-mgt/application/category/create"}
-//                ),
-//                @Scope(
-//                        name = "Delete an Application category",
-//                        description = "Delete an application category",
-//                        key = "perm:application-category:delete",
-//                        permissions = {"/device-mgt/application/category/delete"}
-//                )
 
 
         }
@@ -215,39 +198,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-//    Response createComment(
-//            @ApiParam(
-//                    name = "comment",
-//                    value = "The comment that need to be created.",
-//                    required = true)
-//            @Valid Comment comment);
-//
-//    @Path("/{identifier}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @ApiOperation(
-//            consumes = MediaType.APPLICATION_JSON,
-//            produces = MediaType.APPLICATION_JSON,
-//            httpMethod = "DELETE",
-//            value = "Remove comment",
-//            notes = "Remove Comment",
-//            tags = "Comment Management",
-//            extensions = {
-//                    @Extension(properties = {
-//                            @ExtensionProperty(name = SCOPE, value = "perm:comment:remove")
-//                    })
-//            }
-//    )
-//    @ApiResponses(
-//            value = {
-//                    @ApiResponse(
-//                            code = 200,
-//                            message = "OK. \n Successfully deleted the comment"),
-//                    @ApiResponse(
-//                            code = 500,
-//                            message = "Internal Server Error. \n Error occurred while deleting the comment.",
-//                            response = ErrorResponse.class)
-//            })
+
     Response deleteComment(@PathParam("identifier") int identifier){
 
     CommentsManager commentsManager = APIUtil.getCommentsManager();
