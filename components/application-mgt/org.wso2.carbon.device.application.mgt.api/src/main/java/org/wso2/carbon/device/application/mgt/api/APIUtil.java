@@ -49,6 +49,7 @@ public class APIUtil {
     private static SubscriptionManager subscriptionManager;
     private static PlatformStorageManager platformStorageManager;
     private static CategoryManager categoryManager;
+    private static CommentsManager commentsManager;
 
     public static ApplicationManager getApplicationManager() {
         if (applicationManager == null) {
@@ -231,5 +232,23 @@ public class APIUtil {
         }
 
         return subscriptionManager;
+    }
+
+    public static CommentsManager getCommentsManager() {
+        if (commentsManager == null) {
+            synchronized (APIUtil.class) {
+                if (commentsManager == null) {
+                    PrivilegedCarbonContext ctx = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+                    commentsManager =
+                            (CommentsManager) ctx.getOSGiService(CommentsManager.class, null);
+                    if (commentsManager == null) {
+                        String msg = "Comments Manager service has not initialized.";
+                        log.error(msg);
+                        throw new IllegalStateException(msg);
+                    }
+                }
+            }
+        }
+        return commentsManager;
     }
 }
