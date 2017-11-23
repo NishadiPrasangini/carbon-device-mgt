@@ -32,52 +32,53 @@ public interface CommentsManager {
 
 
 
-    int addComment(int tenantId , Comment comment, String createdBy, int parentId, int appReleaseId , int appId)throws Exception;
+    int addComment(int tenantId , Comment comment, String createdBy, int parentId, int appReleaseId , int appId)throws CommentManagementException;
 
-    int addcomment(Comment comment,String createdBy,String appType,String appName,String version) throws Exception;
-    Comment addcomment(Comment comment)throws CommentManagementException;
+    int addComment(Comment comment,String createdBy,String appType,String appName,String version) throws CommentManagementException;
 
-    boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt)throws Exception;
+    Comment addComment(Comment comment)throws CommentManagementException;
 
-   List <Comment> getComment()throws Exception;
+    boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt)throws CommentManagementException;
 
-    Comment getComment(int apAppCommentId)throws Exception;
+   List <Comment> getComment()throws CommentManagementException;
 
-    List<Comment> getComments(int appReleasedId,int appId)throws Exception;
+    Comment getComment(int apAppCommentId)throws CommentManagementException;
 
-    List<Comment> getComments(String appType,String appName,String version)throws Exception;
+    List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
 
-    List<Comment> getComments(int tenantId)throws Exception;
+    List<Comment> getComments(String appType,String appName,String version)throws CommentManagementException;
 
-    List<Comment> getCommentsByUser(String createdBy)throws Exception;
+    List<Comment> getComments(int tenantId)throws CommentManagementException;
 
-    List<Comment> getCommentsByUser(String createdBy,Timestamp createdAt)throws Exception;
+    List<Comment> getCommentsByUser(String createdBy)throws CommentManagementException;
 
-    List<Comment> getCommentsByModifiedUser(String modifiedBy)throws Exception;
+    List<Comment> getCommentsByUser(String createdBy,Timestamp createdAt)throws CommentManagementException;
 
-    List<Comment> getCommentsByModifiedUser(String modifiedBy,Timestamp modifiedAt)throws Exception;
+    List<Comment> getCommentsByModifiedUser(String modifiedBy)throws CommentManagementException;
 
-    List<Comment> getComments(String appType,String appName,String version,int parentId)throws Exception;
+    List<Comment> getCommentsByModifiedUser(String modifiedBy,Timestamp modifiedAt)throws CommentManagementException;
 
-    int getCommentCountByUser(String createdBy)throws Exception;
+    List<Comment> getComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
 
-    int getCommentCountByUser(String modifiedBy,Timestamp modifedAt)throws Exception;
+    int getCommentCountByUser(String createdBy)throws CommentManagementException;
 
-    int getCommentCountByApp(int appId, int appReleaseId)throws Exception;
+    int getCommentCountByUser(String modifiedBy,Timestamp modifiedAt)throws CommentManagementException;
 
-    int getCommentCountByApp(String appType,String appName,String version)throws Exception;
+    int getCommentCountByApp(int appId, int appReleaseId)throws CommentManagementException;
 
-    void deleteComment(int apAppCommentId)throws Exception;
+    int getCommentCountByApp(String appType,String appName,String version)throws CommentManagementException;
 
-    void deleteComments(int appId,int appReleaseID)throws Exception;
+    void deleteComment(int apAppCommentId)throws CommentManagementException;
 
-    void deleteComments(String appType,String appName,String version)throws Exception;
+    void deleteComments(int appId,int appReleaseID)throws CommentManagementException;
 
-    void deleteComments(String appType,String appName,String version,String createdBy)throws Exception;
+    void deleteComments(String appType,String appName,String version)throws CommentManagementException;
 
-    void deleteCommentsByUser(String commUser,int tenantId)throws Exception;
+    void deleteComments(String appType,String appName,String version,String createdBy)throws CommentManagementException;
 
-    void deleteComments(String appType,String appName,String version,int parentId)throws Exception;
+    void deleteCommentsByUser(String commUser,int tenantId)throws CommentManagementException;
+
+    void deleteComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
 
 
 
