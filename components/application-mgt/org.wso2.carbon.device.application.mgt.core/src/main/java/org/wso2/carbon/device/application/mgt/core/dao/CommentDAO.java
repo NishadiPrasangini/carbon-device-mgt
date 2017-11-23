@@ -39,7 +39,7 @@ public interface CommentDAO  {
 
     int addComment(int tenantId , Comment comment, String createdBy, int parentId, int appReleaseId , int appId) throws CommentManagementException, DBConnectionException;
 
-    int addcomment(Comment comment,String createdBy,String appType,String appName,String version) throws CommentManagementException;
+    int addComment(Comment comment,String createdBy,String appType,String appName,String version) throws CommentManagementException;
 
     boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
