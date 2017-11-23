@@ -37,7 +37,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         try{
 
             stmt = conn.prepareStatement(sql, new String[] {"id"});
-//                stmt.setInt(++index, commentId);
                 stmt.setInt(++index, tenantId);
                 stmt.setString(++index, comment.getComment());
                 stmt.setString(++index,createdBy);
@@ -62,39 +61,9 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     @Override
     public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
-//            if (log.isDebugEnabled()) {
-//            log.debug("Request received in DAO Layer to add COMMENT");
-//        }
-//
-//        Connection conn=this.getDBConnection();
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        int index = 0;
-int commentId = -1;
-//        String sql = "INSERT INTO `AP_APP_COMMENT` (INSERT INTO `APPMGT`.`AP_APP_COMMENT` (`TENANT_ID`, `COMMENT_TEXT`, `STARS`, `AP_APP_RELEASE_ID`, `AP_APP_ID`) "+
-//                "VALUES (?, ?, ?, ?, ?, ?)";
-//        try{
-//
-//            stmt = conn.prepareStatement(sql, new String[] {"id"});
-////                stmt.setInt(++index, commentId);
-//                stmt.setInt(++index, tenantId);
-//                stmt.setString(++index, comment.getComment());
-//                stmt.setInt(++index,stars);
-//                stmt.setInt(++index,appReleaseId);
-//                stmt.setInt(++index,appId);
-//                stmt.addBatch();
-//
-//            stmt.executeUpdate();
-//            rs = stmt.getGeneratedKeys();
-//            if (rs.next()) {
-//                commentId = rs.getInt(1);
-//            }
 
-//        } catch (SQLException e) {
-//            throw e;
-//        } finally {
-//            Util.cleanupResources(stmt, null);
-//        }
+int commentId = -1;
+
      return commentId;
     }
 
@@ -147,7 +116,7 @@ int commentId = -1;
 
             stmt.setInt(1, apAppCommentId);
             if (rs.next()) {
-               //comment = Util.loadMatchingComment(rs, false);
+               comment = Util.loadMatchingComment(rs, false);
             }
 
         } catch (SQLException e) {
@@ -159,37 +128,7 @@ int commentId = -1;
         }return comment;
     }
 
-//    @Override
-//    public int getStars(int apAppCommentId) throws Exception {
-//        if (log.isDebugEnabled()) {
-//            log.debug("Getting star value with the ap_comment_id(" + apAppCommentId + ") from the database");
-//        }
-//        Connection conn;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        String sql = "";
-//        int stars=0;
 //
-//        try {
-//
-//            conn = this.getDBConnection();
-//            sql += "select STARS FROM AP_APP_COMMENT where ID=1;";
-//
-//            stmt = conn.prepareStatement(sql);
-//
-//            stmt.setInt(1, apAppCommentId);
-//            if (rs.next()) {
-//                //stars = Util.loadMatchingComment(rs, false);
-//            }
-//
-//        } catch (SQLException e) {
-//        throw e;
-//    } catch (DBConnectionException e) {
-//       throw e;
-//    }  finally {
-//        Util.cleanupResources(stmt, null);
-//    }return stars;
-//    }
 
     @Override
     public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
@@ -213,8 +152,8 @@ int commentId = -1;
             stmt.setInt(2,appId);
             comments = new ArrayList<>();
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
         } catch (DBConnectionException e) {
@@ -253,8 +192,8 @@ int commentId = -1;
             stmt.setString(3,appType);
             comments = new ArrayList<>();
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
         } catch (DBConnectionException e) {
@@ -286,8 +225,8 @@ int commentId = -1;
 
             stmt.setInt(1, tenantId);
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
 
@@ -322,8 +261,8 @@ int commentId = -1;
             stmt.setString(1, createdBy);
 
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
 
@@ -358,8 +297,8 @@ int commentId = -1;
             stmt.setString(1, createdBy);
             stmt.setTimestamp(2,createdAt);
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
 
@@ -394,8 +333,8 @@ int commentId = -1;
             stmt.setString(1, modifiedBy);
 
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
 
@@ -431,8 +370,8 @@ int commentId = -1;
             stmt.setTimestamp(2,modifiedAt);
 
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
 
@@ -474,8 +413,8 @@ int commentId = -1;
             stmt.setInt(4,parentId);
             comments = new ArrayList<>();
             while (rs.next()) {
-//                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-//                comments.add(comment);
+                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                comments.add(comment);
             }
 
         } catch (DBConnectionException e) {
@@ -487,73 +426,7 @@ int commentId = -1;
         }return comments;
     }
 
-//    @Override
-//    public List<Comment> getCommentByStars(int stars) throws Exception {
-//        if (log.isDebugEnabled()) {
-//            log.debug("Getting comments with the no of stars(" + stars + ")  from the database");
-//        }
-//        Connection conn;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        String sql = "";
-//        List<Comment> comments = null;
-//        try {
 //
-//            conn = this.getDBConnection();
-//            sql += "select COMMENT_TEXT FROM AP_APP_COMMENT where STARS='?' ;";
-//
-//            stmt = conn.prepareStatement(sql);
-//
-//            stmt.setInt(1, stars);
-//
-//            while (rs.next()) {
-////                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
-////                comments.add(comment);
-//            }
-//
-//        } catch (DBConnectionException e) {
-//            throw e;
-//        } catch (SQLException e) {
-//            throw e;
-//        } finally {
-//            Util.cleanupResources(stmt, null);
-//        }return comments;
-//    }
-
-//    @Override
-//    public int getAppCommentId(int appReleaseId, int tenantId, int appId) throws Exception {
-//        if (log.isDebugEnabled()) {
-//            log.debug("Getting comment id with the from the database");
-//        }
-//        Connection conn;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        String sql = "";
-//
-//        try {
-//
-//            conn = this.getDBConnection();
-//            sql += "select ID FROM AP_APP_COMMENT where AP_APP_RELEASE_ID=? and AP_APP_ID=? and TENANT_ID=?";
-//
-//            stmt = conn.prepareStatement(sql);
-//
-//            stmt.setInt(1, appReleaseId);
-//            stmt.setInt(1, appId);
-//            stmt.setInt(1, tenantId);
-//
-//
-//
-//
-//        }  catch (DBConnectionException e) {
-//        throw e;
-//    } catch (SQLException e) {
-//        throw e;
-//    } finally {
-//        Util.cleanupResources(stmt, null);
-//    }
-//        return 0;
-//    }
-
     @Override
     public int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException, SQLException {
         Connection conn;
@@ -577,7 +450,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-//            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+            DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
         return commentCount;
 
@@ -606,7 +479,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-//            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+            DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
         return commentCount;
 
@@ -635,7 +508,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-//            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+            DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
         return commentCount;
     }
@@ -666,7 +539,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-//            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+            DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
         return commentCount;
     }

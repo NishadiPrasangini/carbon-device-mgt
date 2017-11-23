@@ -43,11 +43,7 @@ public interface CommentDAO  {
 
     boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
-//    boolean updateComment(String appType,String appName,String version, String updatedComment,String modifiedBy, Time modifiedAt)throws Exception;
-
     Comment getComment(int apAppCommentId)throws CommentManagementException;
-
-//    int getStars(int apAppCommentId)throws Exception 2;
 
     List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
 
@@ -64,10 +60,6 @@ public interface CommentDAO  {
     List<Comment> getCommentsByModifiedUser(String modifiedBy,Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
     List<Comment> getComments(String appType,String appName,String version,int parentId) throws CommentManagementException, DBConnectionException, SQLException;
-
-//    List<Comment> getCommentByStars(int stars)throws Exception;
-
-//    int getAppCommentId(int appReleaseId,int tenantId,int appId)throws Exception;
 
     int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException, SQLException;
 
