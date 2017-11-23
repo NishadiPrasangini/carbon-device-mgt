@@ -62,10 +62,6 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         return null;
     }
 
-//    @Override
-//    public Response createComment(Comment comment) {
-//        return null;
-//    }
 
 
     @Override

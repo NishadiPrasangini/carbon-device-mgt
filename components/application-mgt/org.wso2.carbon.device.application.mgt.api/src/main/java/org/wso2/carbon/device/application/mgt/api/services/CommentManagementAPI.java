@@ -199,18 +199,7 @@ public interface CommentManagementAPI {
                             response = ErrorResponse.class)
             })
 
-    Response deleteComment(@PathParam("identifier") int identifier){
-
-    CommentsManager commentsManager = APIUtil.getCommentsManager();
-        try {
-        commentsManager.deleteComment(identifier);
-    } catch (CommentManagementException e) {
-        String msg = "Error occurred while deleting comments.";
-        log.error(msg, e);
-        return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-        return Response.status(Response.Status.OK).entity("comments deleted successfully.").build();
-}
+    Response deleteComment(@PathParam("identifier") int identifier);
 
 
 
