@@ -349,26 +349,6 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public int getCommentCountByUser(String createdBy) throws CommentManagementException {
-        return 0;
-    }
-
-    @Override
-    public int getCommentCountByUser(String modifiedBy, Timestamp modifiedAt) throws CommentManagementException {
-        return 0;
-    }
-
-    @Override
-    public int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException {
-        return 0;
-    }
-
-    @Override
-    public int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException {
-        return 0;
-    }
-
-    @Override
     public void deleteComment(int apAppCommentId) throws CommentManagementException {
         Comment comment=new Comment();
         Comment validation=validateComment(comment.getId(),comment.getComment());
@@ -455,30 +435,6 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version,createdBy);
-
-            ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
-
-    @Override
-    public void deleteCommentsByUser(String createdBy, int tenantId) throws CommentManagementException {
-        Comment comment=new Comment();
-        Comment validation=validateComment(comment.getId(),comment.getComment());
-
-        Comment comment1 = getComment(comment.getId());
-        if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + comment.getId());
-        }
-        try {
-            ConnectionManagerUtil.beginDBTransaction();
-            ApplicationManagementDAOFactory.getCommentDAO().deleteCommentsByUser(createdBy,tenantId);
 
             ConnectionManagerUtil.commitDBTransaction();
         } catch (ApplicationManagementDAOException e) {
