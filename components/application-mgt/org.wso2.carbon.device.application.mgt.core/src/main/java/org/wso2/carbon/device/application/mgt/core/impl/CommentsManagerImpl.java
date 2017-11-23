@@ -40,9 +40,9 @@ import static sun.security.pkcs.PKCS8Key.version;
 /**
  * This class is the default implementation for the Managing the comments.
  */
-public class CommentsManagerImpl implements Commentsanager {
+public class CommentsManagerImpl implements CommentsManager {
 
-    private static final Log log = LogFactory.getLog(ApplicationManagerImpl.class);
+    private static final Log log = LogFactory.getLog(CommentsManagerImpl.class);
     private CommentDAO commentDAO;
 
     public CommentsManagerImpl() {
