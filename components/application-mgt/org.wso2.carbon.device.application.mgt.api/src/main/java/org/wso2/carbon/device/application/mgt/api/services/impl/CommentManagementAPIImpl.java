@@ -45,7 +45,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     public Response addComments(Comment comment){
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            Comment comment1 = commentsManager.addcomment(comment);
+            Comment comment1 = commentsManager.addComment(comment);
 
             if (comment != null){
                 return Response.status(Response.Status.CREATED).entity(comment1).build();
@@ -67,7 +67,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     public Response editComment(Comment comment) {
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            comment = commentsManager.editComment(comment);
+            comment = commentsManager.updateComment(comment);
         } catch (NotFoundException e) {
             return APIUtil.getResponse(e, Response.Status.NOT_FOUND);
         } catch (CommentManagementException e) {

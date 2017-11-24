@@ -18,12 +18,15 @@
  */
 package org.wso2.carbon.device.application.mgt.common;
 
+import java.security.Timestamp;
+import java.util.Date;
+
 /**
  * Represents a comment for an {@link Application}.
  */
 public class Comment {
 
-    private String id;
+    private int id;
 
     private String comment;
 
@@ -34,17 +37,19 @@ public class Comment {
 
     private String createdBy;
 
-    private String createdAt;
+    private Timestamp createdAt;
 
-    private String modifiedAt;
+    private String modifiedBy;
+
+    private Timestamp modifiedAt;
 
     private Application application;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,19 +85,27 @@ public class Comment {
         this.createdBy = createdBy;
     }
 
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getModifiedAt() {
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Timestamp getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(String modifiedAt) {
+    public void setModifiedAt(Timestamp modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 
@@ -103,4 +116,6 @@ public class Comment {
     public void setApplication(Application application) {
         this.application = application;
     }
+
+
 }

@@ -23,7 +23,6 @@ import org.wso2.carbon.device.application.mgt.common.exception.CommentManagement
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public interface CommentDAO  {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    Comment getComment(int apAppCommentId)throws CommentManagementException;
+    String getComment(int apAppCommentId)throws CommentManagementException;
 
     /**
      * To get list of comments using release id and application id.

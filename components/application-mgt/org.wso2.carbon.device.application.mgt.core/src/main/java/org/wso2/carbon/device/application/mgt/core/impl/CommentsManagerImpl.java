@@ -23,6 +23,8 @@ import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.application.mgt.common.*;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
+import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
+import org.wso2.carbon.device.application.mgt.common.exception.TransactionManagementException;
 import org.wso2.carbon.device.application.mgt.common.services.*;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.ApplicationManagementDAOFactory;
@@ -31,7 +33,9 @@ import org.wso2.carbon.device.application.mgt.core.exception.NotFoundException;
 import org.wso2.carbon.device.application.mgt.core.internal.DataHolder;
 import org.wso2.carbon.device.application.mgt.core.util.ConnectionManagerUtil;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -60,11 +64,12 @@ public class CommentsManagerImpl implements CommentsManager {
         if (log.isDebugEnabled()) {
             log.debug("Request for comment is received. " + validation.toString());
         }
-        comment.setCreatedAt(new Date());
+//        comment.setCreatedAt(new java.security.Timestamp());
         try {
             ConnectionManagerUtil.beginDBTransaction();
             comment.setApplication(comment.getApplication());
-           comment = ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
+            String comm=comment.toString();
+           comm = ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
             ConnectionManagerUtil.commitDBTransaction();
             return comment.getId();
 
@@ -74,6 +79,11 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.closeDBConnection();
         }
         return comment.getId();
+    }
+
+    @Override
+    public int addComment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
+        return 0;
     }
 
     /**
@@ -92,13 +102,13 @@ public class CommentsManagerImpl implements CommentsManager {
         if(comment==null){
             throw new NullPointerException("No comment is entered.");
         }
-        Comment comm= null;
+        Comment comm=new Comment();
         try {
             comm = DataHolder.getInstance().getCommentsManager().getComment(apAppCommentId);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(comm==null){
+        if(comm.getId()==0){
             try {
                 throw new NotFoundException("Comment with comment id "+apAppCommentId+"does not exit");
             } catch (NotFoundException e) {
@@ -121,22 +131,27 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().updateComment(apAppCommentId,updatedComment,modifiedBy,modifiedAt);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
+        return false;
     }
 
     @Override
-    public List <Comment> getComment() throws Exception {
+    public List <Comment> getComment() throws CommentManagementException {
         return null;
     }
 
 
 
-    @Override
-    public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
-        return 0;
-    }
+//    @Override
+//    public int addcomment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
+//        return 0;
+//    }
 
     @Override
     public Comment addComment(Comment comment) throws CommentManagementException {
@@ -145,11 +160,13 @@ public class CommentsManagerImpl implements CommentsManager {
         if (log.isDebugEnabled()) {
             log.debug("Request for comment is received. " + validation.toString());
         }
-        comment.setCreatedAt(new Date());
+//        comment.setCreatedAt(Timestamp.from(Instant.now()));
         try {
             ConnectionManagerUtil.beginDBTransaction();
             comment.setApplication(comment.getApplication());
-            comment = ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
+
+            String comm=comment.toString();
+            comm = ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
             ConnectionManagerUtil.commitDBTransaction();
             return comment;
 
@@ -174,13 +191,18 @@ public class CommentsManagerImpl implements CommentsManager {
         }
         try {
             ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
+            String comm=comment.toString();
 
+            comm= ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
+            return comment;
+
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
-
+        return comment;
     }
 
 
@@ -200,10 +222,13 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getComments(appReleasedId,appId);
 
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return getComments(appReleasedId,appId);
     }
 
     @Override
@@ -220,10 +245,15 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getComments(appType,appName,version);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return null;
     }
 
     @Override
@@ -240,10 +270,15 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getComments(tenantId);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return null;
     }
 
     @Override
@@ -261,11 +296,16 @@ public class CommentsManagerImpl implements CommentsManager {
                 ConnectionManagerUtil.openDBConnection();
                 return ApplicationManagementDAOFactory.getCommentDAO().getCommentsByUser(createdBy);
 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (DBConnectionException e) {
+                e.printStackTrace();
             } finally {
                 ConnectionManagerUtil.closeDBConnection();
             }
 
-        }
+        return null;
+    }
 
     @Override
     public List<Comment> getCommentsByUser(String createdBy, Timestamp createdAt) throws CommentManagementException {
@@ -282,11 +322,16 @@ public class CommentsManagerImpl implements CommentsManager {
                 ConnectionManagerUtil.openDBConnection();
                 return ApplicationManagementDAOFactory.getCommentDAO().getCommentsByUser(createdBy,createdAt);
 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (DBConnectionException e) {
+                e.printStackTrace();
             } finally {
                 ConnectionManagerUtil.closeDBConnection();
             }
 
-        }
+        return null;
+    }
 
     @Override
     public List<Comment> getCommentsByModifiedUser(String modifiedBy) throws CommentManagementException {
@@ -302,10 +347,15 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getCommentsByModifiedUser(modifiedBy);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return null;
     }
 
     @Override
@@ -322,10 +372,15 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getCommentsByModifiedUser(modifiedBy,modifiedAt);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return null;
     }
 
     @Override
@@ -342,10 +397,15 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getComments(appType,appName,version,parentId);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
 
+        return null;
     }
 
     @Override
@@ -355,18 +415,25 @@ public class CommentsManagerImpl implements CommentsManager {
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + apAppCommentId);
+            try {
+                throw new ApplicationManagementException(
+                        "Cannot delete a non-existing application comments for the application with application id"
+                                + apAppCommentId);
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComment(apAppCommentId);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (TransactionManagementException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -380,18 +447,25 @@ public class CommentsManagerImpl implements CommentsManager {
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + comment.getId());
+            try {
+                throw new ApplicationManagementException(
+                        "Cannot delete a non-existing application comments for the application with application id"
+                                + comment.getId());
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appId,appReleaseID);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (TransactionManagementException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -404,18 +478,24 @@ public class CommentsManagerImpl implements CommentsManager {
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + comment.getId());
+            try {
+                throw new ApplicationManagementException(
+                        "Cannot delete a non-existing application comments for the application with application id"
+                                + comment.getId());
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+
+        } catch (TransactionManagementException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -428,18 +508,24 @@ public class CommentsManagerImpl implements CommentsManager {
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + comment.getId());
+            try {
+                throw new ApplicationManagementException(
+                        "Cannot delete a non-existing application comments for the application with application id"
+                                + comment.getId());
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version,createdBy);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+
+        } catch (TransactionManagementException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -452,21 +538,32 @@ public class CommentsManagerImpl implements CommentsManager {
 
         Comment comment1 = getComment(comment.getId());
         if (comment1 == null) {
-            throw new ApplicationManagementException(
-                    "Cannot delete a non-existing application comments for the application with application id"
-                            + comment.getId());
+            try {
+                throw new ApplicationManagementException(
+                        "Cannot delete a non-existing application comments for the application with application id"
+                                + comment.getId());
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(appType,appName,version,parentId);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+
+        } catch (TransactionManagementException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
+    }
+
+    @Override
+    public Comment updateComment(Comment comment) throws CommentManagementException {
+        return null;
     }
 }
 

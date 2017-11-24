@@ -7,10 +7,11 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
-import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.AbstractDAOImpl;
+import org.wso2.carbon.device.application.mgt.core.*;
+import org.wso2.carbon.device.application.mgt.core.util.ApplicationManagementUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO `AP_APP_COMMENT` (`TENANT_ID`, `COMMENT_TEXT`, `CREATED_BY`, `PARENT_ID`, `AP_APP_RELEASE_ID`, `AP_APP_ID`) VALUES (?,?,?,?,?,?);"
@@ -55,11 +56,15 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             }
 
         } catch (SQLException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             Util.cleanupResources(stmt, null);
         }
-
+return  commentId;
     }
 
     @Override
@@ -100,14 +105,14 @@ int commentId = -1;
 
 
     @Override
-    public Comment getComment(int apAppCommentId) throws CommentManagementException {
+    public String getComment(int apAppCommentId) throws CommentManagementException {
         if (log.isDebugEnabled()) {
             log.debug("Getting comment with the ap_comment_id(" + apAppCommentId + ") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Comment comment=null;
+        Comment comment=new Comment();
         String sql = "";
 
         try {
@@ -119,16 +124,26 @@ int commentId = -1;
 
             stmt.setInt(1, apAppCommentId);
             if (rs.next()) {
-               comment = Util.loadMatchingComment(rs, false);
+               Util.cleanupResources(stmt,rs);
+                return comment.getComment();
             }
 
         } catch (SQLException e) {
-           throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } catch (DBConnectionException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (DBConnectionException e1) {
+                e1.printStackTrace();
+            }
         }  finally {
             Util.cleanupResources(stmt, null);
         }
+        return null;
     }
 
     @Override
@@ -140,7 +155,7 @@ int commentId = -1;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String sql = "";
-//        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
 
@@ -151,19 +166,29 @@ int commentId = -1;
 
             stmt.setInt(1, appReleasedId);
             stmt.setInt(2,appId);
-            comments = new ArrayList<>();
+//            comments = new ArrayList<>();
             while (rs.next()) {
+
                 Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
                 comments.add(comment);
             }
 
         } catch (DBConnectionException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (DBConnectionException e1) {
+                e1.printStackTrace();
+            }
         } catch (SQLException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -204,6 +229,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -238,6 +264,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -274,6 +301,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -310,6 +338,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -346,6 +375,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -383,6 +413,7 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+        return comments;
     }
 
     @Override
@@ -394,7 +425,7 @@ int commentId = -1;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String sql = "";
-//        List<Comment> comments = null;
+        List<Comment> comments = null;
 
         try {
 
@@ -425,9 +456,10 @@ int commentId = -1;
         } finally {
             Util.cleanupResources(stmt, null);
         }
+       return comments;
     }
 
-//
+
     @Override
     public int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException, SQLException {
         Connection conn;
@@ -448,7 +480,7 @@ int commentId = -1;
         } catch (DBConnectionException e) {
             throw e;
         } catch (SQLException e) {
-            throw e
+            throw e;
         } finally {
             Util.cleanupResources(stmt, null);
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
@@ -612,9 +644,17 @@ int commentId = -1;
             stmt.executeUpdate();
 
         } catch (DBConnectionException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (DBConnectionException e1) {
+                e1.printStackTrace();
+            }
         } catch (SQLException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -642,9 +682,17 @@ int commentId = -1;
             stmt.executeUpdate();
 
         } catch (DBConnectionException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (DBConnectionException e1) {
+                e1.printStackTrace();
+            }
         } catch (SQLException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -672,9 +720,17 @@ int commentId = -1;
             stmt.executeUpdate();
 
         } catch (DBConnectionException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (DBConnectionException e1) {
+                e1.printStackTrace();
+            }
         } catch (SQLException e) {
-            throw e;
+            try {
+                throw e;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             Util.cleanupResources(stmt, null);
         }

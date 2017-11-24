@@ -20,7 +20,10 @@ package org.wso2.carbon.device.application.mgt.common.services;
 
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
+import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
+import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -194,12 +197,10 @@ public interface CommentsManager {
      * To delete comment using comment id.
      *
      * @param apAppCommentId id of the comment
-     * @param updatedComment comment after updated
      * @throws CommentManagementException Exceptions of the comment management.
-     * @throws DBConnectionException db connection exception.
-     * @throws SQLException sql exception
+     * @throws ApplicationManagementDAOException Exceptions of the application management.
      */
-    void deleteComment(int apAppCommentId)throws CommentManagementException;
+    void deleteComment(int apAppCommentId) throws CommentManagementException, ApplicationManagementDAOException;
 
     /**
      * To delete comments using application details.
@@ -245,9 +246,12 @@ public interface CommentsManager {
     void deleteComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
 
 
-
-
-
-
-
+    /**
+     * To update a comment.
+     *
+     * @param comment comment of the application.
+     * @return
+     * @throws CommentManagementException
+     */
+    Comment updateComment(Comment comment) throws CommentManagementException ;
 }
