@@ -53,6 +53,16 @@ public class ApplicationRelease {
 
     private boolean isDefault;
 
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    private int stars;
+
     public int getId() {
         return id;
     }
