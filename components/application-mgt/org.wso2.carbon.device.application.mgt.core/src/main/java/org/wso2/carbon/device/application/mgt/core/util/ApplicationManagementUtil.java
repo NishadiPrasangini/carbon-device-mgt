@@ -33,7 +33,6 @@ import org.wso2.carbon.device.application.mgt.common.services.SubscriptionManage
 import org.wso2.carbon.device.application.mgt.common.services.VisibilityManager;
 import org.wso2.carbon.device.application.mgt.core.config.ConfigurationManager;
 import org.wso2.carbon.device.application.mgt.core.config.Extension;
-import org.wso2.carbon.device.application.mgt.core.dao.impl.Comment.CommentDAOImpl;
 
 import java.lang.reflect.Constructor;
 
@@ -44,7 +43,7 @@ import java.lang.reflect.Constructor;
 public class ApplicationManagementUtil {
 
     private static Log log = LogFactory.getLog(ApplicationManagementUtil.class);
-    public static CommentDAOImpl getCommentsManagerInstance;
+
 
     public static ApplicationManager getApplicationManagerInstance() throws InvalidConfigurationException {
         ConfigurationManager configurationManager = ConfigurationManager.getInstance();
