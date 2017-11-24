@@ -169,13 +169,13 @@ public class ApplicationManagementDAOFactory {
      *
      * @return GenericLifecycleDAOImpl
      */
-    public static LifecycleDAO getLifecycleDAO() {
+    public static LifecycleStateDAO getLifecycleDAO() {
         if (databaseEngine != null) {
             switch (databaseEngine) {
                 case Constants.DataBaseTypes.DB_TYPE_H2:
                 case Constants.DataBaseTypes.DB_TYPE_MYSQL:
                 case Constants.DataBaseTypes.DB_TYPE_POSTGRESQL:
-                    return new GenericLifecycleImpl();
+                    return new GenericLifecycleStateImpl();
                 default:
                     throw new UnsupportedDatabaseEngineException("Unsupported database engine : " + databaseEngine);
             }

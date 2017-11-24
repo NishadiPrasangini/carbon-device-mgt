@@ -190,7 +190,7 @@ public class ApplicationReleaseManagerImpl implements ApplicationReleaseManager 
         if (log.isDebugEnabled()) {
             log.debug("Stars are received for the application " + applicationRelease.getId());
         }
-//        applicationRelease.setCreatedAt(new Date());
+
         try {
 
             ConnectionManagerUtil.beginDBTransaction();
