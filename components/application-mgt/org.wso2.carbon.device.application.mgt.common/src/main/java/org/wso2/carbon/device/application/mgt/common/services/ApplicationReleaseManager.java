@@ -98,4 +98,6 @@ public interface ApplicationReleaseManager {
      * @throws ApplicationManagementException Application Management Exception.
      */
     void deleteApplicationReleases(String applicationUuid) throws ApplicationManagementException;
+
+    int addStars(String version, int appId,int stars,ApplicationRelease applicationRelease) throws ApplicationManagementException;
 }

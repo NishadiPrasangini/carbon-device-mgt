@@ -25,7 +25,9 @@ import org.wso2.carbon.device.application.mgt.common.Application;
 import org.wso2.carbon.device.application.mgt.common.ApplicationRelease;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.services.ApplicationReleaseManager;
+import org.wso2.carbon.device.application.mgt.core.dao.ApplicationReleaseDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.DAOFactory;
+import org.wso2.carbon.device.application.mgt.core.dao.impl.application.release.GenericApplicationReleaseDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 import org.wso2.carbon.device.application.mgt.core.exception.NotFoundException;
 import org.wso2.carbon.device.application.mgt.core.internal.DataHolder;
@@ -180,6 +182,28 @@ public class ApplicationReleaseManagerImpl implements ApplicationReleaseManager 
 
         for (ApplicationRelease applicationRelease : applicationReleases) {
             deleteApplicationRelease(applicationUuid, applicationRelease.getVersionName());
+        }
+    }
+
+    @Override
+    public int addStars(String version, int appId, int stars, ApplicationRelease applicationRelease) throws ApplicationManagementException {
+        if (log.isDebugEnabled()) {
+            log.debug("Stars are received for the application " + applicationRelease.getId());
+        }
+//        applicationRelease.setCreatedAt(new Date());
+        try {
+
+            ConnectionManagerUtil.beginDBTransaction();
+            int avgStars=(applicationRelease.getStars()*(applicationRelease.getNoOfRatedUsers()-1))/applicationRelease.getNoOfRatedUsers();
+            applicationRelease.setStars(avgStars);
+            DAOFactory.getApplicationReleaseDAO().insertStars(version,appId,avgStars);
+            ConnectionManagerUtil.commitDBTransaction();
+            return avgStars;
+        } catch (ApplicationManagementDAOException e) {
+            ConnectionManagerUtil.rollbackDBTransaction();
+            throw e;
+        } finally {
+            ConnectionManagerUtil.closeDBConnection();
         }
     }
 

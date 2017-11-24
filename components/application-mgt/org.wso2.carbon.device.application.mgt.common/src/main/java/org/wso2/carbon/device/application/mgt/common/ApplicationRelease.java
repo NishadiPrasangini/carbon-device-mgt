@@ -53,6 +53,18 @@ public class ApplicationRelease {
 
     private boolean isDefault;
 
+    private int noOfRatedUsers;
+
+    private int stars;
+
+    public int getNoOfRatedUsers() {
+        return noOfRatedUsers;
+    }
+
+    public void setNoOfRatedUsers(int noOfRatedUsers) {
+        this.noOfRatedUsers = noOfRatedUsers;
+    }
+
     public int getStars() {
         return stars;
     }
@@ -60,8 +72,6 @@ public class ApplicationRelease {
     public void setStars(int stars) {
         this.stars = stars;
     }
-
-    private int stars;
 
     public int getId() {
         return id;

@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
+import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.AbstractDAOImpl;
@@ -168,8 +169,8 @@ int commentId = -1;
             stmt.setInt(2,appId);
 //            comments = new ArrayList<>();
             while (rs.next()) {
-
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -218,7 +219,8 @@ int commentId = -1;
             stmt.setString(3,appType);
             comments = new ArrayList<>();
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -252,7 +254,9 @@ int commentId = -1;
 
             stmt.setInt(1, tenantId);
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+
+                Comment comment = new Comment();
+               comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -289,7 +293,8 @@ int commentId = -1;
             stmt.setString(1, createdBy);
 
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -326,7 +331,8 @@ int commentId = -1;
             stmt.setString(1, createdBy);
             stmt.setTimestamp(2,createdAt);
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -363,7 +369,8 @@ int commentId = -1;
             stmt.setString(1, modifiedBy);
 
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -401,7 +408,8 @@ int commentId = -1;
             stmt.setTimestamp(2,modifiedAt);
 
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -445,7 +453,8 @@ int commentId = -1;
             stmt.setInt(4,parentId);
             comments = new ArrayList<>();
             while (rs.next()) {
-                Comment comment = DeviceManagementDAOUtil.loadDevice(rs);
+                Comment comment = new Comment();
+                comment.setComment(rs.getString(1));
                 comments.add(comment);
             }
 
@@ -483,7 +492,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+
         }
         return commentCount;
 
@@ -512,7 +521,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+
         }
         return commentCount;
 
@@ -541,7 +550,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+
         }
         return commentCount;
     }
@@ -572,7 +581,7 @@ int commentId = -1;
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-            DeviceManagementDAOUtil.cleanupResources(stmt, null);
+
         }
         return commentCount;
     }

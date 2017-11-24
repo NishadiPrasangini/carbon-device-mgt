@@ -40,8 +40,9 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To get a release details with the particular version.
+     *
      * @param applicationUuid UUID of the application to get the release.
-     * @param versionName Name of the version
+     * @param versionName     Name of the version
      * @return ApplicationRelease for the particular version of the given application
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
@@ -60,6 +61,7 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To update an Application release.
+     *
      * @param applicationRelease ApplicationRelease that need to be updated.
      * @return the updated Application Release
      * @throws ApplicationManagementDAOException Application Management DAO Exception
@@ -85,13 +87,61 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To change the default version of a particular release channel.
-     * @param uuid UUID of the application
-     * @param version Version of the application
+     *
+     * @param uuid      UUID of the application
+     * @param version   Version of the application
      * @param isDefault true if the request is to make the application as default one unless false
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
     void changeReleaseDefault(String uuid, String version, boolean isDefault, String releaseChannel, int tenantId)
             throws ApplicationManagementDAOException;
 
+    /**
+     *
+     * @param version Version of the application
+     * @param appId Id of the Application
+     * @param stars Star value
+     * @param applicationRelease Application Release that need to be created.
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int addStars(String version, int appId,int stars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException;
 
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Name of the Application
+     * @param updatedStars Updated star value
+     * @param applicationRelease Application Release that need to be created.
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int getStars(String version, String appName) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appId  Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+  int insertStars(String version, int appId,int stars) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName  Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int getRatedUser(String version, String appName) throws ApplicationManagementDAOException;
 }
