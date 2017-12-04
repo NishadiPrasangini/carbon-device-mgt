@@ -101,6 +101,15 @@ public interface CommentsManager {
     Comment getComment(int apAppCommentId)throws CommentManagementException;
 
     /**
+     * To get the comment with id.
+     *
+     * @param uuid uuid of the comment
+     * @return
+     * @throws CommentManagementException Exceptions of the comment management.
+     */
+    Comment getComment(String uuid)throws CommentManagementException;
+
+    /**
      * To get list of comments using release id and application id.
      *
      * @param appReleasedId Id of the released version of the application.
@@ -202,6 +211,16 @@ public interface CommentsManager {
      * @throws ApplicationManagementDAOException Exceptions of the application management.
      */
     void deleteComment(int apAppCommentId) throws CommentManagementException, ApplicationManagementDAOException;
+
+    /**
+     * To delete comment using comment id.
+     *
+     * @param uuid uuid of the comment
+     * @throws CommentManagementException Exceptions of the comment management.
+     * @throws ApplicationManagementDAOException Exceptions of the application management.
+     */
+    void deleteComment(String uuid) throws CommentManagementException, ApplicationManagementDAOException;
+
 
     /**
      * To delete comments using application details.

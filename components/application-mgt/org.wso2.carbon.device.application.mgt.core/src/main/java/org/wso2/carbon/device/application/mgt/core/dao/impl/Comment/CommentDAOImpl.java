@@ -39,8 +39,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID,AP_APP_ID)" +
-                " VALUES " +
-                "(?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?),(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
+                " VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?),(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
 
             stmt = conn.prepareStatement(sql, new String[] {"id"});
@@ -148,6 +147,48 @@ return  commentId;
         return comment;
     }
 
+    public Comment updateComment(String uuid, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException {
+        Connection connection;
+        PreparedStatement statement = null;
+        int rows;
+        Comment comment=null;
+        ResultSet rs = null;
+
+        String sql = "\n" +
+                "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?, MODEFIED_BY=?, MODEFIED_AT=? WHERE" +
+                " (SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)AND (SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?) AND ID=?;";
+
+        try {
+            connection = this.getDBConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, updatedComment);
+            statement.setString(2,modifiedBy);
+            statement.setTimestamp(3,modifiedAt);
+            statement.setString(4,uuid);
+            statement.setString(5,uuid);
+            statement.setInt(6,comment.getId());
+
+            rows = statement.executeUpdate();
+            rs= statement.executeQuery();
+
+            while (rs.next()) {
+
+
+                if (rows > 0) {
+                    comment = Util.loadComment(rs);
+
+                    return comment;
+                }
+            }
+        } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(statement, rs);
+        }
+        return comment;
+    }
 
 
     @Override
@@ -189,6 +230,50 @@ return  commentId;
     }
 
     @Override
+    public Comment getComment(String uuid) throws CommentManagementException {
+
+        Comment comment=null;
+        if (log.isDebugEnabled()) {
+            log.debug("Getting comment with the ap_comment_id(" + comment.getId() + ") from the database");
+        }
+        Connection conn;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+
+        String sql = "";
+
+        try {
+
+            conn = this.getDBConnection();
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE (SELECT ID FROM AP_APP_RELEASE where UUID=?)AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP_RELEASE where UUID=?);";
+
+
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, uuid);
+            stmt.setString(2,uuid);
+            if (rs.next()) {
+                comment = Util.loadComment(rs);
+                Util.cleanupResources(stmt,rs);
+                return comment;
+            }
+
+        } catch (SQLException e) {
+
+
+        } catch (DBConnectionException e) {
+
+        }  finally {
+            Util.cleanupResources(stmt, null);
+        }
+        return comment;
+    }
+
+
+
+    @Override
     public List<Comment> getAllComments() throws CommentManagementException, SQLException, DBConnectionException {
         if (log.isDebugEnabled()) {
             log.debug("Getting comment from the database");
@@ -223,113 +308,153 @@ return  commentId;
         return comments;
     }
     @Override
-    public int getCommentCount(PaginationRequest request, String uuid){
+    public int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException {
         int commentCount = 0;
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Comment parent = request.getParent();
+        uuid=request.getUuid();
+        boolean isUuidProvided=false;
+        int parentId = request.getParent();
         boolean isParentCommentprovided = false;
         String appName = request.getAppName();
         boolean isAppNameProvided = false;
         String appVersion = request.getAppVersion();
         boolean isAppVersionProvided = false;
+        String appType=request.getAppType();
+        boolean isAppTypeProvided=false;
+
         int appId=request.getAppId();
         boolean isAppIdProvided=false;
+        String modifiedBy = request.getModifiedBy();
+        boolean isModifiedByProvided = false;
+        Timestamp modifiedAt=request.getModifiedAt();
+        boolean isModifiedAtProvided=false;
         String createdBy = request.getCreatedBy();
         boolean isCreatedByProvided = false;
         Timestamp createdAt = request.getCreatedAt();
         boolean isCreatedAtProvided = false;
-        String modifiedBy = request.getModifiedBy();
-        boolean isModifiedByProvided = false;
-        Timestamp modifiedAt=request.getModifiedAt();
-        boolean isModfiedAtProvided=false;
+
         Date since = request.getSince();
         boolean isSinceProvided = false;
         try {
             conn = this.getDBConnection();
-            String sql = "SELECT COUNT(d1.ID) AS DEVICE_COUNT FROM DM_ENROLMENT e, (SELECT d.ID, d.NAME, d.DEVICE_IDENTIFICATION, " +
-                    "t.NAME AS DEVICE_TYPE FROM DM_DEVICE d, DM_DEVICE_TYPE t";
+            String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE";
 
             //Add query for last updated timestamp
-            if (since != null) {
-                sql = sql + " , DM_DEVICE_DETAIL dt";
-                isSinceProvided = true;
+            if (uuid!= null) {
+                sql = sql + "(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)";
+                isUuidProvided = true;
             }
-            sql = sql + " WHERE DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ?";
-            //Add query for last updated timestamp
-            if (isSinceProvided) {
-                sql = sql + " AND dt.DEVICE_ID = d.ID AND dt.UPDATE_TIMESTAMP > ?";
-            }
-            if (parent != null && !parent.isEmpty) {
-                sql = sql + " AND t.NAME = ?";
+
+            if (parentId!= 0 ) {
+                sql = sql + "  PARENT_ID=?;";
                 isParentCommentprovided = true;
             }
 
-            if (appName != null && !appName.isEmpty()) {
-                sql = sql + " AND d.NAME LIKE ?";
-                isAppNameProvided = true;
+            //Add query for last updated timestamp
+            if (isParentCommentprovided && isUuidProvided) {
+                sql = sql + " AND (SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)";
+            }
+            if(isUuidProvided) {
+
+                if (appName != null && !appName.isEmpty()) {
+                    sql = sql + " AND (SELECT ID FROM AP_APP WHERE NAME=?)";
+                    isAppNameProvided = true;
+                }
+
+                if (appVersion != null && !appVersion.isEmpty()) {
+                    sql = sql + "AND(SELECT ID FROM AP_APP_RELEASE WHERE VERSION=?";
+                    isAppVersionProvided = true;
+                }
+
+                if (appType != null && !appType.isEmpty()) {
+                    sql = sql + "AND (select ID FROM AP_APP WHERE TYPE=?)";
+                    isAppTypeProvided = true;
+                }
             }
 
-            sql = sql + ") d1 WHERE d1.ID = e.DEVICE_ID AND TENANT_ID = ?";
-
-            if (appVersion != null && !appVersion.isEmpty()) {
-                sql = sql + " AND e.OWNERSHIP = ?";
-                isAppVersionProvided = true;
+            if(appId!=0 ){
+                sql=sql+"AP_APP_ID=?";
+                isAppIdProvided=true;
             }
 
-            //Add the query for owner
-            if (appId != 0 && !appId.isEmpty()) {
-                sql = sql + " AND e.OWNER = ?";
-                isAppIdProvided = true;
-            } else if (ownerPattern != null && !ownerPattern.isEmpty()) {
-                sql = sql + " AND e.OWNER LIKE ?";
-                isOwnerPatternProvided = true;
+            if(isUuidProvided) {
+                sql = sql + "AND";
+                if (modifiedBy != null && !modifiedBy.isEmpty()) {
+                    sql = sql + "MODEFIED_BY=?";
+                    isModifiedByProvided = true;
+                }
+                sql = sql + "AND";
+                if (modifiedAt != null) {
+                    sql = sql + "MODEFIED_AT=?";
+                    isModifiedAtProvided = true;
+                }
             }
-
-            if (status != null && !status.isEmpty()) {
-                sql = sql + " AND e.STATUS = ?";
-                isStatusProvided = true;
+            if(isUuidProvided) {
+                sql = sql + "AND";
+                if (createdBy != null && !createdBy.isEmpty()) {
+                    sql = sql + "CREATED_BY=?";
+                    isCreatedByProvided = true;
+                }
+                sql = sql + "AND";
+                if (createdAt != null) {
+                    sql = sql + "CREATED_AT=?";
+                    isCreatedAtProvided = true;
+                }
             }
 
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, tenantId);
-            int paramIdx = 2;
-            if (isSinceProvided) {
-                stmt.setLong(paramIdx++, since.getTime());
+
+            int paramIdx = 1;
+            if (isUuidProvided) {
+                stmt.setString(paramIdx++, request.getUuid());
             }
-            if (isDeviceTypeProvided) {
-                stmt.setString(paramIdx++, request.getDeviceType());
+            if (isParentCommentprovided) {
+                stmt.setInt(paramIdx++, request.getParent());
             }
-            if (isDeviceNameProvided) {
-                stmt.setString(paramIdx++, request.getDeviceName() + "%");
+            if (isAppNameProvided) {
+                stmt.setString(paramIdx++, request.getAppName());
+            }
+            if (isAppVersionProvided) {
+                stmt.setString(paramIdx++, request.getAppVersion());
             }
 
-            stmt.setInt(paramIdx++, tenantId);
-            if (isOwnershipProvided) {
-                stmt.setString(paramIdx++, request.getOwnership());
+            if (isAppTypeProvided) {
+                stmt.setString(paramIdx++, request.getAppType());
             }
-            if (isOwnerProvided) {
-                stmt.setString(paramIdx++, owner);
-            } else if (isOwnerPatternProvided) {
-                stmt.setString(paramIdx++, ownerPattern + "%");
+            if (isAppIdProvided) {
+                stmt.setInt(paramIdx++, request.getAppId());
             }
-            if (isStatusProvided) {
-                stmt.setString(paramIdx++, request.getStatus());
+            if (isModifiedByProvided) {
+                stmt.setString(paramIdx++, request.getModifiedBy());
+
+                if (isModifiedAtProvided) {
+                    stmt.setTimestamp(paramIdx++, request.getModifiedAt());
+                }
             }
+            else if(isCreatedByProvided) {
+                stmt.setString(paramIdx++, request.getModifiedBy());
+
+                if (isCreatedAtProvided) {
+                    stmt.setTimestamp(paramIdx++, request.getCreatedAt());
+                }
+
+            }
+
+
             rs = stmt.executeQuery();
             if (rs.next()) {
-                deviceCount = rs.getInt("DEVICE_COUNT");
+                commentCount = rs.getInt("DEVICE_COUNT");
             }
         } catch (SQLException e) {
-            throw new DeviceManagementDAOException("Error occurred while retrieving information of all " +
-                    "registered devices", e);
+            throw new CommentManagementException("Error occurred while retrieving information of all registered devices", e);
         } catch (DBConnectionException e) {
             e.printStackTrace();
         } finally {
-            DeviceManagementDAOUtil.cleanupResources(stmt, rs);
+            Util.cleanupResources(stmt, rs);
         }
-        return deviceCount;
+        return commentCount;
     }
 
 
@@ -782,6 +907,30 @@ return  commentId;
             String sql = "DELETE FROM AP_APP_COMMENT WHERE ID=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, apAppCommentId);
+
+            stmt.executeUpdate();
+
+        } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
+
+    }
+
+    public void deleteComment(String uuid) throws CommentManagementException, DBConnectionException, SQLException {
+
+        Connection conn;
+        PreparedStatement stmt = null;
+        try {
+            conn = this.getDBConnection();
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
+                    "(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)AND (SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?);";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1,uuid);
+            stmt.setString(2,uuid);
 
             stmt.executeUpdate();
 

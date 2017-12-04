@@ -200,7 +200,7 @@ public interface CommentManagementAPI {
                             response = ErrorResponse.class)
             })
 
-    Response deleteComment(@PathParam("identifier") int identifier);
+    Response deleteComment(@PathParam("identifier") String identifier);
 //
 //            @GET
 //            @Produces(MediaType.APPLICATION_JSON)

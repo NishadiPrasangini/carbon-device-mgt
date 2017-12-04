@@ -92,7 +92,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @DELETE
     @Path("/{identifier}")
-    public Response deleteComment(@PathParam("identifier") int identifier) {
+    public Response deleteComment(@PathParam("identifier") String identifier) {
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             commentsManager.deleteComment(identifier);

@@ -77,6 +77,20 @@ public interface CommentDAO  {
     Comment updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
+     * To update already added comment.
+     *
+     * @param uuid uuid of the comment
+     * @param updatedComment comment after updated
+     * @param modifiedBy Username of the modified person.
+     * @param modifiedAt time of the modification.
+     * @return
+     * @throws CommentManagementException Exceptions of the comment management.
+     * @throws DBConnectionException db connection exception
+     * @throws SQLException sql exception
+     */
+    Comment updateComment(String uuid, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
+
+    /**
      * To get the comment with id.
      *
      * @param apAppCommentId id of the comment
@@ -85,6 +99,23 @@ public interface CommentDAO  {
      */
     Comment getComment(int apAppCommentId)throws CommentManagementException;
 
+    /**
+     * To get the comment with id.
+     *
+     * @param uuid uuid of the comment
+     * @return
+     * @throws CommentManagementException Exceptions of the comment management.
+     */
+    Comment getComment(String uuid)throws CommentManagementException;
+
+    /**
+     * To get all the comments
+     *
+     * @return
+     * @throws CommentManagementException
+     * @throws SQLException
+     * @throws DBConnectionException
+     */
     List<Comment> getAllComments() throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
@@ -240,6 +271,18 @@ public interface CommentDAO  {
      */
     void deleteComment(int apAppCommentId) throws CommentManagementException, DBConnectionException, SQLException;
 
+
+    /**
+     * To delete comment using comment id.
+     *
+     * @param uuid uuid of the comment
+     * @param updatedComment comment after updated
+     * @throws CommentManagementException Exceptions of the comment management.
+     * @throws DBConnectionException db connection exception.
+     * @throws SQLException sql exception
+     */
+    void deleteComment(String uuid) throws CommentManagementException, DBConnectionException, SQLException;
+
     /**
      * To delete comments using application details.
      *
@@ -334,6 +377,6 @@ public interface CommentDAO  {
      */
     int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException;
 
-  int getCommentCount(PaginationRequest request, String uuid);
+  int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException;
 
 }
