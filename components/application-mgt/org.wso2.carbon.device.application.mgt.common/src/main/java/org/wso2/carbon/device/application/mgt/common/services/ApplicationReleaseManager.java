@@ -99,14 +99,4 @@ public interface ApplicationReleaseManager {
      */
     void deleteApplicationReleases(String applicationUuid) throws ApplicationManagementException;
 
-    /**
-     *
-     * @param version Version of the application
-     * @param appId Id of the application
-     * @param stars amount of stars
-     * @param applicationRelease ApplicationRelease
-     * @return
-     * @throws ApplicationManagementException Application Management Exception.
-     */
-    int addStars(String version, int appId,int stars,ApplicationRelease applicationRelease) throws ApplicationManagementException;
 }

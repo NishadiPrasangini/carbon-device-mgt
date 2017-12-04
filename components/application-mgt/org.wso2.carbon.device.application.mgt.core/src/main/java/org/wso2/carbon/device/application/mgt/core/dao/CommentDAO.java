@@ -19,8 +19,10 @@
 package org.wso2.carbon.device.application.mgt.core.dao;
 
 import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
+import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -35,17 +37,17 @@ public interface CommentDAO  {
     /**
      * To add a comment to a application.
      *
+     * @param appReleaseId Id of the released version of the application.
+     * @param appId id of the commented application.
      * @param tenantId tenantId of the commented application.
      * @param comment comment of the application.
      * @param createdBy Username of the created person.
      * @param parentId parent id of the parent comment.
-     * @param appReleaseId Id of the released version of the application.
-     * @param appId id of the commented application.
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      */
-    int addComment(int tenantId , Comment comment, String createdBy, int parentId, int appReleaseId , int appId) throws CommentManagementException, DBConnectionException;
+    int addComment(int tenantId , Comment comment, String createdBy, int parentId, String uuid) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
      * To add a comment to a application.
@@ -58,7 +60,7 @@ public interface CommentDAO  {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    int addComment(Comment comment,String createdBy,String appType,String appName,String version) throws CommentManagementException;
+    int addComment(int tenantId, Comment comment,String createdBy,String appType,String appName,String version) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
      * To update already added comment.
@@ -72,7 +74,7 @@ public interface CommentDAO  {
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
      */
-    boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
+    Comment updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
      * To get the comment with id.
@@ -81,7 +83,9 @@ public interface CommentDAO  {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    String getComment(int apAppCommentId)throws CommentManagementException;
+    Comment getComment(int apAppCommentId)throws CommentManagementException;
+
+    List<Comment> getAllComments() throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
      * To get list of comments using release id and application id.
@@ -279,5 +283,57 @@ public interface CommentDAO  {
      * @throws CommentManagementException Exceptions of the comment management.
      */
     void deleteComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
+
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Name of the Application
+     * @param stars Star value
+     * @param uuid      UUID of the application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Name of the Application
+     * @param updatedStars Updated star value
+     * @param applicationRelease Application Release that need to be created.
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+//    int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int getStars(String version, String appName,String uuid) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName  Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int insertStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName  Name of the Application
+     * @return
+     * @throws ApplicationManagementDAOException Application Management DAO Exception.
+     */
+    int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException;
+
+  int getCommentCount(PaginationRequest request, String uuid);
 
 }

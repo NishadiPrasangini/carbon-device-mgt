@@ -19,6 +19,7 @@
 package org.wso2.carbon.device.application.mgt.common.services;
 
 import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
@@ -80,7 +81,7 @@ public interface CommentsManager {
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
      */
-    boolean updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt)throws CommentManagementException;
+    Comment updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt)throws CommentManagementException;
 
 
     /**
@@ -88,7 +89,7 @@ public interface CommentsManager {
       * @return
      * @throws CommentManagementException
      */
-    List <Comment> getComment()throws CommentManagementException;
+    List <Comment> getAllComments()throws CommentManagementException;
 
     /**
      * To get the comment with id.
@@ -254,4 +255,27 @@ public interface CommentsManager {
      * @throws CommentManagementException
      */
     Comment updateComment(Comment comment) throws CommentManagementException ;
+
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Id of the application
+     * @param stars amount of stars
+     * @param uuid uuid
+     * @return
+     * @throws ApplicationManagementException Application Management Exception.
+     */
+    int updateStars(String version, String appName,int stars,String uuid) throws ApplicationManagementException;
+
+    /**
+     *
+     * @param version Version of the application
+     * @param appName Id of the application
+     * @param stars amount of stars
+     * @param uuid uuid
+     * @return
+     * @throws ApplicationManagementException Application Management Exception.
+     */
+    int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementException;
 }

@@ -18,7 +18,7 @@
  */
 package org.wso2.carbon.device.application.mgt.common;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -31,7 +31,9 @@ public class Comment {
     private String comment;
 
     //TODO: Pagination, comment ID for child
-    private Comment parent;
+    private int parent;
+
+    private int tenantId;
 
     private String createdBy;
 
@@ -42,6 +44,14 @@ public class Comment {
     private Timestamp modifiedAt;
 
     private Application application;
+    public int getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(int tenantId) {
+        this.tenantId = tenantId;
+    }
+
 
     public int getId() {
         return id;
@@ -59,11 +69,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Comment getParent() {
+    public int getParent() {
         return parent;
     }
 
-    public void setParent(Comment parent) {
+    public void setParent(int parent) {
         this.parent = parent;
     }
 
@@ -108,4 +118,6 @@ public class Comment {
     }
 
 
+
 }
+

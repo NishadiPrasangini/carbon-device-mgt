@@ -4,18 +4,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
+import org.wso2.carbon.device.application.mgt.common.ApplicationRelease;
 import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
-import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.AbstractDAOImpl;
-import org.wso2.carbon.device.application.mgt.core.*;
-import org.wso2.carbon.device.application.mgt.core.util.ApplicationManagementUtil;
+import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
 
     @Override
-    public int addComment(int tenantId, Comment comment, String createdBy,int parentId, int appReleaseId, int appId) throws CommentManagementException, DBConnectionException {
+    public int addComment(int tenantId, Comment comment, String createdBy, int parentId, String uuid) throws CommentManagementException, DBConnectionException, SQLException {
         if (log.isDebugEnabled()) {
             log.debug("Request received in DAO Layer to add COMMENT");
         }
@@ -37,8 +38,9 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         ResultSet rs = null;
         int index = 0;
         int commentId = -1;
-        String sql = "INSERT INTO `AP_APP_COMMENT` (`TENANT_ID`, `COMMENT_TEXT`, `CREATED_BY`, `PARENT_ID`, `AP_APP_RELEASE_ID`, `AP_APP_ID`) VALUES (?,?,?,?,?,?);"
-                ;
+        String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID,AP_APP_ID)" +
+                " VALUES " +
+                "(?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?),(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
 
             stmt = conn.prepareStatement(sql, new String[] {"id"});
@@ -46,9 +48,8 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 stmt.setString(++index, comment.getComment());
                 stmt.setString(++index,createdBy);
                 stmt.setInt(++index,parentId);
-                stmt.setInt(++index,appReleaseId);
-                stmt.setInt(++index,appId);
-                stmt.addBatch();
+                stmt.setString(++index,uuid);
+                stmt.setString(++index,uuid);
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
@@ -57,11 +58,8 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             }
 
         } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            throw e;
+
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -69,19 +67,56 @@ return  commentId;
     }
 
     @Override
-    public int addComment(Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException {
+    public int addComment(int tenantId,Comment comment, String createdBy, String appType, String appName, String version) throws CommentManagementException, DBConnectionException, SQLException {
+        if (log.isDebugEnabled()) {
+            log.debug("Request received in DAO Layer to add COMMENT");
+        }
+        Connection conn=this.getDBConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int index = 0;
+        int commentId = -1;
+        String sql = "INSERT INTO AP_APP_COMMENT ( TENANT_ID,COMMENT_TEXT, CREATED_BY,AP_APP_RELEASE_ID,AP_APP_ID) VALUES " +
+                "(?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE VERSION =? AND (SELECT ID FROM AP_APP WHERE TYPE=? AND NAME=?))," +
+                "(SELECT ID FROM AP_APP WHERE TYPE=? AND NAME=?));";
 
-int commentId = -1;
+        try{
 
+            stmt = conn.prepareStatement(sql, new String[] {"id"});
+            stmt.setInt(++index, tenantId);
+            stmt.setString(++index, comment.getComment());
+            stmt.setString(++index,createdBy);
+            stmt.setString(++index,version);
+            stmt.setString(++index,appType);
+            stmt.setString(++index,appName);
+            stmt.setString(++index,appType);
+            stmt.setString(++index,appName);
+
+
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                commentId = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw e;
+
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
      return commentId;
     }
 
     @Override
-    public boolean updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException {
+    public Comment updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException {
         Connection connection;
         PreparedStatement statement = null;
         int rows;
-        String sql = "UPDATE `AP_APP_COMMENT` SET `COMMENT_TEXT`='?', `MODEFIED_BY`='?', `MODEFIED_AT`='?' WHERE `ID`='?';";
+        Comment comment=null;
+        ResultSet rs = null;
+
+        String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?, MODEFIED_BY=?, MODEFIED_AT=? WHERE ID=?;";
 
         try {
             connection = this.getDBConnection();
@@ -92,60 +127,211 @@ int commentId = -1;
             statement.setInt(4,apAppCommentId);
 
             rows = statement.executeUpdate();
-            return (rows > 0);
+            rs= statement.executeQuery();
+
+            while (rs.next()) {
+
+
+                if (rows > 0) {
+                    comment = Util.loadComment(rs);
+
+                    return comment;
+                }
+            }
         } catch (DBConnectionException e) {
             throw e;
         } catch (SQLException e) {
             throw e;
         } finally {
-            Util.cleanupResources(statement, null);
+            Util.cleanupResources(statement, rs);
         }
-
+        return comment;
     }
 
 
 
     @Override
-    public String getComment(int apAppCommentId) throws CommentManagementException {
+    public Comment getComment(int apAppCommentId) throws CommentManagementException {
         if (log.isDebugEnabled()) {
             log.debug("Getting comment with the ap_comment_id(" + apAppCommentId + ") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Comment comment=new Comment();
+
+        Comment comment=null;
         String sql = "";
 
         try {
 
             conn = this.getDBConnection();
-            sql += "select COMMENT_TEXT FROM AP_APP_COMMENT where ID=1;";
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE ID=1;";
+
 
             stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, apAppCommentId);
             if (rs.next()) {
+                comment = Util.loadComment(rs);
                Util.cleanupResources(stmt,rs);
-                return comment.getComment();
+                return comment;
             }
 
         } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+
+
         } catch (DBConnectionException e) {
-            try {
-                throw e;
-            } catch (DBConnectionException e1) {
-                e1.printStackTrace();
-            }
+
         }  finally {
             Util.cleanupResources(stmt, null);
         }
-        return null;
+        return comment;
     }
+
+    @Override
+    public List<Comment> getAllComments() throws CommentManagementException, SQLException, DBConnectionException {
+        if (log.isDebugEnabled()) {
+            log.debug("Getting comment from the database");
+        }
+        Connection conn;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Comment> comments=new ArrayList<>();
+
+        String sql = "";
+
+        try {
+
+            conn = this.getDBConnection();
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.addBatch();
+            rs= stmt.executeQuery();
+
+            while (rs.next()) {
+                Comment comment=Util.loadComment(rs);
+                Util.cleanupResources(stmt,rs);
+                comments.add(comment);
+
+            }
+
+
+        } finally {
+            Util.cleanupResources(stmt, rs);
+        }
+        return comments;
+    }
+    @Override
+    public int getCommentCount(PaginationRequest request, String uuid){
+        int commentCount = 0;
+        Connection conn;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Comment parent = request.getParent();
+        boolean isParentCommentprovided = false;
+        String appName = request.getAppName();
+        boolean isAppNameProvided = false;
+        String appVersion = request.getAppVersion();
+        boolean isAppVersionProvided = false;
+        int appId=request.getAppId();
+        boolean isAppIdProvided=false;
+        String createdBy = request.getCreatedBy();
+        boolean isCreatedByProvided = false;
+        Timestamp createdAt = request.getCreatedAt();
+        boolean isCreatedAtProvided = false;
+        String modifiedBy = request.getModifiedBy();
+        boolean isModifiedByProvided = false;
+        Timestamp modifiedAt=request.getModifiedAt();
+        boolean isModfiedAtProvided=false;
+        Date since = request.getSince();
+        boolean isSinceProvided = false;
+        try {
+            conn = this.getDBConnection();
+            String sql = "SELECT COUNT(d1.ID) AS DEVICE_COUNT FROM DM_ENROLMENT e, (SELECT d.ID, d.NAME, d.DEVICE_IDENTIFICATION, " +
+                    "t.NAME AS DEVICE_TYPE FROM DM_DEVICE d, DM_DEVICE_TYPE t";
+
+            //Add query for last updated timestamp
+            if (since != null) {
+                sql = sql + " , DM_DEVICE_DETAIL dt";
+                isSinceProvided = true;
+            }
+            sql = sql + " WHERE DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ?";
+            //Add query for last updated timestamp
+            if (isSinceProvided) {
+                sql = sql + " AND dt.DEVICE_ID = d.ID AND dt.UPDATE_TIMESTAMP > ?";
+            }
+            if (parent != null && !parent.isEmpty) {
+                sql = sql + " AND t.NAME = ?";
+                isParentCommentprovided = true;
+            }
+
+            if (appName != null && !appName.isEmpty()) {
+                sql = sql + " AND d.NAME LIKE ?";
+                isAppNameProvided = true;
+            }
+
+            sql = sql + ") d1 WHERE d1.ID = e.DEVICE_ID AND TENANT_ID = ?";
+
+            if (appVersion != null && !appVersion.isEmpty()) {
+                sql = sql + " AND e.OWNERSHIP = ?";
+                isAppVersionProvided = true;
+            }
+
+            //Add the query for owner
+            if (appId != 0 && !appId.isEmpty()) {
+                sql = sql + " AND e.OWNER = ?";
+                isAppIdProvided = true;
+            } else if (ownerPattern != null && !ownerPattern.isEmpty()) {
+                sql = sql + " AND e.OWNER LIKE ?";
+                isOwnerPatternProvided = true;
+            }
+
+            if (status != null && !status.isEmpty()) {
+                sql = sql + " AND e.STATUS = ?";
+                isStatusProvided = true;
+            }
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, tenantId);
+            int paramIdx = 2;
+            if (isSinceProvided) {
+                stmt.setLong(paramIdx++, since.getTime());
+            }
+            if (isDeviceTypeProvided) {
+                stmt.setString(paramIdx++, request.getDeviceType());
+            }
+            if (isDeviceNameProvided) {
+                stmt.setString(paramIdx++, request.getDeviceName() + "%");
+            }
+
+            stmt.setInt(paramIdx++, tenantId);
+            if (isOwnershipProvided) {
+                stmt.setString(paramIdx++, request.getOwnership());
+            }
+            if (isOwnerProvided) {
+                stmt.setString(paramIdx++, owner);
+            } else if (isOwnerPatternProvided) {
+                stmt.setString(paramIdx++, ownerPattern + "%");
+            }
+            if (isStatusProvided) {
+                stmt.setString(paramIdx++, request.getStatus());
+            }
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                deviceCount = rs.getInt("DEVICE_COUNT");
+            }
+        } catch (SQLException e) {
+            throw new DeviceManagementDAOException("Error occurred while retrieving information of all " +
+                    "registered devices", e);
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
+        } finally {
+            DeviceManagementDAOUtil.cleanupResources(stmt, rs);
+        }
+        return deviceCount;
+    }
+
 
     @Override
     public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
@@ -161,7 +347,7 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select COMMENT_TEXT FROM AP_APP_COMMENT where AP_APP_RELEASE_ID='?' and AP_APP_ID='?';";
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? AND AP_APP_ID=?;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -206,11 +392,11 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT`, `PARENT_ID` ,`TENANT_ID` from `AP_APP_COMMENT`c ,"+
-                    "(select `ID`as `releaseId`, `AP_APP_ID`as `releaseAP_APP_ID` from `AP_APP_RELEASE`r where `VERSION`='?') r,"+
-                    "(select `ID`as `appId` from `AP_APP` p where `NAME`='?' and `TYPE`='?')p"+
-                    " where `AP_APP_RELEASE_ID`=`releaseId` and `releaseAP_APP_ID`=`appId` and `AP_APP_ID`=`releaseAP_APP_ID`"+
-                    "order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID FROM AP_APP_COMMENT C ,"+
+                    "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=?) R,"+
+                    "(SELECT ID AS APP_ID FROM AP_APP P WHERE NAME=? AND TYPE=?)P"+
+                    " WHERE AP_APP_RELEASE_ID=RELEASE_ID AND RELEASE_AP_APP_ID=APP_ID AND AP_APP_ID=RELEASE_AP_APP_ID"+
+                    "ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -248,7 +434,7 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select COMMENT_TEXT FROM AP_APP_COMMENT where TENANT_ID='?' ;";
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE TENANT_ID='?' ;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -285,8 +471,8 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT`,`PARENT_ID`,`TENANT_ID`,`CREATED_AT` from `AP_APP_COMMENT` where `CREATED_BY`= '?'" +
-                    " order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT ,PARENT_ID,TENANT_ID,CREATED_AT FROM AP_APP_COMMENT WHERE CREATED_BY= ?" +
+                    " ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -323,8 +509,8 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT`,`PARENT_ID`,`TENANT_ID` from `AP_APP_COMMENT` where `CREATED_BY`= '?'" +
-                    "and `CREATED_AT`= '?' order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID FROM AP_APP_COMMENT WHERE CREATED_BY=?" +
+                    "AND CREATED_AT= ? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -361,8 +547,8 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT`,`PARENT_ID`,`TENANT_ID`,`CREATED_AT` ,`MODEFIED_AT` from `AP_APP_COMMENT` " +
-                    "where `MODEFIED_BY`= '?' order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID,CREATED_AT,MODEFIED_AT FROM AP_APP_COMMENT " +
+                    "WHERE MODEFIED_BY= ? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -399,8 +585,8 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT`,`PARENT_ID`,`TENANT_ID`,`CREATED_AT` from `AP_APP_COMMENT` " +
-                    "where `MODEFIED_BY`= '?',`MODEFIED_AT`='?' order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID,CREATED_AT FROM AP_APP_COMMENT" +
+                    "WHERE MODEFIED_BY= ?,MODEFIED_AT=? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -438,11 +624,11 @@ int commentId = -1;
         try {
 
             conn = this.getDBConnection();
-            sql += "select `COMMENT_TEXT` ,`TENANT_ID` from `AP_APP_COMMENT`c ," +
-                    "(select `ID`as `releaseId`, `AP_APP_ID`as `releaseAP_APP_ID` from `AP_APP_RELEASE`r where `VERSION`='?' ) r," +
-                    "(select `ID`as `appId` from `AP_APP` p where `NAME`='?' and `TYPE`='?')p " +
-                    "where `PARENT_ID`='?' and`AP_APP_RELEASE_ID`=`releaseId` and `releaseAP_APP_ID`=`appId` and " +
-                    "`AP_APP_ID`=`releaseAP_APP_ID` order by `CREATED_AT` DESC;";
+            sql += "SELECT COMMENT_TEXT,TENANT_ID FROM AP_APP_COMMENT C ," +
+                    "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=? ) R," +
+                    "(SELECT ID AS APP_ID FROM AP_APP P WHERE NAME=? AND TYPE=?)P " +
+                    "WHERE PARENT_ID=? AND AP_APP_RELEASE_ID=RELEASE_ID AND RELEASE_AP_APP_ID=APP_ID AND " +
+                    "AP_APP_ID=RELEASE_AP_APP_ID ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
 
@@ -476,7 +662,7 @@ int commentId = -1;
         int commentCount = 0;
         try {
             conn = this.getDBConnection();
-            String sql = "select count(`ID`) from `AP_APP_COMMENT` where `CREATED_BY`= '?';";
+            String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE CREATED_BY= ?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, createdBy);
 
@@ -505,7 +691,7 @@ int commentId = -1;
         int commentCount = 0;
         try {
             conn = this.getDBConnection();
-            String sql = "select count(`ID`) from `AP_APP_COMMENT` where `MODEFIED_BY`= '?' and `MODEFIED_AT`='?';;";
+            String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE MODEFIED_BY= ? AND MODEFIED_AT=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, modifiedBy);
             stmt.setTimestamp(2, modifedAt);
@@ -534,7 +720,7 @@ int commentId = -1;
         int commentCount = 0;
         try {
             conn = this.getDBConnection();
-            String sql = "select count(`ID`) FROM `AP_APP_COMMENT`  where `AP_APP_RELEASE_ID`='?' and `AP_APP_ID`='?';";
+            String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? AND AP_APP_ID=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, appReleaseId);
             stmt.setInt(2, appId);
@@ -562,10 +748,10 @@ int commentId = -1;
         int commentCount = 0;
         try {
             conn = this.getDBConnection();
-            String sql = "select count(`ID`)as `commentCount` from `AP_APP_COMMENT`c, " +
-                    "(select `ID`as `releaseId`, `AP_APP_ID`as `releaseAP_APP_ID` from `AP_APP_RELEASE`r where `VERSION`='?' )r," +
-                    "(select `ID`as `appId` from `AP_APP` p where `NAME`='' and `TYPE`='')p " +
-                    "where `AP_APP_RELEASE_ID`=`releaseId` and `releaseAP_APP_ID`=`appId` and `AP_APP_ID`=`releaseAP_APP_ID`;";
+            String sql = "SELECT COUNT(ID) AS COMMENT_COUNT FROM AP_APP_COMMENT C, " +
+                    "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=? )R," +
+                    "(SELECT ID AS APP_ID FROM AP_APP P WHERE NAME=? and TYPE=?)P " +
+                    "WHERE AP_APP_RELEASE_ID=RELEASE_ID AND RELEASE_AP_APP_ID=APP_ID AND AP_APP_ID=RELEASE_AP_APP_ID;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2, appName);
@@ -593,7 +779,7 @@ int commentId = -1;
         PreparedStatement stmt = null;
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM `APPMGT`.`AP_APP_COMMENT` WHERE `ID`='?';";
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE ID=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, apAppCommentId);
 
@@ -615,7 +801,7 @@ int commentId = -1;
         PreparedStatement stmt = null;
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE `AP_APP_RELEASE_ID`='?' and `AP_APP_ID`='?';";
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? and AP_APP_ID=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, appReleaseID);
             stmt.setInt(2,appId);
@@ -638,10 +824,10 @@ int commentId = -1;
         PreparedStatement stmt = null;
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
-                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?');";
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
+                    "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP AND NAME=? AND TYPE=?);";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2,appName);
@@ -675,10 +861,10 @@ int commentId = -1;
         PreparedStatement stmt = null;
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
-                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?') and `CREATED_BY`='?';";
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
+                    "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? and TYPE=?) AND CREATED_BY=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2,appName);
@@ -713,10 +899,10 @@ int commentId = -1;
         PreparedStatement stmt = null;
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM `AP_APP_COMMENT` WHERE " +
-                    "(select `AP_APP_RELEASE_ID` from `AP_APP_RELEASE` where `VERSION`='?' and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?')) and " +
-                    "(select `AP_APP_ID` from `AP_APP` where `NAME`='?' and `TYPE`='?') and `PARENT_ID`='?';";
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
+                    "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?) AND PARENT_ID=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2,appName);
@@ -744,4 +930,201 @@ int commentId = -1;
             Util.cleanupResources(stmt, null);
         }
     }
+
+
+    @Override
+    public int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException {
+
+        Connection connection;
+//        PreparedStatement statement = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+
+
+//        String sql = "INSERT INTO `AP_APP_RELEASE` (`VERSION`, `STARS`, `AP_APP_ID`) VALUES ('?', '?', '?');";
+//        int index = 0;
+//        int generatedColumns[] = {applicationRelease.getId()};
+        try {
+            connection = this.getDBConnection();
+//            statement = connection.prepareStatement(sql, generatedColumns);
+//            statement.setString(++index, version);
+//            statement.setInt(++index, stars);
+//            statement.setInt(++index,appId);
+//            statement.executeUpdate();
+
+//
+            String sql = "UPDATE `AP_APP_RELEASE` SET `NO_OF_RATED_USERS` = (`NO_OF_RATED_USERS` + 1) where ID='?';";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, uuid);
+            stmt.executeUpdate();
+
+//           resultSet = statement.getResultSet();
+//            if (resultSet.next()) {
+//                applicationRelease.setStars(resultSet.getInt(1));
+//
+//
+//            }
+//            insertApplicationReleaseProperties(connection, applicationRelease);
+            return stars;
+        } catch (SQLException e) {
+            throw new ApplicationManagementDAOException(
+                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " +  e);
+        } catch (DBConnectionException e) {
+            throw new ApplicationManagementDAOException(
+                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                            +uuid, e);
+        } finally {
+            Util.cleanupResources(stmt, resultSet);
+        }
+    }
+//    @Override
+//    public int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException {
+//
+////        Connection connection;
+////        PreparedStatement statement = null;
+////        ResultSet resultSet = null;
+////
+////        if (applicationRelease.isDefault()) {
+////
+////        }
+//////        String sql = "UPDATE `APP_MANAGER`.`AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
+//////        int index = 0;
+//////       int generatedColumns[] = {applicationRelease.getId()};
+//////        try {
+//////            connection = this.getDBConnection();
+//////            statement = connection.prepareStatement(sql, generatedColumns);
+//////            statement.setInt(++index, updatedStars);
+//////            statement.setString(++index, version);
+//////            statement.setString(++index,appName);
+//////            statement.executeUpdate();
+//////            resultSet = statement.getGeneratedKeys();
+////            if (resultSet.next()) {
+////                applicationRelease.setStars(resultSet.getInt(1));
+////            }
+////            insertApplicationReleaseProperties(connection, applicationRelease);
+////            return updatedStars;
+////        } catch (SQLException e) {
+////            throw new ApplicationManagementDAOException(
+////                    "SQL Exception while trying to add stars to an application (UUID : " + applicationRelease
+////                            .getApplication().getUuid() + "), by executing the query " + sql, e);
+////        } catch (DBConnectionException e) {
+////            throw new ApplicationManagementDAOException(
+////                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+////                            + applicationRelease.getApplication().getUuid(), e);
+////        } finally {
+////            Util.cleanupResources(statement, resultSet);
+////        }
+//        return updatedStars;
+//    }
+
+    @Override
+    public int getStars(String version, String appName,String uuid) throws ApplicationManagementDAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String sql = "select `STARS` from `AP_APP_RELEASE` where `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
+        ApplicationRelease applicationRelease = null;
+        ResultSet rsProperties = null;
+
+        try {
+            connection = this.getDBConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, version);
+            statement.setString(2, appName);
+
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+
+                applicationRelease.setStars(resultSet.getInt(1));
+            }
+//            insertApplicationReleaseProperties(connection, applicationRelease);
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new ApplicationManagementDAOException(
+                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
+        } catch (DBConnectionException e) {
+            throw new ApplicationManagementDAOException(
+                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                            + uuid, e);
+        } finally {
+            Util.cleanupResources(statement, resultSet);
+        }
+
+    }
+
+    @Override
+    public int insertStars(String version, String appName, int stars,String uuid) throws ApplicationManagementDAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+//        ApplicationRelease applicationRelease = null;
+//
+//        if (applicationRelease.isDefault()) {
+//
+//        }
+        String sql = "UPDATE `AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
+        int index = 0;
+//       int generatedColumns[] = {applicationRelease.getId()};
+        try {
+            connection = this.getDBConnection();
+//            statement = connection.prepareStatement(sql, generatedColumns);
+            statement.setInt(++index, stars);
+            statement.setString(++index, version);
+            statement.setString(++index,appName);
+            statement.executeUpdate();
+//            resultSet = statement.getGeneratedKeys();
+//            if (resultSet.next()) {
+//                applicationRelease.setStars(resultSet.getInt(1));
+//            }
+//            insertApplicationReleaseProperties(connection, applicationRelease);
+            return stars;
+        } catch (SQLException e) {
+            throw new ApplicationManagementDAOException(
+                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
+        } catch (DBConnectionException e) {
+            throw new ApplicationManagementDAOException(
+                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                            + uuid, e);
+        } finally {
+            Util.cleanupResources(statement, resultSet);
+        }
+    }
+
+    @Override
+    public int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String sql = "select `NO_OF_RATED_USERS` from `AP_APP_RELEASE` where `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
+//        ApplicationRelease applicationRelease = null;
+//        ResultSet rsProperties = null;
+
+        try {
+            connection = this.getDBConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, version);
+            statement.setString(2, appName);
+
+            resultSet = statement.executeQuery();
+
+//            if (resultSet.next()) {
+//
+//                applicationRelease.setNoOfRatedUsers(resultSet.getInt(1));
+//            }
+//            insertApplicationReleaseProperties(connection, applicationRelease);
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new ApplicationManagementDAOException(
+                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
+        } catch (DBConnectionException e) {
+            throw new ApplicationManagementDAOException(
+                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                            + uuid, e);
+        } finally {
+            Util.cleanupResources(statement, resultSet);
+        }
+
+    }
+
 }

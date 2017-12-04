@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.device.application.mgt.api.APIUtil;
 import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.Filter;
 import org.wso2.carbon.device.application.mgt.common.LifecycleState;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.LifecycleManagementException;
@@ -26,12 +27,18 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @GET
-    public Response getComments() throws Exception{
+    public Response getAllComments() throws Exception{
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
         try {
-            comments = commentsManager.getComment();
-        } catch (CommentManagementException e) {
+
+          if(comments==null){
+              return Response.created(null).build();
+          }else {
+
+              comments = commentsManager.getAllComments();
+          }
+          } catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -45,10 +52,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     public Response addComments(Comment comment){
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            Comment comment1 = commentsManager.addComment(comment);
+            Comment newcomment = commentsManager.addComment(comment);
 
             if (comment != null){
-                return Response.status(Response.Status.CREATED).entity(comment1).build();
+                return Response.status(Response.Status.CREATED).entity(newcomment).build();
             }else{
                 String msg = "Given comment is not matched ";
                 log.error(msg);
@@ -64,7 +71,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @PUT
     @Consumes("comment/json")
-    public Response editComment(Comment comment) {
+    public Response updateComment(Comment comment) {
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             comment = commentsManager.updateComment(comment);
@@ -76,7 +83,9 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             return APIUtil.getResponse(e, Response.Status.BAD_REQUEST);
         }
         return Response.status(Response.Status.OK).entity(comment).build();
+
     }
+
 
 
 
@@ -96,5 +105,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         }
         return Response.status(Response.Status.OK).entity("Comment is deleted successfully.").build();
     }
+
+
     }
 

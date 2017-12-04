@@ -96,7 +96,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-    Response getComments() throws Exception;
+    Response getAllComments() throws Exception;
 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -159,7 +159,8 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while editing the comment.",
                             response = ErrorResponse.class)
             })
-    Response editComment(
+    Response updateComment
+            (
             @ApiParam(
                     name = "comment",
                     value = "The comment that need to be edited.",
@@ -200,7 +201,63 @@ public interface CommentManagementAPI {
             })
 
     Response deleteComment(@PathParam("identifier") int identifier);
-
-
+//
+//            @GET
+//            @Produces(MediaType.APPLICATION_JSON)
+//            @ApiOperation(
+//                    produces = MediaType.APPLICATION_JSON,
+//                    httpMethod = "GET",
+//                    value = "get stars",
+//                    notes = "Get all stars",
+//                    tags = "Comment Management",
+//                    extensions = {
+//                            @Extension(properties = {
+//                                    @ExtensionProperty(name = SCOPE, value = "perm:stars:get")
+//                            })
+//                    }
+//            )
+//
+//            @ApiResponses(
+//                    value = {
+//                            @ApiResponse(
+//                                    code = 200,
+//                                    message = "OK. \n Successfully retrieved stars.",
+//                                    response = List.class,
+//                                    responseContainer = "List"),
+//                            @ApiResponse(
+//                                    code = 500,
+//                                    message = "Internal Server Error. \n Error occurred while getting the comment list.",
+//                                    response = ErrorResponse.class)
+//                    })
+//            Response getStars() throws Exception;
+//
+//            @GET
+//            @Produces(MediaType.APPLICATION_JSON)
+//            @ApiOperation(
+//                    produces = MediaType.APPLICATION_JSON,
+//                    httpMethod = "GET",
+//                    value = "get rated users",
+//                    notes = "Get all users",
+//                    tags = "Comment Management",
+//                    extensions = {
+//                            @Extension(properties = {
+//                                    @ExtensionProperty(name = SCOPE, value = "perm:user:get")
+//                            })
+//                    }
+//            )
+//
+//            @ApiResponses(
+//                    value = {
+//                            @ApiResponse(
+//                                    code = 200,
+//                                    message = "OK. \n Successfully retrieved user.",
+//                                    response = List.class,
+//                                    responseContainer = "List"),
+//                            @ApiResponse(
+//                                    code = 500,
+//                                    message = "Internal Server Error. \n Error occurred while getting the comment list.",
+//                                    response = ErrorResponse.class)
+//                    })
+//            Response getRatedUsers() throws Exception;
 
 }

@@ -21,12 +21,7 @@ package org.wso2.carbon.device.application.mgt.core.dao.common;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
-import org.wso2.carbon.device.application.mgt.common.Application;
-import org.wso2.carbon.device.application.mgt.common.Category;
-import org.wso2.carbon.device.application.mgt.common.Lifecycle;
-import org.wso2.carbon.device.application.mgt.common.LifecycleState;
-import org.wso2.carbon.device.application.mgt.common.Platform;
-import org.wso2.carbon.device.application.mgt.common.User;
+import org.wso2.carbon.device.application.mgt.common.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -99,6 +94,32 @@ public class Util {
         lifecycle.setLifecycleState(lifecycleState);
         application.setCurrentLifecycle(lifecycle);
         return application;
+
+//        Comment comment=new Comment();
+//        comment.setId(rs.getInt("commentID"));
+//        comment.setComment(rs.getString("Comment"));
+//        comment.setApplication(application);
+//        comment.setCreatedAt(rs.getTimestamp("createdAt"));
+//        comment.setCreatedBy(rs.getString("createdBt"));
+//        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
+//        comment.setModifiedBy(rs.getString("modifiedBy"));
+//        comment.setParent(comment);
+//
+
+
+    }
+    public static Comment loadComment(ResultSet rs) throws SQLException{
+        Comment comment=new Comment();
+        Application application=new Application();
+        comment.setId(rs.getInt("commentID"));
+        comment.setComment(rs.getString("Comment"));
+        comment.setApplication(application);
+//        comment.setCreatedAt(rs.getTimestamp("createdAt"));
+        comment.setCreatedBy(rs.getString("createdBt"));
+//        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
+        comment.setModifiedBy(rs.getString("modifiedBy"));
+        comment.setParent(comment);
+        return comment;
     }
 
     /**

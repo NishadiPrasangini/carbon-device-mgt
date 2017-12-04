@@ -185,27 +185,7 @@ public class ApplicationReleaseManagerImpl implements ApplicationReleaseManager 
         }
     }
 
-    @Override
-    public int addStars(String version, int appId, int stars, ApplicationRelease applicationRelease) throws ApplicationManagementException {
-        if (log.isDebugEnabled()) {
-            log.debug("Stars are received for the application " + applicationRelease.getId());
-        }
 
-        try {
-
-            ConnectionManagerUtil.beginDBTransaction();
-            int avgStars=(applicationRelease.getStars()*(applicationRelease.getNoOfRatedUsers()-1))/applicationRelease.getNoOfRatedUsers();
-            applicationRelease.setStars(avgStars);
-            DAOFactory.getApplicationReleaseDAO().insertStars(version,appId,avgStars);
-            ConnectionManagerUtil.commitDBTransaction();
-            return avgStars;
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
 
     /**
      * To validate the pre-request of the ApplicationRelease.
