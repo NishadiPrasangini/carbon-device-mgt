@@ -377,6 +377,14 @@ public interface CommentDAO  {
      */
     int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException;
 
-  int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException;
+    /**
+     * To get comment count for pagination
+     *
+     * @param request
+     * @param uuid
+     * @return
+     * @throws CommentManagementException
+     */
+    int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException;
 
 }

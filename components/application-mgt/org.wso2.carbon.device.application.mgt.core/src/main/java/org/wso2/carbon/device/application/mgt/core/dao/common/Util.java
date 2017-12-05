@@ -117,9 +117,9 @@ public class Util {
         comment.setId(rs.getInt("commentID"));
         comment.setComment(rs.getString("Comment"));
         comment.setApplication(application);
-//        comment.setCreatedAt(rs.getTimestamp("createdAt"));
+        comment.setCreatedAt(rs.getTimestamp("createdAt"));
         comment.setCreatedBy(rs.getString("createdBt"));
-//        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
+        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
         comment.setModifiedBy(rs.getString("modifiedBy"));
         comment.setParent(comment.getId());
         return comment;
@@ -153,8 +153,7 @@ public class Util {
         if (paginationRequest.getRowCount() == 0) {
             Configuration commentManagementConfig = ConfigurationManager.getInstance().getConfiguration();
             if (commentManagementConfig != null) {
-                paginationRequest.setRowCount(commentManagementConfig.getPaginationConfiguration().
-                        getCommentListPageSize());
+                paginationRequest.setRowCount(commentManagementConfig.getPaginationConfiguration().getCommentListPageSize());
             } else {
                 throw new CommentManagementException("Device-Mgt configuration has not initialized. Please check the " +
                         "cdm-config.xml file.");

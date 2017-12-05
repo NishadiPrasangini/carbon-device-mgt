@@ -6,12 +6,9 @@ import org.wso2.carbon.device.application.mgt.api.APIUtil;
 import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.Filter;
-import org.wso2.carbon.device.application.mgt.common.LifecycleState;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
-import org.wso2.carbon.device.application.mgt.common.exception.LifecycleManagementException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
-import org.wso2.carbon.device.application.mgt.common.services.LifecycleStateManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -32,12 +29,9 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
         try {
-
-
-PaginationRequest request=new PaginationRequest(start,rowCount);
-              commentsManager.getAllComments(request,uuid);
-
-          } catch (CommentManagementException e) {
+            PaginationRequest request=new PaginationRequest(start,rowCount);
+            commentsManager.getAllComments(request,uuid);
+        } catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -52,7 +46,6 @@ PaginationRequest request=new PaginationRequest(start,rowCount);
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             Comment newcomment = commentsManager.addComment(comment);
-
             if (comment != null){
                 return Response.status(Response.Status.CREATED).entity(newcomment).build();
             }else{

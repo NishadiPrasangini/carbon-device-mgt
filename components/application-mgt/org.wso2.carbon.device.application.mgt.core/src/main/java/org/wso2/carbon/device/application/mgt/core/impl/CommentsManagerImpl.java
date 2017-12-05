@@ -182,6 +182,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
     @Override
     public PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException {
+
         PaginationResult paginationResult = new PaginationResult();
         List<Comment> comments;
 
@@ -200,7 +201,6 @@ public class CommentsManagerImpl implements CommentsManager {
             paginationResult.setRecordsTotal(count);
 
             return paginationResult;
-
 
         } catch (DBConnectionException e) {
             e.printStackTrace();
