@@ -45,10 +45,10 @@ import java.util.List;
                         permissions = {"/device-mgt/comment/add"}
                 ),
                 @Scope(
-                        name = "Edit a Comment",
-                        description = "Edit a Commnent",
-                        key = "perm:comment:edit",
-                        permissions = {"/device-mgt/comment/edit"}
+                        name = "Update a Comment",
+                        description = "Update a Commnent",
+                        key = "perm:comment:update",
+                        permissions = {"/device-mgt/comment/update"}
                 ),
 
                 @Scope(
@@ -61,7 +61,7 @@ import java.util.List;
 
         }
 )
-@Path("/Comments")
+@Path("/Application_Release/Comments")
 @Api(value = "Comments Management", description = "This API carries all comments management related operations " +
         "such as get all the comments, add comment, etc.")
 @Produces(MediaType.APPLICATION_JSON)
@@ -96,7 +96,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-    Response getAllComments(String uuid) throws Exception;
+    Response getAllComments(String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception;
 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -140,11 +140,11 @@ public interface CommentManagementAPI {
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "PUT",
             value = "Edit a comment",
-            notes = "This will edit the new comment",
+            notes = "This will edit the comment",
             tags = "Comment Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:update")
+                            @ExtensionProperty(name = SCOPE, value = "perm:comment:edit")
                     })
             }
     )
@@ -152,53 +152,47 @@ public interface CommentManagementAPI {
             value = {
                     @ApiResponse(
                             code = 201,
-                            message = "OK. \n Successfully edited comment.",
+                            message = "OK. \n Successfully updated comment.",
                             response = Comment.class),
                     @ApiResponse(
                             code = 500,
-                            message = "Internal Server Error. \n Error occurred while editing the comment.",
+                            message = "Internal Server Error. \n Error occurred while updating the new comment.",
                             response = ErrorResponse.class)
             })
     Response updateComment
             (
             @ApiParam(
                     name = "comment",
-                    value = "The comment that need to be edited.",
+                    value = "The comment that need to be updated.",
                     required = true)
             @Valid Comment comment);
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @ApiOperation(
-            consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON,
-            httpMethod = "POST",
-            value = "Create a comment",
-            notes = "This will create a new comment",
-            tags = "Comment Management",
-            extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:create")
+            @Path("/{appRelease}/{identifier}")
+            @Produces(MediaType.APPLICATION_JSON)
+            @Consumes(MediaType.APPLICATION_JSON)
+            @ApiOperation(
+                    consumes = MediaType.APPLICATION_JSON,
+                    produces = MediaType.APPLICATION_JSON,
+                    httpMethod = "DELETE",
+                    value = "Remove comment",
+                    notes = "Remove comment",
+                    tags = "Comment Management",
+                    extensions = {
+                            @Extension(properties = {
+                                    @ExtensionProperty(name = SCOPE, value = "perm:comment:remove")
+                            })
+                    }
+            )
+            @ApiResponses(
+                    value = {
+                            @ApiResponse(
+                                    code = 200,
+                                    message = "OK. \n Successfully deleted the comment"),
+                            @ApiResponse(
+                                    code = 500,
+                                    message = "Internal Server Error. \n Error occurred while deleting the comment.",
+                                    response = ErrorResponse.class)
                     })
-            }
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            code = 201,
-                            message = "OK. \n Successfully created a comment.",
-                            response = Comment.class),
-                    @ApiResponse(
-                            code = 304,
-                            message = "Not Modified. \n " +
-                                    "Empty body because the client already has the latest comment of the requested "
-                                    + "resource."),
-                    @ApiResponse(
-                            code = 500,
-                            message = "Internal Server Error. \n Error occurred while getting the comment list.",
-                            response = ErrorResponse.class)
-            })
 
     Response deleteComment(@PathParam("identifier") String identifier);
 

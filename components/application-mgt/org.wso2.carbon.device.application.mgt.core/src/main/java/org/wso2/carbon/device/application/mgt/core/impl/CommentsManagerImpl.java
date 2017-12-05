@@ -159,7 +159,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public List<Comment> getAllComments() throws CommentManagementException {
+    public List<Comment> getAllComments(String uuid) throws CommentManagementException {
 
         if (log.isDebugEnabled()) {
             log.debug("get all comments");
@@ -167,7 +167,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.openDBConnection();
 
-                return ApplicationManagementDAOFactory.getCommentDAO().getAllComments();
+                return ApplicationManagementDAOFactory.getCommentDAO().getAllComments(uuid);
 
 
         } catch (DBConnectionException e) {
@@ -181,9 +181,9 @@ public class CommentsManagerImpl implements CommentsManager {
         return null;
     }
     @Override
-    public PaginationResult getAllComments(PaginationRequest request)throws CommentManagementException {
+    public PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException {
         PaginationResult paginationResult = new PaginationResult();
-        List<Comment> comments = new ArrayList<>();
+        List<Comment> comments;
 
         request = Util.validateCommentListPageSize(request);
         int count=0;
@@ -191,10 +191,10 @@ public class CommentsManagerImpl implements CommentsManager {
             log.debug("get all comments");
         }
         try {
-            Application application=null;
-            ConnectionManagerUtilapplication.openDBConnection();
-            comments=ApplicationManagementDAOFactory.getCommentDAO().getAllComments();
-            count=commentDAO.getCommentCount(request,application.getUuid());
+
+            ConnectionManagerUtil.openDBConnection();
+            comments=ApplicationManagementDAOFactory.getCommentDAO().getAllComments(uuid);
+            count=commentDAO.getCommentCount(request,uuid);
             paginationResult.setData(comments);
             paginationResult.setRecordsFiltered(count);
             paginationResult.setRecordsTotal(count);
@@ -203,8 +203,6 @@ public class CommentsManagerImpl implements CommentsManager {
 
 
         } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();

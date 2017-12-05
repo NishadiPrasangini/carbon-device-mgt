@@ -21,24 +21,22 @@ import java.util.List;
 /**
  * Comment Management related jax-rs APIs.
  */
-@Path("/comments")
+@Path("/appRelease/comments")
 public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     private static Log log = LogFactory.getLog(CommentManagementAPIImpl.class);
 
     @Override
     @GET
-    public Response getAllComments() throws Exception{
+    public Response getAllComments(String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception{
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
         try {
 
-          if(comments==null){
-              return Response.created(null).build();
-          }else {
-PaginationRequest request=;
-              commentsManager.getAllComments(request);
-          }
+
+PaginationRequest request=new PaginationRequest(start,rowCount);
+              commentsManager.getAllComments(request,uuid);
+
           } catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);

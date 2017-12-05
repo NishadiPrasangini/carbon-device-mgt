@@ -274,7 +274,7 @@ return  commentId;
 
 
     @Override
-    public List<Comment> getAllComments() throws CommentManagementException, SQLException, DBConnectionException {
+    public List<Comment> getAllComments(String uuid) throws CommentManagementException, SQLException, DBConnectionException {
         if (log.isDebugEnabled()) {
             log.debug("Getting comment from the database");
         }

@@ -91,14 +91,14 @@ public interface CommentsManager {
       * @return
      * @throws CommentManagementException
      */
-    List <Comment> getAllComments()throws CommentManagementException;
+    List <Comment> getAllComments(String uuid)throws CommentManagementException;
 
     /**
      *
      * @return
      * @throws CommentManagementException
      */
-    PaginationResult getAllComments(PaginationRequest request)throws CommentManagementException;
+    PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException;
 
 
     /**
