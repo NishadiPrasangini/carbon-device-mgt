@@ -218,20 +218,20 @@ public class CommentsManagerImpl implements CommentsManager {
 //    }
 
     @Override
-    public Comment addComment(Comment comment) throws CommentManagementException {
+    public Comment addComment(Comment comment,String uuid) throws CommentManagementException {
         Comment validation= validateComment(comment.getId(),comment.getComment());
 
         if (log.isDebugEnabled()) {
             log.debug("Request for comment is received. " + validation.toString());
         }
-//        comment.setCreatedAt(Timestamp.from(Instant.now()));
+        comment.setCreatedAt(Timestamp.from(Instant.now()));
         try {
             ConnectionManagerUtil.beginDBTransaction();
-           comment.setApplication(comment.getApplication());
-           Application application=new Application();
+            comment.setApplication(comment.getApplication());
+//            Application application=new Application();
 
 //            String comm=comment.toString();
-             ApplicationManagementDAOFactory.getCommentDAO().addComment(comment.getTenantId(),comment,comment.getCreatedBy(),comment.getParent(),application.getUuid());
+            ApplicationManagementDAOFactory.getCommentDAO().addComment(comment.getTenantId(),comment,comment.getCreatedBy(),comment.getParent(),uuid);
 
             ConnectionManagerUtil.commitDBTransaction();
             return comment;

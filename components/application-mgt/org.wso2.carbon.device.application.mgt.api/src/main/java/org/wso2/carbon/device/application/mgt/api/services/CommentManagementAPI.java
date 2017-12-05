@@ -129,7 +129,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred adding a comment.",
                             response = ErrorResponse.class)
             })
-    Response addComments(Comment comment);
+    Response addComments(Comment comment,String uuid);
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)

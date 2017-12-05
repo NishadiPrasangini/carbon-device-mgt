@@ -29,6 +29,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     @Override
     public int addComment(int tenantId, Comment comment, String createdBy, int parentId, String uuid) throws CommentManagementException, DBConnectionException, SQLException {
+
         if (log.isDebugEnabled()) {
             log.debug("Request received in DAO Layer to add COMMENT");
         }
@@ -41,28 +42,23 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID,AP_APP_ID)" +
                 " VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?),(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
-
             stmt = conn.prepareStatement(sql, new String[] {"id"});
-                stmt.setInt(++index, tenantId);
-                stmt.setString(++index, comment.getComment());
-                stmt.setString(++index,createdBy);
-                stmt.setInt(++index,parentId);
-                stmt.setString(++index,uuid);
-                stmt.setString(++index,uuid);
-
+            stmt.setInt(++index, tenantId);
+            stmt.setString(++index, comment.getComment());
+            stmt.setString(++index,createdBy);
+            stmt.setInt(++index,parentId);
+            stmt.setString(++index,uuid);
+            stmt.setString(++index,uuid);
             stmt.executeUpdate();
+
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 commentId = rs.getInt(1);
             }
-
-        } catch (SQLException e) {
-            throw e;
-
-        } finally {
+        }  finally {
             Util.cleanupResources(stmt, null);
         }
-return  commentId;
+        return  commentId;
     }
 
     @Override
@@ -297,7 +293,6 @@ return  commentId;
 
             while (rs.next()) {
                 Comment comment=Util.loadComment(rs);
-                Util.cleanupResources(stmt,rs);
                 comments.add(comment);
             }
         } finally {

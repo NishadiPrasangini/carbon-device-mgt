@@ -69,7 +69,7 @@ public interface CommentsManager {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    Comment addComment(Comment comment)throws CommentManagementException;
+    Comment addComment(Comment comment,String uuid)throws CommentManagementException;
 
     /**
      * To update already added comment.

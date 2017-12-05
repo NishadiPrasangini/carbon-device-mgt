@@ -8,24 +8,26 @@ import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.Filter;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
+import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Comment Management related jax-rs APIs.
  */
-@Path("/appRelease/comments")
+@Path("/comments")
 public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     private static Log log = LogFactory.getLog(CommentManagementAPIImpl.class);
 
     @Override
     @GET
-    @Path("/uuid/{comments}")
+    @Path("/{uuid}")
     public Response getAllComments(@PathParam("uuid") String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws
             Exception{
 
@@ -45,13 +47,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @POST
-    @Consumes("comments/json")
-    public Response addComments(Comment comment){
+    @Consumes("uuid/comments/json")
+    public Response addComments(Comment comment,String uuid){
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            Comment newcomment = commentsManager.addComment(comment);
+            Comment newComment = commentsManager.addComment(comment,uuid);
             if (comment != null){
-                return Response.status(Response.Status.CREATED).entity(newcomment).build();
+                return Response.status(Response.Status.CREATED).entity(newComment).build();
             }else{
                 String msg = "Given comment is not matched ";
                 log.error(msg);
@@ -77,6 +79,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             String msg = "Error occurred while editing a comment.";
             log.error(msg, e);
             return APIUtil.getResponse(e, Response.Status.BAD_REQUEST);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
         }
         return Response.status(Response.Status.OK).entity(comment).build();
 
