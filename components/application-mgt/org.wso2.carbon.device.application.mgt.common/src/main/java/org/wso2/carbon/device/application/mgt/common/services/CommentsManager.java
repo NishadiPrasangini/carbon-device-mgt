@@ -83,7 +83,7 @@ public interface CommentsManager {
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
      */
-    Comment updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt)throws CommentManagementException;
+    Comment updateComment(int apAppCommentId, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, SQLException, DBConnectionException;
 
 
     /**
@@ -283,7 +283,7 @@ public interface CommentsManager {
      * @return
      * @throws CommentManagementException
      */
-    Comment updateComment(Comment comment) throws CommentManagementException ;
+    Comment updateComment(Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
 
 
     /**

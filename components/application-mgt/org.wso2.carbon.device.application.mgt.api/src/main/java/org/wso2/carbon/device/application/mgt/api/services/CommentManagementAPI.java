@@ -2,7 +2,6 @@ package org.wso2.carbon.device.application.mgt.api.services;
 
 import io.swagger.annotations.*;
 import org.wso2.carbon.device.application.mgt.api.beans.ErrorResponse;
-import org.wso2.carbon.device.application.mgt.common.Application;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 
 import javax.validation.Valid;
@@ -96,7 +95,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-    Response getAllComments(String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception;
+    Response getAllComments(@PathParam("uuid") String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception;
 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -194,7 +193,7 @@ public interface CommentManagementAPI {
                                     response = ErrorResponse.class)
                     })
 
-    Response deleteComment(@PathParam("identifier") String identifier);
+    Response deleteComment(@PathParam("identifier") int identifier);
 
 
 

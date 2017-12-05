@@ -199,19 +199,16 @@ return  commentId;
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         Comment comment=null;
         String sql = "";
 
         try {
-
             conn = this.getDBConnection();
-            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE ID=1;";
-
-
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE ID=?;";
             stmt = conn.prepareStatement(sql);
-
             stmt.setInt(1, apAppCommentId);
+            rs=stmt.executeQuery();
+
             if (rs.next()) {
                 comment = Util.loadComment(rs);
                Util.cleanupResources(stmt,rs);
@@ -219,22 +216,21 @@ return  commentId;
             }
 
         } catch (SQLException e) {
-
-
+            throw new CommentManagementException("Error occurred while retrieving information of all comments", e);
         } catch (DBConnectionException e) {
-
-        }  finally {
+            e.printStackTrace();
+        }   finally {
             Util.cleanupResources(stmt, null);
         }
-        return comment;
+        return null;
     }
 
     @Override
-    public Comment getComment(String uuid) throws CommentManagementException {
+    public Comment getComment(String uuid) throws CommentManagementException{
 
         Comment comment=null;
         if (log.isDebugEnabled()) {
-            log.debug("Getting comment with the ap_comment_id(" + comment.getId() + ") from the database");
+            log.debug("Getting comment with the application release(" +uuid + ") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
@@ -254,21 +250,23 @@ return  commentId;
 
             stmt.setString(1, uuid);
             stmt.setString(2,uuid);
+            rs=stmt.executeQuery();
             if (rs.next()) {
                 comment = Util.loadComment(rs);
                 Util.cleanupResources(stmt,rs);
                 return comment;
             }
 
+        }   catch (DBConnectionException e) {
+
+                e.printStackTrace();
+
         } catch (SQLException e) {
-
-
-        } catch (DBConnectionException e) {
-
+            e.printStackTrace();
         }  finally {
             Util.cleanupResources(stmt, null);
         }
-        return comment;
+        return null;
     }
 
 
@@ -444,7 +442,7 @@ return  commentId;
                 }
             }
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information of all comments", e);
+            throw new CommentManagementException("Error occurred while retrieving information", e);
         } catch (DBConnectionException e) {
             e.printStackTrace();
         } finally {
@@ -475,7 +473,9 @@ return  commentId;
 
             stmt.setInt(1, appReleasedId);
             stmt.setInt(2,appId);
+            stmt.addBatch();
 //            comments = new ArrayList<>();
+            rs=stmt.executeQuery();
             while (rs.next()) {
 
                 comment.setComment(rs.getString(1));

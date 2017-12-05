@@ -25,9 +25,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @GET
-    public Response getAllComments(String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception{
+    @Path("/uuid/{comments}")
+    public Response getAllComments(@PathParam("uuid") String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws
+            Exception{
+
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
+
         try {
             PaginationRequest request=new PaginationRequest(start,rowCount);
             commentsManager.getAllComments(request,uuid);
@@ -84,7 +88,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @DELETE
     @Path("/{identifier}")
-    public Response deleteComment(@PathParam("identifier") String identifier) {
+    public Response deleteComment(@PathParam("identifier") int identifier) {
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             commentsManager.deleteComment(identifier);

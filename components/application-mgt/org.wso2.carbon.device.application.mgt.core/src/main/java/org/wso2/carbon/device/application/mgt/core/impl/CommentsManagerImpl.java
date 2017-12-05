@@ -137,7 +137,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     @Override
-    public Comment updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException {
+    public Comment updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, SQLException, DBConnectionException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment validation= validateComment(apAppCommentId,updatedComment);
         if (log.isDebugEnabled()) {
@@ -182,12 +182,11 @@ public class CommentsManagerImpl implements CommentsManager {
     }
     @Override
     public PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException {
-
         PaginationResult paginationResult = new PaginationResult();
         List<Comment> comments;
 
         request = Util.validateCommentListPageSize(request);
-        int count=0;
+        int count;
         if (log.isDebugEnabled()) {
             log.debug("get all comments");
         }
@@ -201,6 +200,7 @@ public class CommentsManagerImpl implements CommentsManager {
             paginationResult.setRecordsTotal(count);
 
             return paginationResult;
+
 
         } catch (DBConnectionException e) {
             e.printStackTrace();
@@ -262,6 +262,8 @@ public class CommentsManagerImpl implements CommentsManager {
 
         } catch (DBConnectionException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -283,6 +285,8 @@ return comment;
 
 
         } catch (DBConnectionException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
@@ -495,10 +499,9 @@ return comment;
     @Override
     public void deleteComment(int apAppCommentId) throws CommentManagementException {
         Comment comment=null;
-        Comment validation=validateComment(comment.getId(),comment.getComment());
 
-
-                comment= getComment(comment.getId());
+        comment= getComment(apAppCommentId);
+//        Comment validation=validateComment(apAppCommentId,comment.getComment());
         if (comment == null) {
             try {
                 throw new ApplicationManagementException(
@@ -682,7 +685,7 @@ return comment;
     }
 
     @Override
-    public Comment updateComment(Comment comment) throws CommentManagementException {
+    public Comment updateComment(Comment comment) throws CommentManagementException, SQLException, DBConnectionException {
         int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         Comment validation= validateComment(comment.getId(),comment.getComment());
         if (log.isDebugEnabled()) {

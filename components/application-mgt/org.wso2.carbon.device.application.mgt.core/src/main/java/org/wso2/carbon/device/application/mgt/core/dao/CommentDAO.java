@@ -97,7 +97,7 @@ public interface CommentDAO  {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    Comment getComment(int apAppCommentId)throws CommentManagementException;
+    Comment getComment(int apAppCommentId) throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
      * To get the comment with id.
@@ -106,7 +106,7 @@ public interface CommentDAO  {
      * @return
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    Comment getComment(String uuid)throws CommentManagementException;
+    Comment getComment(String uuid) throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
      * To get all the comments
