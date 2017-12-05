@@ -96,7 +96,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-    Response getAllComments() throws Exception;
+    Response getAllComments(String uuid) throws Exception;
 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -201,6 +201,9 @@ public interface CommentManagementAPI {
             })
 
     Response deleteComment(@PathParam("identifier") String identifier);
+
+
+
 //
 //            @GET
 //            @Produces(MediaType.APPLICATION_JSON)

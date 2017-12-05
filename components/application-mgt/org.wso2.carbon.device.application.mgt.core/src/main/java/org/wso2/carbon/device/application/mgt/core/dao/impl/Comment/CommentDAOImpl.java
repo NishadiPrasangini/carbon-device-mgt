@@ -445,7 +445,7 @@ return  commentId;
 
             rs = stmt.executeQuery();
             if (rs.next()) {
-                commentCount = rs.getInt("DEVICE_COUNT");
+                commentCount = rs.getInt("COMMENTS_COUNT");
             }
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while retrieving information of all registered devices", e);

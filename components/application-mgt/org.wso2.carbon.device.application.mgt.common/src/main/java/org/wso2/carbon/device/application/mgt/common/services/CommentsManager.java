@@ -19,6 +19,8 @@
 package org.wso2.carbon.device.application.mgt.common.services;
 
 import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
+import org.wso2.carbon.device.application.mgt.common.PaginationResult;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
@@ -90,6 +92,14 @@ public interface CommentsManager {
      * @throws CommentManagementException
      */
     List <Comment> getAllComments()throws CommentManagementException;
+
+    /**
+     *
+     * @return
+     * @throws CommentManagementException
+     */
+    PaginationResult getAllComments(PaginationRequest request)throws CommentManagementException;
+
 
     /**
      * To get the comment with id.

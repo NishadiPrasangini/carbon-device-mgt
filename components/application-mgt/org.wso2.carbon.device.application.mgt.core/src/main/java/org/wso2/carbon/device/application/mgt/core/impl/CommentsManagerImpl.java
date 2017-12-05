@@ -29,6 +29,7 @@ import org.wso2.carbon.device.application.mgt.common.services.*;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.ApplicationManagementDAOFactory;
 import org.wso2.carbon.device.application.mgt.core.dao.common.DAOFactory;
+import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 import org.wso2.carbon.device.application.mgt.core.exception.NotFoundException;
 import org.wso2.carbon.device.application.mgt.core.util.ConnectionManagerUtil;
@@ -36,6 +37,7 @@ import org.wso2.carbon.device.application.mgt.core.util.ConnectionManagerUtil;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static sun.security.pkcs.PKCS8Key.version;
@@ -178,6 +180,38 @@ public class CommentsManagerImpl implements CommentsManager {
 
         return null;
     }
+    @Override
+    public PaginationResult getAllComments(PaginationRequest request)throws CommentManagementException {
+        PaginationResult paginationResult = new PaginationResult();
+        List<Comment> comments = new ArrayList<>();
+
+        request = Util.validateCommentListPageSize(request);
+        int count=0;
+        if (log.isDebugEnabled()) {
+            log.debug("get all comments");
+        }
+        try {
+            Application application=null;
+            ConnectionManagerUtilapplication.openDBConnection();
+            comments=ApplicationManagementDAOFactory.getCommentDAO().getAllComments();
+            count=commentDAO.getCommentCount(request,application.getUuid());
+            paginationResult.setData(comments);
+            paginationResult.setRecordsFiltered(count);
+            paginationResult.setRecordsTotal(count);
+
+            return paginationResult;
+
+
+        } catch (DBConnectionException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManagerUtil.closeDBConnection();
+        }
+        return paginationResult;
+
+        }
 
 
 //    @Override
