@@ -111,12 +111,14 @@ public interface CommentManagementAPI {
             @QueryParam("start")
                     int start,
             @ApiParam(
-                    name="rowCount",
-                    value = "Row number of paginated comments",
+                    name="limit",
+                    value = "Limit of paginated comments",
                     required = false)
-            @QueryParam("rowCount")
-                    int rowCount);
+            @QueryParam("limit")
+                    int limit);
 
+    @POST
+    @Path("/uuid/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -149,9 +151,23 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred adding a comment.",
                             response = ErrorResponse.class)
             })
-    Response addComments(Comment comment,String uuid);
+    Response addComments(
+            @ApiParam(
+                    name = "comment",
+                    value = "Comment details",
+                    required = true)
+                    Comment comment,
+            @ApiParam(
+                    name="uuid",
+                    value="uuid of the release version of the application",
+                    required=true)
+            @PathParam("uuid")
+                    String uuid);
+
+
 
     @PUT
+    @Path("/{uuid}/{comments}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -178,15 +194,22 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while updating the new comment.",
                             response = ErrorResponse.class)
             })
-    Response updateComment
-            (
+    Response updateComment(
+            @ApiParam(
+                    name="uuid",
+                    value = "uuid of the release version of the application.",
+                    required = true)
+            @QueryParam("uuid")
+                    String uuid,
+
             @ApiParam(
                     name = "comment",
                     value = "The comment that need to be updated.",
                     required = true)
             @Valid Comment comment);
 
-            @Path("/{appRelease}/{identifier}")
+            @DELETE
+            @Path("/uuid/{uuid}/identifier/{identifier}")
             @Produces(MediaType.APPLICATION_JSON)
             @Consumes(MediaType.APPLICATION_JSON)
             @ApiOperation(
@@ -213,8 +236,19 @@ public interface CommentManagementAPI {
                                     response = ErrorResponse.class)
                     })
 
-    Response deleteComment(@PathParam("identifier") int identifier);
-
+    Response deleteComment(
+                    @ApiParam(
+                            name="uuid",
+                            value="uuid of the released version of application.",
+                            required = false)
+                    @PathParam("uuid")
+                            String uuid,
+                    @ApiParam(
+                            name="identifier",
+                            value="Id of the comment.",
+                            required = true)
+                    @PathParam("identifier")
+                            int identifier);
 
 
 //

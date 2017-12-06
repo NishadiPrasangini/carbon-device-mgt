@@ -124,10 +124,10 @@ public class Util {
 
     public static PaginationRequest validateCommentListPageSize(PaginationRequest paginationRequest) throws
             CommentManagementException{
-        if (paginationRequest.getRowCount() == 0) {
+        if (paginationRequest.getLimit() == 0) {
             Configuration commentManagementConfig = ConfigurationManager.getInstance().getConfiguration();
             if (commentManagementConfig != null) {
-                paginationRequest.setRowCount(commentManagementConfig.getPaginationConfiguration().getCommentListPageSize());
+                paginationRequest.setLimit(commentManagementConfig.getPaginationConfiguration().getCommentListPageSize());
             } else {
                 throw new CommentManagementException("Device-Mgt configuration has not initialized. Please check the " +
                         "cdm-config.xml file.");

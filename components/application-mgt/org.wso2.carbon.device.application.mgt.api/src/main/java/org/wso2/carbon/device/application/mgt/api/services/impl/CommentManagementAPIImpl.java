@@ -1,5 +1,6 @@
 package org.wso2.carbon.device.application.mgt.api.services.impl;
 
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.device.application.mgt.api.APIUtil;
@@ -31,13 +32,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     public Response getAllComments(
             @PathParam("uuid") String uuid,
             @QueryParam("start")int start,
-            @QueryParam("rowCount")int rowCount){
+            @QueryParam("limit")int limit){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
 
         try {
-            PaginationRequest request=new PaginationRequest(start,rowCount);
+            PaginationRequest request=new PaginationRequest(start,limit);
             commentsManager.getAllComments(request,uuid);
         } catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
@@ -52,14 +53,17 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @POST
     @Consumes("uuid/comments/json")
-    public Response addComments(Comment comment,String uuid){
+    public Response addComments(
+            @ApiParam Comment comment,
+            @PathParam("uuid") String uuid){
+
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             Comment newComment = commentsManager.addComment(comment,uuid);
             if (comment != null){
                 return Response.status(Response.Status.CREATED).entity(newComment).build();
             }else{
-                String msg = "Given comment is not matched ";
+                String msg = "Given comment is not valid ";
                 log.error(msg);
                 return  Response.status(Response.Status.BAD_REQUEST).build();
             }
@@ -72,15 +76,18 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @PUT
-    @Consumes("comment/json")
-    public Response updateComment(Comment comment) {
+    @Consumes("/uuid/comment/json")
+    public Response updateComment(
+            @PathParam("uuid") String uuid,
+            @ApiParam Comment comment) {
+
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            comment = commentsManager.updateComment(comment);
+            comment = commentsManager.updateComment(uuid,comment);
         } catch (NotFoundException e) {
             return APIUtil.getResponse(e, Response.Status.NOT_FOUND);
         } catch (CommentManagementException e) {
-            String msg = "Error occurred while editing a comment.";
+            String msg = "Error occurred while editing the comment.";
             log.error(msg, e);
             return APIUtil.getResponse(e, Response.Status.BAD_REQUEST);
         } catch (SQLException e) {
@@ -97,8 +104,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @DELETE
-    @Path("/{identifier}")
-    public Response deleteComment(@PathParam("identifier") int identifier) {
+    @Path("/{uuid}/{identifier}")
+    public Response deleteComment(
+            @PathParam("uuid")
+                    String uuid,
+            @PathParam("identifier")
+                    int identifier){
+
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
             commentsManager.deleteComment(identifier);

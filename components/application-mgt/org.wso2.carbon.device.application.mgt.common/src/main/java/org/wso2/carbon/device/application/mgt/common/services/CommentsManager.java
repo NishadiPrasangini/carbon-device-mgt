@@ -283,7 +283,7 @@ public interface CommentsManager {
      * @return
      * @throws CommentManagementException
      */
-    Comment updateComment(Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
+    Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
 
 
     /**

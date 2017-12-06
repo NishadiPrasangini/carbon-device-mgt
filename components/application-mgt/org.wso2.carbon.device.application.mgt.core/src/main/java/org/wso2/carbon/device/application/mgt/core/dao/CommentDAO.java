@@ -88,7 +88,7 @@ public interface CommentDAO  {
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
      */
-    Comment updateComment(String uuid, String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
+    Comment updateComment(String uuid, int apAppCommentId,String updatedComment,String modifiedBy, Timestamp modifiedAt) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
      * To get the comment with id.
