@@ -43,7 +43,7 @@ public class Comment {
 
     private Timestamp modifiedAt;
 
-    private Application application;
+//    private Application application;
     public int getTenantId() {
         return tenantId;
     }
@@ -109,13 +109,13 @@ public class Comment {
         this.modifiedAt = modifiedAt;
     }
 
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
+//    public Application getApplication() {
+//        return application;
+//    }
+//
+//    public void setApplication(Application application) {
+//        this.application = application;
+//    }
 
 
 

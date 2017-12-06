@@ -28,8 +28,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @GET
     @Path("/{uuid}")
-    public Response getAllComments(@PathParam("uuid") String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws
-            Exception{
+    public Response getAllComments(
+            @PathParam("uuid") String uuid,
+            @QueryParam("start")int start,
+            @QueryParam("rowCount")int rowCount){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
@@ -41,6 +43,8 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
             return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return Response.status(Response.Status.OK).entity(comments).build();
     }

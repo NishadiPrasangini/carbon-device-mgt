@@ -60,7 +60,7 @@ import java.util.List;
 
         }
 )
-@Path("/Application_Release/Comments")
+@Path("/Comments")
 @Api(value = "Comments Management", description = "This API carries all comments management related operations " +
         "such as get all the comments, add comment, etc.")
 @Produces(MediaType.APPLICATION_JSON)
@@ -69,6 +69,7 @@ public interface CommentManagementAPI {
     String SCOPE = "scope";
 
     @GET
+    @Path("/uuid/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
             produces = MediaType.APPLICATION_JSON,
@@ -95,7 +96,26 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
-    Response getAllComments(@PathParam("uuid") String uuid,@QueryParam("start")int start,@QueryParam("rowCount")int rowCount) throws Exception;
+
+    Response getAllComments(
+            @ApiParam(
+                    name="uuid",
+                    value="uuid of the released version of application.",
+                    required = true)
+            @PathParam("uuid")
+                    String uuid,
+            @ApiParam(
+                    name="start",
+                    value="Starting comment number.",
+                    required = false)
+            @QueryParam("start")
+                    int start,
+            @ApiParam(
+                    name="rowCount",
+                    value = "Row number of paginated comments",
+                    required = false)
+            @QueryParam("rowCount")
+                    int rowCount);
 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

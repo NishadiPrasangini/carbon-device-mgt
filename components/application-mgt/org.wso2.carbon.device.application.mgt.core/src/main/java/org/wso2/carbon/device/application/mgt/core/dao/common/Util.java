@@ -97,32 +97,6 @@ public class Util {
         lifecycle.setLifecycleState(lifecycleState);
         application.setCurrentLifecycle(lifecycle);
         return application;
-
-//        Comment comment=new Comment();
-//        comment.setId(rs.getInt("commentID"));
-//        comment.setComment(rs.getString("Comment"));
-//        comment.setApplication(application);
-//        comment.setCreatedAt(rs.getTimestamp("createdAt"));
-//        comment.setCreatedBy(rs.getString("createdBt"));
-//        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
-//        comment.setModifiedBy(rs.getString("modifiedBy"));
-//        comment.setParent(comment);
-//
-
-
-    }
-    public static Comment loadComment(ResultSet rs) throws SQLException{
-        Comment comment=null;
-        Application application=new Application();
-        comment.setId(rs.getInt("commentID"));
-        comment.setComment(rs.getString("Comment"));
-        comment.setApplication(application);
-        comment.setCreatedAt(rs.getTimestamp("createdAt"));
-        comment.setCreatedBy(rs.getString("createdBt"));
-        comment.setModifiedAt(rs.getTimestamp("ModifiedAt"));
-        comment.setModifiedBy(rs.getString("modifiedBy"));
-        comment.setParent(comment.getId());
-        return comment;
     }
 
     /**
