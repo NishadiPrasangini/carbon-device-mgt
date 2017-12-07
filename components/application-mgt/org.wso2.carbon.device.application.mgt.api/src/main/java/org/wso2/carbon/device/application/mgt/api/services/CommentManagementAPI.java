@@ -61,6 +61,7 @@ import java.util.List;
 
         }
 )
+
 @Path("/Comments")
 @Api(value = "Comments Management", description = "This API carries all comments management related operations " +
         "such as get all the comments, add comment, etc.")
@@ -370,4 +371,46 @@ public interface CommentManagementAPI {
                     required=true)
             @PathParam("uuid")
                     String uuid) throws SQLException;
+
+    @PUT
+    @Path("/{uuid}/{stars}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON,
+            httpMethod = "PUT",
+            value = "Edit ratings",
+            notes = "This will edit the star value",
+            tags = "Comment Management",
+            extensions = {
+                    @Extension(properties = {
+                            @ExtensionProperty(name = SCOPE, value = "perm:stars:update")
+                    })
+            }
+    )
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 201,
+                            message = "OK. \n Successfully updated the stars.",
+                            response = Comment.class),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Error occurred while updating the stars.",
+                            response = ErrorResponse.class)
+            })
+    Response updateStars(
+            @ApiParam(
+                    name="uuid",
+                    value = "uuid of the release version of the application.",
+                    required = true)
+            @QueryParam("uuid")
+                    String uuid,
+            @ApiParam(
+                    name = "stars",
+                    value = "star value of an application",
+                    required = true)
+            @Valid int stars) throws SQLException;
 }

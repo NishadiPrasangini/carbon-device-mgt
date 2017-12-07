@@ -109,15 +109,15 @@ public interface CommentsManager {
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment getComment(int apAppCommentId)throws CommentManagementException;
-
-    /**
-     * To get the comment with id.
-     *
-     * @param uuid uuid of the comment
-     * @return
-     * @throws CommentManagementException Exceptions of the comment management.
-     */
-    Comment getComment(String uuid)throws CommentManagementException;
+//
+//    /**
+//     * To get the comment with id.
+//     *
+//     * @param uuid uuid of the comment
+//     * @return
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     */
+//   List<Comment> getComment(String uuid)throws CommentManagementException;
 
     /**
      * To get list of comments using release id and application id.
@@ -276,16 +276,6 @@ public interface CommentsManager {
     void deleteComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
 
     /**
-     * To get the average of stars
-     *
-     * @param uuid
-     * @return
-     * @throws CommentManagementException
-     * @throws SQLException
-     */
-    int getStars(String uuid)throws SQLException;
-
-    /**
      * To update a comment.
      *
      * @param comment comment of the application.
@@ -295,14 +285,24 @@ public interface CommentsManager {
     Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
 
 
-//    /**
-//     *
-//     * @param stars amount of stars
-//     * @param uuid uuid
-//     * @return
-//     * @throws ApplicationManagementException Application Management Exception.
-//     */
-//    int updateStars(int stars,String uuid) throws ApplicationManagementException;
+    /**
+     *
+     * @param stars amount of stars
+     * @param uuid uuid
+     * @return
+     * @throws ApplicationManagementException Application Management Exception.
+     */
+    int updateStars(int stars,String uuid) throws ApplicationManagementException;
+
+    /**
+     * To get the average of stars
+     *
+     * @param uuid
+     * @return
+     * @throws CommentManagementException
+     * @throws SQLException
+     */
+    int getStars(String uuid)throws SQLException;
 
     /**
      *

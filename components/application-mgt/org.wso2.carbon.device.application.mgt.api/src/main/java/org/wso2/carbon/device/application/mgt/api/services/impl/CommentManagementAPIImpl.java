@@ -187,4 +187,31 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         }
         return Response.status(Response.Status.OK).entity(newStars).build();
     }
+
+    @Override
+    @PUT
+    @Consumes("uuid/stars/json")
+    public Response updateStars(
+        @PathParam("uuid") String uuid,
+        @ApiParam int stars) throws SQLException {
+
+            CommentsManager commentsManager = APIUtil.getCommentsManager();
+            int newStars=commentsManager.getStars(uuid);
+
+            try {
+                newStars = commentsManager.updateStars(stars,uuid);
+
+                if (stars != 0){
+                    return Response.status(Response.Status.CREATED).entity(newStars).build();
+                }else{
+                    String msg = "Given star value is not valid ";
+                    log.error(msg);
+                    return  Response.status(Response.Status.BAD_REQUEST).build();
+                }
+
+            } catch (ApplicationManagementException e) {
+                e.printStackTrace();
+            }
+            return Response.status(Response.Status.OK).entity(newStars).build();
+        }
 }
