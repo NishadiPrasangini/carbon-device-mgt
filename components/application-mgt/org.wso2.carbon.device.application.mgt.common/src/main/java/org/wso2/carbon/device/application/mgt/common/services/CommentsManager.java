@@ -275,6 +275,15 @@ public interface CommentsManager {
      */
     void deleteComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
 
+    /**
+     * To get the average of stars
+     *
+     * @param uuid
+     * @return
+     * @throws CommentManagementException
+     * @throws SQLException
+     */
+    int getStars(String uuid)throws SQLException;
 
     /**
      * To update a comment.
@@ -299,12 +308,21 @@ public interface CommentsManager {
 
     /**
      *
-     * @param version Version of the application
-     * @param appName Id of the application
      * @param stars amount of stars
      * @param uuid uuid
      * @return
      * @throws ApplicationManagementException Application Management Exception.
      */
-    int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementException;
+    int addStars(int stars,String uuid) throws ApplicationManagementException;
+
+    /**
+     * To get number of rated users
+     *
+     * @param uuid
+     * @return
+     * @throws ApplicationManagementException
+     * @throws CommentManagementException
+     * @throws SQLException
+     */
+    int getRatedUser(String uuid)throws SQLException;
 }

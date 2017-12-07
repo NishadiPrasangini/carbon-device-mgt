@@ -337,7 +337,7 @@ public interface CommentDAO  {
      * @return
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
-    int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException;
+    int addStars(int stars,String uuid) throws ApplicationManagementDAOException;
 
     /**
      *
@@ -357,7 +357,7 @@ public interface CommentDAO  {
      * @return
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
-    int getStars(String version, String appName,String uuid) throws ApplicationManagementDAOException;
+   int getStars(String uuid) throws ApplicationManagementDAOException;
 
     /**
      *
@@ -375,7 +375,7 @@ public interface CommentDAO  {
      * @return
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
-    int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException;
+    int getRatedUser(String uuid) throws ApplicationManagementDAOException;
 
     /**
      * To get comment count for pagination

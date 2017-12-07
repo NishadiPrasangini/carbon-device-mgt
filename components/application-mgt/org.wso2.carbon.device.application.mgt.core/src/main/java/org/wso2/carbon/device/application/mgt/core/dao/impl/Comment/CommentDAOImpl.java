@@ -1112,7 +1112,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
 
     @Override
-    public int addStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException {
+    public int addStars(int stars,String uuid) throws ApplicationManagementDAOException {
 
         Connection connection;
 //        PreparedStatement statement = null;
@@ -1197,34 +1197,30 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //    }
 
     @Override
-    public int getStars(String version, String appName,String uuid) throws ApplicationManagementDAOException {
+    public int getStars(String uuid) throws ApplicationManagementDAOException {
+
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "select `STARS` from `AP_APP_RELEASE` where `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
-        ApplicationRelease applicationRelease = null;
-        ResultSet rsProperties = null;
+        String sql = "SELECT STARS FROM AP_APP_RELEASE WHERE UUID=?";
 
         try {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
-            statement.setString(1, version);
-            statement.setString(2, appName);
-
+            statement.setString(1,uuid);
             resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-
-                applicationRelease.setStars(resultSet.getInt(1));
-            }
+//            if (resultSet.next()) {
+//
+//                applicationRelease.setStars(resultSet.getInt(1));
+//            }
 //            insertApplicationReleaseProperties(connection, applicationRelease);
             return resultSet.getInt(1);
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
-                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
+                    "SQL Exception while trying to get stars from an application (UUID : " + uuid + "), by executing the query " + sql, e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                    "Database Connection Exception while trying to get of stars the application with UUID "
                             + uuid, e);
         } finally {
             Util.cleanupResources(statement, resultSet);
@@ -1271,34 +1267,26 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     }
 
     @Override
-    public int getRatedUser(String version, String appName,String uuid) throws ApplicationManagementDAOException {
+    public int getRatedUser(String uuid) throws ApplicationManagementDAOException {
+
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "select `NO_OF_RATED_USERS` from `AP_APP_RELEASE` where `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
-//        ApplicationRelease applicationRelease = null;
-//        ResultSet rsProperties = null;
+        String sql = "SELECT NO_OF_RATED_USERS FROM AP_APP_RELEASE WHERE UUID=?;";
 
         try {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
-            statement.setString(1, version);
-            statement.setString(2, appName);
-
+            statement.setString(1,uuid);
             resultSet = statement.executeQuery();
 
-//            if (resultSet.next()) {
-//
-//                applicationRelease.setNoOfRatedUsers(resultSet.getInt(1));
-//            }
-//            insertApplicationReleaseProperties(connection, applicationRelease);
             return resultSet.getInt(1);
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
-                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
+                    "SQL Exception while trying to get number of rated users to an application (UUID : " + uuid + "), by executing the query " + sql, e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+                    "Database Connection Exception while trying to get number of rated users of the applcation with UUID "
                             + uuid, e);
         } finally {
             Util.cleanupResources(statement, resultSet);

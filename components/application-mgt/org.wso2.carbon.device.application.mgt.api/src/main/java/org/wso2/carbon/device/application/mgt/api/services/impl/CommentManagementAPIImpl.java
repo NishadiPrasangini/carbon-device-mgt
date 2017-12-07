@@ -8,6 +8,7 @@ import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.Filter;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
+import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
@@ -124,30 +125,66 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         return Response.status(Response.Status.OK).entity("Comment is deleted successfully.").build();
     }
 
-//    @Override
-//    public Response getStars() throws Exception {
-//        CommentsManager commentsManager = APIUtil.getCommentsManager();
-//        List<Comment> comments = new ArrayList<>();
-//        try {
-//
-//            if(comments==null){
-//                return Response.created(null).build();
-//            }else {
-//
-//                ;
-//            }
-//        } catch (CommentManagementException e) {
-//            String msg = "Error occurred while retrieving comments.";
-//            log.error(msg, e);
-//            return Response.status(Response.Status.BAD_REQUEST).build();
-//        }
-//        return Response.status(Response.Status.OK).entity(comments).build();
-//    }
-//
-//    @Override
-//    public Response getRatedUsers() throws Exception {
-//        return null;
-//    }
+    @Override
+    @GET
+    @Path("/{uuid}")
+    public Response getStars(
+            @PathParam("uuid")
+                    String uuid) {
+
+        CommentsManager commentsManager = APIUtil.getCommentsManager();
+        int Stars=0;
+
+        try {
+            Stars= commentsManager.getStars(uuid);
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Response.status(Response.Status.OK).entity(Stars).build();
+    }
+
+    @Override
+    @GET
+    @Path("/{uuid}")
+    public Response getRatedUser(
+            @PathParam("uuid")
+            String uuid){
+
+        CommentsManager commentsManager = APIUtil.getCommentsManager();
+        int ratedUsers=0;
+
+        try {
+            ratedUsers= commentsManager.getRatedUser(uuid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Response.status(Response.Status.OK).entity(ratedUsers).build();
+    }
+
+    @Override
+    @POST
+    @Consumes("uuid/stars/json")
+    public Response addStars(
+            @ApiParam int stars,
+            @PathParam("uuid") String uuid) throws SQLException {
+
+        CommentsManager commentsManager = APIUtil.getCommentsManager();
+        int newStars=commentsManager.getStars(uuid);
+
+        try {
+            newStars = commentsManager.addStars(stars,uuid);
+            if (stars != 0){
+                return Response.status(Response.Status.CREATED).entity(newStars).build();
+            }else{
+                String msg = "Given star value is not valid ";
+                log.error(msg);
+                return  Response.status(Response.Status.BAD_REQUEST).build();
+            }
+        } catch (ApplicationManagementException e) {
+            e.printStackTrace();
+        }
+        return Response.status(Response.Status.OK).entity(newStars).build();
+    }
 
 
 }
