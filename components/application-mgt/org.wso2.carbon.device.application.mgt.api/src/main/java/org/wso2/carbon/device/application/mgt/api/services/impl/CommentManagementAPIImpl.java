@@ -173,6 +173,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         try {
             newStars = commentsManager.addStars(stars,uuid);
+
             if (stars != 0){
                 return Response.status(Response.Status.CREATED).entity(newStars).build();
             }else{
@@ -180,12 +181,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
                 log.error(msg);
                 return  Response.status(Response.Status.BAD_REQUEST).build();
             }
+
         } catch (ApplicationManagementException e) {
             e.printStackTrace();
         }
         return Response.status(Response.Status.OK).entity(newStars).build();
     }
-
-
 }
-

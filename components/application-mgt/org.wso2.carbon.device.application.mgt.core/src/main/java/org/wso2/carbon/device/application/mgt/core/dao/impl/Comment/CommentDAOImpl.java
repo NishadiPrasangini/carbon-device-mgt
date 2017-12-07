@@ -1090,68 +1090,43 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(5,appType);
             stmt.setInt(6,parentId);
 
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            try {
-                throw e;
-            } catch (DBConnectionException e1) {
-                e1.printStackTrace();
-            }
-        } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+        } catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
     }
 
-
     @Override
     public int addStars(int stars,String uuid) throws ApplicationManagementDAOException {
 
         Connection connection;
-//        PreparedStatement statement = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
 
-
-//        String sql = "INSERT INTO `AP_APP_RELEASE` (`VERSION`, `STARS`, `AP_APP_ID`) VALUES ('?', '?', '?');";
-//        int index = 0;
-//        int generatedColumns[] = {applicationRelease.getId()};
         try {
             connection = this.getDBConnection();
-//            statement = connection.prepareStatement(sql, generatedColumns);
-//            statement.setString(++index, version);
-//            statement.setInt(++index, stars);
-//            statement.setInt(++index,appId);
-//            statement.executeUpdate();
-
-//
-            String sql = "UPDATE `AP_APP_RELEASE` SET `NO_OF_RATED_USERS` = (`NO_OF_RATED_USERS` + 1) where ID='?';";
+            String sql = "UPDATE AP_APP_RELEASE SET STARS=?, NO_OF_RATED_USERS=(NO_OF_RATED_USERS+1) WHERE UUID=?;";
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, uuid);
+            stmt.setInt(1,stars);
+            stmt.setString(2, uuid);
             stmt.executeUpdate();
 
-//           resultSet = statement.getResultSet();
-//            if (resultSet.next()) {
-//                applicationRelease.setStars(resultSet.getInt(1));
-//
-//
-//            }
-//            insertApplicationReleaseProperties(connection, applicationRelease);
-            return stars;
+            resultSet = stmt.getResultSet();
+            if (resultSet.next()) {
+                ApplicationRelease applicationRelease=new ApplicationRelease();
+                applicationRelease.setStars(resultSet.getInt(1));
+
+                Util.cleanupResources(stmt, resultSet);
+                }
+            return getStars(uuid);
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " +  e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
-                            +uuid, e);
+                    "Database Connection Exception while trying to add stars the " + "applcation with UUID " +uuid, e);
         } finally {
             Util.cleanupResources(stmt, resultSet);
         }
@@ -1159,42 +1134,42 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //    @Override
 //    public int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException {
 //
-////        Connection connection;
-////        PreparedStatement statement = null;
-////        ResultSet resultSet = null;
-////
-////        if (applicationRelease.isDefault()) {
-////
-////        }
-//////        String sql = "UPDATE `APP_MANAGER`.`AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
-//////        int index = 0;
-//////       int generatedColumns[] = {applicationRelease.getId()};
-//////        try {
-//////            connection = this.getDBConnection();
-//////            statement = connection.prepareStatement(sql, generatedColumns);
-//////            statement.setInt(++index, updatedStars);
-//////            statement.setString(++index, version);
-//////            statement.setString(++index,appName);
-//////            statement.executeUpdate();
-//////            resultSet = statement.getGeneratedKeys();
-////            if (resultSet.next()) {
-////                applicationRelease.setStars(resultSet.getInt(1));
-////            }
-////            insertApplicationReleaseProperties(connection, applicationRelease);
-////            return updatedStars;
-////        } catch (SQLException e) {
-////            throw new ApplicationManagementDAOException(
-////                    "SQL Exception while trying to add stars to an application (UUID : " + applicationRelease
-////                            .getApplication().getUuid() + "), by executing the query " + sql, e);
-////        } catch (DBConnectionException e) {
-////            throw new ApplicationManagementDAOException(
-////                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
-////                            + applicationRelease.getApplication().getUuid(), e);
-////        } finally {
-////            Util.cleanupResources(statement, resultSet);
-////        }
+//        Connection connection;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//
+//        if (applicationRelease.isDefault()) {
+//
+//        }
+//        String sql = "UPDATE `APP_MANAGER`.`AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
+//        int index = 0;
+//       int generatedColumns[] = {applicationRelease.getId()};
+//        try {
+//            connection = this.getDBConnection();
+//            statement = connection.prepareStatement(sql, generatedColumns);
+//            statement.setInt(++index, updatedStars);
+//            statement.setString(++index, version);
+//            statement.setString(++index,appName);
+//            statement.executeUpdate();
+//            resultSet = statement.getGeneratedKeys();
+//            if (resultSet.next()) {
+//                applicationRelease.setStars(resultSet.getInt(1));
+//            }
+//            insertApplicationReleaseProperties(connection, applicationRelease);
+//            return updatedStars;
+//        } catch (SQLException e) {
+//            throw new ApplicationManagementDAOException(
+//                    "SQL Exception while trying to add stars to an application (UUID : " + applicationRelease
+//                            .getApplication().getUuid() + "), by executing the query " + sql, e);
+//        } catch (DBConnectionException e) {
+//            throw new ApplicationManagementDAOException(
+//                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
+//                            + applicationRelease.getApplication().getUuid(), e);
+//        } finally {
+//            Util.cleanupResources(statement, resultSet);
+//        }
 //        return updatedStars;
-//    }
+//
 
     @Override
     public int getStars(String uuid) throws ApplicationManagementDAOException {
@@ -1209,61 +1184,24 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement = connection.prepareStatement(sql);
             statement.setString(1,uuid);
             resultSet = statement.executeQuery();
-//            if (resultSet.next()) {
-//
-//                applicationRelease.setStars(resultSet.getInt(1));
-//            }
-//            insertApplicationReleaseProperties(connection, applicationRelease);
-            return resultSet.getInt(1);
+
+            if (resultSet.next()) {
+                ApplicationRelease applicationRelease = new ApplicationRelease();
+                applicationRelease.setStars(resultSet.getInt("STARS"));
+
+                Util.cleanupResources(statement, resultSet);
+                return applicationRelease.getStars();
+            }
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to get stars from an application (UUID : " + uuid + "), by executing the query " + sql, e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to get of stars the application with UUID "
-                            + uuid, e);
+                    "Database Connection Exception while trying to get of stars the application with UUID " + uuid, e);
         } finally {
             Util.cleanupResources(statement, resultSet);
         }
-
-    }
-
-    @Override
-    public int insertStars(String version, String appName, int stars,String uuid) throws ApplicationManagementDAOException {
-        Connection connection;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-//        ApplicationRelease applicationRelease = null;
-//
-//        if (applicationRelease.isDefault()) {
-//
-//        }
-        String sql = "UPDATE `AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
-        int index = 0;
-//       int generatedColumns[] = {applicationRelease.getId()};
-        try {
-            connection = this.getDBConnection();
-//            statement = connection.prepareStatement(sql, generatedColumns);
-            statement.setInt(++index, stars);
-            statement.setString(++index, version);
-            statement.setString(++index,appName);
-            statement.executeUpdate();
-//            resultSet = statement.getGeneratedKeys();
-//            if (resultSet.next()) {
-//                applicationRelease.setStars(resultSet.getInt(1));
-//            }
-//            insertApplicationReleaseProperties(connection, applicationRelease);
-            return stars;
-        } catch (SQLException e) {
-            throw new ApplicationManagementDAOException(
-                    "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing the query " + sql, e);
-        } catch (DBConnectionException e) {
-            throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
-                            + uuid, e);
-        } finally {
-            Util.cleanupResources(statement, resultSet);
-        }
+        return 0;
     }
 
     @Override
@@ -1280,18 +1218,22 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement.setString(1,uuid);
             resultSet = statement.executeQuery();
 
-            return resultSet.getInt(1);
+            if (resultSet.next()) {
+                ApplicationRelease applicationRelease = new ApplicationRelease();
+                applicationRelease.setNoOfRatedUsers(resultSet.getInt("NO_OF_RATED_USERS"));
+
+                Util.cleanupResources(statement, resultSet);
+                return applicationRelease.getNoOfRatedUsers();
+            }
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to get number of rated users to an application (UUID : " + uuid + "), by executing the query " + sql, e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to get number of rated users of the applcation with UUID "
-                            + uuid, e);
+                    "Database Connection Exception while trying to get number of rated users of the applcation with UUID " + uuid, e);
         } finally {
             Util.cleanupResources(statement, resultSet);
         }
-
+        return 0;
     }
-
 }

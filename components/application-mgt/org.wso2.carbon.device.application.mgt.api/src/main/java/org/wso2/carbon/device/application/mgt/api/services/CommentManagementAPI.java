@@ -152,6 +152,7 @@ public interface CommentManagementAPI {
                             message = "Internal Server Error. \n Error occurred adding a comment.",
                             response = ErrorResponse.class)
             })
+
     Response addComments(
             @ApiParam(
                     name = "comment",
@@ -164,8 +165,6 @@ public interface CommentManagementAPI {
                     required=true)
             @PathParam("uuid")
                     String uuid);
-
-
 
     @PUT
     @Path("/{uuid}/{comments}")
@@ -202,40 +201,40 @@ public interface CommentManagementAPI {
                     required = true)
             @QueryParam("uuid")
                     String uuid,
-
             @ApiParam(
                     name = "comment",
                     value = "The comment that need to be updated.",
                     required = true)
             @Valid Comment comment);
 
-            @DELETE
-            @Path("/uuid/{uuid}/identifier/{identifier}")
-            @Produces(MediaType.APPLICATION_JSON)
-            @Consumes(MediaType.APPLICATION_JSON)
-            @ApiOperation(
-                    consumes = MediaType.APPLICATION_JSON,
-                    produces = MediaType.APPLICATION_JSON,
-                    httpMethod = "DELETE",
-                    value = "Remove comment",
-                    notes = "Remove comment",
-                    tags = "Comment Management",
-                    extensions = {
-                            @Extension(properties = {
-                                    @ExtensionProperty(name = SCOPE, value = "perm:comment:remove")
-                            })
-                    }
-            )
-            @ApiResponses(
-                    value = {
-                            @ApiResponse(
-                                    code = 200,
-                                    message = "OK. \n Successfully deleted the comment"),
-                            @ApiResponse(
-                                    code = 500,
-                                    message = "Internal Server Error. \n Error occurred while deleting the comment.",
-                                    response = ErrorResponse.class)
+    @DELETE
+    @Path("/uuid/{uuid}/identifier/{identifier}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON,
+            httpMethod = "DELETE",
+            value = "Remove comment",
+            notes = "Remove comment",
+            tags = "Comment Management",
+            extensions = {
+                    @Extension(properties = {
+                            @ExtensionProperty(name = SCOPE, value = "perm:comment:remove")
                     })
+            }
+    )
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 200,
+                            message = "OK. \n Successfully deleted the comment"),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Error occurred while deleting the comment.",
+                            response = ErrorResponse.class)
+            })
 
     Response deleteComment(
                     @ApiParam(
@@ -251,127 +250,124 @@ public interface CommentManagementAPI {
                     @PathParam("identifier")
                             int identifier);
 
-
-
-            @GET
-            @Path("/{uuid}/{stars}")
-            @Produces(MediaType.APPLICATION_JSON)
-            @ApiOperation(
-                    produces = MediaType.APPLICATION_JSON,
-                    httpMethod = "GET",
-                    value = "get stars",
-                    notes = "Get all stars",
-                    tags = "Comment Management",
-                    extensions = {
-                            @Extension(properties = {
-                                    @ExtensionProperty(name = SCOPE, value = "perm:stars:get")
-                            })
-                    }
-            )
-
-            @ApiResponses(
-                    value = {
-                            @ApiResponse(
-                                    code = 200,
-                                    message = "OK. \n Successfully retrieved stars.",
-                                    response = List.class,
-                                    responseContainer = "List"),
-                            @ApiResponse(
-                                    code = 500,
-                                    message = "Internal Server Error. \n Error occurred while getting the stars",
-                                    response = ErrorResponse.class)
+    @GET
+    @Path("/{uuid}/{stars}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            produces = MediaType.APPLICATION_JSON,
+            httpMethod = "GET",
+            value = "get stars",
+            notes = "Get all stars",
+            tags = "Comment Management",
+            extensions = {
+                    @Extension(properties = {
+                            @ExtensionProperty(name = SCOPE, value = "perm:stars:get")
                     })
-            Response getStars(
-                    @ApiParam(
-                            name = "uuid",
-                            value = "uuid of the application release",
-                            required = true)
-                    @PathParam("uuid")
+            }
+    )
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 200,
+                            message = "OK. \n Successfully retrieved stars.",
+                            response = List.class,
+                            responseContainer = "List"),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Error occurred while getting the stars",
+                            response = ErrorResponse.class)
+            })
+
+    Response getStars(
+            @ApiParam(
+                    name = "uuid",
+                    value = "uuid of the application release",
+                    required = true)
+            @PathParam("uuid")
                     String uuid);
 
-
-            @GET
-            @Path("/{uuid}/{stars}")
-            @Produces(MediaType.APPLICATION_JSON)
-            @ApiOperation(
-                    produces = MediaType.APPLICATION_JSON,
-                    httpMethod = "GET",
-                    value = "get rated users",
-                    notes = "Get all users",
-                    tags = "Comment Management",
-                    extensions = {
-                            @Extension(properties = {
-                                    @ExtensionProperty(name = SCOPE, value = "perm:user:get")
-                            })
-                    }
-            )
-
-            @ApiResponses(
-                    value = {
-                            @ApiResponse(
-                                    code = 200,
-                                    message = "OK. \n Successfully retrieved user.",
-                                    response = List.class,
-                                    responseContainer = "List"),
-                            @ApiResponse(
-                                    code = 500,
-                                    message = "Internal Server Error. \n Error occurred while getting the comment list.",
-                                    response = ErrorResponse.class)
+    @GET
+    @Path("/{uuid}/{stars}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            produces = MediaType.APPLICATION_JSON,
+            httpMethod = "GET",
+            value = "get rated users",
+            notes = "Get all users",
+            tags = "Comment Management",
+            extensions = {
+                    @Extension(properties = {
+                            @ExtensionProperty(name = SCOPE, value = "perm:user:get")
                     })
-            Response getRatedUser(
-                    @ApiParam(
-                            name = "uuid",
-                            value = "uuid of the application release",
-                            required = true)
-                    @PathParam("uuid")
+            }
+    )
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 200,
+                            message = "OK. \n Successfully retrieved user.",
+                            response = List.class,
+                            responseContainer = "List"),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Error occurred while getting the comment list.",
+                            response = ErrorResponse.class)
+            })
+
+    Response getRatedUser(
+            @ApiParam(
+                    name = "uuid",
+                    value = "uuid of the application release",
+                    required = true)
+            @PathParam("uuid")
                     String uuid);
 
-            @POST
-            @Path("/uuid/{uuid}")
-            @Produces(MediaType.APPLICATION_JSON)
-            @Consumes(MediaType.APPLICATION_JSON)
-            @ApiOperation(
-                    consumes = MediaType.APPLICATION_JSON,
-                    produces = MediaType.APPLICATION_JSON,
-                    httpMethod = "POST",
-                    value = "Add a star value",
-                    notes = "This will add star value",
-                    tags = "Comment Management",
-                    extensions = {
-                            @Extension(properties = {
-                                    @ExtensionProperty(name = SCOPE, value = "perm:stars:add")
-                            })
-                    }
-            )
-
-            @ApiResponses(
-                    value = {
-                            @ApiResponse(
-                                    code = 201,
-                                    message = "OK. \n Successfully rated to the application.",
-                                    response = Comment.class),
-                            @ApiResponse(
-                                    code = 304,
-                                    message = "Not Modified. \n " +
-                                            "Empty body because the client already has the latest rating of the requested "
-                                            + "resource."),
-                            @ApiResponse(
-                                    code = 500,
-                                    message = "Internal Server Error. \n Error occurred rating for the application.",
-                                    response = ErrorResponse.class)
+    @POST
+    @Path("/uuid/{uuid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON,
+            httpMethod = "POST",
+            value = "Add a star value",
+            notes = "This will add star value",
+            tags = "Comment Management",
+            extensions = {
+                    @Extension(properties = {
+                            @ExtensionProperty(name = SCOPE, value = "perm:stars:add")
                     })
-            Response addStars(
-                    @ApiParam(
-                            name = "stars",
-                            value = "ratings for the application",
-                            required = true)
-                            int stars,
-                    @ApiParam(
-                            name="uuid",
-                            value="uuid of the release version of the application",
-                            required=true)
-                    @PathParam("uuid")
-                            String uuid) throws SQLException;
+            }
+    )
 
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 201,
+                            message = "OK. \n Successfully rated to the application.",
+                            response = Comment.class),
+                    @ApiResponse(
+                            code = 304,
+                            message = "Not Modified. \n " +
+                                    "Empty body because the client already has the latest rating of the requested resource."),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Error occurred rating for the application.",
+                            response = ErrorResponse.class)
+            })
 
+    Response addStars(
+            @ApiParam(
+                    name = "stars",
+                    value = "ratings for the application",
+                    required = true)
+                    int stars,
+            @ApiParam(
+                    name="uuid",
+                    value="uuid of the release version of the application",
+                    required=true)
+            @PathParam("uuid")
+                    String uuid) throws SQLException;
 }

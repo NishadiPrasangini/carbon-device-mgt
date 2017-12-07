@@ -731,27 +731,27 @@ public class CommentsManagerImpl implements CommentsManager {
 //        }
 //    }
 
-    @Override
-    public int updateStars(String version, String appName, int stars , String uuid) throws ApplicationManagementException {
-
-        if (log.isDebugEnabled()) {
-            log.debug("Stars are received for the application " + uuid);
-        }
-        try {
-            ConnectionManagerUtil.beginDBTransaction();
-            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().insertStars(version,appName,stars,uuid);
-            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
-
-            ConnectionManagerUtil.commitDBTransaction();
-            return avgStars;
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
+//    @Override
+//    public int updateStars(int stars , String uuid) throws ApplicationManagementException {
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Stars are received for the application " + uuid);
+//        }
+//        try {
+//            ConnectionManagerUtil.beginDBTransaction();
+//            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
+//            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(stars,uuid);
+//            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
+//
+//            ConnectionManagerUtil.commitDBTransaction();
+//            return avgStars;
+//        } catch (ApplicationManagementDAOException e) {
+//            ConnectionManagerUtil.rollbackDBTransaction();
+//            throw e;
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//    }
 
     @Override
     public int addStars( int stars , String uuid) throws ApplicationManagementException {

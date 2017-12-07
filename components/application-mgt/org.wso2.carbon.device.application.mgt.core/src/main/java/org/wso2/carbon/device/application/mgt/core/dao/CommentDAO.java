@@ -366,15 +366,6 @@ public interface CommentDAO  {
      * @return
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
-    int insertStars(String version, String appName,int stars,String uuid) throws ApplicationManagementDAOException;
-
-    /**
-     *
-     * @param version Version of the application
-     * @param appName  Name of the Application
-     * @return
-     * @throws ApplicationManagementDAOException Application Management DAO Exception.
-     */
     int getRatedUser(String uuid) throws ApplicationManagementDAOException;
 
     /**

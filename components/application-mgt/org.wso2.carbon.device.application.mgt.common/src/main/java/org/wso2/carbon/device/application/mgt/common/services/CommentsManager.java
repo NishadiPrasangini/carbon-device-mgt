@@ -295,16 +295,14 @@ public interface CommentsManager {
     Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
 
 
-    /**
-     *
-     * @param version Version of the application
-     * @param appName Id of the application
-     * @param stars amount of stars
-     * @param uuid uuid
-     * @return
-     * @throws ApplicationManagementException Application Management Exception.
-     */
-    int updateStars(String version, String appName,int stars,String uuid) throws ApplicationManagementException;
+//    /**
+//     *
+//     * @param stars amount of stars
+//     * @param uuid uuid
+//     * @return
+//     * @throws ApplicationManagementException Application Management Exception.
+//     */
+//    int updateStars(int stars,String uuid) throws ApplicationManagementException;
 
     /**
      *
