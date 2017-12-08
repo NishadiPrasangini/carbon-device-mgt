@@ -755,6 +755,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.beginDBTransaction();
             int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
+            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
             int totalStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(newStars,uuid);
             int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
 
