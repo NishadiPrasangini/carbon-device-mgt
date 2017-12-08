@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.sun.imageio.plugins.jpeg.JPEG.version;
+
 /**
  * This handles CommentDAO related operations.
  */
@@ -32,7 +34,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             throws CommentManagementException, DBConnectionException, SQLException {
 
         if (log.isDebugEnabled()) {
-            log.debug("Request received in DAO Layer to add COMMENT");
+            log.debug("Request received in DAO Layer to add comment for application release ("+uuid+")");
         }
 
         Connection conn=this.getDBConnection();
@@ -66,9 +68,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public int addComment(int tenantId,Comment comment, String createdBy, String appType, String appName,
                           String version) throws CommentManagementException, DBConnectionException, SQLException {
+
         if (log.isDebugEnabled()) {
-            log.debug("Request received in DAO Layer to add COMMENT");
+            log.debug("Request received in DAO Layer to add to application ("+appName+") and version ("+version+")");
         }
+
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
         ResultSet rs;
@@ -79,7 +83,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 "TYPE=? AND NAME=?)),(SELECT ID FROM AP_APP WHERE TYPE=? AND NAME=?));";
 
         try{
-
             stmt = conn.prepareStatement(sql, new String[] {"id"});
             stmt.setInt(++index, tenantId);
             stmt.setString(++index, comment.getComment());
@@ -90,13 +93,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(++index,appType);
             stmt.setString(++index,appName);
 
-
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 commentId = rs.getInt(1);
             }
-
         } catch (SQLException e) {
             throw e;
 
@@ -109,14 +110,16 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public Comment updateComment(int apAppCommentId, String updatedComment, String modifiedBy, Timestamp modifiedAt)
             throws CommentManagementException, DBConnectionException, SQLException {
+
+        if (log.isDebugEnabled()) {
+            log.debug("Request received in DAO Layer to update the comment with ID ("+apAppCommentId+")");
+        }
+
         Connection connection;
         PreparedStatement statement = null;
-
-//        Comment comment=null;
         ResultSet rs = null;
 
         String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?, MODEFIED_BY=?, MODEFIED_AT=? WHERE ID=?;";
-
         try {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
@@ -127,7 +130,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
             statement.executeUpdate();
             rs= statement.executeQuery();
-
 //            while (rs.next()) {
 //
 //
@@ -147,9 +149,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //                    return comment;
 //                }
 //            }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(statement, rs);
@@ -159,6 +159,12 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     public Comment updateComment(String uuid, int apAppCommentID,String updatedComment, String modifiedBy, Timestamp
             modifiedAt) throws CommentManagementException, DBConnectionException, SQLException {
+
+        if (log.isDebugEnabled()) {
+            log.debug("Request received in DAO Layer to update the comment with application ("+uuid+") and " +
+                    "comment id ( "+apAppCommentID+")");
+        }
+
         Connection connection;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -173,7 +179,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement.setInt(4,apAppCommentID);
             statement.executeUpdate();
             rs= statement.executeQuery();
-
 //            while (rs.next()) {
 //
 //
@@ -193,9 +198,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //                    return comment;
 //                }
 //            }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(statement, rs);
@@ -203,11 +206,10 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         return getComment(apAppCommentID);
     }
 
-
     @Override
     public Comment getComment(int apAppCommentId) throws CommentManagementException {
         if (log.isDebugEnabled()) {
-            log.debug("Getting comment with the ap_comment_id(" + apAppCommentId + ") from the database");
+            log.debug("Getting comment with the comment id(" + apAppCommentId + ") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
@@ -247,45 +249,48 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         return null;
     }
 
-//    @Override
-//    public List<Comment> getComment(String uuid) throws CommentManagementException{
-//
-//        List<Comment> comments=new ArrayList<>();
-//        if (log.isDebugEnabled()) {
-//            log.debug("Getting comment with the application release(" +uuid + ") from the database");
-//        }
-//        Connection conn;
-//        PreparedStatement stmt = null;
-//        ResultSet rs ;
-//        String sql = "";
-//        try {
-//            conn = this.getDBConnection();
-//            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE (SELECT ID FROM AP_APP_RELEASE where UUID=?)AND " +
-//                    "(SELECT AP_APP_ID FROM AP_APP_RELEASE where UUID=?);";
-//            stmt = conn.prepareStatement(sql);
-//            stmt.setString(1, uuid);
-//            stmt.setString(2,uuid);
-//            rs=stmt.executeQuery();
-//            while (rs.next()) {
-//                Comment comment=new Comment();
-//                comment.setId(rs.getInt("ID"));
-//                comment.setTenantId(rs.getInt("TENANT_ID"));
-//                comment.setComment(rs.getString("COMMENT_TEXT"));
-//                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
-//                comment.setCreatedBy(rs.getString("CREATED_BY"));
-//                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
-//                comment.setModifiedBy(rs.getString("MODEFIED_AT"));
-//                comment.setParent(rs.getInt("PARENT_ID"));
-//
-//                comments.add(comment);
-//            }
-//        }   catch (DBConnectionException | SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            Util.cleanupResources(stmt, null);
-//        }
-//        return null;
-//    }
+    @Override
+    public List<Comment> getComment(String uuid) throws CommentManagementException{
+
+        if (log.isDebugEnabled()) {
+            log.debug("Getting comment with the application release(" +uuid + ") from the database");
+        }
+        Connection conn;
+        PreparedStatement stmt = null;
+        ResultSet rs ;
+        String sql = "";
+        List<Comment> comments=new ArrayList<>();
+
+        try {
+            conn = this.getDBConnection();
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE (SELECT ID FROM AP_APP_RELEASE where UUID=?)AND " +
+                    "(SELECT AP_APP_ID FROM AP_APP_RELEASE where UUID=?);";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uuid);
+            stmt.setString(2,uuid);
+            rs=stmt.executeQuery();
+
+            while (rs.next()) {
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("MODEFIED_AT"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
+                comments.add(comment);
+            }
+        }   catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
+        return comments;
+    }
 
 
 
@@ -293,7 +298,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     public List<Comment> getAllComments(String uuid) throws CommentManagementException, SQLException,
             DBConnectionException {
         if (log.isDebugEnabled()) {
-            log.debug("Getting comment from the database");
+            log.debug("Getting comment of the application release ("+uuid+") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
@@ -331,6 +336,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     @Override
     public int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException {
+
         int commentCount = 0;
         Connection conn;
         PreparedStatement stmt = null;
@@ -420,7 +426,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //                    isCreatedAtProvided = true;
 //                }
 //            }
-
             if (isUuidProvided) {
                 String sql = "SELECT COUNT(AP_APP_COMMENT.ID) FROM AP_APP_COMMENT,AP_APP_RELEASE " +
                         "WHERE AP_APP_COMMENT.AP_APP_RELEASE_ID= AP_APP_RELEASE.ID AND " +
@@ -428,7 +433,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, uuid);
                 rs = stmt.executeQuery();
-
 //            if (isParentCommentprovided) {
 //                stmt.setInt(paramIdx++, request.getParent());
 //            }
@@ -477,47 +481,42 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     @Override
     public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
+
         if (log.isDebugEnabled()) {
-            log.debug("Getting comments with the ap_release_id(" + appReleasedId + ") and app id("+appId+") " +
-                    "from the database");
+            log.debug("Getting comments with the application release id(" + appReleasedId + ") and " +
+                    "application id("+appId+") from the database");
         }
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs ;
         String sql = "";
-        Comment comment=null;
         List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? AND AP_APP_ID=?;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setInt(1, appReleasedId);
             stmt.setInt(2,appId);
-            stmt.addBatch();
-//            comments = new ArrayList<>();
             rs=stmt.executeQuery();
-            while (rs.next()) {
 
-                comment.setComment(rs.getString(1));
+            while (rs.next()) {
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
+        } catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
 
-        } catch (DBConnectionException e) {
-            try {
-                throw e;
-            } catch (DBConnectionException e1) {
-                e1.printStackTrace();
-            }
-        } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -533,12 +532,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         }
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments ;
+        List<Comment> comments =new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID FROM AP_APP_COMMENT C ,"+
                     "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=?) R,"+
@@ -547,20 +545,25 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                     "ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, version);
             stmt.setString(2,appName);
             stmt.setString(3,appType);
-            comments = new ArrayList<>();
+            rs=stmt.executeQuery();
+
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -571,34 +574,39 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public List<Comment> getComments(int tenantId) throws CommentManagementException, DBConnectionException,
             SQLException {
+
         if (log.isDebugEnabled()) {
             log.debug("Getting comments with the tenant_id(" + tenantId + ")  from the database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
-            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE TENANT_ID='?' ;";
+            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT WHERE TENANT_ID='?';";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setInt(1, tenantId);
-            while (rs.next()) {
+            rs=stmt.executeQuery();
 
-                Comment comment = new Comment();
-               comment.setComment(rs.getString(1));
+            while (rs.next()) {
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -609,35 +617,40 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public List<Comment> getCommentsByUser(String createdBy) throws CommentManagementException, DBConnectionException,
             SQLException {
+
         if (log.isDebugEnabled()) {
             log.debug("Getting comments with the created by(" + createdBy + ")  from the database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT ,PARENT_ID,TENANT_ID,CREATED_AT FROM AP_APP_COMMENT WHERE CREATED_BY= ?" +
                     " ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, createdBy);
+            rs=stmt.executeQuery();
 
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -648,35 +661,41 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public List<Comment> getCommentsByUser(String createdBy, Timestamp createdAt) throws CommentManagementException,
             DBConnectionException, SQLException {
+
         if (log.isDebugEnabled()) {
             log.debug("Getting comments with the created by(" + createdBy + ") at ("+createdAt+") from the database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID FROM AP_APP_COMMENT WHERE CREATED_BY=?" +
                     "AND CREATED_AT= ? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, createdBy);
             stmt.setTimestamp(2,createdAt);
+            rs=stmt.executeQuery();
+
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -687,35 +706,40 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public List<Comment> getCommentsByModifiedUser(String modifiedBy) throws CommentManagementException,
             DBConnectionException, SQLException {
+
         if (log.isDebugEnabled()) {
             log.debug("Getting comments with the modified by(" +modifiedBy + ")  from the database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs ;
         String sql = "";
-        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID,CREATED_AT,MODEFIED_AT FROM AP_APP_COMMENT " +
                     "WHERE MODEFIED_BY= ? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, modifiedBy);
+            rs=stmt.executeQuery();
 
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -726,36 +750,42 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public List<Comment> getCommentsByModifiedUser(String modifiedBy, Timestamp modifiedAt)
             throws CommentManagementException, DBConnectionException, SQLException {
+
         if (log.isDebugEnabled()) {
-            log.debug("Getting comments with the modified by(" +modifiedBy + ")  from the database");
+            log.debug("Getting comments with the modified by(" +modifiedBy + ") at ("+modifiedAt+") from the " +
+                    "database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments = null;
+        List<Comment> comments = new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
-            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID,CREATED_AT FROM AP_APP_COMMENT" +
-                    "WHERE MODEFIED_BY= ?,MODEFIED_AT=? ORDER BY CREATED_AT DESC;";
+            sql += "SELECT COMMENT_TEXT,PARENT_ID,TENANT_ID,CREATED_AT FROM AP_APP_COMMENT WHERE MODEFIED_BY= ?," +
+                    "MODEFIED_AT=? ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, modifiedBy);
             stmt.setTimestamp(2,modifiedAt);
+            rs=stmt.executeQuery();
 
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -769,16 +799,16 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         if (log.isDebugEnabled()) {
             log.debug("Getting comments with the application name(" + appName + "),application type("+appType+") and" +
-                    "CommentManagementException application version ("+version+") from the database");
+                    "application version ("+version+") from the database");
         }
+
         Connection conn;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "";
-        List<Comment> comments ;
+        List<Comment> comments =new ArrayList<>();
 
         try {
-
             conn = this.getDBConnection();
             sql += "SELECT COMMENT_TEXT,TENANT_ID FROM AP_APP_COMMENT C ," +
                     "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=? ) " +
@@ -787,22 +817,26 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                     "AP_APP_ID=RELEASE_AP_APP_ID ORDER BY CREATED_AT DESC;";
 
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, version);
             stmt.setString(2,appName);
-
             stmt.setString(3,appType);
             stmt.setInt(4,parentId);
-            comments = new ArrayList<>();
+            rs=stmt.executeQuery();
+
             while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setComment(rs.getString(1));
+                Comment comment=new Comment();
+                comment.setId(rs.getInt("ID"));
+                comment.setTenantId(rs.getInt("TENANT_ID"));
+                comment.setComment(rs.getString("COMMENT_TEXT"));
+                comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
+                comment.setCreatedBy(rs.getString("CREATED_BY"));
+                comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
+                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setParent(rs.getInt("PARENT_ID"));
+
                 comments.add(comment);
             }
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -810,28 +844,55 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
        return comments;
     }
 
+    @Override
+    public int getCommentCount(String uuid) throws CommentManagementException, DBConnectionException,
+            SQLException {
+
+        Connection conn;
+        PreparedStatement stmt = null;
+        int commentCount = 0;
+
+        try {
+            conn = this.getDBConnection();
+            String sql = "\n" +
+                    "SELECT COUNT(AP_APP_COMMENT.ID) FROM AP_APP_COMMENT,AP_APP_RELEASE WHERE " +
+                    "AP_APP_COMMENT.AP_APP_RELEASE_ID=AP_APP_RELEASE.ID AND AP_APP_COMMENT.AP_APP_ID=" +
+                    "AP_APP_RELEASE.AP_APP_ID AND AP_APP_RELEASE.UUID=?;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uuid);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                commentCount = rs.getInt("COMMENT_COUNT");
+            }
+        } catch (DBConnectionException | SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
+        }
+        return commentCount;
+    }
 
     @Override
     public int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException,
             SQLException {
+
         Connection conn;
         PreparedStatement stmt = null;
         int commentCount = 0;
+
         try {
             conn = this.getDBConnection();
             String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE CREATED_BY= ?;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, createdBy);
-
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -844,58 +905,54 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public int getCommentCountByUser(String modifiedBy, Timestamp modifedAt) throws CommentManagementException,
             DBConnectionException, SQLException {
+
         Connection conn;
         PreparedStatement stmt = null;
         int commentCount = 0;
+
         try {
             conn = this.getDBConnection();
             String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE MODEFIED_BY= ? AND MODEFIED_AT=?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, modifiedBy);
             stmt.setTimestamp(2, modifedAt);
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-
         }
         return commentCount;
-
     }
 
     @Override
     public int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException,
             DBConnectionException, SQLException {
+
         Connection conn;
         PreparedStatement stmt = null;
         int commentCount = 0;
+
         try {
             conn = this.getDBConnection();
             String sql = "SELECT COUNT(ID) FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? AND AP_APP_ID=?;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, appReleaseId);
             stmt.setInt(2, appId);
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
-
         }
         return commentCount;
     }
@@ -903,15 +960,18 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException,
             DBConnectionException, SQLException {
+
         Connection conn;
         PreparedStatement stmt = null;
         int commentCount = 0;
+
         try {
             conn = this.getDBConnection();
             String sql = "SELECT COUNT(ID) AS COMMENT_COUNT FROM AP_APP_COMMENT C, " +
                     "(SELECT ID AS RELEASE_ID, AP_APP_ID AS RELEASE_AP_APP_ID FROM AP_APP_RELEASE R WHERE VERSION=? )R," +
                     "(SELECT ID AS APP_ID FROM AP_APP P WHERE NAME=? and TYPE=?)P " +
                     "WHERE AP_APP_RELEASE_ID=RELEASE_ID AND RELEASE_AP_APP_ID=APP_ID AND AP_APP_ID=RELEASE_AP_APP_ID;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2, appName);
@@ -921,13 +981,37 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
+        }
+        return commentCount;
+    }
 
+    public int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException, SQLException {
+
+        Connection conn;
+        PreparedStatement stmt = null;
+        int commentCount = 0;
+
+        try {
+            conn = this.getDBConnection();
+            String sql = "SELECT COUNT(AP_APP_COMMENT.ID) FROM AP_APP_COMMENT,AP_APP_RELEASE WHERE " +
+                    "AP_APP_COMMENT.AP_APP_RELEASE_ID=AP_APP_RELEASE.ID AND " +
+                    "AP_APP_COMMENT.AP_APP_ID=AP_APP_RELEASE.AP_APP_ID and AP_APP_RELEASE.UUID=? and PARENT_ID=?;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1,uuid);
+            stmt.setInt(2,parentId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                commentCount = rs.getInt("COMMENT_COUNT");
+            }
+        } catch (DBConnectionException | SQLException e) {
+            throw e;
+        } finally {
+            Util.cleanupResources(stmt, null);
         }
         return commentCount;
     }
@@ -938,66 +1022,59 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE ID=?;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, apAppCommentId);
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
         }
-
     }
 
     public void deleteComment(String uuid) throws CommentManagementException, DBConnectionException, SQLException {
 
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
                     "(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)AND (SELECT AP_APP_ID FROM AP_APP_RELEASE " +
                     "WHERE UUID=?);";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1,uuid);
             stmt.setString(2,uuid);
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
         }
-
     }
 
     @Override
     public void deleteComments(int appId, int appReleaseID) throws CommentManagementException, DBConnectionException,
             SQLException {
+
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=? and AP_APP_ID=?;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, appReleaseID);
             stmt.setInt(2,appId);
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
             Util.cleanupResources(stmt, null);
@@ -1009,50 +1086,42 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
                     "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
                     "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
                     "(SELECT AP_APP_ID FROM AP_APP AND NAME=? AND TYPE=?);";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2,appName);
             stmt.setString(3,appType);
             stmt.setString(4,appName);
             stmt.setString(5,appType);
-
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            try {
-                throw e;
-            } catch (DBConnectionException e1) {
-                e1.printStackTrace();
-            }
-        } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+        } catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
-        }
+    }
 
     @Override
     public void deleteComments(String appType, String appName, String version, String createdBy)
             throws CommentManagementException {
+
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
                     "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
                     "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
                     "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? and TYPE=?) AND CREATED_BY=?;";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, version);
             stmt.setString(2,appName);
@@ -1060,46 +1129,30 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(4,appName);
             stmt.setString(5,appType);
             stmt.setString(6,createdBy);
-
-
             stmt.executeUpdate();
-
-        } catch (DBConnectionException e) {
-            try {
-                throw e;
-            } catch (DBConnectionException e1) {
-                e1.printStackTrace();
-            }
-        } catch (SQLException e) {
-            try {
-                throw e;
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+        } catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
     }
 
     @Override
-    public void deleteComments(String appType, String appName, String version, int parentId)
+    public void deleteComments(String uuid,int parentId)
             throws CommentManagementException {
+
         Connection conn;
         PreparedStatement stmt = null;
+
         try {
             conn = this.getDBConnection();
-            String sql = "DELETE FROM AP_APP_COMMENT WHERE " +
-                    "(SELECT AP_APP_RELEASE_ID FROM AP_APP_RELEASE WHERE VERSION=? AND " +
-                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?)) AND " +
-                    "(SELECT AP_APP_ID FROM AP_APP WHERE NAME=? AND TYPE=?) AND PARENT_ID=?;";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, version);
-            stmt.setString(2,appName);
-            stmt.setString(3,appType);
-            stmt.setString(4,appName);
-            stmt.setString(5,appType);
-            stmt.setInt(6,parentId);
+            String sql = "DELETE FROM AP_APP_COMMENT WHERE AP_APP_RELEASE_ID=(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?) " +
+                    "AND AP_APP_ID=(SELECT AP_APP_ID FROM AP_APP_RELEASE where UUID=?)AND PARENT_ID=?;";
 
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1,uuid);
+            stmt.setString(2,uuid);
+            stmt.setInt(3,parentId);
             stmt.executeUpdate();
         } catch (DBConnectionException | SQLException e) {
             e.printStackTrace();
@@ -1118,12 +1171,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         try {
             connection = this.getDBConnection();
             String sql = "UPDATE AP_APP_RELEASE SET STARS=?, NO_OF_RATED_USERS=(NO_OF_RATED_USERS+1) WHERE UUID=?;";
+
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1,stars);
             stmt.setString(2, uuid);
             stmt.executeUpdate();
-
             resultSet = stmt.getResultSet();
+
             if (resultSet.next()) {
                 ApplicationRelease applicationRelease=new ApplicationRelease();
                 applicationRelease.setStars(resultSet.getInt(1));
@@ -1137,7 +1191,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                             "the query " +  e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "applcation with UUID " +uuid, e);
+                    "Database Connection Exception while trying to add stars the " + "application with UUID " +uuid, e);
         } finally {
             Util.cleanupResources(stmt, resultSet);
         }
@@ -1188,10 +1242,12 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT STARS FROM AP_APP_RELEASE WHERE UUID=?";
+        String sql;
 
         try {
             connection = this.getDBConnection();
+            sql="SELECT STARS FROM AP_APP_RELEASE WHERE UUID=?;";
+
             statement = connection.prepareStatement(sql);
             statement.setString(1,uuid);
             resultSet = statement.executeQuery();
@@ -1206,7 +1262,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to get stars from an application (UUID : " + uuid + "), by executing " +
-                            "the query " + sql, e);
+                            "the query " + e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
                     "Database Connection Exception while trying to get of stars the application with UUID " + uuid, e);
@@ -1222,10 +1278,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT NO_OF_RATED_USERS FROM AP_APP_RELEASE WHERE UUID=?;";
+        String sql;
 
         try {
             connection = this.getDBConnection();
+            sql = "SELECT NO_OF_RATED_USERS FROM AP_APP_RELEASE WHERE UUID=?;";
             statement = connection.prepareStatement(sql);
             statement.setString(1,uuid);
             resultSet = statement.executeQuery();
@@ -1240,7 +1297,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to get number of rated users to an application (UUID : " + uuid + ")," +
-                            "by executing the query " + sql, e);
+                            "by executing the query " + e);
         } catch (DBConnectionException e) {
             throw new ApplicationManagementDAOException(
                     "Database Connection Exception while trying to get number of rated users of the application " +
