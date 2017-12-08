@@ -315,7 +315,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             rs= stmt.executeQuery();
 
             while (rs.next()) {
-//                Comment comment=Util.loadComment(rs);
                 Comment comment=new Comment();
                 comment.setId(rs.getInt("ID"));
                 comment.setTenantId(rs.getInt("TENANT_ID"));

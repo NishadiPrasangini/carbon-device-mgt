@@ -805,7 +805,7 @@ public class CommentsManagerImpl implements CommentsManager {
     public int getRatedUser(String uuid){
 
         if (log.isDebugEnabled()) {
-            log.debug("Get the rated users");
+            log.debug("Get the rated users for the application release number"+uuid);
         }
         try {
             ConnectionManagerUtil.openDBConnection();
