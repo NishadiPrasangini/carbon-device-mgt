@@ -93,8 +93,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentId = rs.getInt(1);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
 
         } finally {
             Util.cleanupResources(stmt, null);
@@ -119,17 +117,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, updatedComment);
-            statement.setString(2,modifiedBy);
-            statement.setTimestamp(3,modifiedAt);
-            statement.setInt(4,apAppCommentId);
+            statement.setString(2, modifiedBy);
+            statement.setTimestamp(3, modifiedAt);
+            statement.setInt(4, apAppCommentId);
 
             statement.executeUpdate();
-            rs= statement.executeQuery();
+            rs = statement.executeQuery();
 
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(statement, rs);
         }
@@ -159,11 +153,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement.executeUpdate();
             rs= statement.executeQuery();
 
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
-        } finally {
+          } finally {
             Util.cleanupResources(statement, rs);
         }
         return getComment(apAppCommentID);
@@ -202,7 +192,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             }
 
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information of all comments", e);
+            throw new CommentManagementException("Error occurred while retrieving information of the comment "+apAppCommentId, e);
         } catch (DBConnectionException e) {
             e.printStackTrace();
         }   finally {
@@ -246,8 +236,10 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        }   catch (DBConnectionException | SQLException e) {
+        } catch (DBConnectionException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new CommentManagementException("Error occurred while retrieving comments", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -323,7 +315,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
+            throw new CommentManagementException("Error occurred while retrieving count of comments", e);
         } catch (DBConnectionException e) {
             e.printStackTrace();
         } finally {
@@ -372,7 +364,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             e.printStackTrace();
 
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
+            throw new CommentManagementException("Error occurred while retrieving information of comments", e);
 
         } finally {
             Util.cleanupResources(stmt, null);
@@ -420,10 +412,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -465,10 +453,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -511,10 +495,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -558,10 +538,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -604,10 +580,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -652,8 +624,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException | SQLException e) {
-            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -703,10 +673,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
                 comments.add(comment);
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -734,8 +700,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException | SQLException e) {
-            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -761,10 +725,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
 
@@ -792,8 +752,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException | SQLException e) {
-            e.printStackTrace();
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -820,10 +778,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -854,10 +808,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -883,10 +833,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentCount = rs.getInt("COMMENT_COUNT");
             }
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -907,10 +853,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, apAppCommentId);
             stmt.executeUpdate();
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -931,10 +873,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(1,uuid);
             stmt.setString(2,uuid);
             stmt.executeUpdate();
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -955,10 +893,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setInt(1, appReleaseID);
             stmt.setInt(2,appId);
             stmt.executeUpdate();
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -987,7 +921,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (DBConnectionException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
+            throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -1015,8 +949,10 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(5,appType);
             stmt.setString(6,createdBy);
             stmt.executeUpdate();
-        } catch (DBConnectionException | SQLException e) {
+        } catch (DBConnectionException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
@@ -1042,7 +978,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (DBConnectionException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            throw new CommentManagementException("Error occurred while retrieving information", e);
+            throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
             Util.cleanupResources(stmt, null);
         }
