@@ -360,7 +360,7 @@ public interface CommentDAO  {
      * @return Star value
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
-    int addStars(int stars,String uuid) throws ApplicationManagementDAOException;
+    int updateStars(int stars, String uuid) throws ApplicationManagementDAOException;
 
     /**
      * To update the rated stars.

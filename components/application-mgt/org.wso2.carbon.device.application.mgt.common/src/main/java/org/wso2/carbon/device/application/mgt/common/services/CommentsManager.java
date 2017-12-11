@@ -368,7 +368,7 @@ public interface CommentsManager {
      * @return value of the added stars
      * @throws ApplicationManagementException Application Management Exception.
      */
-    int addStars(int stars,String uuid) throws ApplicationManagementException;
+    int updateStars(int stars, String uuid) throws ApplicationManagementException;
 
     /**
      * To get number of rated users

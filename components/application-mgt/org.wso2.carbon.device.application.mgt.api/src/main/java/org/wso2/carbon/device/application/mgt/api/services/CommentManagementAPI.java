@@ -359,7 +359,7 @@ public interface CommentManagementAPI {
                             response = ErrorResponse.class)
             })
 
-    Response addStars(
+    Response updateStars(
             @ApiParam(
                     name = "stars",
                     value = "ratings for the application",

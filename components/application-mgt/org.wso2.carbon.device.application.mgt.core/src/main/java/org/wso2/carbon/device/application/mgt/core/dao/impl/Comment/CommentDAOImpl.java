@@ -1161,7 +1161,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     }
 
     @Override
-    public int addStars(int stars,String uuid) throws ApplicationManagementDAOException {
+    public int updateStars(int stars, String uuid) throws ApplicationManagementDAOException {
 
         Connection connection;
         PreparedStatement stmt = null;

@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.device.application.mgt.api.APIUtil;
 import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
-import org.wso2.carbon.device.application.mgt.common.Filter;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
@@ -164,7 +163,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Override
     @POST
     @Consumes("uuid/stars/json")
-    public Response addStars(
+    public Response updateStars(
             @ApiParam int stars,
             @PathParam("uuid") String uuid) throws SQLException {
 
@@ -172,7 +171,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         int newStars=commentsManager.getStars(uuid);
 
         try {
-            newStars = commentsManager.addStars(stars,uuid);
+            newStars = commentsManager.updateStars(stars,uuid);
 
             if (stars != 0){
                 return Response.status(Response.Status.CREATED).entity(newStars).build();

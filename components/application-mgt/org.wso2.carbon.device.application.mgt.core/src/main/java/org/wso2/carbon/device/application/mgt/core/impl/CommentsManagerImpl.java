@@ -28,7 +28,6 @@ import org.wso2.carbon.device.application.mgt.common.exception.TransactionManage
 import org.wso2.carbon.device.application.mgt.common.services.*;
 import org.wso2.carbon.device.application.mgt.core.dao.CommentDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.ApplicationManagementDAOFactory;
-import org.wso2.carbon.device.application.mgt.core.dao.common.DAOFactory;
 import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 import org.wso2.carbon.device.application.mgt.core.exception.NotFoundException;
@@ -39,8 +38,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
-import static sun.security.pkcs.PKCS8Key.version;
 
 /**
  * This class is the default implementation for the Managing the comments.
@@ -706,7 +703,7 @@ public class CommentsManagerImpl implements CommentsManager {
     }
 
     //    @Override
-//    public int addStars(String version, int appId, int stars, ApplicationRelease applicationRelease) throws ApplicationManagementException {
+//    public int updateStars(String version, int appId, int stars, ApplicationRelease applicationRelease) throws ApplicationManagementException {
 //        if (log.isDebugEnabled()) {
 //            log.debug("Stars are received for the application " + applicationRelease.getId());
 //        }
@@ -756,7 +753,7 @@ public class CommentsManagerImpl implements CommentsManager {
 //            ConnectionManagerUtil.beginDBTransaction();
 //            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
 //            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
-//            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(newStars,uuid);
+//            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().updateStars(newStars,uuid);
 //            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
 //
 //            ConnectionManagerUtil.commitDBTransaction();
@@ -770,7 +767,7 @@ public class CommentsManagerImpl implements CommentsManager {
 //    }
 
     @Override
-    public int addStars(int stars , String uuid) throws ApplicationManagementException {
+    public int updateStars(int stars , String uuid) throws ApplicationManagementException {
 
         if (log.isDebugEnabled()) {
             log.debug("Stars are received for the application " + uuid);
@@ -779,7 +776,7 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.beginDBTransaction();
 
             int ratedUsers=ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-            int newStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(stars,uuid);
+            int newStars=ApplicationManagementDAOFactory.getCommentDAO().updateStars(stars,uuid);
             int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
 
             if(ratedUsers!=0 && newStars!=0) {
