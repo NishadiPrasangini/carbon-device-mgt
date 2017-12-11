@@ -1,6 +1,8 @@
 package org.wso2.carbon.device.application.mgt.api.services;
 
 import io.swagger.annotations.*;
+import org.wso2.carbon.apimgt.annotations.api.Scope;
+import org.wso2.carbon.apimgt.annotations.api.Scopes;
 import org.wso2.carbon.device.application.mgt.api.beans.ErrorResponse;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 
