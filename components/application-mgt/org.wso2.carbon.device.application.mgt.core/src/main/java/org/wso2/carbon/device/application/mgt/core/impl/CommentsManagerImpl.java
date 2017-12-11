@@ -55,33 +55,6 @@ public class CommentsManagerImpl implements CommentsManager {
         this.commentDAO= ApplicationManagementDAOFactory.getCommentDAO();
     }
 
-//    @Override
-//    public int addComment(int tenantId, Comment comment, String createdBy, int parentId, int appReleaseId, int appId)
-//            throws CommentManagementException  {
-//        Comment validation= validateComment(comment.getId(),comment.getComment());
-//
-//        if (log.isDebugEnabled()) {
-//            log.debug("Request for comment is received. " + validation.toString());
-//        }
-////        comment.setCreatedAt(Timestamp.from(Instant.now()));
-//        try {
-//            ConnectionManagerUtil.beginDBTransaction();
-//            Application application=null;
-//
-////            String comm=comment.toString();
-//            ApplicationManagementDAOFactory.getCommentDAO().addComment(tenantId,comment,createdBy,parentId,
-//                    application.getUuid());
-//            ConnectionManagerUtil.commitDBTransaction();
-//            return comment.getId();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionManagerUtil.closeDBConnection();
-//        }
-//        return comment.getId();
-//    }
-
     @Override
     public int addComment(Comment comment, String createdBy, String appType, String appName, String version)
             throws CommentManagementException {
@@ -184,7 +157,7 @@ public class CommentsManagerImpl implements CommentsManager {
     public List<Comment> getAllComments(String uuid) throws CommentManagementException {
 
         if (log.isDebugEnabled()) {
-            log.debug("get all comments");
+            log.debug("get all comments comments of application uuid "+uuid);
         }
 
         try {
@@ -448,7 +421,6 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.closeDBConnection();
         }
         return 0;
-
     }
 
     @Override
@@ -470,7 +442,6 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.closeDBConnection();
         }
         return 0;
-
     }
 
     @Override
@@ -671,9 +642,7 @@ public class CommentsManagerImpl implements CommentsManager {
             ApplicationManagementDAOFactory.getCommentDAO().deleteComments(uuid,parentId);
 
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (TransactionManagementException e) {
-            e.printStackTrace();
-        } catch (DBConnectionException e) {
+        } catch (TransactionManagementException | DBConnectionException e) {
             e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
@@ -702,28 +671,6 @@ public class CommentsManagerImpl implements CommentsManager {
         return ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
     }
 
-    //    @Override
-//    public int updateStars(String version, int appId, int stars, ApplicationRelease applicationRelease) throws ApplicationManagementException {
-//        if (log.isDebugEnabled()) {
-//            log.debug("Stars are received for the application " + applicationRelease.getId());
-//        }
-//
-//        try {
-//
-//            ConnectionManagerUtil.beginDBTransaction();
-//            int avgStars=(applicationRelease.getStars()*(applicationRelease.getNoOfRatedUsers()-1))/applicationRelease.getNoOfRatedUsers();
-////            applicationRelease.setStars(avgStars);
-//            DAOFactory.getApplicationReleaseDAO().insertStars(version,appId,avgStars);
-//            ConnectionManagerUtil.commitDBTransaction();
-//            return avgStars;
-//        } catch (ApplicationManagementDAOException e) {
-//            ConnectionManagerUtil.rollbackDBTransaction();
-//            throw e;
-//        } finally {
-//            ConnectionManagerUtil.closeDBConnection();
-//        }
-//    }
-
     @Override
     public int getStars(String uuid) throws SQLException {
 
@@ -742,29 +689,6 @@ public class CommentsManagerImpl implements CommentsManager {
         }
         return 0;
     }
-
-//    @Override
-//    public int updateStars(int newStars , String uuid) throws ApplicationManagementException {
-//
-//        if (log.isDebugEnabled()) {
-//            log.debug("Stars are received for the application " + uuid);
-//        }
-//        try {
-//            ConnectionManagerUtil.beginDBTransaction();
-//            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-//            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
-//            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().updateStars(newStars,uuid);
-//            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
-//
-//            ConnectionManagerUtil.commitDBTransaction();
-//            return avgStars;
-//        } catch (ApplicationManagementDAOException e) {
-//            ConnectionManagerUtil.rollbackDBTransaction();
-//            throw e;
-//        } finally {
-//            ConnectionManagerUtil.closeDBConnection();
-//        }
-//    }
 
     @Override
     public int updateStars(int stars , String uuid) throws ApplicationManagementException {

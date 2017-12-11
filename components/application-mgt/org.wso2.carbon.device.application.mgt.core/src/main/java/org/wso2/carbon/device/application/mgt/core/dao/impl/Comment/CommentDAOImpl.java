@@ -3,7 +3,6 @@ package org.wso2.carbon.device.application.mgt.core.dao.impl.Comment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import org.wso2.carbon.device.application.mgt.common.ApplicationRelease;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
@@ -16,10 +15,7 @@ import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManageme
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static com.sun.imageio.plugins.jpeg.JPEG.version;
 
 /**
  * This handles CommentDAO related operations.
@@ -27,7 +23,6 @@ import static com.sun.imageio.plugins.jpeg.JPEG.version;
 public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
     private static final Log log = LogFactory.getLog(CommentDAOImpl.class);
-
 
     @Override
     public int addComment(int tenantId, Comment comment, String createdBy, int parentId, String uuid)
@@ -81,7 +76,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         String sql = "INSERT INTO AP_APP_COMMENT ( TENANT_ID,COMMENT_TEXT, CREATED_BY,AP_APP_RELEASE_ID,AP_APP_ID) " +
                 "VALUES (?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE VERSION =? AND (SELECT ID FROM AP_APP WHERE " +
                 "TYPE=? AND NAME=?)),(SELECT ID FROM AP_APP WHERE TYPE=? AND NAME=?));";
-
         try{
             stmt = conn.prepareStatement(sql, new String[] {"id"});
             stmt.setInt(++index, tenantId);
@@ -130,25 +124,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
             statement.executeUpdate();
             rs= statement.executeQuery();
-//            while (rs.next()) {
-//
-//
-//                if (rows > 0) {
-//                    Comment comment=new Comment();
-//                    comment.setId(rs.getInt("ID"));
-//                    comment.setTenantId(rs.getInt("TENANT_ID"));
-//                    comment.setComment(rs.getString("COMMENT_TEXT"));
-//                    comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
-//                    comment.setCreatedBy(rs.getString("CREATED_BY"));
-//                    comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
-//                    comment.setModifiedBy(rs.getString("MODEFIED_AT"));
-//                    comment.setParent(rs.getInt("PARENT_ID"));
-//
-////                    comments.add(comment);
-//
-//                    return comment;
-//                }
-//            }
+
         } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
@@ -179,25 +155,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement.setInt(4,apAppCommentID);
             statement.executeUpdate();
             rs= statement.executeQuery();
-//            while (rs.next()) {
-//
-//
-//                if (rows > 0) {
-//                    Comment comment=new Comment();
-//                    comment.setId(rs.getInt("ID"));
-//                    comment.setTenantId(rs.getInt("TENANT_ID"));
-//                    comment.setComment(rs.getString("COMMENT_TEXT"));
-//                    comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
-//                    comment.setCreatedBy(rs.getString("CREATED_BY"));
-//                    comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
-//                    comment.setModifiedBy(rs.getString("MODEFIED_AT"));
-//                    comment.setParent(rs.getInt("PARENT_ID"));
-//
-////                    comments.add(comment);
-//
-//                    return comment;
-//                }
-//            }
+
         } catch (DBConnectionException | SQLException e) {
             throw e;
         } finally {
@@ -234,7 +192,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 comment.setModifiedBy(rs.getString("MODEFIED_AT"));
                 comment.setParent(rs.getInt("PARENT_ID"));
 
-//                comments.add(comment);
                Util.cleanupResources(stmt,rs);
                 return comment;
             }
@@ -340,91 +297,14 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         boolean isUuidProvided=false;
-//        int parentId = request.getParent();
-//        boolean isParentCommentprovided = false;
-//        String appName = request.getAppName();
-//        boolean isAppNameProvided = false;
-//        String appVersion = request.getAppVersion();
-//        boolean isAppVersionProvided = false;
-//        String appType=request.getAppType();
-//        boolean isAppTypeProvided=false;
-//
-//        int appId=request.getAppId();
-//        boolean isAppIdProvided=false;
-//        String modifiedBy = request.getModifiedBy();
-//        boolean isModifiedByProvided = false;
-//        Timestamp modifiedAt=request.getModifiedAt();
-//        boolean isModifiedAtProvided=false;
-//        String createdBy = request.getCreatedBy();
-//        boolean isCreatedByProvided = false;
-//        Timestamp createdAt = request.getCreatedAt();
-//        boolean isCreatedAtProvided = false;
 
-//        Date since = request.getSince();
-//        boolean isSinceProvided = false;
         try {
             conn = this.getDBConnection();
             if (uuid!= null) {
                 isUuidProvided = true;
             }
-//            if (parentId!= 0 ) {
-//                sql = sql + "  PARENT_ID=?;";
-//                isParentCommentprovided = true;
-//            }
-//
-//            //Add query for last updated timestamp
-//            if (isParentCommentprovided && isUuidProvided) {
-//                sql = sql + " AND (SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)";
-//            }
-//            if(isUuidProvided) {
-//
-//                if (appName != null && !appName.isEmpty()) {
-//                    sql = sql + " AND (SELECT ID FROM AP_APP WHERE NAME=?)";
-//                    isAppNameProvided = true;
-//                }
-//
-//                if (appVersion != null && !appVersion.isEmpty()) {
-//                    sql = sql + "AND(SELECT ID FROM AP_APP_RELEASE WHERE VERSION=?";
-//                    isAppVersionProvided = true;
-//                }
-//
-//                if (appType != null && !appType.isEmpty()) {
-//                    sql = sql + "AND (select ID FROM AP_APP WHERE TYPE=?)";
-//                    isAppTypeProvided = true;
-//                }
-//            }
 
-//            if(appId!=0 ){
-//                sql=sql+"AP_APP_ID=?";
-//                isAppIdProvided=true;
-//            }
-//
-//            if(isUuidProvided) {
-//                sql = sql + "AND";
-//                if (modifiedBy != null && !modifiedBy.isEmpty()) {
-//                    sql = sql + "MODEFIED_BY=?";
-//                    isModifiedByProvided = true;
-//                }
-//                sql = sql + "AND";
-//                if (modifiedAt != null) {
-//                    sql = sql + "MODEFIED_AT=?";
-//                    isModifiedAtProvided = true;
-//                }
-//            }
-//            if(isUuidProvided) {
-//                sql = sql + "AND";
-//                if (createdBy != null && !createdBy.isEmpty()) {
-//                    sql = sql + "CREATED_BY=?";
-//                    isCreatedByProvided = true;
-//                }
-//                sql = sql + "AND";
-//                if (createdAt != null) {
-//                    sql = sql + "CREATED_AT=?";
-//                    isCreatedAtProvided = true;
-//                }
-//            }
             if (isUuidProvided) {
                 String sql = "SELECT COUNT(AP_APP_COMMENT.ID) FROM AP_APP_COMMENT,AP_APP_RELEASE " +
                         "WHERE AP_APP_COMMENT.AP_APP_RELEASE_ID= AP_APP_RELEASE.ID AND " +
@@ -432,37 +312,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, uuid);
                 rs = stmt.executeQuery();
-//            if (isParentCommentprovided) {
-//                stmt.setInt(paramIdx++, request.getParent());
-//            }
-//            if (isAppNameProvided) {
-//                stmt.setString(paramIdx++, request.getAppName());
-//            }
-//            if (isAppVersionProvided) {
-//                stmt.setString(paramIdx++, request.getAppVersion());
-//            }
-//
-//            if (isAppTypeProvided) {
-//                stmt.setString(paramIdx++, request.getAppType());
-//            }
-//            if (isAppIdProvided) {
-//                stmt.setInt(paramIdx++, request.getAppId());
-//            }
-//            if (isModifiedByProvided) {
-//                stmt.setString(paramIdx++, request.getModifiedBy());
-//
-//                if (isModifiedAtProvided) {
-//                    stmt.setTimestamp(paramIdx++, request.getModifiedAt());
-//                }
-//            }
-//            else if(isCreatedByProvided) {
-//                stmt.setString(paramIdx++, request.getModifiedBy());
-//
-//                if (isCreatedAtProvided) {
-//                    stmt.setTimestamp(paramIdx++, request.getCreatedAt());
-//                }
-//
-//            }
+
                 if (rs.next()) {
                     commentCount = rs.getInt("COMMENTS_COUNT");
                 }
@@ -1195,45 +1045,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             Util.cleanupResources(stmt, resultSet);
         }
     }
-//    @Override
-//    public int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException {
-//
-//        Connection connection;
-//        PreparedStatement statement = null;
-//        ResultSet resultSet = null;
-//
-//        if (applicationRelease.isDefault()) {
-//
-//        }
-//        String sql = "UPDATE `APP_MANAGER`.`AP_APP_RELEASE` SET `STARS`='?' WHERE `VERSION`='?' and (select `ID` from `AP_APP` where `NAME`='?');";
-//        int index = 0;
-//       int generatedColumns[] = {applicationRelease.getId()};
-//        try {
-//            connection = this.getDBConnection();
-//            statement = connection.prepareStatement(sql, generatedColumns);
-//            statement.setInt(++index, updatedStars);
-//            statement.setString(++index, version);
-//            statement.setString(++index,appName);
-//            statement.executeUpdate();
-//            resultSet = statement.getGeneratedKeys();
-//            if (resultSet.next()) {
-//                applicationRelease.setStars(resultSet.getInt(1));
-//            }
-//            insertApplicationReleaseProperties(connection, applicationRelease);
-//            return updatedStars;
-//        } catch (SQLException e) {
-//            throw new ApplicationManagementDAOException(
-//                    "SQL Exception while trying to add stars to an application (UUID : " + applicationRelease
-//                            .getApplication().getUuid() + "), by executing the query " + sql, e);
-//        } catch (DBConnectionException e) {
-//            throw new ApplicationManagementDAOException(
-//                    "Database Connection Exception while trying to add stars the " + "applcation with UUID "
-//                            + applicationRelease.getApplication().getUuid(), e);
-//        } finally {
-//            Util.cleanupResources(statement, resultSet);
-//        }
-//        return updatedStars;
-//
 
     @Override
     public int getStars(String uuid) throws ApplicationManagementDAOException {

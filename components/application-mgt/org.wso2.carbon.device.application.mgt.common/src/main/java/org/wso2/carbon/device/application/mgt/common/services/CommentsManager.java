@@ -36,20 +36,6 @@ import java.util.List;
  */
 public interface CommentsManager {
 
-//    /**
-//     * To add a comment to a application.
-//     *
-//     * @param tenantId tenantId of the commented application.
-//     * @param comment comment of the application.
-//     * @param createdBy Username of the created person.
-//     * @param parentId parent id of the parent comment.
-//     * @param appReleaseId Id of the released version of the application.
-//     * @param appId id of the commented application.
-//     * @return
-//     * @throws CommentManagementException Exceptions of the comment management.
-//     * @throws DBConnectionException db connection exception.
-//     */
-//    int addComment(int tenantId , Comment comment, String createdBy, int parentId, int appReleaseId , int appId)throws CommentManagementException;
     /**
      * To add a comment to a application.
      *
@@ -103,7 +89,6 @@ public interface CommentsManager {
      */
     PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException;
 
-
     /**
      * To get the comment with id.
      *
@@ -112,7 +97,7 @@ public interface CommentsManager {
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment getComment(int apAppCommentId)throws CommentManagementException;
-//
+
     /**
      * To get the comment with id.
      *
@@ -338,19 +323,10 @@ public interface CommentsManager {
      * To update a comment.
      *
      * @param comment comment of the application.
-     * @return updated commet
+     * @return updated comment
      * @throws CommentManagementException Exceptions of the comment management
      */
     Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
-
-//    /**
-//     *
-//     * @param stars amount of stars
-//     * @param uuid uuid of the application
-//     * @return updated star value
-//     * @throws ApplicationManagementException Application Management Exception.
-//     */
-//    int updateStars(int stars,String uuid) throws ApplicationManagementException;
 
     /**
      * To get the average of stars
@@ -362,6 +338,7 @@ public interface CommentsManager {
     int getStars(String uuid)throws SQLException;
 
     /**
+     * To update rating stars
      *
      * @param stars amount of stars
      * @param uuid uuid of the application

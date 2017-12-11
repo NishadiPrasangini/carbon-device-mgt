@@ -235,6 +235,7 @@ public interface CommentDAO  {
     int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException, SQLException;
 
     /**
+     * To get the comment count by parent comment id.
      *
      * @param uuid uuid of the comment
      * @param parentId id of the parent comment
@@ -363,18 +364,6 @@ public interface CommentDAO  {
     int updateStars(int stars, String uuid) throws ApplicationManagementDAOException;
 
     /**
-     * To update the rated stars.
-     *
-     * @param version Version of the application
-     * @param appName Name of the Application
-     * @param updatedStars Updated star value
-     * @param applicationRelease Application Release that need to be created.
-     * @return Updated star value
-     * @throws ApplicationManagementDAOException Application Management DAO Exception.
-     */
-//    int updateStars(String version, String appName,int updatedStars,ApplicationRelease applicationRelease) throws ApplicationManagementDAOException;
-
-    /**
      * To get the average star value of the application
      *
      * @param version Version of the application
@@ -403,5 +392,4 @@ public interface CommentDAO  {
      * @throws CommentManagementException
      */
     int getCommentCount(PaginationRequest request, String uuid) throws CommentManagementException;
-
 }
