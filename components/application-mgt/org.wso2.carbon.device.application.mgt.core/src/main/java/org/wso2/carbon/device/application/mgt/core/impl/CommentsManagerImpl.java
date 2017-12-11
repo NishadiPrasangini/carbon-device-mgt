@@ -436,13 +436,11 @@ public class CommentsManagerImpl implements CommentsManager {
         }
         try {
             ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appId,appReleaseId);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
+            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appId, appReleaseId);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
+
     }
 
     @Override
@@ -457,13 +455,11 @@ public class CommentsManagerImpl implements CommentsManager {
         }
         try {
             ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appType,appName,version);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
+            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appType, appName, version);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
+
     }
 
     @Override
@@ -479,12 +475,9 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByUser(createdBy);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
     }
 
     public int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException,
@@ -498,12 +491,9 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.openDBConnection();
             return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByParent(uuid,parentId);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
     }
 
 
