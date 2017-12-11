@@ -343,14 +343,14 @@ public interface CommentsManager {
      */
     Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
 
-    /**
-     *
-     * @param stars amount of stars
-     * @param uuid uuid of the application
-     * @return updated star value
-     * @throws ApplicationManagementException Application Management Exception.
-     */
-    int updateStars(int stars,String uuid) throws ApplicationManagementException;
+//    /**
+//     *
+//     * @param stars amount of stars
+//     * @param uuid uuid of the application
+//     * @return updated star value
+//     * @throws ApplicationManagementException Application Management Exception.
+//     */
+//    int updateStars(int stars,String uuid) throws ApplicationManagementException;
 
     /**
      * To get the average of stars

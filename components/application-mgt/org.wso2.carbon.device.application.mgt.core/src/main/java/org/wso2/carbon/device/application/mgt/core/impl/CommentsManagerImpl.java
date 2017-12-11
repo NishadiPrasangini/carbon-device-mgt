@@ -746,28 +746,28 @@ public class CommentsManagerImpl implements CommentsManager {
         return 0;
     }
 
-    @Override
-    public int updateStars(int newStars , String uuid) throws ApplicationManagementException {
-
-        if (log.isDebugEnabled()) {
-            log.debug("Stars are received for the application " + uuid);
-        }
-        try {
-            ConnectionManagerUtil.beginDBTransaction();
-            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
-            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(newStars,uuid);
-            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
-
-            ConnectionManagerUtil.commitDBTransaction();
-            return avgStars;
-        } catch (ApplicationManagementDAOException e) {
-            ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
+//    @Override
+//    public int updateStars(int newStars , String uuid) throws ApplicationManagementException {
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Stars are received for the application " + uuid);
+//        }
+//        try {
+//            ConnectionManagerUtil.beginDBTransaction();
+//            int ratedUsers= ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
+//            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
+//            int totalStars=ApplicationManagementDAOFactory.getCommentDAO().addStars(newStars,uuid);
+//            int avgStars=(totalStars*(ratedUsers-1))/ratedUsers;
+//
+//            ConnectionManagerUtil.commitDBTransaction();
+//            return avgStars;
+//        } catch (ApplicationManagementDAOException e) {
+//            ConnectionManagerUtil.rollbackDBTransaction();
+//            throw e;
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//    }
 
     @Override
     public int addStars(int stars , String uuid) throws ApplicationManagementException {
