@@ -22,6 +22,7 @@ import java.util.List;
  * Comment Management related jax-rs APIs.
  */
 @Path("/comments")
+@SuppressWarnings( "deprecation" )
 public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     private static Log log = LogFactory.getLog(CommentManagementAPIImpl.class);
