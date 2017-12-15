@@ -66,7 +66,7 @@ public class Device implements Serializable {
     private DeviceInfo deviceInfo;
 
     @ApiModelProperty(name = "applications", value = "This represents the application list installed into the device",
-    required = false)
+            required = false)
     private List<Application> applications;
 
     public Device() {

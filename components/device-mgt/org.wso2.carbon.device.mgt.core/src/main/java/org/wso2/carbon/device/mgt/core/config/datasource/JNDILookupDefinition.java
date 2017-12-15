@@ -27,53 +27,53 @@ import java.util.List;
 @XmlRootElement(name = "JndiLookupDefinition")
 public class JNDILookupDefinition {
 
-	private String jndiName;
-	private List<JNDIProperty> jndiProperties;
+    private String jndiName;
+    private List<JNDIProperty> jndiProperties;
 
-	@XmlElement(name = "Name", required = false)
-	public String getJndiName() {
-		return jndiName;
-	}
+    @XmlElement(name = "Name", required = false)
+    public String getJndiName() {
+        return jndiName;
+    }
 
-	public void setJndiName(String jndiName) {
-		this.jndiName = jndiName;
-	}
+    public void setJndiName(String jndiName) {
+        this.jndiName = jndiName;
+    }
 
-	@XmlElementWrapper(name = "Environment", required = false)
-	@XmlElement(name = "Property", nillable = false)
-	public List<JNDIProperty> getJndiProperties() {
-		return jndiProperties;
-	}
+    @XmlElementWrapper(name = "Environment", required = false)
+    @XmlElement(name = "Property", nillable = false)
+    public List<JNDIProperty> getJndiProperties() {
+        return jndiProperties;
+    }
 
-	public void setJndiProperties(List<JNDIProperty> jndiProperties) {
-		this.jndiProperties = jndiProperties;
-	}
+    public void setJndiProperties(List<JNDIProperty> jndiProperties) {
+        this.jndiProperties = jndiProperties;
+    }
 
-	@XmlRootElement(name = "Property")
-	public static class JNDIProperty {
+    @XmlRootElement(name = "Property")
+    public static class JNDIProperty {
 
-		private String name;
+        private String name;
 
-		private String value;
+        private String value;
 
-		@XmlAttribute(name = "Name")
-		public String getName() {
-			return name;
-		}
+        @XmlAttribute(name = "Name")
+        public String getName() {
+            return name;
+        }
 
-		public void setName(String name) {
-			this.name = name;
-		}
+        public void setName(String name) {
+            this.name = name;
+        }
 
-		@XmlValue
-		public String getValue() {
-			return value;
-		}
+        @XmlValue
+        public String getValue() {
+            return value;
+        }
 
-		public void setValue(String value) {
-			this.value = value;
-		}
-	}
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
 
 }
 

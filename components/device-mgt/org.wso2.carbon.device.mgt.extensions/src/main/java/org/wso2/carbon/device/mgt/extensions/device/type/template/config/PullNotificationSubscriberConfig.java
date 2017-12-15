@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for PullNotificationSubscriberConfig complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="PullNotificationSubscriberConfig">
  *   &lt;complexContent>
@@ -42,12 +42,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PullNotificationSubscriberConfig", propOrder = {
-    "configProperties"
+        "configProperties"
 })
 public class PullNotificationSubscriberConfig {
     @XmlElement(name = "ConfigProperties", required = true)
@@ -57,11 +55,9 @@ public class PullNotificationSubscriberConfig {
 
     /**
      * Gets the value of the configProperties property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ConfigProperties }
-     *     
+     *
+     * @return possible object is
+     * {@link ConfigProperties }
      */
     public ConfigProperties getConfigProperties() {
         return configProperties;
@@ -69,11 +65,9 @@ public class PullNotificationSubscriberConfig {
 
     /**
      * Sets the value of the configProperties property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ConfigProperties }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link ConfigProperties }
      */
     public void setConfigProperties(ConfigProperties value) {
         this.configProperties = value;
@@ -81,11 +75,9 @@ public class PullNotificationSubscriberConfig {
 
     /**
      * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getClassName() {
         return className;
@@ -93,11 +85,9 @@ public class PullNotificationSubscriberConfig {
 
     /**
      * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setClassName(String value) {
         this.className = value;

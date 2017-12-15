@@ -121,7 +121,7 @@ public interface DeviceEventManagementService {
             }
     )
     Response deployDeviceTypeEventDefinition(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                             @PathParam("type")String deviceType,
+                                             @PathParam("type") String deviceType,
                                              @ApiParam(name = "deviceTypeEvent", value = "DeviceTypeEvent object with data.", required = true)
                                              @Valid DeviceTypeEvent deviceTypeEvent);
 
@@ -174,7 +174,7 @@ public interface DeviceEventManagementService {
             }
     )
     Response deleteDeviceTypeEventDefinitions(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                              @PathParam("type")String deviceType);
+                                              @PathParam("type") String deviceType);
 
     @GET
     @Path("/{type}/{deviceId}")
@@ -232,7 +232,7 @@ public interface DeviceEventManagementService {
                      @ApiParam(name = "to", value = "unix time to retrieve", required = false)
                      @QueryParam("to") long to,
                      @ApiParam(name = "type", value = "name of the device type", required = false)
-                     @PathParam("type")  String deviceType,
+                     @PathParam("type") String deviceType,
                      @ApiParam(name = "offset", value = "offset of the records that needs to be picked up", required = false)
                      @QueryParam("offset") int offset,
                      @ApiParam(name = "limit", value = "limit of the records that needs to be picked up", required = false)
@@ -288,9 +288,9 @@ public interface DeviceEventManagementService {
             }
     )
     Response getLastKnownData(@ApiParam(name = "deviceId", value = "id of the device ", required = false)
-                     @PathParam("deviceId") String deviceId,
-                     @ApiParam(name = "type", value = "name of the device type", required = false)
-                     @PathParam("type")  String deviceType);
+                              @PathParam("deviceId") String deviceId,
+                              @ApiParam(name = "type", value = "name of the device type", required = false)
+                              @PathParam("type") String deviceType);
 
     @GET
     @Path("/{type}")
@@ -342,6 +342,6 @@ public interface DeviceEventManagementService {
             }
     )
     Response getDeviceTypeEventDefinition(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                          @PathParam("type")String deviceType) ;
+                                          @PathParam("type") String deviceType);
 
 }

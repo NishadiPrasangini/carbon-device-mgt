@@ -31,16 +31,24 @@
         <SchedulerTaskInitialDelay>60000</SchedulerTaskInitialDelay>
         <SchedulerTaskEnabled>true</SchedulerTaskEnabled>
         <PushNotificationProviders>
-            <Provider>org.wso2.carbon.device.mgt.extensions.push.notification.provider.fcm.FCMBasedPushNotificationProvider</Provider>
+            <Provider>
+                org.wso2.carbon.device.mgt.extensions.push.notification.provider.fcm.FCMBasedPushNotificationProvider
+            </Provider>
             <!--<Provider>org.wso2.carbon.device.mgt.mobile.impl.ios.apns.APNSBasedPushNotificationProvider</Provider>-->
-            <Provider>org.wso2.carbon.device.mgt.extensions.push.notification.provider.mqtt.MQTTBasedPushNotificationProvider</Provider>
-			<Provider>org.wso2.carbon.device.mgt.extensions.push.notification.provider.http.HTTPBasedPushNotificationProvider</Provider>
-            <Provider>org.wso2.carbon.device.mgt.extensions.push.notification.provider.xmpp.XMPPBasedPushNotificationProvider</Provider>
+            <Provider>
+                org.wso2.carbon.device.mgt.extensions.push.notification.provider.mqtt.MQTTBasedPushNotificationProvider
+            </Provider>
+            <Provider>
+                org.wso2.carbon.device.mgt.extensions.push.notification.provider.http.HTTPBasedPushNotificationProvider
+            </Provider>
+            <Provider>
+                org.wso2.carbon.device.mgt.extensions.push.notification.provider.xmpp.XMPPBasedPushNotificationProvider
+            </Provider>
         </PushNotificationProviders>
     </PushNotificationConfiguration>
-	<PullNotificationConfiguration>
-		<Enabled>false</Enabled>
-	</PullNotificationConfiguration>
+    <PullNotificationConfiguration>
+        <Enabled>false</Enabled>
+    </PullNotificationConfiguration>
     <IdentityConfiguration>
         <ServerUrl>https://localhost:9443</ServerUrl>
         <AdminUsername>admin</AdminUsername>

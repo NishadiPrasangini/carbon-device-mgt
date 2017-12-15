@@ -25,7 +25,8 @@ public class UrlPrinterDataHolder {
     private ConfigurationContextService configurationContextService;
     private static UrlPrinterDataHolder thisInstance = new UrlPrinterDataHolder();
 
-    private UrlPrinterDataHolder() {}
+    private UrlPrinterDataHolder() {
+    }
 
     public static UrlPrinterDataHolder getInstance() {
         return thisInstance;

@@ -98,16 +98,16 @@ public class AnnotationProcessor {
             pathClazz = (Class<Path>) classLoader.loadClass(Path.class.getName());
             consumesClass = (Class<Consumes>) classLoader.loadClass(Consumes.class.getName());
             producesClass = (Class<Produces>) classLoader.loadClass(Produces.class.getName());
-            apiClazz= (Class<SwaggerDefinition>)classLoader.loadClass((SwaggerDefinition.class.getName()));
-            apiOperation = (Class<io.swagger.annotations.ApiOperation>)classLoader
+            apiClazz = (Class<SwaggerDefinition>) classLoader.loadClass((SwaggerDefinition.class.getName()));
+            apiOperation = (Class<io.swagger.annotations.ApiOperation>) classLoader
                     .loadClass((io.swagger.annotations.ApiOperation.class.getName()));
-            authorizationClass = (Class<io.swagger.annotations.Authorization>)classLoader
+            authorizationClass = (Class<io.swagger.annotations.Authorization>) classLoader
                     .loadClass((io.swagger.annotations.Authorization.class.getName()));
-            authorizationScopeClass = (Class<io.swagger.annotations.AuthorizationScope>)classLoader
+            authorizationScopeClass = (Class<io.swagger.annotations.AuthorizationScope>) classLoader
                     .loadClass((io.swagger.annotations.AuthorizationScope.class.getName()));
-            extensionClass = (Class<io.swagger.annotations.Extension>)classLoader
+            extensionClass = (Class<io.swagger.annotations.Extension>) classLoader
                     .loadClass((io.swagger.annotations.Extension.class.getName()));
-            extensionPropertyClass = (Class<io.swagger.annotations.ExtensionProperty>)classLoader
+            extensionPropertyClass = (Class<io.swagger.annotations.ExtensionProperty>) classLoader
                     .loadClass(io.swagger.annotations.ExtensionProperty.class.getName());
             scopeClass = (Class<org.wso2.carbon.apimgt.annotations.api.Scope>) classLoader
                     .loadClass(org.wso2.carbon.apimgt.annotations.api.Scope.class.getName());
@@ -252,7 +252,7 @@ public class AnnotationProcessor {
                 }
                 if (permission.getName() == null || permission.getPath() == null) {
                     log.warn("Permission not assigned to the resource url - " + permission.getMethod() + ":"
-                                     + permission.getUrl());
+                            + permission.getUrl());
                 } else {
                     permissions.add(permission);
                 }
@@ -391,7 +391,7 @@ public class AnnotationProcessor {
                 propertyName = (String) methodHandler.invoke(property, extensionPropertyClass
                         .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_NAME, null), null);
                 if (ANNOTATIONS_SCOPE.equals(propertyName)) {
-                     scopeKey = (String) methodHandler.invoke(property, extensionPropertyClass
+                    scopeKey = (String) methodHandler.invoke(property, extensionPropertyClass
                             .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_VALUE, null), null);
                     if (!scopeKey.isEmpty()) {
                         scope = apiScopes.get(scopeKey);
@@ -410,7 +410,7 @@ public class AnnotationProcessor {
         }
     }
 
-    private Map<String,Scope> processAPIScopes(Annotation annotation) throws Throwable {
+    private Map<String, Scope> processAPIScopes(Annotation annotation) throws Throwable {
         Map<String, Scope> scopes = new HashMap<>();
 
         InvocationHandler methodHandler = Proxy.getInvocationHandler(annotation);
@@ -420,7 +420,7 @@ public class AnnotationProcessor {
         Scope scope;
         String permissions[];
         StringBuilder aggregatedPermissions;
-        for(int i=0; i<annotatedScopes.length; i++){
+        for (int i = 0; i < annotatedScopes.length; i++) {
             aggregatedPermissions = new StringBuilder();
             methodHandler = Proxy.getInvocationHandler(annotatedScopes[i]);
             scope = new Scope();
@@ -430,8 +430,8 @@ public class AnnotationProcessor {
                     .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_DESCRIPTION), annotatedScopes[i], STRING));
             scope.setKey(invokeMethod(scopeClass
                     .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_KEY), annotatedScopes[i], STRING));
-            permissions = (String[])methodHandler.invoke(annotatedScopes[i], scopeClass
-                    .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_PERMISSIONS, null),null);
+            permissions = (String[]) methodHandler.invoke(annotatedScopes[i], scopeClass
+                    .getMethod(SWAGGER_ANNOTATIONS_PROPERTIES_PERMISSIONS, null), null);
             for (String permission : permissions) {
                 aggregatedPermissions.append(PERMISSION_PREFIX);
                 aggregatedPermissions.append(permission);

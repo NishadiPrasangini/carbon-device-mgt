@@ -51,7 +51,6 @@ public class DeviceDataPublisher {
      *
      * @return instance of data publisher
      * @throws DataPublisherConfigurationException
-     *
      */
     public DataPublisher getDataPublisher() throws DataPublisherConfigurationException {
         if (this.dataPublisher == null) {

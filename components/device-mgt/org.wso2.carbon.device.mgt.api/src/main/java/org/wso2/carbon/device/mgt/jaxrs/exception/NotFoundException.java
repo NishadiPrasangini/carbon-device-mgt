@@ -32,6 +32,7 @@ public class NotFoundException extends WebApplicationException {
     public NotFoundException(ErrorResponse error) {
         super(Response.status(Response.Status.NOT_FOUND).entity(error).build());
     }
+
     public NotFoundException(ErrorDTO errorDTO) {
         super(Response.status(Response.Status.NOT_FOUND)
                 .entity(errorDTO)

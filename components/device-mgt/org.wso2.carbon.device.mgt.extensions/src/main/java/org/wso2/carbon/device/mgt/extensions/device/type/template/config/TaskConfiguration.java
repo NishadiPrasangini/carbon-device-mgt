@@ -52,7 +52,7 @@ public class TaskConfiguration {
         this.frequency = frequency;
     }
 
-    @XmlElementWrapper(name="Operations")
+    @XmlElementWrapper(name = "Operations")
     @XmlElement(name = "Operation", required = true)
     public List<Operation> getOperations() {
         return operations;

@@ -17,7 +17,8 @@
 ~ under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>org.wso2.carbon.devicemgt</groupId>
@@ -113,7 +114,7 @@
                             io.swagger.annotations.*;resolution:=optional,
                             org.wso2.carbon,
                             org.wso2.carbon.base,
-							org.scannotation.*,
+                            org.scannotation.*,
                             org.wso2.carbon.event.processor.stub,
                             org.wso2.carbon.identity.jwt.client.extension.service,
                             org.apache.commons.codec.binary
@@ -125,7 +126,7 @@
                         <Embed-Dependency>
                             javax.ws.rs-api,
                             scribe;scope=compile|runtime;inline=false,
-							javassist;inline=false
+                            javassist;inline=false
                         </Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
@@ -159,10 +160,10 @@
             <groupId>org.eclipse.osgi</groupId>
             <artifactId>org.eclipse.osgi.services</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.wso2.orbit.org.scannotation</groupId>
-			<artifactId>scannotation</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.wso2.orbit.org.scannotation</groupId>
+            <artifactId>scannotation</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.wso2.carbon.devicemgt</groupId>
             <artifactId>org.wso2.carbon.device.mgt.common</artifactId>
@@ -351,9 +352,9 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
         </dependency>
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>

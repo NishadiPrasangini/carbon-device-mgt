@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlValue;
 
 /**
  * <p>Java class for PolicyMonitoring complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="PolicyMonitoring">
  *   &lt;simpleContent>
@@ -39,12 +39,10 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyMonitoring", propOrder = {
-    "value"
+        "value"
 })
 public class PolicyMonitoring {
 
@@ -55,11 +53,9 @@ public class PolicyMonitoring {
 
     /**
      * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getValue() {
         return value;
@@ -67,11 +63,9 @@ public class PolicyMonitoring {
 
     /**
      * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setValue(String value) {
         this.value = value;
@@ -79,11 +73,9 @@ public class PolicyMonitoring {
 
     /**
      * Gets the value of the enabled property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public boolean isEnabled() {
         return enabled;
@@ -91,11 +83,9 @@ public class PolicyMonitoring {
 
     /**
      * Sets the value of the enabled property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEnabled(boolean value) {
         this.enabled = value;

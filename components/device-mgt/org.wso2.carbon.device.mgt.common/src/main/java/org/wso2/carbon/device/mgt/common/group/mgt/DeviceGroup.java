@@ -43,7 +43,8 @@ public class DeviceGroup implements Serializable {
 
     private String owner;
 
-    public DeviceGroup() {}
+    public DeviceGroup() {
+    }
 
     public DeviceGroup(String name) {
         this.name = name;

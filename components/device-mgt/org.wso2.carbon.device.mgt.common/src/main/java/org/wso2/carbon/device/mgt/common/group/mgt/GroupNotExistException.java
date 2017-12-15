@@ -17,7 +17,7 @@
 */
 package org.wso2.carbon.device.mgt.common.group.mgt;
 
-public class GroupNotExistException extends Exception{
+public class GroupNotExistException extends Exception {
 
     private String errorMessage;
 

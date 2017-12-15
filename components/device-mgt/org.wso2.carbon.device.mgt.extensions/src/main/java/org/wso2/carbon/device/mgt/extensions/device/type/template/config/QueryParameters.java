@@ -28,9 +28,9 @@ import java.util.List;
 
 /**
  * <p>Java class for QueryParameters complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="QueryParameters">
  *   &lt;complexContent>
@@ -42,12 +42,10 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "QueryParameters", propOrder = {
-    "parameter"
+        "parameter"
 })
 public class QueryParameters {
 

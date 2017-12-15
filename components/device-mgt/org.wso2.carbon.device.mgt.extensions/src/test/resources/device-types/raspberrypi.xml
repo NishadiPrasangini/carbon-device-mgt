@@ -34,7 +34,7 @@
     <PushNotificationProviderConfig type="MQTT">
         <FileBasedProperties>true</FileBasedProperties>
         <ConfigProperties>
-            <Property name = "test">1</Property>
+            <Property name="test">1</Property>
         </ConfigProperties>
     </PushNotificationProviderConfig>
 

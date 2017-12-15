@@ -37,7 +37,7 @@ public interface DeviceDAO {
     /**
      * This method is used to get the device count by device-type.
      *
-     * @param type device type.
+     * @param type     device type.
      * @param tenantId tenant id.
      * @return returns the device count of given type.
      * @throws DeviceManagementDAOException
@@ -58,7 +58,7 @@ public interface DeviceDAO {
      * This method is used to get the device count by device name (pattern).
      *
      * @param deviceName name of the device.
-     * @param tenantId tenant id.
+     * @param tenantId   tenant id.
      * @return returns the device count of given user.
      * @throws DeviceManagementDAOException
      */
@@ -67,7 +67,7 @@ public interface DeviceDAO {
     /**
      * This method is used to get the device count by status.
      *
-     * @param status enrollment status.
+     * @param status   enrollment status.
      * @param tenantId tenant id.
      * @return returns the device count of given status.
      * @throws DeviceManagementDAOException
@@ -78,7 +78,7 @@ public interface DeviceDAO {
      * This method is used to get the device count by ownership.
      *
      * @param ownerShip Ownership of devices.
-     * @param tenantId tenant id.
+     * @param tenantId  tenant id.
      * @return returns the device count of given ownership.
      * @throws DeviceManagementDAOException
      */
@@ -109,7 +109,7 @@ public interface DeviceDAO {
      * This method is used to retrieve a device of a given device-identifier and tenant-id.
      *
      * @param deviceIdentifier device id.
-     * @param tenantId tenant id.
+     * @param tenantId         tenant id.
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
@@ -119,8 +119,8 @@ public interface DeviceDAO {
      * This method is used to retrieve a device of a given device-identifier and owner and tenant-id.
      *
      * @param deviceIdentifier device id.
-     * @param owner username of the owner.
-     * @param tenantId tenant id.
+     * @param owner            username of the owner.
+     * @param tenantId         tenant id.
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
@@ -131,22 +131,22 @@ public interface DeviceDAO {
      * later than the ifModifiedSince param.
      *
      * @param deviceIdentifier device id.
-     * @param ifModifiedSince last modified time.
-     * @param tenantId tenant id.
+     * @param ifModifiedSince  last modified time.
+     * @param tenantId         tenant id.
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
     Device getDevice(DeviceIdentifier deviceIdentifier, Date ifModifiedSince, int tenantId) throws
-                                                                                            DeviceManagementDAOException;
+            DeviceManagementDAOException;
 
     /**
      * This method is used to retrieve a device of a given device-identifier and owner and tenant-id which modified
      * later than the ifModifiedSince param.
      *
      * @param deviceIdentifier device id.
-     * @param owner username of the owner.
-     * @param ifModifiedSince last modified time.
-     * @param tenantId tenant id.
+     * @param owner            username of the owner.
+     * @param ifModifiedSince  last modified time.
+     * @param tenantId         tenant id.
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
@@ -157,16 +157,15 @@ public interface DeviceDAO {
      * This method is used to retrieve a device of a given device-identifier, enrollment status and tenant-id.
      *
      * @param deviceIdentifier device id.
-     * @param status enrollment status.
-     * @param tenantId tenant id.
+     * @param status           enrollment status.
+     * @param tenantId         tenant id.
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
-    Device getDevice(DeviceIdentifier deviceIdentifier, EnrolmentInfo.Status status,int tenantId)
+    Device getDevice(DeviceIdentifier deviceIdentifier, EnrolmentInfo.Status status, int tenantId)
             throws DeviceManagementDAOException;
 
     /**
-     *
      * @param deviceIdentifier device id.
      * @return HashMap
      * @throws DeviceManagementDAOException
@@ -205,7 +204,7 @@ public interface DeviceDAO {
     /**
      * This method is used to retrieve all the devices of a given tenant and device type.
      *
-     * @param type device type.
+     * @param type     device type.
      * @param tenantId tenant id.
      * @return returns list of devices of provided type.
      * @throws DeviceManagementDAOException
@@ -226,8 +225,9 @@ public interface DeviceDAO {
 
     /**
      * This method is used to retrieve the devices of given user of given device type.
+     *
      * @param username user name.
-     * @param type device type.
+     * @param type     device type.
      * @param tenantId tenant id.
      * @return List of devices.
      * @throws DeviceManagementDAOException
@@ -267,20 +267,20 @@ public interface DeviceDAO {
     /**
      * This method is used to retrieve the device count of a given tenant for the given search terms.
      *
-     * @param request paginated request used to search devices.
+     * @param request  paginated request used to search devices.
      * @param tenantId tenant id.
      * @return returns the device count.
      * @throws DeviceManagementDAOException
      */
     int getDeviceCount(PaginationRequest request, int tenantId) throws DeviceManagementDAOException;
 
-	/**
-	 * This method is used to retrieve the available device types of a given tenant.
-	 *
-	 * @return returns list of device types.
-	 * @throws DeviceManagementDAOException
-	 */
-	List<DeviceType> getDeviceTypes() throws DeviceManagementDAOException;
+    /**
+     * This method is used to retrieve the available device types of a given tenant.
+     *
+     * @return returns list of device types.
+     * @throws DeviceManagementDAOException
+     */
+    List<DeviceType> getDeviceTypes() throws DeviceManagementDAOException;
 
     /**
      * This method is used to retrieve devices of a given device name.
@@ -291,13 +291,13 @@ public interface DeviceDAO {
      * @throws DeviceManagementDAOException
      */
     List<Device> getDevicesByNameAndType(String deviceName, String type, int tenantId, int offset, int limit)
-                                                                                throws DeviceManagementDAOException;
+            throws DeviceManagementDAOException;
 
     /**
      * This method is used to retrieve devices of a given device name as a paginated result.
      *
      * @param request  PaginationRequest object holding the data for pagination and device search info.
-     * @param tenantId   tenant id.
+     * @param tenantId tenant id.
      * @return returns paginated list of devices which name matches (search) given device-name.
      * @throws DeviceManagementDAOException
      */
@@ -354,8 +354,8 @@ public interface DeviceDAO {
     /**
      * This method is used to retrieve current active enrollment of a given device and tenant id.
      *
-     * @param deviceId    device id.
-     * @param tenantId    tenant id.
+     * @param deviceId device id.
+     * @param tenantId tenant id.
      * @return returns EnrolmentInfo object.
      * @throws DeviceManagementDAOException
      */

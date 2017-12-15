@@ -171,11 +171,12 @@ public class HttpDeviceTypeManagerServiceAndDeviceTypeGeneratorServceTest {
 
     /**
      * To create a sample device type meta defintion.
-     * @throws SAXException SAX Exception.
-     * @throws JAXBException JAXB Exception.
-     * @throws ParserConfigurationException ParserConfiguration Exception.
+     *
+     * @throws SAXException                     SAX Exception.
+     * @throws JAXBException                    JAXB Exception.
+     * @throws ParserConfigurationException     ParserConfiguration Exception.
      * @throws DeviceTypeConfigurationException DeviceTypeConfiguration Exception.
-     * @throws IOException IO Exception.
+     * @throws IOException                      IO Exception.
      */
     private void createSampleDeviceTypeMetaDefinition()
             throws SAXException, JAXBException, ParserConfigurationException, DeviceTypeConfigurationException,

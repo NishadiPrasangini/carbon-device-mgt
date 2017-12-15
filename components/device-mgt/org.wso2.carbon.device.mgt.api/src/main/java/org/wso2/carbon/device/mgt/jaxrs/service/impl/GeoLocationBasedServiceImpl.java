@@ -110,11 +110,11 @@ public class GeoLocationBasedServiceImpl implements GeoLocationBasedService {
                 int tenantId = DeviceMgtAPIUtils.getRealmService().getTenantManager().getTenantId(tenantDomain);
                 AnalyticsDataAPI analyticsDataAPI = DeviceMgtAPIUtils.getAnalyticsDataAPI();
                 List<SearchResultEntry> searchResults = analyticsDataAPI.search(tenantId, tableName, query,
-                                                                                0,
-                                                                                100,
-                                                                                sortByFields);
+                        0,
+                        100,
+                        sortByFields);
                 List<Event> events = getEventBeans(analyticsDataAPI, tenantId, tableName, new ArrayList<String>(),
-                                                   searchResults);
+                        searchResults);
                 return Response.ok().entity(events).build();
             } catch (AnalyticsException | UserStoreException e) {
                 log.error("Failed to perform search on table: " + tableName + " : " + e.getMessage(), e);
@@ -312,11 +312,11 @@ public class GeoLocationBasedServiceImpl implements GeoLocationBasedService {
                 int tenantId = DeviceMgtAPIUtils.getRealmService().getTenantManager().getTenantId(tenantDomain);
                 AnalyticsDataAPI analyticsDataAPI = DeviceMgtAPIUtils.getAnalyticsDataAPI();
                 List<SearchResultEntry> searchResults = analyticsDataAPI.search(tenantId, tableName, query,
-                                                                                0,
-                                                                                100,
-                                                                                sortByFields);
+                        0,
+                        100,
+                        sortByFields);
                 List<Event> events = getEventBeans(analyticsDataAPI, tenantId, tableName, new ArrayList<String>(),
-                                                   searchResults);
+                        searchResults);
                 return Response.ok().entity(events).build();
             } catch (AnalyticsException | UserStoreException e) {
                 log.error("Failed to perform search on table: " + tableName + " : " + e.getMessage(), e);

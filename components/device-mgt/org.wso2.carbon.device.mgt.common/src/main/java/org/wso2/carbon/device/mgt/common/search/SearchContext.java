@@ -29,7 +29,7 @@ import java.util.List;
 public class SearchContext {
 
     @ApiModelProperty(name = "conditions", value = "Contains the advance search parameters.",
-                      required = true)
+            required = true)
     private List<Condition> conditions;
 //    private int start;
 //    private int end;

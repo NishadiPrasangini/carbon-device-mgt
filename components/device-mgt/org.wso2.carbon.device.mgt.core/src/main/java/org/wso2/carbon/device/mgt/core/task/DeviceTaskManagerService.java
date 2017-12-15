@@ -25,6 +25,7 @@ public interface DeviceTaskManagerService {
 
     /**
      * This method will start the task.
+     *
      * @param operationMonitoringTaskConfig - OperationMonitoringTaskConfig
      * @throws DeviceMgtTaskException
      */
@@ -33,6 +34,7 @@ public interface DeviceTaskManagerService {
 
     /**
      * This method will stop the task.
+     *
      * @param operationMonitoringTaskConfig - OperationMonitoringTaskConfig
      * @throws DeviceMgtTaskException
      */
@@ -41,6 +43,7 @@ public interface DeviceTaskManagerService {
 
     /**
      * This will update the task frequency which it runs.
+     *
      * @param operationMonitoringTaskConfig - OperationMonitoringTaskConfig
      * @throws DeviceMgtTaskException
      */

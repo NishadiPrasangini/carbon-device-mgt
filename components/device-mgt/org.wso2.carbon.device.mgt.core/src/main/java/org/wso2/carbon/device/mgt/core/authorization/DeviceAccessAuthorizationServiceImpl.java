@@ -35,6 +35,7 @@ import org.wso2.carbon.device.mgt.core.internal.DeviceManagementDataHolder;
 import org.wso2.carbon.device.mgt.core.permission.mgt.PermissionUtils;
 import org.wso2.carbon.user.api.UserRealm;
 import org.wso2.carbon.user.api.UserStoreException;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -81,8 +82,8 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
             return true;
         } catch (GroupManagementException | UserStoreException e) {
             throw new DeviceAccessAuthorizationException("Unable to authorize the access to device : " +
-                                                         deviceIdentifier.getId() + " for the user : " +
-                                                         username, e);
+                    deviceIdentifier.getId() + " for the user : " +
+                    username, e);
         }
     }
 
@@ -111,7 +112,7 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
             return isAdminUser(username, tenantId);
         } catch (UserStoreException e) {
             throw new DeviceAccessAuthorizationException("Unable to check the admin permissions of user : " +
-                                                         username + " in tenant : " + tenantId, e);
+                    username + " in tenant : " + tenantId, e);
         }
     }
 
@@ -154,8 +155,8 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
                     }
                 } catch (GroupManagementException | UserStoreException e) {
                     throw new DeviceAccessAuthorizationException("Unable to authorize the access to device : " +
-                                                                 deviceIdentifier.getId() + " for the user : " +
-                                                                 username, e);
+                            deviceIdentifier.getId() + " for the user : " +
+                            username, e);
                 }
             }
         }
@@ -187,7 +188,7 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
             return (isAdminUser(username, tenantId));
         } catch (UserStoreException e) {
             throw new DeviceAccessAuthorizationException("Unable to authorize the access for the user : " +
-                                                                 username, e);
+                    username, e);
         }
     }
 
@@ -219,8 +220,8 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
                     isEnrolled(deviceIdentifier, username);
         } catch (DeviceManagementException e) {
             throw new DeviceAccessAuthorizationException("Unable to authorize the access to device : " +
-                                                                 deviceIdentifier.getId() + " for the user : " +
-                                                                 username, e);
+                    deviceIdentifier.getId() + " for the user : " +
+                    username, e);
         }
     }
 
@@ -229,7 +230,7 @@ public class DeviceAccessAuthorizationServiceImpl implements DeviceAccessAuthori
         if (userRealm != null && userRealm.getAuthorizationManager() != null) {
             return userRealm.getAuthorizationManager()
                     .isUserAuthorized(removeTenantDomain(username),
-                                      PermissionUtils.getAbsolutePermissionPath(CDM_ADMIN_PERMISSION),
+                            PermissionUtils.getAbsolutePermissionPath(CDM_ADMIN_PERMISSION),
                             CarbonConstants.UI_PERMISSION_ACTION);
         }
         return false;

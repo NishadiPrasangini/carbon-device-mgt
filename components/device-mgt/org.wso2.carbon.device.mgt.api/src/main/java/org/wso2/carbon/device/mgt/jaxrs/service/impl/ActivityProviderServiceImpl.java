@@ -32,13 +32,14 @@ import org.wso2.carbon.device.mgt.jaxrs.util.DeviceMgtAPIUtils;
 import org.wso2.carbon.user.api.UserStoreException;
 
 import javax.validation.constraints.Size;
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static com.sun.xml.internal.ws.api.message.Packet.Status.Response;
 
 @Path("/activities")
 @Produces(MediaType.APPLICATION_JSON)
@@ -204,7 +205,7 @@ public class ActivityProviderServiceImpl implements ActivityInfoProviderService 
         }
     }
 
-    private Response validateAdminUser(){
+    private Response validateAdminUser() {
         try {
             if (!DeviceMgtAPIUtils.isAdmin()) {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized operation! Only admin role can perform " +

@@ -1105,7 +1105,7 @@ public class MockResultSet implements ResultSet {
         this.hasData = true;
     }
 
-    public void addTimestamp(Timestamp timestamp){
+    public void addTimestamp(Timestamp timestamp) {
         this.timestamps.add(timestamp);
         this.hasData = true;
     }

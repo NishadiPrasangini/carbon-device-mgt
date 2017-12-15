@@ -25,8 +25,8 @@ import java.io.Serializable;
 
 
 @ApiModel(value = "DeviceIdentifier", description = "This contains device details that is used to identify a device " +
-                                                    "uniquely.")
-public class DeviceIdentifier implements Serializable{
+        "uniquely.")
+public class DeviceIdentifier implements Serializable {
 
     @ApiModelProperty(
             name = "id",
@@ -44,7 +44,8 @@ public class DeviceIdentifier implements Serializable{
     @JsonProperty(value = "type", required = true)
     private String type;
 
-    public DeviceIdentifier() {}
+    public DeviceIdentifier() {
+    }
 
     public DeviceIdentifier(String id, String type) {
         this.id = id;
@@ -58,6 +59,7 @@ public class DeviceIdentifier implements Serializable{
     public void setType(String type) {
         this.type = type.trim();
     }
+
     public String getId() {
         return id;
     }

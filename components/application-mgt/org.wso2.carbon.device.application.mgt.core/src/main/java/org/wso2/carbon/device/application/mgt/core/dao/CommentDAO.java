@@ -116,7 +116,7 @@ public interface CommentDAO  {
      * @throws SQLException
      * @throws DBConnectionException
      */
-    List<Comment> getAllComments(String uuid) throws CommentManagementException, SQLException, DBConnectionException;
+    List<Comment> getAllComments(String uuid,PaginationRequest request) throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
      * To get list of comments using release id and application id.

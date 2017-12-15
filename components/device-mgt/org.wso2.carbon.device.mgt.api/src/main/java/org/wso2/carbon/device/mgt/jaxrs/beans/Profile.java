@@ -72,6 +72,7 @@ public class Profile {
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
+
     @XmlElement
     public int getTenantId() {
         return tenantId;
@@ -81,13 +82,13 @@ public class Profile {
         this.tenantId = tenantId;
     }
 
-/*    public List<FeatureImpl> getFeaturesList() {
-        return featuresList;
-    }
+    /*    public List<FeatureImpl> getFeaturesList() {
+            return featuresList;
+        }
 
-    public void setFeaturesList(List<FeatureImpl> featuresList) {
-        this.featuresList = featuresList;
-    }*/
+        public void setFeaturesList(List<FeatureImpl> featuresList) {
+            this.featuresList = featuresList;
+        }*/
     @XmlElement
     public int getProfileId() {
         return profileId;

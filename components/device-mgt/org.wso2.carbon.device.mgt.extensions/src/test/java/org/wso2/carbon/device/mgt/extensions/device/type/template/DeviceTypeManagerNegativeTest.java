@@ -134,7 +134,7 @@ public class DeviceTypeManagerNegativeTest {
     }
 
     @Test(description = "This test case tests the behaviour of the DeviceTypeManager creation without defining the "
-            + "datasource but by specifying the table id", expectedExceptions = { DeviceTypeDeployerPayloadException
+            + "datasource but by specifying the table id", expectedExceptions = {DeviceTypeDeployerPayloadException
             .class}, expectedExceptionsMessageRegExp = "Could not find the datasource related with the table id "
             + TABLE_NAME + " for the device type " + DEFECTIVE_DEVICE_TYPE)
     public void testWithoutDataSource() {
@@ -143,7 +143,7 @@ public class DeviceTypeManagerNegativeTest {
     }
 
     @Test(description = "This test case tests the behaviour of the DeviceTypeManager creation without defining the "
-            + "table config",expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            + "table config", expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Could not find the table config with the table id " + TABLE_NAME
                     + " for the device type " + DEFECTIVE_DEVICE_TYPE,
             dependsOnMethods = {"testWithoutDataSource"})
@@ -155,7 +155,7 @@ public class DeviceTypeManagerNegativeTest {
 
     @Test(description = "This test case tests the behaviour of the DeviceTypeManager creation without defining the "
             + "correct table as per the device details",
-            expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Could not find definition for table: " + TABLE_NAME)
     public void testWithoutTable() {
         new DeviceTypeManager(deviceTypeConfigIdentifier, defectiveDeviceTypeConfiguration2);
@@ -252,14 +252,14 @@ public class DeviceTypeManagerNegativeTest {
     }
 
     @Test(description = "This test case tests the behaviour of addDevice when the relevant tables are not available",
-            expectedExceptions = { DeviceTypeMgtPluginException.class },
+            expectedExceptions = {DeviceTypeMgtPluginException.class},
             expectedExceptionsMessageRegExp = "Error occurred while adding the device .*")
     public void testAddDevice() throws DeviceTypeMgtPluginException {
         propertyBasedPluginDAO.addDevice(sampleDevice);
     }
 
     @Test(description = "This test case tests the behaviour of getDevice when the relevant tables are not available",
-            expectedExceptions = { DeviceTypeMgtPluginException.class },
+            expectedExceptions = {DeviceTypeMgtPluginException.class},
             expectedExceptionsMessageRegExp = "Error occurred while fetching device .*")
     public void testGetPropertyBasedDevice() throws DeviceTypeMgtPluginException {
         propertyBasedPluginDAO.getDevice("id");
@@ -281,13 +281,14 @@ public class DeviceTypeManagerNegativeTest {
 
     /**
      * To create a defective device type manager for testing.
-     * @throws NoSuchFieldException No Such Field Exception.
-     * @throws SAXException SAX Exception.
-     * @throws JAXBException JAXB Exception
-     * @throws ParserConfigurationException Parser Configuration Exception.
+     *
+     * @throws NoSuchFieldException             No Such Field Exception.
+     * @throws SAXException                     SAX Exception.
+     * @throws JAXBException                    JAXB Exception
+     * @throws ParserConfigurationException     Parser Configuration Exception.
      * @throws DeviceTypeConfigurationException Device Type Configuration Exception.
-     * @throws IOException IO Exception.
-     * @throws IllegalAccessException Illegal Access Exception.
+     * @throws IOException                      IO Exception.
+     * @throws IllegalAccessException           Illegal Access Exception.
      */
     private void createDefectiveDeviceTypeManager()
             throws NoSuchFieldException, SAXException, JAXBException, ParserConfigurationException,

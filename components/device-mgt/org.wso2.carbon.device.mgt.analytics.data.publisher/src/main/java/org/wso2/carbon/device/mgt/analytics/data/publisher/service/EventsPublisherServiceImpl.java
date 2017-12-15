@@ -33,21 +33,21 @@ import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
  * event/records.
  */
 public class EventsPublisherServiceImpl implements EventsPublisherService {
-	private static Log log = LogFactory.getLog(EventsPublisherServiceImpl.class);
+    private static Log log = LogFactory.getLog(EventsPublisherServiceImpl.class);
 
-	/**
-	 * @param streamName           is the name of the stream that the data needs to pushed
-	 * @param version              is the version of the stream
-	 * @param metaDataArray        - meta data that needs to pushed
-	 * @param correlationDataArray - correlation data that needs to be pushed
-	 * @param payloadDataArray     - payload data that needs to be pushed
-	 * @return if success returns true
-	 * @throws DataPublisherConfigurationException
-	 */
-	@Override
-	public boolean publishEvent(String streamName, String version, Object[] metaDataArray,
-								Object[] correlationDataArray,
-								Object[] payloadDataArray) throws DataPublisherConfigurationException {
+    /**
+     * @param streamName           is the name of the stream that the data needs to pushed
+     * @param version              is the version of the stream
+     * @param metaDataArray        - meta data that needs to pushed
+     * @param correlationDataArray - correlation data that needs to be pushed
+     * @param payloadDataArray     - payload data that needs to be pushed
+     * @return if success returns true
+     * @throws DataPublisherConfigurationException
+     */
+    @Override
+    public boolean publishEvent(String streamName, String version, Object[] metaDataArray,
+                                Object[] correlationDataArray,
+                                Object[] payloadDataArray) throws DataPublisherConfigurationException {
         String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
         if (!tenantDomain.equals(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME)) {
             if (metaDataArray == null || metaDataArray.length == 0) {
@@ -65,8 +65,8 @@ public class EventsPublisherServiceImpl implements EventsPublisherService {
             if (dataPublisher != null) {
                 String streamId = DataBridgeCommonsUtils.generateStreamId(streamName, version);
                 return dataPublisher.tryPublish(streamId, System.currentTimeMillis(), metaDataArray,
-                                                correlationDataArray,
-                                                payloadDataArray);
+                        correlationDataArray,
+                        payloadDataArray);
             } else {
                 return false;
             }

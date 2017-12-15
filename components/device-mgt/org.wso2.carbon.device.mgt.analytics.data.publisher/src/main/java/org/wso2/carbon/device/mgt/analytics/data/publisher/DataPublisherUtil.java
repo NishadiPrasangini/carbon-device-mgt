@@ -29,7 +29,7 @@ import java.io.File;
 
 public class DataPublisherUtil {
 
-    private DataPublisherUtil(){
+    private DataPublisherUtil() {
     }
 
     public static Document convertToDocument(File file) throws DataPublisherConfigurationException {

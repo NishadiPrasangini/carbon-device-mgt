@@ -64,42 +64,42 @@ public class GeoLocationProviderServiceTest {
         enrollDevice();
     }
 
-    @Test (description = "Create a sample geo exit-alert with relevant details.")
+    @Test(description = "Create a sample geo exit-alert with relevant details.")
     public void createGeoExitAlert() throws GeoLocationBasedServiceException {
-         Boolean result = geoLocationProviderServiceImpl.
+        Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getExitAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_EXIT);
         Assert.assertEquals(result, Boolean.TRUE);
     }
 
-    @Test (description = "Create a sample geo within-alert with relevant details.")
+    @Test(description = "Create a sample geo within-alert with relevant details.")
     public void createGeoWithinAlert() throws GeoLocationBasedServiceException {
-         Boolean result = geoLocationProviderServiceImpl.
+        Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getWithinAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_WITHIN);
         Assert.assertEquals(result, Boolean.TRUE);
     }
 
-    @Test (description = "Create a sample geo proximity-alert with relevant details.")
+    @Test(description = "Create a sample geo proximity-alert with relevant details.")
     public void createGeoProximityAlert() throws GeoLocationBasedServiceException {
         Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getProximityAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_PROXIMITY);
         Assert.assertEquals(result, Boolean.TRUE);
     }
 
-    @Test (description = "Create a sample geo speed-alert with relevant details.")
+    @Test(description = "Create a sample geo speed-alert with relevant details.")
     public void createGeoSpeedAlert() throws GeoLocationBasedServiceException {
         Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getSpeedAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_SPEED);
         Assert.assertEquals(result, Boolean.TRUE);
     }
 
-    @Test (description = "Create a sample geo stationary-alert with relevant details.")
+    @Test(description = "Create a sample geo stationary-alert with relevant details.")
     public void createGeoStationaryAlert() throws GeoLocationBasedServiceException {
         Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getStationaryAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_STATIONARY);
         Assert.assertEquals(result, Boolean.TRUE);
     }
 
-    @Test (description = "Create a sample geo traffic-alert with relevant details.")
+    @Test(description = "Create a sample geo traffic-alert with relevant details.")
     public void createGeoTrafficAlert() throws GeoLocationBasedServiceException {
         Boolean result = geoLocationProviderServiceImpl.
                 createGeoAlert(getTrafficAlert(), getDeviceIdentifier(), DeviceManagementConstants.GeoServices.ALERT_TYPE_TRAFFIC);
@@ -114,7 +114,7 @@ public class GeoLocationProviderServiceTest {
         Assert.assertEquals(result, "{'speedLimit':" + SAMPLE_SPEED_ALERT_VALUE + "}");
     }
 
-    @Test(dependsOnMethods = "createGeoTrafficAlert" , description = "retrieve saved geo exit-alert.")
+    @Test(dependsOnMethods = "createGeoTrafficAlert", description = "retrieve saved geo exit-alert.")
     public void getGeoTrafficAlerts() throws GeoLocationBasedServiceException {
         List<GeoFence> geoFences;
         geoFences = geoLocationProviderServiceImpl.getTrafficAlerts(getDeviceIdentifier());
@@ -191,7 +191,7 @@ public class GeoLocationProviderServiceTest {
     }
 
     private Alert getSpeedAlert() {
-        Alert alert =  new Alert();
+        Alert alert = new Alert();
         alert.setDeviceId(DEVICE_ID);
         alert.setParseData("{\n" +
                 "  \"" + DeviceManagementConstants.GeoServices.GEO_FENCE_GEO_JSON + "\": \"" + SAMPLE_GEO_JSON + "\",\n" +
@@ -217,7 +217,7 @@ public class GeoLocationProviderServiceTest {
         Alert alert = new Alert();
         alert.setDeviceId(DEVICE_ID);
         alert.setParseData("{\n" +
-                "  \"" + DeviceManagementConstants.GeoServices.GEO_FENCE_GEO_JSON +"\": \"" + SAMPLE_GEO_JSON + "\"\n" +
+                "  \"" + DeviceManagementConstants.GeoServices.GEO_FENCE_GEO_JSON + "\": \"" + SAMPLE_GEO_JSON + "\"\n" +
                 "}");
         alert.setCustomName(SAMPLE_AREA_NAME);
         alert.setExecutionPlan("EXECUTION_PLAN");
@@ -236,9 +236,9 @@ public class GeoLocationProviderServiceTest {
 
         Device returnedDevice = deviceMgtService.getDevice(deviceIdentifier);
 
-            if (!returnedDevice.getDeviceIdentifier().equals(deviceIdentifier.getId())) {
-                throw new Exception("Incorrect device with ID - " + device.getDeviceIdentifier() + " returned!");
-            }
+        if (!returnedDevice.getDeviceIdentifier().equals(deviceIdentifier.getId())) {
+            throw new Exception("Incorrect device with ID - " + device.getDeviceIdentifier() + " returned!");
         }
+    }
 
 }

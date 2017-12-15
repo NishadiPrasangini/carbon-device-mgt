@@ -152,9 +152,9 @@ public interface PolicyManagementService {
                     "Using this REST API you are able to save a created Policy and this policy will be in the inactive state.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:manage")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:manage")
+                    })
             }
     )
     @ApiResponses(
@@ -208,7 +208,7 @@ public interface PolicyManagementService {
                     name = "policy",
                     value = "The properties required to add a new policy.",
                     required = true)
-                    @Valid PolicyWrapper policy);
+            @Valid PolicyWrapper policy);
 
     @GET
     @ApiOperation(
@@ -220,9 +220,9 @@ public interface PolicyManagementService {
             response = Policy.class,
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:get-details")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:get-details")
+                    })
             }
     )
     @ApiResponses(
@@ -295,9 +295,9 @@ public interface PolicyManagementService {
             response = Policy.class,
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:get-policy-details")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:get-policy-details")
+                    })
             }
     )
     @ApiResponses(
@@ -363,9 +363,9 @@ public interface PolicyManagementService {
             notes = "Make changes to an existing policy by updating the policy using this resource.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:update")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:update")
+                    })
             }
     )
     @ApiResponses(
@@ -419,7 +419,7 @@ public interface PolicyManagementService {
                     name = "policy",
                     value = "Update the required property details.",
                     required = true)
-                    @Valid PolicyWrapper policy);
+            @Valid PolicyWrapper policy);
 
     @POST
     @Path("/remove-policy")
@@ -431,9 +431,9 @@ public interface PolicyManagementService {
             notes = "Delete one or more than one policy using this API.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:remove")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:remove")
+                    })
             }
     )
     @ApiResponses(
@@ -477,9 +477,9 @@ public interface PolicyManagementService {
             notes = "Publish a policy using this API to bring a policy that is in the inactive state to the active state.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:activate")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:activate")
+                    })
             }
     )
     @ApiResponses(
@@ -518,29 +518,29 @@ public interface PolicyManagementService {
             notes = "Unpublish a policy using this API to bring a policy that is in the active state to the inactive state.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:deactivate")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:deactivate")
+                    })
             }
     )
     @ApiResponses(
             value = {
-            @ApiResponse(
-                    code = 200,
-                    message = "Successfully deactivated the policy."),
-            @ApiResponse(
-                    code = 400,
-                    message = "Bad Request. \n Invalid request or validation error.",
-                    response = ErrorResponse.class),
-            @ApiResponse(
-                    code = 404,
-                    message = "Not Found. \n The specified resource does not exist.",
-                    response = ErrorResponse.class),
-            @ApiResponse(
-                    code = 500,
-                    message = "ErrorResponse in deactivating policies.",
-                    response = ErrorResponse.class)
-    })
+                    @ApiResponse(
+                            code = 200,
+                            message = "Successfully deactivated the policy."),
+                    @ApiResponse(
+                            code = 400,
+                            message = "Bad Request. \n Invalid request or validation error.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n The specified resource does not exist.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
+                            code = 500,
+                            message = "ErrorResponse in deactivating policies.",
+                            response = ErrorResponse.class)
+            })
     Response deactivatePolicies(
             @ApiParam(
                     name = "policyIds",
@@ -564,21 +564,21 @@ public interface PolicyManagementService {
                     " you need to apply the changes to push the policy changes to the existing devices.",
             tags = "Device Policy Management",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:changes")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:changes")
+                    })
             }
     )
     @ApiResponses(
             value = {
-            @ApiResponse(
-                    code = 200,
-                    message = "Successfully updated the EMM server with the policy changes."),
-            @ApiResponse(
-                    code = 500,
-                    message = "ErrorResponse in deactivating policies.",
-                    response = ErrorResponse.class)
-    })
+                    @ApiResponse(
+                            code = 200,
+                            message = "Successfully updated the EMM server with the policy changes."),
+                    @ApiResponse(
+                            code = 500,
+                            message = "ErrorResponse in deactivating policies.",
+                            response = ErrorResponse.class)
+            })
     Response applyChanges();
 
 
@@ -592,25 +592,25 @@ public interface PolicyManagementService {
             notes = "Make changes to the existing policy priority order by updating the priority order using this API.",
             tags = "Device Policy Management",
             extensions = {
-            @Extension(properties = {
-                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:priorities")
-            })
-    }
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:policies:priorities")
+                    })
+            }
     )
     @ApiResponses(
             value = {
-            @ApiResponse(
-                    code = 200,
-                    message = "Successfully updated the policy priority order."),
-            @ApiResponse(
-                    code = 400,
-                    message = "Bad Request. Did not update the policy priority order.",
-                    response = ErrorResponse.class),
-            @ApiResponse(
-                    code = 500,
-                    message = "Exception in updating the policy priorities.",
-                    response = ErrorResponse.class)
-    })
+                    @ApiResponse(
+                            code = 200,
+                            message = "Successfully updated the policy priority order."),
+                    @ApiResponse(
+                            code = 400,
+                            message = "Bad Request. Did not update the policy priority order.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Exception in updating the policy priorities.",
+                            response = ErrorResponse.class)
+            })
     Response updatePolicyPriorities(
             @ApiParam(
                     name = "priorityUpdatedPolicies",

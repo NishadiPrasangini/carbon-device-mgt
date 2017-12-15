@@ -24,45 +24,45 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "AppManagementConfig")
 public class AppManagementConfig {
 
-	private boolean enabled;
-	private String appManagerUrl;
-	private String consumerKey;
-	private String consumerSecret;
+    private boolean enabled;
+    private String appManagerUrl;
+    private String consumerKey;
+    private String consumerSecret;
 
-	@XmlElement(name = "ConsumerKey", required = true)
-	public String getConsumerKey() {
-		return consumerKey;
-	}
+    @XmlElement(name = "ConsumerKey", required = true)
+    public String getConsumerKey() {
+        return consumerKey;
+    }
 
-	public void setConsumerKey(String consumerKey) {
-		this.consumerKey = consumerKey;
-	}
+    public void setConsumerKey(String consumerKey) {
+        this.consumerKey = consumerKey;
+    }
 
-	@XmlElement(name = "ConsumerSecret", required = true)
-	public String getConsumerSecret() {
-		return consumerSecret;
-	}
+    @XmlElement(name = "ConsumerSecret", required = true)
+    public String getConsumerSecret() {
+        return consumerSecret;
+    }
 
-	public void setConsumerSecret(String consumerSecret) {
-		this.consumerSecret = consumerSecret;
-	}
+    public void setConsumerSecret(String consumerSecret) {
+        this.consumerSecret = consumerSecret;
+    }
 
-	@XmlElement(name = "Enabled", required = true)
-	public boolean isEnabled() {
-		return enabled;
-	}
+    @XmlElement(name = "Enabled", required = true)
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	@XmlElement(name = "AppManagerUrl", required = false)
-	public String getAppManagerUrl() {
-		return appManagerUrl;
-	}
+    @XmlElement(name = "AppManagerUrl", required = false)
+    public String getAppManagerUrl() {
+        return appManagerUrl;
+    }
 
-	public void setAppManagerUrl(String appManagerUrl) {
-		this.appManagerUrl = appManagerUrl;
-	}
+    public void setAppManagerUrl(String appManagerUrl) {
+        this.appManagerUrl = appManagerUrl;
+    }
 
 }

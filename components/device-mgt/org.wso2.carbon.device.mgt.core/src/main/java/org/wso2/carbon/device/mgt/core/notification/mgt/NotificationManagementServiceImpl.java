@@ -172,7 +172,7 @@ public class NotificationManagementServiceImpl implements NotificationManagement
         PaginationResult paginationResult = new PaginationResult();
         List<Notification> notifications = new ArrayList<>();
         request = DeviceManagerUtil.validateNotificationListPageSize(request);
-        int count =0;
+        int count = 0;
         try {
             NotificationManagementDAOFactory.openConnection();
             notifications = notificationDAO.getAllNotifications(request, NotificationDAOUtil.getTenantId());
@@ -191,11 +191,11 @@ public class NotificationManagementServiceImpl implements NotificationManagement
 
     @Override
     public PaginationResult getNotificationsByStatus(Notification.Status status,
-                                                     PaginationRequest request) throws NotificationManagementException{
+                                                     PaginationRequest request) throws NotificationManagementException {
         PaginationResult paginationResult = new PaginationResult();
         List<Notification> notifications = new ArrayList<>();
         request = DeviceManagerUtil.validateNotificationListPageSize(request);
-        int count =0;
+        int count = 0;
         try {
             NotificationManagementDAOFactory.openConnection();
             notifications = notificationDAO.getNotificationsByStatus(request, status, NotificationDAOUtil.getTenantId());

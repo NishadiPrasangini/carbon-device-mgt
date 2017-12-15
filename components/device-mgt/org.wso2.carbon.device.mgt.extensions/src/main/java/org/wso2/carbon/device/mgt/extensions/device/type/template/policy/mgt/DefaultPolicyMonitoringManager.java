@@ -36,6 +36,7 @@ import java.util.List;
 public class DefaultPolicyMonitoringManager implements PolicyMonitoringManager {
 
     private static Log log = LogFactory.getLog(DefaultPolicyMonitoringManager.class);
+
     @Override
     public NonComplianceData checkPolicyCompliance(DeviceIdentifier deviceIdentifier, Policy policy, Object response)
             throws PolicyComplianceException {

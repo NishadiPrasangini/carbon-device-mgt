@@ -83,9 +83,9 @@ public interface UserManagementAdminService {
                     "the system and block them from logging into their EMM profile using this REST API.",
             tags = "User Management Administrative Service",
             extensions = {
-                @Extension(properties = {
-                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:admin-users:view")
-                })
+                    @Extension(properties = {
+                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:admin-users:view")
+                    })
             }
     )
     @ApiResponses(value = {
@@ -116,11 +116,11 @@ public interface UserManagementAdminService {
                     required = true)
             @PathParam("username")
             @Size(max = 45)
-            String username,
+                    String username,
             @ApiParam(
-                name = "domain",
-                value = "The domain name of the user store.",
-                required = false)
+                    name = "domain",
+                    value = "The domain name of the user store.",
+                    required = false)
             @QueryParam("domain") String domain,
             @ApiParam(
                     name = "credentials",

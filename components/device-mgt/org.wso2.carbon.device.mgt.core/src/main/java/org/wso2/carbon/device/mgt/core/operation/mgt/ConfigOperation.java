@@ -78,7 +78,7 @@ public class ConfigOperation extends Operation {
         return Type.CONFIG;
     }
 
-    public Control getControl(){
+    public Control getControl() {
         return Control.REPEAT;
     }
 

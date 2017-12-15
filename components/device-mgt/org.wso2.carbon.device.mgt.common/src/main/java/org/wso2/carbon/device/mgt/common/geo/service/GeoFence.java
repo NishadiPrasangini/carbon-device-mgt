@@ -31,27 +31,39 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "fence")
 public class GeoFence {
 
-    /** The geoJson. */
+    /**
+     * The geoJson.
+     */
     @XmlElement(required = false, name = "geoJson")
     private String geoJson;
 
-    /** The queryName. */
+    /**
+     * The queryName.
+     */
     @XmlElement(required = false, name = "queryName")
     private String queryName;
 
-    /** The areaName. */
+    /**
+     * The areaName.
+     */
     @XmlElement(required = false, name = "areaName")
     private String areaName;
 
-    /** The createdTime. */
+    /**
+     * The createdTime.
+     */
     @XmlElement(required = false, nillable = true, name = "createdTime")
     private long createdTime;
 
-    /** The stationaryTime. */
+    /**
+     * The stationaryTime.
+     */
     @XmlElement(required = false, name = "stationaryTime")
     private String stationaryTime;
 
-    /** The fluctuationRadius. */
+    /**
+     * The fluctuationRadius.
+     */
     @XmlElement(required = false, name = "fluctuationRadius")
     private String fluctuationRadius;
 

@@ -22,5 +22,4 @@ import org.wso2.carbon.core.AbstractAdmin;
 public class DeviceManagementAdminService extends AbstractAdmin {
 
 
-
 }

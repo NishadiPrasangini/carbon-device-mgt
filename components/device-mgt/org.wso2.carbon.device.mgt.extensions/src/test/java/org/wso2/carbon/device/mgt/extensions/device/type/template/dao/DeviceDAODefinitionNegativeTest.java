@@ -29,21 +29,21 @@ public class DeviceDAODefinitionNegativeTest {
     private final String DEVICE_TABLE_NAME = "DEVICE_TABLE";
 
     @Test(description = "This test case tests the behavior of the DeviceDAODefinition when the table is null",
-            expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Table is null. Cannot create DeviceDAODefinition")
     public void testWhenTableIsNull() {
         new DeviceDAODefinition(null);
     }
 
     @Test(description = "This test case tests the behavior of the DeviceDAODefinition when the table name is null",
-            expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Missing deviceTableName")
     public void testWhenTableNameIsNull() {
         new DeviceDAODefinition(new Table());
     }
 
     @Test(description = "This test case tests the behavior of the DeviceDAODefinition when the primary key is null",
-            expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Missing primaryKey for the table " + DEVICE_TABLE_NAME)
     public void testWhenPrimaryKeyIsEmpty() {
         Table deviceTable = new Table();
@@ -53,7 +53,7 @@ public class DeviceDAODefinitionNegativeTest {
     }
 
     @Test(description = "This test case tests the behavior of the DeviceDAODefinition when the attributes is null",
-            expectedExceptions = { DeviceTypeDeployerPayloadException.class},
+            expectedExceptions = {DeviceTypeDeployerPayloadException.class},
             expectedExceptionsMessageRegExp = "Table " + DEVICE_TABLE_NAME + " attributes are not specified. "
                     + "Cannot created DeviceDAODefinition")
     public void testWhenAttributesIsNull() {

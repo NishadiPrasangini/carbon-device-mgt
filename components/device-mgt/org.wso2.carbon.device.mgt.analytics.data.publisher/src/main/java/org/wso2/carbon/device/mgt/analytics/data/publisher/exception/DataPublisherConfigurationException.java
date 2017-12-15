@@ -20,12 +20,12 @@ package org.wso2.carbon.device.mgt.analytics.data.publisher.exception;
 
 public class DataPublisherConfigurationException extends Exception {
 
-	public DataPublisherConfigurationException(String message) {
-		super(message);
-	}
+    public DataPublisherConfigurationException(String message) {
+        super(message);
+    }
 
-	public DataPublisherConfigurationException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public DataPublisherConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

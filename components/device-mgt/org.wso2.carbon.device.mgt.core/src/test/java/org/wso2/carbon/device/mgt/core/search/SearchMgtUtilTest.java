@@ -32,14 +32,14 @@ import java.util.Map;
 
 /**
  * This class holds the Unit test cases to test org.wso2.carbon.device.mgt.core.search.mgt.impl.Util
- * */
+ */
 public class SearchMgtUtilTest {
 
     private static List<DeviceIdentifier> deviceIdentifiers = new ArrayList<>();
     private static final String DEVICE_ID_PREFIX = "SEARCH-DEVICE-ID-";
     private static final String DEVICE_TYPE = "SEARCH_TYPE";
     private static final String DEVICE_IDS = "0,0,0,0,0";
-    private static final Integer[] DEVICE_IDS_INT = {0,0,0,0,0};
+    private static final Integer[] DEVICE_IDS_INT = {0, 0, 0, 0, 0};
     private List<Device> devices;
 
     @BeforeClass
@@ -82,8 +82,9 @@ public class SearchMgtUtilTest {
 
     /**
      * Generates a map of columns and particular data type.
+     *
      * @return HashMap of column name and data type.
-     * */
+     */
     private Map<String, String> buildColumnMap() {
         Map<String, String> columnTypes = new HashMap<>();
 
@@ -105,8 +106,9 @@ public class SearchMgtUtilTest {
 
     /**
      * Generates a list of Strings.
+     *
      * @return List<String>
-     * */
+     */
     private List<String> getStringList() {
         List<String> strings = new ArrayList<>();
         strings.add("some string");

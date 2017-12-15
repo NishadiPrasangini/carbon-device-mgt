@@ -133,14 +133,14 @@ public interface DeviceManagementAdminService {
                     required = true)
             @QueryParam("name")
             @Size(max = 45)
-            String name,
+                    String name,
             @ApiParam(
                     name = "type",
                     value = "The device type name, such as ios, android, windows or fire-alarm.",
                     required = true)
             @QueryParam("type")
             @Size(min = 2, max = 45)
-            String type,
+                    String type,
             @ApiParam(
                     name = "tenant-domain",
                     value = "The name of the tenant.\n" +

@@ -78,7 +78,7 @@ public final class DeviceManagerUtil {
 
     private static final Log log = LogFactory.getLog(DeviceManagerUtil.class);
 
-    private  static boolean isDeviceCacheInitialized = false;
+    private static boolean isDeviceCacheInitialized = false;
 
     public static Document convertToDocument(File file) throws DeviceManagementException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -128,8 +128,8 @@ public final class DeviceManagerUtil {
     /**
      * Adds a new device type to the database if it does not exists.
      *
-     * @param typeName device type
-     * @param tenantId provider tenant Id
+     * @param typeName               device type
+     * @param tenantId               provider tenant Id
      * @param isSharedWithAllTenants is this device type shared with all tenants.
      * @return status of the operation
      */
@@ -157,11 +157,11 @@ public final class DeviceManagerUtil {
         } catch (DeviceManagementDAOException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceManagementException("Error occurred while registering the device type '"
-                                                        + typeName + "'", e);
+                    + typeName + "'", e);
         } catch (TransactionManagementException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceManagementException("SQL occurred while registering the device type '"
-                                                        + typeName + "'", e);
+                    + typeName + "'", e);
         } finally {
             DeviceManagementDAOFactory.closeConnection();
         }
@@ -212,11 +212,11 @@ public final class DeviceManagerUtil {
         } catch (DeviceManagementDAOException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceManagementException("Error occurred while registering the device type '" +
-                                                        typeName + "'", e);
+                    typeName + "'", e);
         } catch (TransactionManagementException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceManagementException("SQL occurred while registering the device type '" +
-                                                        typeName + "'", e);
+                    typeName + "'", e);
         } finally {
             DeviceManagementDAOFactory.closeConnection();
         }
@@ -332,14 +332,14 @@ public final class DeviceManagerUtil {
                 return deviceManagementConfig.getPaginationConfiguration().getActivityListPageSize();
             } else {
                 throw new OperationManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                    "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return limit;
     }
 
     public static PaginationRequest validateOperationListPageSize(PaginationRequest paginationRequest) throws
-                                                                                          OperationManagementException {
+            OperationManagementException {
         if (paginationRequest.getRowCount() == 0) {
             DeviceManagementConfig deviceManagementConfig = DeviceConfigurationManager.getInstance().
                     getDeviceManagementConfig();
@@ -348,14 +348,14 @@ public final class DeviceManagerUtil {
                         getOperationListPageSize());
             } else {
                 throw new OperationManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                    "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return paginationRequest;
     }
 
     public static PaginationRequest validateNotificationListPageSize(PaginationRequest paginationRequest) throws
-                                                                                       NotificationManagementException {
+            NotificationManagementException {
         if (paginationRequest.getRowCount() == 0) {
             DeviceManagementConfig deviceManagementConfig = DeviceConfigurationManager.getInstance().
                     getDeviceManagementConfig();
@@ -364,14 +364,14 @@ public final class DeviceManagerUtil {
                         getNotificationListPageSize());
             } else {
                 throw new NotificationManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                          "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return paginationRequest;
     }
 
     public static PaginationRequest validateDeviceListPageSize(PaginationRequest paginationRequest) throws
-                                                                                             DeviceManagementException {
+            DeviceManagementException {
         if (paginationRequest.getRowCount() == 0) {
             DeviceManagementConfig deviceManagementConfig = DeviceConfigurationManager.getInstance().
                     getDeviceManagementConfig();
@@ -380,23 +380,23 @@ public final class DeviceManagerUtil {
                         getDeviceListPageSize());
             } else {
                 throw new DeviceManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                    "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return paginationRequest;
     }
 
     public static GroupPaginationRequest validateGroupListPageSize(GroupPaginationRequest paginationRequest) throws
-                                                                                                    GroupManagementException {
+            GroupManagementException {
         if (paginationRequest.getRowCount() == 0) {
             DeviceManagementConfig deviceManagementConfig = DeviceConfigurationManager.getInstance()
                     .getDeviceManagementConfig();
             if (deviceManagementConfig != null) {
                 paginationRequest.setRowCount(deviceManagementConfig.getPaginationConfiguration()
-                                                      .getDeviceListPageSize());
+                        .getDeviceListPageSize());
             } else {
                 throw new GroupManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                   "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return paginationRequest;
@@ -410,7 +410,7 @@ public final class DeviceManagerUtil {
                 return deviceManagementConfig.getPaginationConfiguration().getDeviceListPageSize();
             } else {
                 throw new DeviceManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                    "cdm-config.xml file.");
+                        "cdm-config.xml file.");
             }
         }
         return limit;
@@ -423,7 +423,7 @@ public final class DeviceManagerUtil {
             return deviceManagementConfig.getOperationAnalyticsConfiguration().getIsEnabled();
         } else {
             throw new DeviceManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                "cdm-config.xml file.");
+                    "cdm-config.xml file.");
         }
     }
 
@@ -432,10 +432,10 @@ public final class DeviceManagerUtil {
                 getDeviceManagementConfig();
         if (deviceManagementConfig != null) {
             return isOperationAnalyticsEnabled()
-                   && deviceManagementConfig.getOperationAnalyticsConfiguration().getPublishOperationResponse();
+                    && deviceManagementConfig.getOperationAnalyticsConfiguration().getPublishOperationResponse();
         } else {
             throw new DeviceManagementException("Device-Mgt configuration has not initialized. Please check the " +
-                                                        "cdm-config.xml file.");
+                    "cdm-config.xml file.");
         }
     }
 
@@ -516,7 +516,7 @@ public final class DeviceManagerUtil {
         long deviceCacheCapacity = config.getDeviceCacheConfiguration().getCapacity();
         CacheManager manager = getCacheManager();
         if (config.getDeviceCacheConfiguration().isEnabled()) {
-            if(!isDeviceCacheInitialized) {
+            if (!isDeviceCacheInitialized) {
                 isDeviceCacheInitialized = true;
                 if (manager != null) {
                     if (deviceCacheExpiry > 0) {
@@ -524,8 +524,8 @@ public final class DeviceManagerUtil {
                                 setExpiry(CacheConfiguration.ExpiryType.MODIFIED, new CacheConfiguration.Duration(TimeUnit.SECONDS,
                                         deviceCacheExpiry)).setExpiry(CacheConfiguration.ExpiryType.ACCESSED, new CacheConfiguration.
                                 Duration(TimeUnit.SECONDS, deviceCacheExpiry)).setStoreByValue(true).build();
-                        if(deviceCacheCapacity > 0 ) {
-                            ((CacheImpl)(manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE))).
+                        if (deviceCacheCapacity > 0) {
+                            ((CacheImpl) (manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE))).
                                     setCapacity(deviceCacheCapacity);
                         }
                     } else {
@@ -538,7 +538,7 @@ public final class DeviceManagerUtil {
                                 setExpiry(CacheConfiguration.ExpiryType.MODIFIED, new CacheConfiguration.Duration(TimeUnit.SECONDS,
                                         deviceCacheExpiry)).setExpiry(CacheConfiguration.ExpiryType.ACCESSED, new CacheConfiguration.
                                 Duration(TimeUnit.SECONDS, deviceCacheExpiry)).setStoreByValue(true).build();
-                        ((CacheImpl)(manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE))).
+                        ((CacheImpl) (manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE))).
                                 setCapacity(deviceCacheCapacity);
                     } else {
                         Caching.getCacheManager().<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE);
@@ -553,13 +553,13 @@ public final class DeviceManagerUtil {
         CacheManager manager = getCacheManager();
         Cache<DeviceCacheKey, Device> deviceCache = null;
         if (config.getDeviceCacheConfiguration().isEnabled()) {
-            if(!isDeviceCacheInitialized) {
+            if (!isDeviceCacheInitialized) {
                 initializeDeviceCache();
             }
             if (manager != null) {
                 deviceCache = manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE);
             } else {
-                deviceCache =  Caching.getCacheManager(DeviceManagementConstants.DM_CACHE_MANAGER).
+                deviceCache = Caching.getCacheManager(DeviceManagementConstants.DM_CACHE_MANAGER).
                         <DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE);
             }
         }

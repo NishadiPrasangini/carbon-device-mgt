@@ -98,37 +98,37 @@ public interface ConfigurationManagementService {
     )
     @ApiResponses(
             value = {
-            @ApiResponse(
-                    code = 200,
-                    message = "OK. \n Successfully fetched the general platform configurations.",
-                    response = PlatformConfiguration.class,
-                    responseContainer = "List",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body"),
-                            @ResponseHeader(
-                                    name = "ETag",
-                                    description = "Entity Tag of the response resource.\n" +
-                                            "Used by caches, or in conditional requests."),
-                            @ResponseHeader(
-                                    name = "Last-Modified",
-                                    description = "Date and time the resource has been modified the last time.\n" +
-                                            "Used by caches, or in conditional requests."),
-                    }
-            ),
-            @ApiResponse(
-                    code = 304,
-                    message = "Not Modified. \n Empty body because the client already has the latest version of the requested resource."),
-            @ApiResponse(
-                    code = 406,
-                    message = "Not Acceptable.\n The requested media type is not supported."),
-            @ApiResponse(
-                    code = 500,
-                    message = "Internal Server Error. \n Server error occurred while fetching the general " +
-                            "platform configurations.",
-                    response = ErrorResponse.class)
-    })
+                    @ApiResponse(
+                            code = 200,
+                            message = "OK. \n Successfully fetched the general platform configurations.",
+                            response = PlatformConfiguration.class,
+                            responseContainer = "List",
+                            responseHeaders = {
+                                    @ResponseHeader(
+                                            name = "Content-Type",
+                                            description = "The content type of the body"),
+                                    @ResponseHeader(
+                                            name = "ETag",
+                                            description = "Entity Tag of the response resource.\n" +
+                                                    "Used by caches, or in conditional requests."),
+                                    @ResponseHeader(
+                                            name = "Last-Modified",
+                                            description = "Date and time the resource has been modified the last time.\n" +
+                                                    "Used by caches, or in conditional requests."),
+                            }
+                    ),
+                    @ApiResponse(
+                            code = 304,
+                            message = "Not Modified. \n Empty body because the client already has the latest version of the requested resource."),
+                    @ApiResponse(
+                            code = 406,
+                            message = "Not Acceptable.\n The requested media type is not supported."),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n Server error occurred while fetching the general " +
+                                    "platform configurations.",
+                            response = ErrorResponse.class)
+            })
     Response getConfiguration(
             @ApiParam(
                     name = "If-Modified-Since",
@@ -157,33 +157,33 @@ public interface ConfigurationManagementService {
     )
     @ApiResponses(
             value = {
-            @ApiResponse(
-                    code = 200,
-                    message = "OK. \n Successfully updated the general platform configurations.",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body"),
-                            @ResponseHeader(
-                                    name = "ETag",
-                                    description = "Entity Tag of the response resource.\n" +
-                                            "Used by caches, or in conditional requests."),
-                            @ResponseHeader(
-                                    name = "Last-Modified",
-                                    description = "Date and time the resource has been modified the last time.\n" +
-                                            "Used by caches, or in conditional requests.")}),
-            @ApiResponse(
-                    code = 400,
-                    message = "Bad Request. \n Invalid request or validation error."),
-            @ApiResponse(
-                    code = 415,
-                    message = "Unsupported media type. \n The format of the requested entity was not supported."),
-            @ApiResponse(
-                    code = 500,
-                    message = "Internal Server Error. \n " +
-                            "Server error occurred while modifying the general platform configurations.",
-                    response = ErrorResponse.class)
-    })
+                    @ApiResponse(
+                            code = 200,
+                            message = "OK. \n Successfully updated the general platform configurations.",
+                            responseHeaders = {
+                                    @ResponseHeader(
+                                            name = "Content-Type",
+                                            description = "The content type of the body"),
+                                    @ResponseHeader(
+                                            name = "ETag",
+                                            description = "Entity Tag of the response resource.\n" +
+                                                    "Used by caches, or in conditional requests."),
+                                    @ResponseHeader(
+                                            name = "Last-Modified",
+                                            description = "Date and time the resource has been modified the last time.\n" +
+                                                    "Used by caches, or in conditional requests.")}),
+                    @ApiResponse(
+                            code = 400,
+                            message = "Bad Request. \n Invalid request or validation error."),
+                    @ApiResponse(
+                            code = 415,
+                            message = "Unsupported media type. \n The format of the requested entity was not supported."),
+                    @ApiResponse(
+                            code = 500,
+                            message = "Internal Server Error. \n " +
+                                    "Server error occurred while modifying the general platform configurations.",
+                            response = ErrorResponse.class)
+            })
     Response updateConfiguration(
             @ApiParam(
                     name = "configuration",

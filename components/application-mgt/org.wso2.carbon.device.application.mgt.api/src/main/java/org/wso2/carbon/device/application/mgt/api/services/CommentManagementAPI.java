@@ -1,13 +1,30 @@
 package org.wso2.carbon.device.application.mgt.api.services;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Extension;
+import io.swagger.annotations.ExtensionProperty;
+import io.swagger.annotations.Tag;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.wso2.carbon.apimgt.annotations.api.Scope;
 import org.wso2.carbon.apimgt.annotations.api.Scopes;
 import org.wso2.carbon.device.application.mgt.api.beans.ErrorResponse;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 
 import javax.validation.Valid;
-import javax.ws.rs.*;
+import javax.ws.rs.Path;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PUT;
+import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -19,7 +36,7 @@ import java.util.List;
 @SwaggerDefinition(
         info = @Info(
                 version = "1.0.0",
-                title = "Comment Management Service",
+                title = "Store Management Service",
                 extensions = {
                         @Extension(properties = {
                                 @ExtensionProperty(name = "name", value = "CommentManagementService"),
@@ -28,7 +45,7 @@ import java.util.List;
                 }
         ),
         tags = {
-                @Tag(name = "comment_management", description = "Comment Management related "
+                @Tag(name = "store_management", description = "Comment Management related "
                         + "APIs")
         }
 )
@@ -48,7 +65,7 @@ import java.util.List;
                 ),
                 @Scope(
                         name = "Update a Comment",
-                        description = "Update a Commnent",
+                        description = "Update a Comment",
                         key = "perm:comment:update",
                         permissions = {"/device-mgt/comment/update"}
                 ),
@@ -62,7 +79,7 @@ import java.util.List;
         }
 )
 
-@Path("/Comments")
+@Path("/comments")
 @Api(value = "Comments Management", description = "This API carries all comments management related operations " +
         "such as get all the comments, add comment, etc.")
 @Produces(MediaType.APPLICATION_JSON)
@@ -71,17 +88,17 @@ public interface CommentManagementAPI {
     String SCOPE = "scope";
 
     @GET
-    @Path("/uuid/{uuid}")
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "GET",
             value = "get comments",
             notes = "Get all comments",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:get")
+                            @ExtensionProperty(name = SCOPE, value = "perm:store:get")
                     })
             }
     )
@@ -93,6 +110,10 @@ public interface CommentManagementAPI {
                             message = "OK. \n Successfully retrieved comments.",
                             response = List.class,
                             responseContainer = "List"),
+                    @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given ID.",
+                            response = ErrorResponse.class),
                     @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred while getting the comment list.",
@@ -107,11 +128,11 @@ public interface CommentManagementAPI {
             @PathParam("uuid")
                     String uuid,
             @ApiParam(
-                    name="start",
+                    name="offSet",
                     value="Starting comment number.",
                     required = false)
-            @QueryParam("start")
-                    int start,
+            @QueryParam("offSet")
+                    int offSet,
             @ApiParam(
                     name="limit",
                     value = "Limit of paginated comments",
@@ -120,7 +141,7 @@ public interface CommentManagementAPI {
                     int limit);
 
     @POST
-    @Path("/uuid/{uuid}")
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -129,10 +150,10 @@ public interface CommentManagementAPI {
             httpMethod = "POST",
             value = "Add a comment",
             notes = "This will add a new comment",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:add")
+                            @ExtensionProperty(name = SCOPE, value = "perm:store:add")
                     })
             }
     )
@@ -144,10 +165,9 @@ public interface CommentManagementAPI {
                             message = "OK. \n Successfully add a comment.",
                             response = Comment.class),
                     @ApiResponse(
-                            code = 304,
-                            message = "Not Modified. \n " +
-                                    "Empty body because the client already has the latest comment of the requested "
-                                    + "resource."),
+                            code = 400,
+                            message =
+                                    "Bad Request. \n"),
                     @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred adding a comment.",
@@ -168,7 +188,7 @@ public interface CommentManagementAPI {
                     String uuid);
 
     @PUT
-    @Path("/{uuid}/{comments}")
+    @Path("/{apAppCommentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -177,10 +197,10 @@ public interface CommentManagementAPI {
             httpMethod = "PUT",
             value = "Edit a comment",
             notes = "This will edit the comment",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:edit")
+                            @ExtensionProperty(name = SCOPE, value = "perm:store:edit")
                     })
             }
     )
@@ -191,25 +211,32 @@ public interface CommentManagementAPI {
                             message = "OK. \n Successfully updated comment.",
                             response = Comment.class),
                     @ApiResponse(
+                            code = 400,
+                            message = "Bad Request. \n Invalid request or validation error."),
+                    @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given ID.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred while updating the new comment.",
                             response = ErrorResponse.class)
             })
     Response updateComment(
             @ApiParam(
-                    name="uuid",
-                    value = "uuid of the release version of the application.",
-                    required = true)
-            @QueryParam("uuid")
-                    String uuid,
-            @ApiParam(
                     name = "comment",
                     value = "The comment that need to be updated.",
                     required = true)
-            @Valid Comment comment);
+            @Valid Comment comment,
+            @ApiParam(
+                    name="apAppCommentId",
+                    value = "comment id of the updating comment.",
+                    required = true)
+            @QueryParam("apAppCommentId")
+            int apAppCommentId);
 
     @DELETE
-    @Path("/uuid/{uuid}/identifier/{identifier}")
+    @Path("/{apAppCommentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -218,10 +245,10 @@ public interface CommentManagementAPI {
             httpMethod = "DELETE",
             value = "Remove comment",
             notes = "Remove comment",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
-                            @ExtensionProperty(name = SCOPE, value = "perm:comment:remove")
+                            @ExtensionProperty(name = SCOPE, value = "perm:store:remove")
                     })
             }
     )
@@ -232,6 +259,10 @@ public interface CommentManagementAPI {
                             code = 200,
                             message = "OK. \n Successfully deleted the comment"),
                     @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given ID.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred while deleting the comment.",
                             response = ErrorResponse.class)
@@ -239,17 +270,11 @@ public interface CommentManagementAPI {
 
     Response deleteComment(
                     @ApiParam(
-                            name="uuid",
-                            value="uuid of the released version of application.",
-                            required = false)
-                    @PathParam("uuid")
-                            String uuid,
-                    @ApiParam(
-                            name="identifier",
+                            name="apAppCommentId",
                             value="Id of the comment.",
                             required = true)
-                    @PathParam("identifier")
-                            int identifier);
+                    @PathParam("apAppCommentId")
+                            int apAppCommentId);
 
     @GET
     @Path("/{uuid}/{stars}")
@@ -259,7 +284,7 @@ public interface CommentManagementAPI {
             httpMethod = "GET",
             value = "get stars",
             notes = "Get all stars",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
                             @ExtensionProperty(name = SCOPE, value = "perm:stars:get")
@@ -296,7 +321,7 @@ public interface CommentManagementAPI {
             httpMethod = "GET",
             value = "get rated users",
             notes = "Get all users",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
                             @ExtensionProperty(name = SCOPE, value = "perm:user:get")
@@ -335,7 +360,7 @@ public interface CommentManagementAPI {
             httpMethod = "POST",
             value = "Add a star value",
             notes = "This will add star value",
-            tags = "Comment Management",
+            tags = "Store Management",
             extensions = {
                     @Extension(properties = {
                             @ExtensionProperty(name = SCOPE, value = "perm:stars:add")

@@ -20,7 +20,8 @@
 <DataAgentsConfiguration>
     <Agent>
         <Name>Thrift</Name>
-        <DataEndpointClass>org.wso2.carbon.databridge.agent.endpoint.thrift.ThriftDataEndpointNoClass</DataEndpointClass>
+        <DataEndpointClass>org.wso2.carbon.databridge.agent.endpoint.thrift.ThriftDataEndpointNoClass
+        </DataEndpointClass>
         <TrustSore>src/test/resources/client-truststore.jks</TrustSore>
         <TrustSorePassword>wso2carbon</TrustSorePassword>
         <QueueSize>32768</QueueSize>

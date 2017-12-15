@@ -79,7 +79,7 @@ public class DeviceStatusMonitoringTask implements Task {
         } catch (DeviceStatusTaskException e) {
             log.error("Error occurred while fetching OperationEnrolment mappings of deviceType '" + deviceType + "'", e);
         }
-        for (OperationEnrolmentMapping mapping:operationEnrolmentMappings) {
+        for (OperationEnrolmentMapping mapping : operationEnrolmentMappings) {
             long lastActivity = -1;
             if (lastActivities != null && lastActivities.containsKey(mapping.getEnrolmentId())) {
                 lastActivity = lastActivities.get(mapping.getEnrolmentId());
@@ -104,13 +104,13 @@ public class DeviceStatusMonitoringTask implements Task {
                 //Remove updated entries from cache
                 //DeviceCacheManagerImpl.getInstance().removeDevicesFromCache(identifiers);
             } catch (DeviceStatusTaskException e) {
-                log.error("Error occurred while updating non-responsive device-status of devices of type '" + deviceType + "'",e);
+                log.error("Error occurred while updating non-responsive device-status of devices of type '" + deviceType + "'", e);
             }
         }
     }
 
     private EnrolmentInfo.Status determineDeviceStatus(OperationEnrolmentMapping opMapping, long lastActivityTime) {
-        long lastPendingOpBefore = (System.currentTimeMillis()/1000) - opMapping.getCreatedTime();
+        long lastPendingOpBefore = (System.currentTimeMillis() / 1000) - opMapping.getCreatedTime();
         EnrolmentInfo.Status newStatus = null;
         if (lastPendingOpBefore >= this.deviceStatusTaskPluginConfig.getIdleTimeToMarkInactive()) {
             newStatus = EnrolmentInfo.Status.INACTIVE;
@@ -118,7 +118,7 @@ public class DeviceStatusMonitoringTask implements Task {
             newStatus = EnrolmentInfo.Status.UNREACHABLE;
         }
         if (lastActivityTime != -1) {
-            long lastActivityBefore = (System.currentTimeMillis()/1000) - lastActivityTime;
+            long lastActivityBefore = (System.currentTimeMillis() / 1000) - lastActivityTime;
             if (lastActivityBefore < lastPendingOpBefore) {
                 return opMapping.getDeviceStatus();
             }
@@ -127,12 +127,12 @@ public class DeviceStatusMonitoringTask implements Task {
     }
 
     private long getMinTimeWindow() {
-        return (System.currentTimeMillis()/1000) - this.deviceStatusTaskPluginConfig.getIdleTimeToMarkUnreachable();
+        return (System.currentTimeMillis() / 1000) - this.deviceStatusTaskPluginConfig.getIdleTimeToMarkUnreachable();
     }
 
     private long getMaxTimeWindow() {
         //Need to consider the frequency of the task as well
-        return (System.currentTimeMillis()/1000) - this.deviceStatusTaskPluginConfig.getIdleTimeToMarkInactive() -
+        return (System.currentTimeMillis() / 1000) - this.deviceStatusTaskPluginConfig.getIdleTimeToMarkInactive() -
                 this.deviceStatusTaskPluginConfig.getFrequency();
     }
 
@@ -149,7 +149,7 @@ public class DeviceStatusMonitoringTask implements Task {
                     + deviceType + "'", e);
         } catch (TransactionManagementException e) {
             throw new DeviceStatusTaskException("Error occurred while initiating a transaction for updating the device " +
-                    "status of type '" + deviceType +"'", e);
+                    "status of type '" + deviceType + "'", e);
         } finally {
             DeviceManagementDAOFactory.closeConnection();
         }

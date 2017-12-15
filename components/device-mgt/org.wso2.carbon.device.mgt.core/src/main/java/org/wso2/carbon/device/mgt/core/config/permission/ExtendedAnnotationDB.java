@@ -33,16 +33,16 @@ public class ExtendedAnnotationDB extends AnnotationDB {
         URL[] arr = urls;
         int len = urls.length;
 
-        for(int i = 0; i < len; ++i) {
+        for (int i = 0; i < len; ++i) {
             URL url = arr[i];
             Filter filter = new Filter() {
                 public boolean accepts(String filename) {
-                    if(filename.endsWith(".class")) {
-                        if(filename.startsWith("/") || filename.startsWith("\\")) {
+                    if (filename.endsWith(".class")) {
+                        if (filename.startsWith("/") || filename.startsWith("\\")) {
                             filename = filename.substring(1);
                         }
 
-                        if(!ExtendedAnnotationDB.this.ignoreScan(filename.replace('/', '.'))) {
+                        if (!ExtendedAnnotationDB.this.ignoreScan(filename.replace('/', '.'))) {
                             return true;
                         }
                     }
@@ -52,7 +52,7 @@ public class ExtendedAnnotationDB extends AnnotationDB {
             StreamIterator it = ExtendedIteratorFactory.create(url, filter);
 
             InputStream stream;
-            while((stream = it.next()) != null) {
+            while ((stream = it.next()) != null) {
                 this.scanClass(stream);
             }
         }
@@ -64,13 +64,13 @@ public class ExtendedAnnotationDB extends AnnotationDB {
         int len;
         int i;
         String ignored;
-        if(this.scanPackages != null) {
+        if (this.scanPackages != null) {
             arr = this.scanPackages;
             len = arr.length;
 
-            for(i = 0; i < len; ++i) {
+            for (i = 0; i < len; ++i) {
                 ignored = arr[i];
-                if(intf.startsWith(ignored + ".")) {
+                if (intf.startsWith(ignored + ".")) {
                     return false;
                 }
             }
@@ -80,9 +80,9 @@ public class ExtendedAnnotationDB extends AnnotationDB {
             arr = this.ignoredPackages;
             len = arr.length;
 
-            for(i = 0; i < len; ++i) {
+            for (i = 0; i < len; ++i) {
                 ignored = arr[i];
-                if(intf.startsWith(ignored + ".")) {
+                if (intf.startsWith(ignored + ".")) {
                     return true;
                 }
             }

@@ -114,7 +114,7 @@ public class DeviceInformationManagerImpl implements DeviceInformationManager {
         } catch (DeviceManagementDAOException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceDetailsMgtException("Error occurred while updating the last update timestamp of the " +
-                                                "device", e);
+                    "device", e);
         } catch (DataPublisherConfigurationException e) {
             DeviceManagementDAOFactory.rollbackTransaction();
             throw new DeviceDetailsMgtException("Error occurred while publishing the device location information.", e);
@@ -137,7 +137,7 @@ public class DeviceInformationManagerImpl implements DeviceInformationManager {
 
         } catch (SQLException e) {
             throw new DeviceDetailsMgtException("SQL error occurred while retrieving device " + deviceId.toString()
-                                                + "'s info from database.", e);
+                    + "'s info from database.", e);
         } catch (DeviceDetailsMgtDAOException e) {
             throw new DeviceDetailsMgtException("Exception occurred while retrieving device details.", e);
         } finally {
@@ -250,7 +250,7 @@ public class DeviceInformationManagerImpl implements DeviceInformationManager {
             if (device == null) {
                 if (log.isDebugEnabled()) {
                     log.debug("No device is found upon the device identifier '" + deviceId.getId() +
-                              "' and type '" + deviceId.getType() + "'. Therefore returning null");
+                            "' and type '" + deviceId.getType() + "'. Therefore returning null");
                 }
                 return null;
             }
@@ -279,7 +279,7 @@ public class DeviceInformationManagerImpl implements DeviceInformationManager {
             throw new DeviceDetailsMgtException("SQL error occurred while retrieving device from database.", e);
         } catch (DeviceDetailsMgtDAOException e) {
             throw new DeviceDetailsMgtException("Exception occurred while retrieving device locations.", e);
-        } finally{
+        } finally {
             DeviceManagementDAOFactory.closeConnection();
         }
     }

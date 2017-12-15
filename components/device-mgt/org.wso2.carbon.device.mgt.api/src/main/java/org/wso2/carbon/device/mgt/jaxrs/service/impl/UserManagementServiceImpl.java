@@ -515,7 +515,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         if (domain != null && !domain.isEmpty()) {
             userStoreDomain = domain;
         }
-        if (limit == 0){
+        if (limit == 0) {
             //If there is no limit is passed, then return all.
             limit = -1;
         }

@@ -202,7 +202,7 @@ public class DeviceTypeManagerTest {
         Assert.assertNull(customDeviceTypeManager.getConfiguration());
     }
 
-    @Test (description = "This test case tests the getDefaultConfiguration method")
+    @Test(description = "This test case tests the getDefaultConfiguration method")
     public void testGetDefaultConfiguration()
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method getDefaultConfiguration = DeviceTypeManager.class.getDeclaredMethod("getDefaultConfiguration");
@@ -211,7 +211,7 @@ public class DeviceTypeManagerTest {
                 + "retrieved even without adding the configuration for the device type android");
     }
 
-    @Test (description = "This test case tests the updateDeviceInfo method")
+    @Test(description = "This test case tests the updateDeviceInfo method")
     public void testUpdateDeviceInfo() throws DeviceManagementException {
         DeviceIdentifier existingDeviceIdentifier = new DeviceIdentifier(sampleDevice2.getDeviceIdentifier(),
                 androidDeviceType);
@@ -228,9 +228,9 @@ public class DeviceTypeManagerTest {
         nonExistingDeviceIdentifier = new DeviceIdentifier("NON-EXISTING", androidDeviceType);
         List<Device.Property> list = new ArrayList<>();
 
-        String[] deviceTypeAttributes = { "FCM_TOKEN", "DEVICE_INFO", "IMEI", "IMSI", "OS_VERSION", "DEVICE_MODEL",
+        String[] deviceTypeAttributes = {"FCM_TOKEN", "DEVICE_INFO", "IMEI", "IMSI", "OS_VERSION", "DEVICE_MODEL",
                 "VENDOR", "LATITUDE", "LONGITUDE", "SERIAL", "MAC_ADDRESS", "DEVICE_NAME", "DEVICE_NAME",
-                "OS_BUILD_DATE" };
+                "OS_BUILD_DATE"};
 
         for (String deviceTypeAttribute : deviceTypeAttributes) {
             Device.Property property = new Device.Property();
@@ -246,9 +246,9 @@ public class DeviceTypeManagerTest {
     /**
      * To create a sample custom device.
      */
-    private void createCustomDevice () {
+    private void createCustomDevice() {
         List<Device.Property> list = new ArrayList<>();
-        for(String customProperty : customDeviceTypeProperties) {
+        for (String customProperty : customDeviceTypeProperties) {
             Device.Property property = new Device.Property();
             property.setName(customProperty);
             property.setValue(customProperty);
@@ -267,7 +267,7 @@ public class DeviceTypeManagerTest {
      * @throws IllegalAccessException Illegal Access Exception
      */
     private DeviceTypePluginDAOManager createandroidDeviceTypePluginDAOManager(javax.sql.DataSource dataSource,
-            DeviceTypeConfiguration androidDeviceConfiguration) throws NoSuchFieldException, IllegalAccessException {
+                                                                               DeviceTypeConfiguration androidDeviceConfiguration) throws NoSuchFieldException, IllegalAccessException {
         DeviceTypeDAOHandler deviceTypeDAOHandler = Mockito
                 .mock(DeviceTypeDAOHandler.class, Mockito.CALLS_REAL_METHODS);
         datasourceField.set(deviceTypeDAOHandler, dataSource);

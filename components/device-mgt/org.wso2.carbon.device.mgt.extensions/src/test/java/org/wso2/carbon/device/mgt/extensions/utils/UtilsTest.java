@@ -76,7 +76,7 @@ public class UtilsTest {
 
     @Test(description = "This test case tests the getLicense method of the FileBasedLicenseManager")
     public void testFileBasedLicenseManagerGetLicense() throws LicenseManagementException {
-        License fileBasedLicense = fileSystemBasedLicenseManager.getLicense(Utils.TEST_STRING,"en_US");
+        License fileBasedLicense = fileSystemBasedLicenseManager.getLicense(Utils.TEST_STRING, "en_US");
         Assert.assertEquals(fileBasedLicense.getText(), "This is a file based license",
                 "FileBased License cannot " + "be retrieved by FileBasedLicenseManager");
     }
@@ -85,14 +85,14 @@ public class UtilsTest {
             + "is missing in file system", expectedExceptions = {LicenseManagementException.class},
             expectedExceptionsMessageRegExp = "License file not found in the path for the device type test2")
     public void testFileBasedLicenseManagerGetNonExistingLicense() throws LicenseManagementException {
-       fileSystemBasedLicenseManager.getLicense("test2","en_US");
+        fileSystemBasedLicenseManager.getLicense("test2", "en_US");
     }
 
     @Test(description = "This test case make sure the File Based License cannot be added without adding directly to "
             + "file system", expectedExceptions = {UnsupportedOperationException.class},
             expectedExceptionsMessageRegExp = "'addLicense' method is not supported in FileSystemBasedLicenseManager")
     public void testFileBasedLicenseManagerAddLicense() throws LicenseManagementException {
-       fileSystemBasedLicenseManager.addLicense(Utils.TEST_STRING, null);
+        fileSystemBasedLicenseManager.addLicense(Utils.TEST_STRING, null);
     }
 
     @Test(description = "This test case tests the DeviceTypeConfigIdentifier equals method")

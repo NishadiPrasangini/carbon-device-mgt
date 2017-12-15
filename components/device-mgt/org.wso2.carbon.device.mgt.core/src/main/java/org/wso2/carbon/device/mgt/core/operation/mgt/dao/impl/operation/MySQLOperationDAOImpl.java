@@ -52,13 +52,13 @@ public class MySQLOperationDAOImpl extends GenericOperationDAOImpl {
             long time = System.currentTimeMillis() / 1000;
             Connection connection = OperationManagementDAOFactory.getConnection();
             stmt = connection.prepareStatement("SELECT STATUS, UPDATED_TIMESTAMP FROM DM_ENROLMENT_OP_MAPPING " +
-                                               "WHERE ENROLMENT_ID=? and OPERATION_ID=? FOR UPDATE");
+                    "WHERE ENROLMENT_ID=? and OPERATION_ID=? FOR UPDATE");
             stmt.setString(1, status.toString());
             stmt.setLong(2, time);
             if (stmt.execute()) {
                 OperationManagementDAOUtil.cleanupResources(stmt);
                 stmt = connection.prepareStatement("UPDATE DM_ENROLMENT_OP_MAPPING SET STATUS=?, UPDATED_TIMESTAMP=? " +
-                                                   "WHERE ENROLMENT_ID=? and OPERATION_ID=?");
+                        "WHERE ENROLMENT_ID=? and OPERATION_ID=?");
                 stmt.setString(1, status.toString());
                 stmt.setLong(2, time);
                 stmt.setInt(3, enrolmentId);
@@ -70,7 +70,7 @@ public class MySQLOperationDAOImpl extends GenericOperationDAOImpl {
             }
         } catch (SQLException e) {
             throw new OperationManagementDAOException("Error occurred while update device mapping operation status " +
-                                                      "metadata", e);
+                    "metadata", e);
         } finally {
             OperationManagementDAOUtil.cleanupResources(stmt);
         }

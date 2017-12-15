@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ManagementRepository")
 public class DeviceManagementConfigRepository {
 
-	private DataSourceConfig dataSourceConfig;
+    private DataSourceConfig dataSourceConfig;
 
     @XmlElement(name = "DataSourceConfiguration", required = true)
     public DataSourceConfig getDataSourceConfig() {

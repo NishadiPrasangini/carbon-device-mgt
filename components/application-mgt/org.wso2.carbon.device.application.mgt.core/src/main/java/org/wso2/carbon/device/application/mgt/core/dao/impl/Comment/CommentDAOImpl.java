@@ -13,7 +13,11 @@ import org.wso2.carbon.device.application.mgt.core.dao.common.Util;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.AbstractDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
-import java.sql.*;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +44,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID," +
-                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)," +
+                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)," +//app_release.id
                 "(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
             stmt = conn.prepareStatement(sql, new String[] {"id"});
@@ -149,7 +153,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement = connection.prepareStatement(sql);
             statement.setString(1, updatedComment);
             statement.setString(2,modifiedBy);
-            statement.setTimestamp(3,modifiedAt);
+            statement.setTimestamp(3,modifiedAt);//
             statement.setInt(4,apAppCommentID);
             statement.executeUpdate();
             rs= statement.executeQuery();
@@ -195,7 +199,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while retrieving information of the comment "+apAppCommentId, e);
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         }   finally {
             Util.cleanupResources(stmt, null);
         }
@@ -238,7 +242,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 comments.add(comment);
             }
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while retrieving comments", e);
         } finally {
@@ -250,7 +254,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
 
     @Override
-    public List<Comment> getAllComments(String uuid) throws CommentManagementException, SQLException,
+    public List<Comment> getAllComments(String uuid,PaginationRequest request) throws CommentManagementException, SQLException,
             DBConnectionException {
         if (log.isDebugEnabled()) {
             log.debug("Getting comment of the application release ("+uuid+") from the database");
@@ -263,10 +267,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         try {
             conn = this.getDBConnection();
-            sql += "SELECT COMMENT_TEXT FROM AP_APP_COMMENT, AP_APP_RELEASE WHERE " +
-                    "AP_APP_COMMENT.AP_APP_RELEASE_ID=AP_APP_RELEASE.ID AND AP_APP_RELEASE.UUID = ?;";
+            sql += "\n" +
+                    "SELECT COMMENT_TEXT FROM AP_APP_COMMENT, AP_APP_RELEASE WHERE AP_APP_COMMENT.AP_APP_RELEASE_ID=AP_APP_RELEASE.ID " +
+                    "AND AP_APP_RELEASE.UUID =? LIMIT ? OFFSET ?;";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1,uuid);
+            stmt.setInt(2,request.getLimit());
+            stmt.setInt(3,request.getOffSet());
             rs= stmt.executeQuery();
 
             while (rs.next()) {
@@ -277,7 +284,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 comment.setCreatedAt(rs.getTimestamp("CREATED_AT"));
                 comment.setCreatedBy(rs.getString("CREATED_BY"));
                 comment.setModifiedAt(rs.getTimestamp("MODEFIED_AT"));
-                comment.setModifiedBy(rs.getString("modifiedBy"));
+                comment.setModifiedBy(rs.getString("MODEFIED_BY"));
                 comment.setParent(rs.getInt("PARENT_ID"));
 
                 comments.add(comment);
@@ -318,7 +325,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while retrieving count of comments", e);
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             Util.cleanupResources(stmt, rs);
         }
@@ -362,7 +369,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 comments.add(comment);
             }
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
 
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while retrieving information of comments", e);
@@ -920,7 +927,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(5,appType);
             stmt.executeUpdate();
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
@@ -951,7 +958,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(6,createdBy);
             stmt.executeUpdate();
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
@@ -977,7 +984,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setInt(3,parentId);
             stmt.executeUpdate();
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } catch (SQLException e) {
             throw new CommentManagementException("Error occurred while deleting comments", e);
         } finally {
@@ -1014,11 +1021,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                     "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing " +
                             "the query " +  e);
         } catch (DBConnectionException e) {
-            throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to add stars the " + "application with UUID " +uuid, e);
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             Util.cleanupResources(stmt, resultSet);
         }
+        return stars;
     }
 
     @Override
@@ -1049,8 +1056,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                     "SQL Exception while trying to get stars from an application (UUID : " + uuid + "), by executing " +
                             "the query " + e);
         } catch (DBConnectionException e) {
-            throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to get of stars the application with UUID " + uuid, e);
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             Util.cleanupResources(statement, resultSet);
         }
@@ -1080,13 +1086,9 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
                 return applicationRelease.getNoOfRatedUsers();
             }
         } catch (SQLException e) {
-            throw new ApplicationManagementDAOException(
-                    "SQL Exception while trying to get number of rated users to an application (UUID : " + uuid + ")," +
-                            "by executing the query " + e);
+            log.error("SQL Exception occurs.", e);
         } catch (DBConnectionException e) {
-            throw new ApplicationManagementDAOException(
-                    "Database Connection Exception while trying to get number of rated users of the application " +
-                            "with UUID " + uuid, e);
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             Util.cleanupResources(statement, resultSet);
         }

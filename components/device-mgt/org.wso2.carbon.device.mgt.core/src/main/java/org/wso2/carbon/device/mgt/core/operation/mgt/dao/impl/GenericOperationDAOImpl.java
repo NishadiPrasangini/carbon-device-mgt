@@ -194,7 +194,7 @@ public class GenericOperationDAOImpl implements OperationDAO {
 
             rs = stmt.executeQuery();
             int enPrimaryId = 0;
-            if(rs.next()){
+            if (rs.next()) {
                 enPrimaryId = rs.getInt("ID");
             }
             stmt = connection.prepareStatement("INSERT INTO DM_DEVICE_OPERATION_RESPONSE(OPERATION_ID, ENROLMENT_ID, " +

@@ -29,44 +29,44 @@ import java.io.File;
 
 public class AppManagementConfigurationManager {
 
-	private AppManagementConfig appManagementConfig;
-	private static AppManagementConfigurationManager appManagementConfigManager;
+    private AppManagementConfig appManagementConfig;
+    private static AppManagementConfigurationManager appManagementConfigManager;
 
-	private static final String APP_MANAGER_CONFIG_FILE = "remote-appmanager-config.xml";
-	private static final String APP_MANAGER_CONFIG_PATH =
-			CarbonUtils.getEtcCarbonConfigDirPath() + File.separator + APP_MANAGER_CONFIG_FILE;
+    private static final String APP_MANAGER_CONFIG_FILE = "remote-appmanager-config.xml";
+    private static final String APP_MANAGER_CONFIG_PATH =
+            CarbonUtils.getEtcCarbonConfigDirPath() + File.separator + APP_MANAGER_CONFIG_FILE;
 
-	public static AppManagementConfigurationManager getInstance() {
-		if (appManagementConfigManager == null) {
-			synchronized (AppManagementConfigurationManager.class) {
-				if (appManagementConfigManager == null) {
-					appManagementConfigManager = new AppManagementConfigurationManager();
-				}
-			}
-		}
-		return appManagementConfigManager;
-	}
+    public static AppManagementConfigurationManager getInstance() {
+        if (appManagementConfigManager == null) {
+            synchronized (AppManagementConfigurationManager.class) {
+                if (appManagementConfigManager == null) {
+                    appManagementConfigManager = new AppManagementConfigurationManager();
+                }
+            }
+        }
+        return appManagementConfigManager;
+    }
 
-	public synchronized void initConfig() throws ApplicationManagementException {
-		try {
-			File appManagementConfig =
-					new File(AppManagementConfigurationManager.APP_MANAGER_CONFIG_PATH);
-			Document doc = DeviceManagerUtil.convertToDocument(appManagementConfig);
+    public synchronized void initConfig() throws ApplicationManagementException {
+        try {
+            File appManagementConfig =
+                    new File(AppManagementConfigurationManager.APP_MANAGER_CONFIG_PATH);
+            Document doc = DeviceManagerUtil.convertToDocument(appManagementConfig);
 
             /* Un-marshaling App Management configuration */
-			JAXBContext cdmContext = JAXBContext.newInstance(AppManagementConfig.class);
-			Unmarshaller unmarshaller = cdmContext.createUnmarshaller();
-			this.appManagementConfig = (AppManagementConfig) unmarshaller.unmarshal(doc);
-		} catch (Exception e) {
-		    /* Catches generic exception as there's no specific task to be carried out catching a particular
+            JAXBContext cdmContext = JAXBContext.newInstance(AppManagementConfig.class);
+            Unmarshaller unmarshaller = cdmContext.createUnmarshaller();
+            this.appManagementConfig = (AppManagementConfig) unmarshaller.unmarshal(doc);
+        } catch (Exception e) {
+            /* Catches generic exception as there's no specific task to be carried out catching a particular
             exception */
-			throw new ApplicationManagementException(
-					"Error occurred while initializing application management Configurations", e);
-		}
-	}
+            throw new ApplicationManagementException(
+                    "Error occurred while initializing application management Configurations", e);
+        }
+    }
 
-	public AppManagementConfig getAppManagementConfig() {
-		return appManagementConfig;
-	}
+    public AppManagementConfig getAppManagementConfig() {
+        return appManagementConfig;
+    }
 
 }

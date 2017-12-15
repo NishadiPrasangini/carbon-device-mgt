@@ -29,9 +29,9 @@ import java.util.List;
 
 /**
  * <p>Java class for Feature complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="Feature">
  *   &lt;complexContent>
@@ -46,14 +46,12 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Feature", propOrder = {
-    "name",
-    "description",
-    "operation", "metaData"
+        "name",
+        "description",
+        "operation", "metaData"
 })
 public class Feature {
 
@@ -71,11 +69,9 @@ public class Feature {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -83,11 +79,9 @@ public class Feature {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -95,11 +89,9 @@ public class Feature {
 
     /**
      * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDescription() {
         return description;
@@ -107,11 +99,9 @@ public class Feature {
 
     /**
      * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDescription(String value) {
         this.description = value;
@@ -119,11 +109,9 @@ public class Feature {
 
     /**
      * Gets the value of the operation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Operation }
-     *     
+     *
+     * @return possible object is
+     * {@link Operation }
      */
     public Operation getOperation() {
         return operation;
@@ -131,11 +119,9 @@ public class Feature {
 
     /**
      * Sets the value of the operation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Operation }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Operation }
      */
     public void setOperation(Operation value) {
         this.operation = value;
@@ -143,11 +129,9 @@ public class Feature {
 
     /**
      * Gets the value of the code property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCode() {
         return code;
@@ -155,11 +139,9 @@ public class Feature {
 
     /**
      * Sets the value of the code property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCode(String value) {
         this.code = value;

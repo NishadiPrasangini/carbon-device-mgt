@@ -72,6 +72,7 @@ import java.util.Map;
 public class DeviceAgentServiceImpl implements DeviceAgentService {
     private static final Log log = LogFactory.getLog(DeviceAgentServiceImpl.class);
     private static final String POLICY_MONITOR = "POLICY_MONITOR";
+
     @POST
     @Path("/enroll")
     @Override
@@ -120,7 +121,7 @@ public class DeviceAgentServiceImpl implements DeviceAgentService {
                 return Response.status(Response.Status.OK).build();
             } else {
                 return Response.status(Response.Status.NO_CONTENT).entity(type + " device that carries id '" + id +
-                                                                          "' has not been dis-enrolled").build();
+                        "' has not been dis-enrolled").build();
             }
         } catch (DeviceManagementException e) {
             String msg = "Error occurred while enrolling the device, which carries the id '" + id + "'";
@@ -156,7 +157,7 @@ public class DeviceAgentServiceImpl implements DeviceAgentService {
             log.error(errorMessage);
             return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
         }
-        if (device.getEnrolmentInfo().getStatus() == EnrolmentInfo.Status.ACTIVE ) {
+        if (device.getEnrolmentInfo().getStatus() == EnrolmentInfo.Status.ACTIVE) {
             DeviceAccessAuthorizationService deviceAccessAuthorizationService =
                     DeviceMgtAPIUtils.getDeviceAccessAuthorizationService();
             boolean status;
@@ -172,25 +173,25 @@ public class DeviceAgentServiceImpl implements DeviceAgentService {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
         }
-        if(updateDevice.getEnrolmentInfo() != null) {
+        if (updateDevice.getEnrolmentInfo() != null) {
             device.getEnrolmentInfo().setDateOfLastUpdate(System.currentTimeMillis());
             device.setEnrolmentInfo(device.getEnrolmentInfo());
         }
         device.getEnrolmentInfo().setOwner(DeviceMgtAPIUtils.getAuthenticatedUser());
-        if(updateDevice.getDeviceInfo() != null) {
+        if (updateDevice.getDeviceInfo() != null) {
             device.setDeviceInfo(updateDevice.getDeviceInfo());
         }
         device.setDeviceIdentifier(id);
-        if(updateDevice.getDescription() != null) {
+        if (updateDevice.getDescription() != null) {
             device.setDescription(updateDevice.getDescription());
         }
-        if(updateDevice.getName() != null) {
+        if (updateDevice.getName() != null) {
             device.setName(updateDevice.getName());
         }
-        if(updateDevice.getFeatures() != null) {
+        if (updateDevice.getFeatures() != null) {
             device.setFeatures(updateDevice.getFeatures());
         }
-        if(updateDevice.getProperties() != null) {
+        if (updateDevice.getProperties() != null) {
             device.setProperties(updateDevice.getProperties());
         }
         boolean result;
@@ -552,7 +553,7 @@ public class DeviceAgentServiceImpl implements DeviceAgentService {
     }
 
     private static List<ComplianceFeature> getComplianceFeatures(Object compliancePayload) throws
-                                                                                           PolicyComplianceException {
+            PolicyComplianceException {
         String compliancePayloadString = new Gson().toJson(compliancePayload);
         if (compliancePayload == null) {
             return null;

@@ -99,12 +99,11 @@ public interface DeviceAnalyticsArtifactUploaderAdminService {
                             " for a specified set of devices.",
                     response = ErrorResponse.class)
     })
-
     Response doPublish(
             @ApiParam(name = "type",
-                value = "The type of deployment." +
-                    "INFO: Deploy artifact with given type.",
-                required = true)
-           @PathParam("type") String type);
+                    value = "The type of deployment." +
+                            "INFO: Deploy artifact with given type.",
+                    required = true)
+            @PathParam("type") String type);
 
 }

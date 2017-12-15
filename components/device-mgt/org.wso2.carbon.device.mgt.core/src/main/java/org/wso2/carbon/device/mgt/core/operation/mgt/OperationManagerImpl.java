@@ -535,7 +535,7 @@ public class OperationManagerImpl implements OperationManager {
             int enrolmentId = enrolmentInfo.getId();
             OperationManagementDAOFactory.beginTransaction();
             if (operation.getStatus() != null) {
-                 operationDAO.updateOperationStatus(enrolmentId, operationId,
+                operationDAO.updateOperationStatus(enrolmentId, operationId,
                         org.wso2.carbon.device.mgt.core.dto.operation.mgt.
                                 Operation.Status.valueOf(operation.getStatus().
                                 toString()));

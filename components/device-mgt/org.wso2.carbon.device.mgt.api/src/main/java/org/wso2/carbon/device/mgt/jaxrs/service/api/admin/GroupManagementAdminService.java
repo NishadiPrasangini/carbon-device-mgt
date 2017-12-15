@@ -103,16 +103,16 @@ public interface GroupManagementAdminService {
                             @ResponseHeader(
                                     name = "ETag",
                                     description = "Entity Tag of the response resource.\n" +
-                                                  "Used by caches, or in conditional requests."),
+                                            "Used by caches, or in conditional requests."),
                             @ResponseHeader(
                                     name = "Last-Modified",
                                     description = "Date and time the resource has been modified the last time.\n" +
-                                                  "Used by caches, or in conditional requests."),
+                                            "Used by caches, or in conditional requests."),
                     }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. \n Empty body because the client has already the latest version of " +
-                              "the requested resource."),
+                            "the requested resource."),
             @ApiResponse(
                     code = 406,
                     message = "Not Acceptable.\n The requested media type is not supported."),
@@ -122,8 +122,8 @@ public interface GroupManagementAdminService {
                     response = ErrorResponse.class)
     })
     Response getGroups(@ApiParam(
-                               name = "name",
-                               value = "Name of the group.")
+            name = "name",
+            value = "Name of the group.")
                        @QueryParam("name")
                                String name,
                        @ApiParam(
@@ -168,16 +168,16 @@ public interface GroupManagementAdminService {
                             @ResponseHeader(
                                     name = "ETag",
                                     description = "Entity Tag of the response resource.\n" +
-                                                  "Used by caches, or in conditional requests."),
+                                            "Used by caches, or in conditional requests."),
                             @ResponseHeader(
                                     name = "Last-Modified",
                                     description = "Date and time the resource has been modified the last time.\n" +
-                                                  "Used by caches, or in conditional requests."),
+                                            "Used by caches, or in conditional requests."),
                     }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. \n Empty body because the client has already the latest version of " +
-                              "the requested resource."),
+                            "the requested resource."),
             @ApiResponse(
                     code = 404,
                     message = "No groups found.",

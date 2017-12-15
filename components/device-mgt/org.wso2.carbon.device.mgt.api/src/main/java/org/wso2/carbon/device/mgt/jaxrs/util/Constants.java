@@ -23,28 +23,32 @@ package org.wso2.carbon.device.mgt.jaxrs.util;
  */
 public class Constants {
 
-	public static final String USER_CLAIM_EMAIL_ADDRESS = "http://wso2.org/claims/emailaddress";
-	public static final String USER_CLAIM_FIRST_NAME = "http://wso2.org/claims/givenname";
-	public static final String USER_CLAIM_LAST_NAME = "http://wso2.org/claims/lastname";
-	public static final String PRIMARY_USER_STORE = "PRIMARY";
+    public static final String USER_CLAIM_EMAIL_ADDRESS = "http://wso2.org/claims/emailaddress";
+    public static final String USER_CLAIM_FIRST_NAME = "http://wso2.org/claims/givenname";
+    public static final String USER_CLAIM_LAST_NAME = "http://wso2.org/claims/lastname";
+    public static final String PRIMARY_USER_STORE = "PRIMARY";
     public static final String DEFAULT_STREAM_VERSION = "1.0.0";
-	public static final String SCOPE = "scope";
-	public static final String JDBC_USERSTOREMANAGER = "org.wso2.carbon.user.core.jdbc.JDBCUserStoreManager";
-	public static final int DEFAULT_PAGE_LIMIT = 50;
+    public static final String SCOPE = "scope";
+    public static final String JDBC_USERSTOREMANAGER = "org.wso2.carbon.user.core.jdbc.JDBCUserStoreManager";
+    public static final int DEFAULT_PAGE_LIMIT = 50;
 
 
-	public final class ErrorMessages {
-		private ErrorMessages () { throw new AssertionError(); }
+    public final class ErrorMessages {
+        private ErrorMessages() {
+            throw new AssertionError();
+        }
 
-		public static final String STATUS_BAD_REQUEST_MESSAGE_DEFAULT = "Bad Request";
+        public static final String STATUS_BAD_REQUEST_MESSAGE_DEFAULT = "Bad Request";
 
-	}
+    }
 
-	public final class DeviceConstants {
-		private DeviceConstants () { throw new AssertionError(); }
+    public final class DeviceConstants {
+        private DeviceConstants() {
+            throw new AssertionError();
+        }
 
-		public static final String APPLICATION_JSON = "application/json";
-		public static final String HEADER_CONTENT_TYPE = "Content-Type";
-	}
+        public static final String APPLICATION_JSON = "application/json";
+        public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    }
 
 }

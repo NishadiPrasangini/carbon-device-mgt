@@ -37,60 +37,60 @@ import java.io.File;
 
 public class AppManagementConfigurationManagerTest {
 
-	private static final Log log = LogFactory.getLog(AppManagementConfigurationManagerTest.class);
-	private static final String MALFORMED_TEST_CONFIG_LOCATION_NO_ENABLED =
-			"./src/test/resources/config/malformed-app-management-config-no-enabled.xml";
-	private static final String MALFORMED_TEST_CONFIG_LOCATION_NO_CLIENT_KEY =
-			"./src/test/resources/config/malformed-app-management-config-no-client-key-secret.xml";
-	private static final String TEST_CONFIG_SCHEMA_LOCATION =
-			"./src/test/resources/config/schema/app-mgt-config-schema.xsd";
+    private static final Log log = LogFactory.getLog(AppManagementConfigurationManagerTest.class);
+    private static final String MALFORMED_TEST_CONFIG_LOCATION_NO_ENABLED =
+            "./src/test/resources/config/malformed-app-management-config-no-enabled.xml";
+    private static final String MALFORMED_TEST_CONFIG_LOCATION_NO_CLIENT_KEY =
+            "./src/test/resources/config/malformed-app-management-config-no-client-key-secret.xml";
+    private static final String TEST_CONFIG_SCHEMA_LOCATION =
+            "./src/test/resources/config/schema/app-mgt-config-schema.xsd";
 
-	private Schema schema;
+    private Schema schema;
 
-	@BeforeClass
-	private void initSchema() {
-		File deviceManagementSchemaConfig = new File(AppManagementConfigurationManagerTest.TEST_CONFIG_SCHEMA_LOCATION);
-		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		try {
-			schema = factory.newSchema(deviceManagementSchemaConfig);
-		} catch (SAXException e) {
-			Assert.fail("Invalid schema found", e);
-		}
-	}
+    @BeforeClass
+    private void initSchema() {
+        File deviceManagementSchemaConfig = new File(AppManagementConfigurationManagerTest.TEST_CONFIG_SCHEMA_LOCATION);
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        try {
+            schema = factory.newSchema(deviceManagementSchemaConfig);
+        } catch (SAXException e) {
+            Assert.fail("Invalid schema found", e);
+        }
+    }
 
-	@Test()
-	public void testMandateEnabledElement() {
-		File malformedConfig =
-				new File(AppManagementConfigurationManagerTest.MALFORMED_TEST_CONFIG_LOCATION_NO_ENABLED);
-		this.validateMalformedConfig(malformedConfig);
-	}
+    @Test()
+    public void testMandateEnabledElement() {
+        File malformedConfig =
+                new File(AppManagementConfigurationManagerTest.MALFORMED_TEST_CONFIG_LOCATION_NO_ENABLED);
+        this.validateMalformedConfig(malformedConfig);
+    }
 
-	@Test()
-	public void testMandateClientKeySecretElement() {
-		File malformedConfig =
-				new File(AppManagementConfigurationManagerTest.MALFORMED_TEST_CONFIG_LOCATION_NO_CLIENT_KEY);
-		this.validateMalformedConfig(malformedConfig);
-	}
+    @Test()
+    public void testMandateClientKeySecretElement() {
+        File malformedConfig =
+                new File(AppManagementConfigurationManagerTest.MALFORMED_TEST_CONFIG_LOCATION_NO_CLIENT_KEY);
+        this.validateMalformedConfig(malformedConfig);
+    }
 
-	private void validateMalformedConfig(File malformedConfig) {
-		try {
-			JAXBContext ctx = JAXBContext.newInstance(AppManagementConfig.class);
-			Unmarshaller um = ctx.createUnmarshaller();
-			um.setSchema(this.getSchema());
-			um.unmarshal(malformedConfig);
-			Assert.assertTrue(false);
-		} catch (JAXBException e) {
-			Throwable linkedException = e.getLinkedException();
-			if (!(linkedException instanceof SAXParseException)) {
-				log.error("Unexpected error occurred while unmarshalling app management config", e);
-				Assert.assertTrue(false);
-			}
-			log.error("JAXB parser occurred while unmarsharlling app management config", e);
-			Assert.assertTrue(true);
-		}
-	}
+    private void validateMalformedConfig(File malformedConfig) {
+        try {
+            JAXBContext ctx = JAXBContext.newInstance(AppManagementConfig.class);
+            Unmarshaller um = ctx.createUnmarshaller();
+            um.setSchema(this.getSchema());
+            um.unmarshal(malformedConfig);
+            Assert.assertTrue(false);
+        } catch (JAXBException e) {
+            Throwable linkedException = e.getLinkedException();
+            if (!(linkedException instanceof SAXParseException)) {
+                log.error("Unexpected error occurred while unmarshalling app management config", e);
+                Assert.assertTrue(false);
+            }
+            log.error("JAXB parser occurred while unmarsharlling app management config", e);
+            Assert.assertTrue(true);
+        }
+    }
 
-	private Schema getSchema() {
-		return schema;
-	}
+    private Schema getSchema() {
+        return schema;
+    }
 }

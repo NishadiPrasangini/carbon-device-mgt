@@ -78,6 +78,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
 
     /**
      * Retrieves the stream definition from das for the given device type.
+     *
      * @return dynamic event attribute list
      */
     @GET
@@ -196,7 +197,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } catch (EventStreamPersistenceAdminServiceEventStreamPersistenceAdminServiceExceptionException e) {
             log.error("Failed to create event store for, tenantDomain: " + tenantDomain + " deviceType" + deviceType,
-                      e);
+                    e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -229,9 +230,11 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
             }
             eventStreamAdminServiceStub.removeEventStreamDefinition(streamName, Constants.DEFAULT_STREAM_VERSION);
             EventReceiverAdminServiceCallbackHandler eventReceiverAdminServiceCallbackHandler =
-                    new EventReceiverAdminServiceCallbackHandler() {};
+                    new EventReceiverAdminServiceCallbackHandler() {
+                    };
             EventPublisherAdminServiceCallbackHandler eventPublisherAdminServiceCallbackHandler =
-                    new EventPublisherAdminServiceCallbackHandler() {};
+                    new EventPublisherAdminServiceCallbackHandler() {
+                    };
 
 
             String eventReceiverName = getReceiverName(deviceType, tenantDomain, TransportType.MQTT);
@@ -254,7 +257,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
                     tenantBasedEventReceiverAdminServiceStub = DeviceMgtAPIUtils.getEventReceiverAdminServiceStub();
                     tenantBasedEventStreamAdminServiceStub = DeviceMgtAPIUtils.getEventStreamAdminServiceStub();
                     tenantBasedEventStreamAdminServiceStub.removeEventStreamDefinition(streamName,
-                                                                                       Constants.DEFAULT_STREAM_VERSION);
+                            Constants.DEFAULT_STREAM_VERSION);
 
                     tenantBasedEventReceiverAdminServiceStub.startundeployInactiveEventReceiverConfiguration(
                             eventReceiverName, eventReceiverAdminServiceCallbackHandler);
@@ -298,7 +301,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
     @Override
     public Response getData(@PathParam("deviceId") String deviceId, @QueryParam("from") long from,
                             @QueryParam("to") long to, @PathParam("type") String deviceType, @QueryParam("offset")
-                            int offset, @QueryParam("limit") int limit) {
+                                    int offset, @QueryParam("limit") int limit) {
         if (from == 0 || to == 0) {
             String errorMessage = "Invalid values for from/to";
             return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
@@ -393,7 +396,8 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
                     .getActiveEventReceiverConfiguration(eventRecieverNameTobeRemoved);
             if (eventReceiverConfigurationDto != null) {
                 EventReceiverAdminServiceCallbackHandler eventReceiverAdminServiceCallbackHandler =
-                        new EventReceiverAdminServiceCallbackHandler() {};
+                        new EventReceiverAdminServiceCallbackHandler() {
+                        };
                 receiverAdminServiceStub.startundeployActiveEventReceiverConfiguration(eventRecieverNameTobeRemoved
                         , eventReceiverAdminServiceCallbackHandler);
             }
@@ -468,7 +472,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
 
     private void publishEventStore(String streamName, String version, EventAttributeList eventAttributes)
             throws RemoteException, UserStoreException, JWTClientException,
-                   EventStreamPersistenceAdminServiceEventStreamPersistenceAdminServiceExceptionException {
+            EventStreamPersistenceAdminServiceEventStreamPersistenceAdminServiceExceptionException {
         EventStreamPersistenceAdminServiceStub eventStreamPersistenceAdminServiceStub =
                 DeviceMgtAPIUtils.getEventStreamPersistenceAdminServiceStub();
         try {
@@ -561,7 +565,7 @@ public class DeviceEventManagementServiceImpl implements DeviceEventManagementSe
             eventRecords.setCount(0);
         }
         List<SearchResultEntry> resultEntries = analyticsDataAPI.search(tenantId, tableName, query, offset, limit,
-                                                                        sortByFields);
+                sortByFields);
         List<String> recordIds = getRecordIds(resultEntries);
         AnalyticsDataResponse response = analyticsDataAPI.get(tenantId, tableName, 1, null, recordIds);
         eventRecords.setCount(eventCount);

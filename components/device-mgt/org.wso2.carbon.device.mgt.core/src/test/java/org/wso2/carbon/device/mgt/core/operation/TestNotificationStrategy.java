@@ -27,8 +27,8 @@ import java.util.HashMap;
 public class TestNotificationStrategy implements NotificationStrategy {
     private PushNotificationConfig pushNotificationConfig;
 
-    public TestNotificationStrategy(){
-       this.pushNotificationConfig = new PushNotificationConfig("TEST", true, new HashMap<>());
+    public TestNotificationStrategy() {
+        this.pushNotificationConfig = new PushNotificationConfig("TEST", true, new HashMap<>());
     }
 
     @Override

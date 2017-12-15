@@ -35,6 +35,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will add device information to the database.
+     *
      * @param deviceInfo - Device information object.
      * @throws DeviceDetailsMgtDAOException
      */
@@ -42,6 +43,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will add the device properties to the database.
+     *
      * @param propertyMap - device properties.
      * @throws DeviceDetailsMgtDAOException
      */
@@ -49,6 +51,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will return the device information when device id is provided.
+     *
      * @param deviceId - device Id
      * @return DeviceInfo
      * @throws DeviceDetailsMgtDAOException
@@ -57,6 +60,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will return the device properties from database.
+     *
      * @param deviceId
      * @return - device properties map.
      * @throws DeviceDetailsMgtDAOException
@@ -65,6 +69,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will delete the device information from the database.
+     *
      * @param deviceId - Integer.
      * @throws DeviceDetailsMgtDAOException
      */
@@ -72,6 +77,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will delete the device properties from database.
+     *
      * @param deviceId - Integer.
      * @throws DeviceDetailsMgtDAOException
      */
@@ -79,13 +85,15 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will add device location to database.
-     * @param deviceLocation  - Device location with latitude and longitude.
+     *
+     * @param deviceLocation - Device location with latitude and longitude.
      * @throws DeviceDetailsMgtDAOException
      */
     void addDeviceLocation(DeviceLocation deviceLocation) throws DeviceDetailsMgtDAOException;
 
     /**
      * This method will return the device location object when the device id is provided.
+     *
      * @param deviceId - id of the device.
      * @return - Device location object.
      * @throws DeviceDetailsMgtDAOException
@@ -94,6 +102,7 @@ public interface DeviceDetailsDAO {
 
     /**
      * This method will delete the device location from the database.
+     *
      * @param deviceId
      * @throws DeviceDetailsMgtDAOException
      */

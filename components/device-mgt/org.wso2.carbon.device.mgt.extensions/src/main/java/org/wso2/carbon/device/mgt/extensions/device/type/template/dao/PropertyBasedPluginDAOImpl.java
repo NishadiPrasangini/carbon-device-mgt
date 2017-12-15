@@ -165,7 +165,7 @@ public class PropertyBasedPluginDAOImpl implements PluginDAO {
         try {
             conn = deviceTypeDAOHandler.getConnection();
             stmt = conn.prepareStatement("SELECT DEVICE_IDENTIFICATION, PROPERTY_NAME, PROPERTY_VALUE FROM " +
-                                                 "DM_DEVICE_PROPERTIES WHERE DEVICE_TYPE_NAME = ? AND TENANT_ID = ?");
+                    "DM_DEVICE_PROPERTIES WHERE DEVICE_TYPE_NAME = ? AND TENANT_ID = ?");
             stmt.setString(1, deviceType);
             stmt.setInt(2, PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true));
             resultSet = stmt.executeQuery();

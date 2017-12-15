@@ -38,61 +38,60 @@ import java.nio.charset.Charset;
 /**
  * This class implements all the functionality exposed as part of the PlatformConfigurationManagementService.
  * Main usage of this module is  saving/retrieving tenant configurations to the registry.
- *
  */
 public class PlatformConfigurationManagementServiceImpl
-		implements PlatformConfigurationManagementService {
+        implements PlatformConfigurationManagementService {
 
-	private static final Log log = LogFactory.getLog(PlatformConfigurationManagementServiceImpl.class);
+    private static final Log log = LogFactory.getLog(PlatformConfigurationManagementServiceImpl.class);
 
-	@Override
-	public boolean saveConfiguration(PlatformConfiguration platformConfiguration, String resourcePath)
-			throws ConfigurationManagementException {
-		boolean status;
-		try {
-			if (log.isDebugEnabled()) {
-				log.debug("Persisting tenant configurations in Registry");
-			}
-			StringWriter writer = new StringWriter();
-			JAXBContext context = JAXBContext.newInstance(PlatformConfiguration.class);
-			Marshaller marshaller = context.createMarshaller();
-			marshaller.marshal(platformConfiguration, writer);
+    @Override
+    public boolean saveConfiguration(PlatformConfiguration platformConfiguration, String resourcePath)
+            throws ConfigurationManagementException {
+        boolean status;
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Persisting tenant configurations in Registry");
+            }
+            StringWriter writer = new StringWriter();
+            JAXBContext context = JAXBContext.newInstance(PlatformConfiguration.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.marshal(platformConfiguration, writer);
 
-			Resource resource = ConfigurationManagerUtil.getConfigurationRegistry().newResource();
-			resource.setContent(writer.toString());
-			resource.setMediaType(ConfigurationManagerConstants.ContentTypes.MEDIA_TYPE_XML);
-			ConfigurationManagerUtil.putRegistryResource(resourcePath, resource);
-			status = true;
-		} catch (RegistryException e) {
-			throw new ConfigurationManagementException(
-					"Error occurred while persisting the Registry resource of Platform Configuration", e);
-		} catch (JAXBException e) {
-			throw new ConfigurationManagementException(
-					"Error occurred while parsing the Platform configuration", e);
-		}
-		return status;
-	}
+            Resource resource = ConfigurationManagerUtil.getConfigurationRegistry().newResource();
+            resource.setContent(writer.toString());
+            resource.setMediaType(ConfigurationManagerConstants.ContentTypes.MEDIA_TYPE_XML);
+            ConfigurationManagerUtil.putRegistryResource(resourcePath, resource);
+            status = true;
+        } catch (RegistryException e) {
+            throw new ConfigurationManagementException(
+                    "Error occurred while persisting the Registry resource of Platform Configuration", e);
+        } catch (JAXBException e) {
+            throw new ConfigurationManagementException(
+                    "Error occurred while parsing the Platform configuration", e);
+        }
+        return status;
+    }
 
-	@Override
-	public PlatformConfiguration getConfiguration(String resourcePath)
-			throws ConfigurationManagementException {
-		Resource resource;
-		try {
-			resource = ConfigurationManagerUtil.getRegistryResource(resourcePath);
-			if(resource != null){
-				JAXBContext context = JAXBContext.newInstance(PlatformConfiguration.class);
-				Unmarshaller unmarshaller = context.createUnmarshaller();
-				return (PlatformConfiguration) unmarshaller.unmarshal(
-						new StringReader(new String((byte[]) resource.getContent(), Charset
-								.forName(ConfigurationManagerConstants.CharSets.CHARSET_UTF8))));
-			}
-			return new PlatformConfiguration();
-		} catch (JAXBException e) {
-			throw new ConfigurationManagementException(
-					"Error occurred while parsing the Tenant configuration : " + e.getMessage(), e);
-		} catch (RegistryException e) {
-			throw new ConfigurationManagementException(
-					"Error occurred while retrieving the Registry resource of Tenant Configuration : " + e.getMessage(), e);
-		}
-	}
+    @Override
+    public PlatformConfiguration getConfiguration(String resourcePath)
+            throws ConfigurationManagementException {
+        Resource resource;
+        try {
+            resource = ConfigurationManagerUtil.getRegistryResource(resourcePath);
+            if (resource != null) {
+                JAXBContext context = JAXBContext.newInstance(PlatformConfiguration.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                return (PlatformConfiguration) unmarshaller.unmarshal(
+                        new StringReader(new String((byte[]) resource.getContent(), Charset
+                                .forName(ConfigurationManagerConstants.CharSets.CHARSET_UTF8))));
+            }
+            return new PlatformConfiguration();
+        } catch (JAXBException e) {
+            throw new ConfigurationManagementException(
+                    "Error occurred while parsing the Tenant configuration : " + e.getMessage(), e);
+        } catch (RegistryException e) {
+            throw new ConfigurationManagementException(
+                    "Error occurred while retrieving the Registry resource of Tenant Configuration : " + e.getMessage(), e);
+        }
+    }
 }

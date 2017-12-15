@@ -1117,7 +1117,7 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
 
     @Override
     public List<Device> getDevicesOfUser(String username, String deviceType) throws DeviceManagementException {
-        return  this.getDevicesOfUser(username, deviceType, true);
+        return this.getDevicesOfUser(username, deviceType, true);
     }
 
     @Override
@@ -1602,10 +1602,10 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
                         deviceManagementProviderService.addOperation(deviceType, operation, deviceIdentifiers);
                     } catch (OperationManagementException e) {
                         throw new DeviceManagementException("Unable to add the operation for the device with the id: '"
-                                                                    + deviceIdentifier.getId(), e);
+                                + deviceIdentifier.getId(), e);
                     } catch (InvalidDeviceException e) {
                         throw new DeviceManagementException("Unable to find the device with the id: '"
-                                                                    + deviceIdentifier.getId(), e);
+                                + deviceIdentifier.getId(), e);
                     }
                 }
             }
@@ -1673,7 +1673,7 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
             return deviceTypeDAO.getDeviceTypes(tenantId);
         } catch (DeviceManagementDAOException e) {
             throw new DeviceManagementException("Error occurred while obtaining the device types for tenant "
-                                                        + tenantId, e);
+                    + tenantId, e);
         } catch (SQLException e) {
             throw new DeviceManagementException("Error occurred while opening a connection to the data source", e);
         } finally {
@@ -1697,7 +1697,7 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
         PullNotificationSubscriber pullNotificationSubscriber = dms.getPullNotificationSubscriber();
         if (pullNotificationSubscriber == null) {
             throw new PullNotificationExecutionFailedException("Pull Notification Subscriber is not configured " +
-                                                                       "for device type" + deviceIdentifier.getType());
+                    "for device type" + deviceIdentifier.getType());
         }
         pullNotificationSubscriber.execute(deviceIdentifier, operation);
     }
@@ -1717,7 +1717,7 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
     }
 
     /**
-     *  Returns all the device-info including location of the given device.
+     * Returns all the device-info including location of the given device.
      */
     private DeviceInfo getDeviceInfo(Device device) {
         DeviceInfo info = null;
@@ -1740,7 +1740,7 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
     }
 
     /**
-     *  Returns all the installed apps of the given device.
+     * Returns all the installed apps of the given device.
      */
     private List<Application> getInstalledApplications(Device device) {
         List<Application> applications = new ArrayList<>();
@@ -1760,8 +1760,8 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
     }
 
     /**
-     *  Returns all the available information (device-info, location, applications and plugin-db data)
-     *  of the given device list.
+     * Returns all the available information (device-info, location, applications and plugin-db data)
+     * of the given device list.
      */
     private List<Device> getAllDeviceInfo(List<Device> allDevices)
             throws DeviceManagementException {
@@ -1793,8 +1793,8 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
     }
 
     /**
-     *  Returns all the available information (device-info, location, applications and plugin-db data)
-     *  of a given device.
+     * Returns all the available information (device-info, location, applications and plugin-db data)
+     * of a given device.
      */
     private Device getAllDeviceInfo(Device device) throws DeviceManagementException {
         device.setDeviceInfo(this.getDeviceInfo(device));

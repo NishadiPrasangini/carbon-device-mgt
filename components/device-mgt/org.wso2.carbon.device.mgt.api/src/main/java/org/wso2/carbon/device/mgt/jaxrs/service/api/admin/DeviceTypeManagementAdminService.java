@@ -148,11 +148,11 @@ public interface DeviceTypeManagementAdminService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully added the device type.",
-                         responseHeaders = {
-                                 @ResponseHeader(
-                                         name = "Content-Type",
-                                         description = "The content type of the body")
-                         }),
+                    responseHeaders = {
+                            @ResponseHeader(
+                                    name = "Content-Type",
+                                    description = "The content type of the body")
+                    }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +
@@ -176,7 +176,7 @@ public interface DeviceTypeManagementAdminService {
     Response addDeviceType(@ApiParam(
             name = "type",
             value = "The device type such as ios, android, windows or fire-alarm.",
-            required = true)DeviceType deviceType);
+            required = true) DeviceType deviceType);
 
     @PUT
     @ApiOperation(
@@ -194,11 +194,11 @@ public interface DeviceTypeManagementAdminService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully updated the device type.",
-                         responseHeaders = {
-                                 @ResponseHeader(
-                                         name = "Content-Type",
-                                         description = "The content type of the body")
-                         }),
+                    responseHeaders = {
+                            @ResponseHeader(
+                                    name = "Content-Type",
+                                    description = "The content type of the body")
+                    }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +

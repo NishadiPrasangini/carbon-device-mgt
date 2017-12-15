@@ -177,8 +177,8 @@ public class DeviceTypeManagerServiceTest {
                 "Provisioning configs are not correctly set as per the configuration file provided.");
     }
 
-    @Test (description = "This test case tests the Device task config retrieval")
-    public void testDeviceStatusTaskConfig () throws InvocationTargetException, IllegalAccessException {
+    @Test(description = "This test case tests the Device task config retrieval")
+    public void testDeviceStatusTaskConfig() throws InvocationTargetException, IllegalAccessException {
         setDeviceStatusTaskPluginConfig
                 .invoke(androidDeviceTypeManagerService, androidDeviceConfiguration.getDeviceStatusTaskConfiguration());
         DeviceStatusTaskPluginConfig deviceStatusTaskPuginConfig = androidDeviceTypeManagerService
@@ -245,7 +245,7 @@ public class DeviceTypeManagerServiceTest {
         androidDeviceTypeManagerService.setInitialOperationConfig(androidDeviceConfiguration);
         InitialOperationConfig initialOperationConfig = androidDeviceTypeManagerService.getInitialOperationConfig();
 
-        Assert.assertEquals(initialOperationConfig.getOperations().size(),androidDeviceConfiguration.getOperations()
+        Assert.assertEquals(initialOperationConfig.getOperations().size(), androidDeviceConfiguration.getOperations()
                 .size());
     }
 
@@ -265,7 +265,7 @@ public class DeviceTypeManagerServiceTest {
                 "Policy Management configurations are added as " + "per the " + "configuration file");
     }
 
-    @Test (description = "This test case tests whether the Pull Notification Subscriber is set correctly.")
+    @Test(description = "This test case tests whether the Pull Notification Subscriber is set correctly.")
     public void testSetPullNotificationSubscriberConfig() throws InvocationTargetException, IllegalAccessException {
         setPullNotificationSubscriber.invoke(androidDeviceTypeManagerService, androidDeviceConfiguration
                 .getPullNotificationSubscriberConfig());
@@ -278,8 +278,8 @@ public class DeviceTypeManagerServiceTest {
 
     }
 
-    @Test (description = "This test case tests the addition and retrieval of the license")
-    public void testGetLicense () throws LicenseManagementException {
+    @Test(description = "This test case tests the addition and retrieval of the license")
+    public void testGetLicense() throws LicenseManagementException {
         License license = arduinoDeviceTypeManagerService.getDeviceManager().getLicense("en_Us");
         Assert.assertEquals(license.getText(), arduinoDeviceTypeConfiguration.getLicense().getText(),
                 "The retrieved" + " license is different from added license");
@@ -295,12 +295,13 @@ public class DeviceTypeManagerServiceTest {
 
     /**
      * Setting the Arduino Device Type
-     * @throws RegistryException Registry Exception
-     * @throws IOException IO Exception
-     * @throws SAXException SAX Exception
-     * @throws ParserConfigurationException Parser Configuration Exception
+     *
+     * @throws RegistryException                Registry Exception
+     * @throws IOException                      IO Exception
+     * @throws SAXException                     SAX Exception
+     * @throws ParserConfigurationException     Parser Configuration Exception
      * @throws DeviceTypeConfigurationException Device Type Configuration Exception
-     * @throws JAXBException JAXB Exception
+     * @throws JAXBException                    JAXB Exception
      */
     private void setupArduinoDeviceType()
             throws RegistryException, IOException, SAXException, ParserConfigurationException,

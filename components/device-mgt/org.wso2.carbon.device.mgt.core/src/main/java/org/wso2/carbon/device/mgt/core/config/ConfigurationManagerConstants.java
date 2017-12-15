@@ -22,20 +22,20 @@ package org.wso2.carbon.device.mgt.core.config;
  */
 public class ConfigurationManagerConstants {
 
-	public static final class ContentTypes {
-		private ContentTypes() {
-			throw new AssertionError();
-		}
+    public static final class ContentTypes {
+        private ContentTypes() {
+            throw new AssertionError();
+        }
 
-		public static final String CONTENT_TYPE_ANY = "*/*";
-		public static final String MEDIA_TYPE_XML = "application/xml";
-	}
+        public static final String CONTENT_TYPE_ANY = "*/*";
+        public static final String MEDIA_TYPE_XML = "application/xml";
+    }
 
-	public static final class CharSets {
-		private CharSets() {
-			throw new AssertionError();
-		}
+    public static final class CharSets {
+        private CharSets() {
+            throw new AssertionError();
+        }
 
-		public static final String CHARSET_UTF8 = "UTF8";
-	}
+        public static final String CHARSET_UTF8 = "UTF8";
+    }
 }

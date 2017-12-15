@@ -29,67 +29,67 @@ import java.util.List;
  */
 public interface NotificationDAO {
 
-	/**
-	 * This method is used to add a notification.
-	 *
-	 * @param deviceId device id.
-	 * @param tenantId tenant id.
-	 * @param notification Notification object.
-	 * @return returns the id of the persisted Notification record.
-	 * @throws NotificationManagementException
-	 */
-	int addNotification(int deviceId, int tenantId, Notification notification) throws
-	                                                                NotificationManagementException;
+    /**
+     * This method is used to add a notification.
+     *
+     * @param deviceId     device id.
+     * @param tenantId     tenant id.
+     * @param notification Notification object.
+     * @return returns the id of the persisted Notification record.
+     * @throws NotificationManagementException
+     */
+    int addNotification(int deviceId, int tenantId, Notification notification) throws
+            NotificationManagementException;
 
-	/**
-	 * This method is used to update a notification.
-	 *
-	 * @param notification Notification object.
-	 * @return returns the no of updated records.
-	 * @throws NotificationManagementException
-	 */
-	int updateNotification(Notification notification) throws NotificationManagementException;
+    /**
+     * This method is used to update a notification.
+     *
+     * @param notification Notification object.
+     * @return returns the no of updated records.
+     * @throws NotificationManagementException
+     */
+    int updateNotification(Notification notification) throws NotificationManagementException;
 
-	/**
-	 * This method is used to update a notification status.
-	 *
-	 * @param notificationId notification id.
-	 * @param status Notification.Status.
-	 * @return returns the no of updated records.
-	 * @throws NotificationManagementException
-	 */
-	int updateNotificationStatus(int notificationId, Notification.Status status)
-			throws NotificationManagementException;
+    /**
+     * This method is used to update a notification status.
+     *
+     * @param notificationId notification id.
+     * @param status         Notification.Status.
+     * @return returns the no of updated records.
+     * @throws NotificationManagementException
+     */
+    int updateNotificationStatus(int notificationId, Notification.Status status)
+            throws NotificationManagementException;
 
-	/**
-	 * This method is used to get all notifications based on tenant-id.
-	 *
-	 * @param tenantId tenant id.
-	 * @return returns the matching notifications.
-	 * @throws NotificationManagementException
-	 */
-	List<Notification> getAllNotifications(int tenantId) throws NotificationManagementException;
+    /**
+     * This method is used to get all notifications based on tenant-id.
+     *
+     * @param tenantId tenant id.
+     * @return returns the matching notifications.
+     * @throws NotificationManagementException
+     */
+    List<Notification> getAllNotifications(int tenantId) throws NotificationManagementException;
 
-	Notification getNotification(int tenantId, int notificationId) throws NotificationManagementException;
+    Notification getNotification(int tenantId, int notificationId) throws NotificationManagementException;
 
-	List<Notification> getAllNotifications(PaginationRequest request, int tenantId) throws NotificationManagementException;
+    List<Notification> getAllNotifications(PaginationRequest request, int tenantId) throws NotificationManagementException;
 
-	int getNotificationCount(int tenantId) throws NotificationManagementException;
+    int getNotificationCount(int tenantId) throws NotificationManagementException;
 
-	int getNotificationCountByStatus(Notification.Status status, int tenantId) throws NotificationManagementException;
+    int getNotificationCountByStatus(Notification.Status status, int tenantId) throws NotificationManagementException;
 
-	/**
-	 * This method is used to get all notifications based on notification-status.
-	 *
-	 * @param status Notification.Status.
-	 * @param tenantId tenant id.
-	 * @return returns the matching notifications.
-	 * @throws NotificationManagementException
-	 */
-	List<Notification> getNotificationsByStatus(Notification.Status status, int tenantId) throws
-	                                                              NotificationManagementException;
+    /**
+     * This method is used to get all notifications based on notification-status.
+     *
+     * @param status   Notification.Status.
+     * @param tenantId tenant id.
+     * @return returns the matching notifications.
+     * @throws NotificationManagementException
+     */
+    List<Notification> getNotificationsByStatus(Notification.Status status, int tenantId) throws
+            NotificationManagementException;
 
-	List<Notification> getNotificationsByStatus(PaginationRequest request, Notification.Status status, int tenantId) throws
-			NotificationManagementException;
+    List<Notification> getNotificationsByStatus(PaginationRequest request, Notification.Status status, int tenantId) throws
+            NotificationManagementException;
 
 }

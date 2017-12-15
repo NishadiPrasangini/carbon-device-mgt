@@ -69,7 +69,7 @@ public class Utils {
      * @throws ParserConfigurationException     Parser Configuration Exception
      * @throws JAXBException                    JAXB Exception
      */
-    public static  DeviceTypeConfiguration getDeviceTypeConfiguration(File configurationFile)
+    public static DeviceTypeConfiguration getDeviceTypeConfiguration(File configurationFile)
             throws DeviceTypeConfigurationException, IOException, SAXException, ParserConfigurationException,
             JAXBException {
 
@@ -96,7 +96,7 @@ public class Utils {
     /**
      * To create the database tables for the particular device-type based on the scripts
      *
-     * @param databaseName Name of the Database
+     * @param databaseName   Name of the Database
      * @param scriptFilePath Path of the SQL script File
      * @throws IOException  IO Exception
      * @throws SQLException SQL Exception.
@@ -159,6 +159,7 @@ public class Utils {
 
     /**
      * To get the registry service.
+     *
      * @return RegistryService
      * @throws RegistryException Registry Exception
      */

@@ -24,46 +24,46 @@ import java.io.Serializable;
  */
 public class DeviceTypeServiceIdentifier implements Serializable {
 
-	private String deviceType;
-	private int tenantId;
-	private static final int DEFAULT_SHARE_WITH_ALL_TENANTS_ID = -1;
+    private String deviceType;
+    private int tenantId;
+    private static final int DEFAULT_SHARE_WITH_ALL_TENANTS_ID = -1;
 
-	public DeviceTypeServiceIdentifier(String deviceType, int tenantId) {
-		this.deviceType = deviceType;
-		this.tenantId = tenantId;
-	}
+    public DeviceTypeServiceIdentifier(String deviceType, int tenantId) {
+        this.deviceType = deviceType;
+        this.tenantId = tenantId;
+    }
 
-	public DeviceTypeServiceIdentifier(String deviceType) {
-		this.deviceType = deviceType;
-		this.tenantId = DEFAULT_SHARE_WITH_ALL_TENANTS_ID;
-	}
+    public DeviceTypeServiceIdentifier(String deviceType) {
+        this.deviceType = deviceType;
+        this.tenantId = DEFAULT_SHARE_WITH_ALL_TENANTS_ID;
+    }
 
-	public void setTenantId(int tenantId) {
-		this.tenantId = tenantId;
-	}
+    public void setTenantId(int tenantId) {
+        this.tenantId = tenantId;
+    }
 
-	public String getDeviceType() {
-		return this.deviceType;
-	}
+    public String getDeviceType() {
+        return this.deviceType;
+    }
 
-	public int getTenantId() {
-		return this.tenantId;
-	}
+    public int getTenantId() {
+        return this.tenantId;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = this.deviceType.hashCode();
-		result = 31 * result + ("@" + this.tenantId).hashCode();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = this.deviceType.hashCode();
+        result = 31 * result + ("@" + this.tenantId).hashCode();
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return (obj instanceof DeviceTypeServiceIdentifier) && deviceType.equals(
-				((DeviceTypeServiceIdentifier) obj).deviceType) && tenantId == ((DeviceTypeServiceIdentifier) obj).tenantId;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof DeviceTypeServiceIdentifier) && deviceType.equals(
+                ((DeviceTypeServiceIdentifier) obj).deviceType) && tenantId == ((DeviceTypeServiceIdentifier) obj).tenantId;
+    }
 
-	public boolean isSharedWithAllTenant() {
-		return tenantId == DEFAULT_SHARE_WITH_ALL_TENANTS_ID;
-	}
+    public boolean isSharedWithAllTenant() {
+        return tenantId == DEFAULT_SHARE_WITH_ALL_TENANTS_ID;
+    }
 }

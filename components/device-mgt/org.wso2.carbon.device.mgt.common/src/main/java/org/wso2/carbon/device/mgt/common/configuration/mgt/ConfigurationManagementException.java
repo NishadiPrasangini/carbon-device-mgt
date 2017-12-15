@@ -21,24 +21,24 @@ public class ConfigurationManagementException extends Exception {
 
     private static final long serialVersionUID = -3151279311929070299L;
 
-	public ConfigurationManagementException(String msg, Exception nestedEx) {
-		super(msg, nestedEx);
-	}
+    public ConfigurationManagementException(String msg, Exception nestedEx) {
+        super(msg, nestedEx);
+    }
 
-	public ConfigurationManagementException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public ConfigurationManagementException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public ConfigurationManagementException(String msg) {
-		super(msg);
-	}
+    public ConfigurationManagementException(String msg) {
+        super(msg);
+    }
 
-	public ConfigurationManagementException() {
-		super();
-	}
+    public ConfigurationManagementException() {
+        super();
+    }
 
-	public ConfigurationManagementException(Throwable cause) {
-		super(cause);
-	}
+    public ConfigurationManagementException(Throwable cause) {
+        super(cause);
+    }
 
 }

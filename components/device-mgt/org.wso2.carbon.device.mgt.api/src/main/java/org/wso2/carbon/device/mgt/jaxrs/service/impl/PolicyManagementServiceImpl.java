@@ -246,7 +246,7 @@ public class PolicyManagementServiceImpl implements PolicyManagementService {
         }
         if (policyDeleted) {
             return Response.status(Response.Status.OK).entity("Policies have been successfully " +
-                                                              "deleted").build();
+                    "deleted").build();
         } else {
             //TODO:Check of this logic is correct
             String modifiedInvalidPolicyIds =
@@ -254,7 +254,7 @@ public class PolicyManagementServiceImpl implements PolicyManagementService {
             return Response.status(Response.Status.BAD_REQUEST).
                     entity(new ErrorResponse.ErrorResponseBuilder().
                             setMessage("Policies with the policy ID " + modifiedInvalidPolicyIds +
-                                       " doesn't exist").build()).build();
+                                    " doesn't exist").build()).build();
         }
     }
 
@@ -387,10 +387,10 @@ public class PolicyManagementServiceImpl implements PolicyManagementService {
             if (policy == null) {
                 return Response.status(Response.Status.NOT_FOUND).entity(
                         new ErrorResponse.ErrorResponseBuilder().setMessage(
-                                "No policy found for device ID '" + deviceId + "'"+ deviceId).build()).build();
+                                "No policy found for device ID '" + deviceId + "'" + deviceId).build()).build();
             }
         } catch (PolicyManagementException e) {
-            String msg = "Error occurred while retrieving policy corresponding to the id '" + deviceType + "'"+ deviceId;
+            String msg = "Error occurred while retrieving policy corresponding to the id '" + deviceType + "'" + deviceId;
             log.error(msg, e);
             return Response.serverError().entity(
                     new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();

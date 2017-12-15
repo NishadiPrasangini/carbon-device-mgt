@@ -1,8 +1,8 @@
 {
-    "version": "1.0.0",
-    "index": 9220,
-    "pushedUris": [
-        "/",
-        "/{+any}"
-    ]
+  "version": "1.0.0",
+  "index": 9220,
+  "pushedUris": [
+    "/",
+    "/{+any}"
+  ]
 }

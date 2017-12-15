@@ -19,27 +19,27 @@
 package org.wso2.carbon.device.mgt.common;
 
 
-public class FeatureManagementException extends Exception  {
+public class FeatureManagementException extends Exception {
 
-	private static final long serialVersionUID = 4527364660451105710L;
+    private static final long serialVersionUID = 4527364660451105710L;
 
-	public FeatureManagementException(String msg, Exception nestedEx) {
-		super(msg, nestedEx);
-	}
+    public FeatureManagementException(String msg, Exception nestedEx) {
+        super(msg, nestedEx);
+    }
 
-	public FeatureManagementException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public FeatureManagementException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public FeatureManagementException(String msg) {
-		super(msg);
-	}
+    public FeatureManagementException(String msg) {
+        super(msg);
+    }
 
-	public FeatureManagementException() {
-		super();
-	}
+    public FeatureManagementException() {
+        super();
+    }
 
-	public FeatureManagementException(Throwable cause) {
-		super(cause);
-	}
+    public FeatureManagementException(Throwable cause) {
+        super(cause);
+    }
 }

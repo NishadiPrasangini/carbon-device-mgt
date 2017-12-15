@@ -37,7 +37,8 @@ public class ChangeEnumValues {
 
     private static ReflectionFactory reflectionFactory = ReflectionFactory.getReflectionFactory();
 
-    public ChangeEnumValues() {}
+    public ChangeEnumValues() {
+    }
 
     private static void setFailSafeFieldValue(Field field, Object target, Object value) throws NoSuchFieldException,
             IllegalAccessException {

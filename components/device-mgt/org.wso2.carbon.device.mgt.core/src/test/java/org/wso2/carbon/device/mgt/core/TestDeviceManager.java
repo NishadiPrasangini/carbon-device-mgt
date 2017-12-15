@@ -40,7 +40,8 @@ public class TestDeviceManager implements DeviceManager {
         return false;
     }
 
-    @Override public PlatformConfiguration getConfiguration() throws DeviceManagementException {
+    @Override
+    public PlatformConfiguration getConfiguration() throws DeviceManagementException {
         return null;
     }
 
@@ -87,7 +88,7 @@ public class TestDeviceManager implements DeviceManager {
         prop1.setName("Prop1");
         prop1.setValue("Prop1-value");
         properties.add(prop1);
-        Device device = new Device(deviceId.getType()+"-"+deviceId.getId(), deviceId.getType(),
+        Device device = new Device(deviceId.getType() + "-" + deviceId.getId(), deviceId.getType(),
                 "This is a test Device", deviceId.getId(), null, features, properties);
         return device;
     }

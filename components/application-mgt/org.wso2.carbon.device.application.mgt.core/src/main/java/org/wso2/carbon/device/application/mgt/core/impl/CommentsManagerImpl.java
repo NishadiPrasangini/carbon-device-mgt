@@ -20,7 +20,9 @@ package org.wso2.carbon.device.application.mgt.core.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
-import org.wso2.carbon.device.application.mgt.common.*;
+import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
+import org.wso2.carbon.device.application.mgt.common.PaginationResult;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
@@ -81,9 +83,10 @@ public class CommentsManagerImpl implements CommentsManager {
 //    }
 
     @Override
-    public Comment addComment(Comment comment,String uuid) throws CommentManagementException {
+    public Comment addComment(Comment comment,String uuid,int tenantId) throws CommentManagementException {
 
         Comment validation= validateComment(comment.getId(),comment.getComment());
+
 
         if (log.isDebugEnabled()) {
             log.debug("Request for comment is received. " + validation.toString());
@@ -92,12 +95,13 @@ public class CommentsManagerImpl implements CommentsManager {
 
         try {
             ConnectionManagerUtil.beginDBTransaction();
-            ApplicationManagementDAOFactory.getCommentDAO().addComment(comment.getTenantId(),comment,
+            ApplicationManagementDAOFactory.getCommentDAO().addComment(tenantId,comment,
                     comment.getCreatedBy(),comment.getParent(),uuid);
             ConnectionManagerUtil.commitDBTransaction();
             return comment;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurs.", e);
+            ConnectionManagerUtil.rollbackDBTransaction();
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -108,7 +112,8 @@ public class CommentsManagerImpl implements CommentsManager {
      * To validate the pre-request of the comment
      *
      * @param apAppCommentId ID of the comment.
-     * @return Application related with the UUID
+     * @param comment comment needed to be validate.
+     * @return Application related with the UUID.
      *
      *
      */
@@ -126,7 +131,7 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             throw new NotFoundException("Comment with comment id "+apAppCommentId+" does not exit");
         } catch (NotFoundException e) {
-            e.printStackTrace();
+            log.error("Not Found Exception occurs.", e);
         }
         return getComment(apAppCommentId);
     }
@@ -179,7 +184,7 @@ public class CommentsManagerImpl implements CommentsManager {
         PaginationResult paginationResult = new PaginationResult();
         List<Comment> comments;
         request = Util.validateCommentListPageSize(request);
-        int count;
+
 
         if (log.isDebugEnabled()) {
             log.debug("get all comments of the application release"+uuid);
@@ -187,15 +192,15 @@ public class CommentsManagerImpl implements CommentsManager {
 
         try {
             ConnectionManagerUtil.openDBConnection();
-            comments=ApplicationManagementDAOFactory.getCommentDAO().getAllComments(uuid);
-            count=commentDAO.getCommentCount(request,uuid);
+            comments=commentDAO.getAllComments(uuid,request);//count ,pagination request
+           // count=commentDAO.getCommentCount(request,uuid);
             paginationResult.setData(comments);
-            paginationResult.setRecordsFiltered(count);
-            paginationResult.setRecordsTotal(count);
+            paginationResult.setRecordsFiltered(comments.size());
+            paginationResult.setRecordsTotal(comments.size());
 
             return paginationResult;
         } catch (DBConnectionException e) {
-            e.printStackTrace();
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -215,8 +220,10 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.openDBConnection();
             comment=ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
-        } catch (DBConnectionException | SQLException e) {
-            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
+        } catch (SQLException e) {
+            log.error("SQL Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -243,25 +250,25 @@ public class CommentsManagerImpl implements CommentsManager {
 //        return comments;
 //    }
 
-    @Override
-    public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
-
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve all the comments related with the application "
-                    +appReleasedId+" and "+appId);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getComments(appReleasedId,appId);
-        } catch (DBConnectionException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-        return getComments(appReleasedId,appId);
-    }
+//    @Override
+//    public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
+//
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve all the comments related with the application "
+//                    +appReleasedId+" and "+appId);
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getComments(appReleasedId,appId);
+//        } catch (DBConnectionException e) {
+//            log.error("DB Connection Exception occurs.", e);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//        return ApplicationManagementDAOFactory.getCommentDAO().getComments(appReleasedId,appId);
+//    }
 
 //    @Override
 //    public List<Comment> getComments(String appType, String appName, String version) throws CommentManagementException {
@@ -406,96 +413,98 @@ public class CommentsManagerImpl implements CommentsManager {
 //        return null;
 //    }
 
-    public int getCommentCount(String uuid) throws CommentManagementException {
+//    public int getCommentCount(String uuid) throws CommentManagementException {
+//
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve count of all the comments related with the application "+uuid);
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCount(uuid);
+//        } catch (SQLException e) {
+//            log.error("SQL Exception occurs.", e);
+//        } catch (DBConnectionException e) {
+//            log.error("DB Connection Exception occurs.", e);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//        return 0;
+//    }
 
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//    @Override
+//    public int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException,
+//            DBConnectionException, SQLException {
+//
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve count of all the comments related with the application "
+//                    +appId+","+appReleaseId);
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appId, appReleaseId);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//
+//    }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve count of all the comments related with the application "+uuid);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCount(uuid);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-        return 0;
-    }
-
-    @Override
-    public int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException,
-            DBConnectionException, SQLException {
-
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve count of all the comments related with the application "
-                    +appId+","+appReleaseId);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appId, appReleaseId);
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-
-    }
-
-    @Override
-    public int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException,
-            DBConnectionException, SQLException {
-
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve count of all the comments related with the application " +
-                    ""+appType+","+appName+","+version);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appType, appName, version);
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-
-    }
-
-    @Override
-    public int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException,
-            SQLException {
-
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve count of all the comments created by "+createdBy+
-                    " related with the application ");
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByUser(createdBy);
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
-
-    public int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException,
-            SQLException {
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Request is received to retrieve count of all the comments of "+parentId+
-                    " related with the application "+uuid);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByParent(uuid,parentId);
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-    }
-
+//    @Override
+//    public int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException,
+//            DBConnectionException, SQLException {
+//
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve count of all the comments related with the application " +
+//                    ""+appType+","+appName+","+version);
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByApp(appType, appName, version);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//
+//    }
+//
+//    @Override
+//    public int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException,
+//            SQLException {
+//
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve count of all the comments created by "+createdBy+
+//                    " related with the application ");
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByUser(createdBy);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//    }
+//
+//    public int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException,
+//            SQLException {
+//        PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+//
+//        if (log.isDebugEnabled()) {
+//            log.debug("Request is received to retrieve count of all the comments of "+parentId+
+//                    " related with the application "+uuid);
+//        }
+//        try {
+//            ConnectionManagerUtil.openDBConnection();
+//            return ApplicationManagementDAOFactory.getCommentDAO().getCommentCountByParent(uuid,parentId);
+//        } finally {
+//            ConnectionManagerUtil.closeDBConnection();
+//        }
+//    }
+//
 
     @Override
     public void deleteComment(int apAppCommentId) throws CommentManagementException {
@@ -504,19 +513,19 @@ public class CommentsManagerImpl implements CommentsManager {
         comment= getComment(apAppCommentId);
 
         if (comment == null) {
-            try {
-                throw new ApplicationManagementException(
+            throw new CommentManagementException(
                         "Cannot delete a non-existing comment for the application with comment id" + apAppCommentId);
-            } catch (ApplicationManagementException e) {
-                e.printStackTrace();
-            }
         }
         try {
             ConnectionManagerUtil.beginDBTransaction();
             ApplicationManagementDAOFactory.getCommentDAO().deleteComment(apAppCommentId);
             ConnectionManagerUtil.commitDBTransaction();
-        } catch (DBConnectionException | SQLException | TransactionManagementException e) {
-            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
+        } catch (SQLException e) {
+            log.error("SQL Exception occurs.", e);
+        } catch (TransactionManagementException e) {
+            log.error("Transaction Management Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -642,25 +651,28 @@ public class CommentsManagerImpl implements CommentsManager {
 //    }
 
     @Override
-    public Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException,
+    public Comment updateComment(Comment comment,int apAppCommentId) throws CommentManagementException, SQLException,
             DBConnectionException {
 
         PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-        validateComment(comment.getId(),comment.getComment());
+        validateComment(apAppCommentId,comment.getComment());
 
         if (log.isDebugEnabled()) {
-            log.debug("Comment retrieval request is received for the comment id " +comment.getId());
+            log.debug("Comment retrieval request is received for the comment id " +apAppCommentId);
         }
         try {
             ConnectionManagerUtil.openDBConnection();
-            return ApplicationManagementDAOFactory.getCommentDAO().updateComment(uuid,comment.getId(),
+            ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
+            return ApplicationManagementDAOFactory.getCommentDAO().updateComment(apAppCommentId,
                     comment.getComment(),comment.getModifiedBy(),comment.getModifiedAt());
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQL Exception occurs.", e);
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return ApplicationManagementDAOFactory.getCommentDAO().getComment(comment.getId());
+        return ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
     }
 
     @Override
@@ -674,8 +686,10 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
 
             return ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
-        } catch (DBConnectionException | ApplicationManagementDAOException e) {
-            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
+        } catch (ApplicationManagementDAOException e) {
+            log.error("Application Management Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
@@ -688,6 +702,7 @@ public class CommentsManagerImpl implements CommentsManager {
         if (log.isDebugEnabled()) {
             log.debug("Stars are received for the application " + uuid);
         }
+        int totalStars=0;
         try {
             ConnectionManagerUtil.beginDBTransaction();
 
@@ -696,23 +711,24 @@ public class CommentsManagerImpl implements CommentsManager {
             int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
 
             if(ratedUsers!=0 && newStars!=0) {
-                int totalStars = newStars + oldStars;
+                totalStars = newStars + oldStars;
                 int avgStars = (totalStars * (ratedUsers - 1)) / ratedUsers;
                 ConnectionManagerUtil.commitDBTransaction();
 
                 return avgStars;
             }else {
-                int totalStars = newStars + oldStars;
+                totalStars = newStars + oldStars;
                 ConnectionManagerUtil.commitDBTransaction();
 
                 return totalStars;
             }
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
-            throw e;
+            log.error("Application Management Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
+        return totalStars;
     }
 
     public int getRatedUser(String uuid){
@@ -724,8 +740,10 @@ public class CommentsManagerImpl implements CommentsManager {
             ConnectionManagerUtil.openDBConnection();
 
             return ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-        } catch (DBConnectionException | ApplicationManagementDAOException e) {
-            e.printStackTrace();
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
+        } catch (ApplicationManagementDAOException e) {
+            log.error("Application Management Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }

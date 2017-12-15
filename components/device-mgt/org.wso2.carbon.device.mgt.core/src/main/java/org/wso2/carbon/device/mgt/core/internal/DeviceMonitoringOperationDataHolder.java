@@ -42,7 +42,7 @@ public class DeviceMonitoringOperationDataHolder {
         this.OperationConfigMap.put(deviceType, OperationConfig);
     }
 
-    public Map<String, OperationMonitoringTaskConfig> getOperationMonitoringConfigFromMap(){
+    public Map<String, OperationMonitoringTaskConfig> getOperationMonitoringConfigFromMap() {
         return this.OperationConfigMap;
     }
 }

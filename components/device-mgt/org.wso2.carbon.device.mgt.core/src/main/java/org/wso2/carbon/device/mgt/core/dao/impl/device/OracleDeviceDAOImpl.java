@@ -152,7 +152,7 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while retrieving information of all " +
-                                                   "registered devices", e);
+                    "registered devices", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, rs);
         }
@@ -168,11 +168,11 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT e1.OWNER, e1.OWNERSHIP, e1.ENROLMENT_ID, e1.DEVICE_ID, e1.STATUS, e1.DATE_OF_LAST_UPDATE,"
-                            + " e1.DATE_OF_ENROLMENT, d.DESCRIPTION, d.NAME AS DEVICE_NAME, d.DEVICE_IDENTIFICATION, t.NAME "
-                            + "AS DEVICE_TYPE FROM DM_DEVICE d, (SELECT e.OWNER, e.OWNERSHIP, e.ID AS ENROLMENT_ID, "
-                            + "e.DEVICE_ID, e.STATUS, e.DATE_OF_LAST_UPDATE, e.DATE_OF_ENROLMENT FROM DM_ENROLMENT e WHERE "
-                            + "e.TENANT_ID = ? AND e.OWNER = ?) e1, DM_DEVICE_TYPE t WHERE d.ID = e1.DEVICE_ID "
-                            + "AND t.ID = d.DEVICE_TYPE_ID ORDER BY ENROLMENT_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                    + " e1.DATE_OF_ENROLMENT, d.DESCRIPTION, d.NAME AS DEVICE_NAME, d.DEVICE_IDENTIFICATION, t.NAME "
+                    + "AS DEVICE_TYPE FROM DM_DEVICE d, (SELECT e.OWNER, e.OWNERSHIP, e.ID AS ENROLMENT_ID, "
+                    + "e.DEVICE_ID, e.STATUS, e.DATE_OF_LAST_UPDATE, e.DATE_OF_ENROLMENT FROM DM_ENROLMENT e WHERE "
+                    + "e.TENANT_ID = ? AND e.OWNER = ?) e1, DM_DEVICE_TYPE t WHERE d.ID = e1.DEVICE_ID "
+                    + "AND t.ID = d.DEVICE_TYPE_ID ORDER BY ENROLMENT_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, tenantId);
             stmt.setString(2, request.getOwner());
@@ -186,7 +186,7 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices belongs to '" +
-                                                   request.getOwner() + "'", e);
+                    request.getOwner() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -222,7 +222,7 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches " +
-                                                   "'" + request.getDeviceName() + "'", e);
+                    "'" + request.getDeviceName() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -258,7 +258,7 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches to ownership " +
-                                                   "'" + request.getOwnership() + "'", e);
+                    "'" + request.getOwnership() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -294,7 +294,7 @@ public class OracleDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches to status " +
-                                                   "'" + request.getStatus() + "'", e);
+                    "'" + request.getStatus() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }

@@ -17,8 +17,8 @@
   ~ under the License.
   -->
 
-   <AppManagementConfig>
-        <AppManagerUrl>http:/www.google.com</AppManagerUrl>
-        <ConsumerKey>ConsumerKey</ConsumerKey>
-        <ConsumerSecret>ConsumerSecret</ConsumerSecret>
-   </AppManagementConfig>
+<AppManagementConfig>
+    <AppManagerUrl>http:/www.google.com</AppManagerUrl>
+    <ConsumerKey>ConsumerKey</ConsumerKey>
+    <ConsumerSecret>ConsumerSecret</ConsumerSecret>
+</AppManagementConfig>

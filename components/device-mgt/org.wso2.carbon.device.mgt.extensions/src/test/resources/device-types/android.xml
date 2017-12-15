@@ -104,31 +104,36 @@
         <Feature code="DEVICE_LOCK">
             <Name>Device Lock</Name>
             <Description>Lock the device</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/lock-devices" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/lock-devices" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="DEVICE_LOCATION">
             <Name>Location</Name>
             <Description>Request coordinates of device location</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/location" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/location" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="CLEAR_PASSWORD">
             <Name>Clear Password</Name>
             <Description>Clear current password</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/clear-password" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/clear-password" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="DEVICE_REBOOT">
             <Name>Reboot</Name>
             <Description>Reboot the device</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/reboot" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/reboot" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="UPGRADE_FIRMWARE">
             <Name>Upgrade Firmware</Name>
             <Description>Upgrade Firmware</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/upgrade-firmware" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/upgrade-firmware" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="DEVICE_MUTE">
@@ -140,19 +145,22 @@
         <Feature code="NOTIFICATION">
             <Name>Message</Name>
             <Description>Send message</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/send-notification" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/send-notification" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="CHANGE_LOCK_CODE">
             <Name>Change Lock-code</Name>
             <Description>Change current lock code</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/change-lock-code" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/change-lock-code" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="ENTERPRISE_WIPE">
             <Name>Enterprise Wipe</Name>
             <Description>Remove enterprise applications</Description>
-            <Operation context="/api/device-mgt/android/v1.0/admin/devices/enterprise-wipe" method="POST" type="application/json">
+            <Operation context="/api/device-mgt/android/v1.0/admin/devices/enterprise-wipe" method="POST"
+                       type="application/json">
             </Operation>
         </Feature>
         <Feature code="WIPE_DATA">
@@ -364,7 +372,7 @@
             </Operation>
         </Operations>
     </TaskConfiguration>
-	<PolicyMonitoring enabled="true"/>
+    <PolicyMonitoring enabled="true"/>
     <InitialOperationConfig>
         <Operation>DEVICE_INFO</Operation>
         <Operation>APPLICATION_LIST</Operation>
@@ -381,7 +389,8 @@
         <FileBasedProperties>false</FileBasedProperties>
     </PushNotificationProviderConfig>
 
-    <PullNotificationSubscriberConfig className="org.wso2.carbon.device.mgt.extensions.pull.notification.PullNotificationSubscriberImpl">
+    <PullNotificationSubscriberConfig
+            className="org.wso2.carbon.device.mgt.extensions.pull.notification.PullNotificationSubscriberImpl">
         <ConfigProperties>
             <Property Name="example">admin</Property>
         </ConfigProperties>

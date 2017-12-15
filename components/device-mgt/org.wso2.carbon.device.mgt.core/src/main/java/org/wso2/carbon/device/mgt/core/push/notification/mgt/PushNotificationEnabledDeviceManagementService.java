@@ -21,7 +21,7 @@ package org.wso2.carbon.device.mgt.core.push.notification.mgt;
 import org.wso2.carbon.device.mgt.common.push.notification.NotificationStrategy;
 import org.wso2.carbon.device.mgt.common.spi.DeviceManagementService;
 
-public class PushNotificationEnabledDeviceManagementService  {
+public class PushNotificationEnabledDeviceManagementService {
 
     public PushNotificationEnabledDeviceManagementService(
             DeviceManagementService provider, NotificationStrategy strategy) {

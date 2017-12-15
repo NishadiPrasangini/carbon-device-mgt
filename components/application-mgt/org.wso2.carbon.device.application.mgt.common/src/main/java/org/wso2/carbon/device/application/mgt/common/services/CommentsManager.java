@@ -27,8 +27,6 @@ import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionExcep
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * CommentsManager is responsible for handling all the add/update/delete/get operations related with
@@ -53,10 +51,12 @@ public interface CommentsManager {
      * To add a comment to a application
      *
      * @param comment comment of the application.
-     * @return comment
+     * @param uuid uuid of the application release
+     * @param tenantId tenant id of the application
+     * @return {@link Comment}
      * @throws CommentManagementException Exceptions of the comment management.
      */
-    Comment addComment(Comment comment,String uuid)throws CommentManagementException;
+    Comment addComment(Comment comment,String uuid,int tenantId)throws CommentManagementException;
 //
 //    /**
 //     * To update already added comment.
@@ -83,8 +83,11 @@ public interface CommentsManager {
     /**
      * Get all comments to pagination
      *
-     * @return pagination request
+     *@param request Pagination request
+     * @param uuid uuid of the application release
+     * @return {@link PaginationResult} pagination result with starting index and limit
      * @throws CommentManagementException Exceptions of the comment management.
+     * @throws SQLException SQL Exception
      */
     PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException;
 
@@ -106,15 +109,15 @@ public interface CommentsManager {
 //     */
 //   List<Comment> getComment(String uuid)throws CommentManagementException;
 
-    /**
-     * To get list of comments using release id and application id.
-     *
-     * @param appReleasedId Id of the released version of the application.
-     * @param appId id of the commented application.
-     * @return List of comments of an application
-     * @throws CommentManagementException Exceptions of the comment management.
-     */
-    List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
+//    /**
+//     * To get list of comments using release id and application id.
+//     *
+//     * @param appReleasedId Id of the released version of the application.
+//     * @param appId id of the commented application.
+//     * @return List of comments of an application
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     */
+//    List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
 
 //    /**
 //     * To get list of comments using application type, application name and version of the application.
@@ -192,75 +195,74 @@ public interface CommentsManager {
 //     *
 //     */
 //    List<Comment> getComments(String appType,String appName,String version,int parentId)throws CommentManagementException;
+//
+//    /**
+//     * To get the count of comments on application
+//     *
+//     * @param uuid uuid of the comment
+//     * @return number of comments
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     */
+//    int getCommentCount(String uuid) throws CommentManagementException;
+//
+//    /**
+//     * To get the count of comments on application
+//     *
+//     * @param appId application id
+//     * @param appReleaseId application release id
+//     * @return count of the comments
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     * @throws DBConnectionException db connection exception
+//     * @throws SQLException sql exception
+//     */
+//    int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException, DBConnectionException, SQLException;
+//
+//    /**
+//     * To get the count of the comments of an application
+//     *
+//     * @param appType application type
+//     * @param appName Name of the application
+//     * @param version version of the application
+//     * @return number of the comments
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     * @throws DBConnectionException db connection exception
+//     * @throws SQLException sql exception
+//     */
+//    int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException,
+//            DBConnectionException, SQLException ;
 
-    /**
-     * To get the count of comments on application
-     *
-     * @param uuid uuid of the comment
-     * @return number of comments
-     * @throws CommentManagementException Exceptions of the comment management.
-     */
-    int getCommentCount(String uuid) throws CommentManagementException;
+//    /**
+//     * To get the count of comments by number of users
+//     *
+//     * @param createdBy comment created user's name
+//     * @return count of the comments
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     * @throws DBConnectionException db connection exception
+//     * @throws SQLException sql exception
+//     */
+//    int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException,
+//            SQLException;
 
-    /**
-     * To get the count of comments on application
-     *
-     * @param appId application id
-     * @param appReleaseId application release id
-     * @return count of the comments
-     * @throws CommentManagementException Exceptions of the comment management.
-     * @throws DBConnectionException db connection exception
-     * @throws SQLException sql exception
-     */
-    int getCommentCountByApp(int appId, int appReleaseId) throws CommentManagementException, DBConnectionException, SQLException;
-
-    /**
-     * To get the count of the comments of an application
-     *
-     * @param appType application type
-     * @param appName Name of the application
-     * @param version version of the application
-     * @return number of the comments
-     * @throws CommentManagementException Exceptions of the comment management.
-     * @throws DBConnectionException db connection exception
-     * @throws SQLException sql exception
-     */
-    int getCommentCountByApp(String appType, String appName, String version) throws CommentManagementException,
-            DBConnectionException, SQLException ;
-
-    /**
-     * To get the count of comments by number of users
-     *
-     * @param createdBy comment created user's name
-     * @return count of the comments
-     * @throws CommentManagementException Exceptions of the comment management.
-     * @throws DBConnectionException db connection exception
-     * @throws SQLException sql exception
-     */
-    int getCommentCountByUser(String createdBy) throws CommentManagementException, DBConnectionException,
-            SQLException;
-
-    /**
-     * To get count of the comments by parent comment
-     *
-     * @param uuid uuid of the comment
-     * @param parentId id of the parent comment
-     * @return count of comments
-     * @throws CommentManagementException Exceptions of the comment management.
-     * @throws DBConnectionException db connection exception
-     * @throws SQLException sql exception
-     */
-    int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException,
-            SQLException;
+//    /**
+//     * To get count of the comments by parent comment
+//     *
+//     * @param uuid uuid of the comment
+//     * @param parentId id of the parent comment
+//     * @return count of comments
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     * @throws DBConnectionException db connection exception
+//     * @throws SQLException sql exception
+//     */
+//    int getCommentCountByParent(String uuid,int parentId) throws CommentManagementException, DBConnectionException,
+//            SQLException;
 
     /**
      * To delete comment using comment id.
      *
      * @param apAppCommentId id of the comment
-     * @throws CommentManagementException Exceptions of the comment management.
-     * @throws ApplicationManagementDAOException Exceptions of the application management.
+     * @throws CommentManagementException Exceptions of the comment management
      */
-    void deleteComment(int apAppCommentId) throws CommentManagementException, ApplicationManagementDAOException;
+    void deleteComment(int apAppCommentId) throws CommentManagementException;
 
 //    /**
 //     * To delete comment using comment id.
@@ -322,10 +324,13 @@ public interface CommentsManager {
      * To update a comment.
      *
      * @param comment comment of the application.
+     * @param apAppCommentId id of the comment
      * @return updated comment
      * @throws CommentManagementException Exceptions of the comment management
+     * @throws SQLException SQL Exception
+     * @throws DBConnectionException Database connection Exception
      */
-    Comment updateComment(String uuid,Comment comment) throws CommentManagementException, SQLException, DBConnectionException;
+    Comment updateComment(Comment comment,int apAppCommentId) throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
      * To get the average of stars

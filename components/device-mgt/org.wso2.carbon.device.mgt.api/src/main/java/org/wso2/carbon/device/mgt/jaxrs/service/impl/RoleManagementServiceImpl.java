@@ -69,7 +69,7 @@ public class RoleManagementServiceImpl implements RoleManagementService {
             @HeaderParam("If-Modified-Since") String ifModifiedSince,
             @QueryParam("offset") int offset, @QueryParam("limit") int limit) {
         RequestValidationUtil.validatePaginationParameters(offset, limit);
-        if (limit == 0){
+        if (limit == 0) {
             limit = Constants.DEFAULT_PAGE_LIMIT;
         }
         List<String> filteredRoles;
@@ -122,8 +122,8 @@ public class RoleManagementServiceImpl implements RoleManagementService {
             finalRoleList = new ArrayList<String>();
 
             filteredRoles = FilteringUtil.getFilteredList(getRolesFromUserStore(filter, userStore), offset, limit);
-            for (String rolename : filteredRoles){
-                if (rolename.startsWith(prefix)){
+            for (String rolename : filteredRoles) {
+                if (rolename.startsWith(prefix)) {
                     finalRoleList.add(rolename);
                 }
             }

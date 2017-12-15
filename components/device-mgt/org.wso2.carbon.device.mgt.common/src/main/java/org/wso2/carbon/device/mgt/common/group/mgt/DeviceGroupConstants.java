@@ -47,11 +47,11 @@ public class DeviceGroupConstants {
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return this.value;
         }
 
-        public String[] getPermissions(){
+        public String[] getPermissions() {
             return permissions;
         }
     }

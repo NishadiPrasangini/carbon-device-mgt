@@ -178,7 +178,7 @@ public class DeviceTaskManagerTest extends BaseDeviceManagementTest {
 
     @AfterClass
     public void cleanup() throws DeviceManagementException {
-        for (DeviceIdentifier deviceId: deviceIds) {
+        for (DeviceIdentifier deviceId : deviceIds) {
             this.deviceMgtProviderService.disenrollDevice(deviceId);
         }
     }

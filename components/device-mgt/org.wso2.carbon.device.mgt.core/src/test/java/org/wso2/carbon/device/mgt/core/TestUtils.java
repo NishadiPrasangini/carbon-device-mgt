@@ -67,7 +67,7 @@ public class TestUtils {
         }
     }
 
-    public static DeviceGroup createDeviceGroup1(){
+    public static DeviceGroup createDeviceGroup1() {
         DeviceGroup group = new DeviceGroup();
         group.setName("TEST_GROUP_01");
         group.setDescription("TEST_GROUP_01 - Description");
@@ -76,7 +76,7 @@ public class TestUtils {
     }
 
 
-    public static DeviceGroup createDeviceGroup2(){
+    public static DeviceGroup createDeviceGroup2() {
         DeviceGroup group = new DeviceGroup();
         group.setName("TEST_GROUP_02");
         group.setDescription("TEST_GROUP_02 - Description");
@@ -84,7 +84,7 @@ public class TestUtils {
         return group;
     }
 
-    public static DeviceGroup createDeviceGroup3(){
+    public static DeviceGroup createDeviceGroup3() {
         DeviceGroup group = new DeviceGroup();
         group.setName("TEST_GROUP_03");
         group.setDescription("TEST_GROUP_03 - Description");
@@ -92,7 +92,7 @@ public class TestUtils {
         return group;
     }
 
-    public static DeviceGroup createDeviceGroup4(){
+    public static DeviceGroup createDeviceGroup4() {
         DeviceGroup group = new DeviceGroup();
         group.setName("TEST_GROUP_04");
         group.setDescription("TEST_GROUP_04 - Description");
@@ -101,12 +101,12 @@ public class TestUtils {
     }
 
 
-    public static GroupPaginationRequest createPaginationRequest(){
+    public static GroupPaginationRequest createPaginationRequest() {
         GroupPaginationRequest request = new GroupPaginationRequest(0, 5);
         return request;
     }
 
-    public static List<DeviceIdentifier> getDeviceIdentifiersList(){
+    public static List<DeviceIdentifier> getDeviceIdentifiersList() {
         DeviceIdentifier identifier = new DeviceIdentifier();
         identifier.setId("12345");
         identifier.setType(TestDataHolder.TEST_DEVICE_TYPE);

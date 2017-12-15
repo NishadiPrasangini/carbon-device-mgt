@@ -59,10 +59,10 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT d1.ID AS DEVICE_ID, d1.DESCRIPTION, d1.NAME AS DEVICE_NAME, d1.DEVICE_TYPE, " +
-                         "d1.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
-                         "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e, (SELECT d.ID, d.DESCRIPTION, " +
-                         "d.NAME, d.DEVICE_IDENTIFICATION, t.NAME AS DEVICE_TYPE " +
-                         "FROM DM_DEVICE d, DM_DEVICE_TYPE t ";
+                    "d1.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
+                    "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e, (SELECT d.ID, d.DESCRIPTION, " +
+                    "d.NAME, d.DEVICE_IDENTIFICATION, t.NAME AS DEVICE_TYPE " +
+                    "FROM DM_DEVICE d, DM_DEVICE_TYPE t ";
 
             //Add the query to filter active devices on timestamp
             if (since != null) {
@@ -146,7 +146,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while retrieving information of all " +
-                                                   "registered devices", e);
+                    "registered devices", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, rs);
         }
@@ -162,11 +162,11 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT e1.OWNER, e1.OWNERSHIP, e1.ENROLMENT_ID, e1.DEVICE_ID, e1.STATUS, e1.DATE_OF_LAST_UPDATE," +
-                         " e1.DATE_OF_ENROLMENT, d.DESCRIPTION, d.NAME AS DEVICE_NAME, d.DEVICE_IDENTIFICATION, t.NAME " +
-                         "AS DEVICE_TYPE FROM DM_DEVICE d, (SELECT e.OWNER, e.OWNERSHIP, e.ID AS ENROLMENT_ID, " +
-                         "e.DEVICE_ID, e.STATUS, e.DATE_OF_LAST_UPDATE, e.DATE_OF_ENROLMENT FROM DM_ENROLMENT e WHERE " +
-                         "e.TENANT_ID = ? AND e.OWNER = ?) e1, DM_DEVICE_TYPE t WHERE d.ID = e1.DEVICE_ID " +
-                         "AND t.ID = d.DEVICE_TYPE_ID LIMIT ?,?";
+                    " e1.DATE_OF_ENROLMENT, d.DESCRIPTION, d.NAME AS DEVICE_NAME, d.DEVICE_IDENTIFICATION, t.NAME " +
+                    "AS DEVICE_TYPE FROM DM_DEVICE d, (SELECT e.OWNER, e.OWNERSHIP, e.ID AS ENROLMENT_ID, " +
+                    "e.DEVICE_ID, e.STATUS, e.DATE_OF_LAST_UPDATE, e.DATE_OF_ENROLMENT FROM DM_ENROLMENT e WHERE " +
+                    "e.TENANT_ID = ? AND e.OWNER = ?) e1, DM_DEVICE_TYPE t WHERE d.ID = e1.DEVICE_ID " +
+                    "AND t.ID = d.DEVICE_TYPE_ID LIMIT ?,?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, tenantId);
             stmt.setString(2, request.getOwner());
@@ -180,7 +180,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices belongs to '" +
-                                                   request.getOwner() + "'", e);
+                    request.getOwner() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -196,11 +196,11 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT d1.ID AS DEVICE_ID, d1.DESCRIPTION, d1.NAME AS DEVICE_NAME, d1.DEVICE_TYPE, " +
-                         "d1.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
-                         "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e, (SELECT d.ID, d.NAME, " +
-                         "d.DESCRIPTION, t.NAME AS DEVICE_TYPE, d.DEVICE_IDENTIFICATION FROM DM_DEVICE d, " +
-                         "DM_DEVICE_TYPE t WHERE d.DEVICE_TYPE_ID = t.ID AND d.NAME LIKE ? AND d.TENANT_ID = ?) d1 " +
-                         "WHERE DEVICE_ID = e.DEVICE_ID AND TENANT_ID = ? LIMIT ?,?";
+                    "d1.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
+                    "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e, (SELECT d.ID, d.NAME, " +
+                    "d.DESCRIPTION, t.NAME AS DEVICE_TYPE, d.DEVICE_IDENTIFICATION FROM DM_DEVICE d, " +
+                    "DM_DEVICE_TYPE t WHERE d.DEVICE_TYPE_ID = t.ID AND d.NAME LIKE ? AND d.TENANT_ID = ?) d1 " +
+                    "WHERE DEVICE_ID = e.DEVICE_ID AND TENANT_ID = ? LIMIT ?,?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, request.getDeviceName() + "%");
             stmt.setInt(2, tenantId);
@@ -215,7 +215,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches " +
-                                                   "'" + request.getDeviceName() + "'", e);
+                    "'" + request.getDeviceName() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -231,11 +231,11 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT d.ID AS DEVICE_ID, d.DESCRIPTION, d.NAME AS DEVICE_NAME, t.NAME AS DEVICE_TYPE, " +
-                         "d.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
-                         "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM (SELECT e.ID, e.DEVICE_ID, e.OWNER, e.OWNERSHIP, e.STATUS, " +
-                         "e.DATE_OF_ENROLMENT, e.DATE_OF_LAST_UPDATE, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e " +
-                         "WHERE TENANT_ID = ? AND OWNERSHIP = ?) e, DM_DEVICE d, DM_DEVICE_TYPE t " +
-                         "WHERE DEVICE_ID = e.DEVICE_ID AND d.DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ? LIMIT ?,?";
+                    "d.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
+                    "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM (SELECT e.ID, e.DEVICE_ID, e.OWNER, e.OWNERSHIP, e.STATUS, " +
+                    "e.DATE_OF_ENROLMENT, e.DATE_OF_LAST_UPDATE, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e " +
+                    "WHERE TENANT_ID = ? AND OWNERSHIP = ?) e, DM_DEVICE d, DM_DEVICE_TYPE t " +
+                    "WHERE DEVICE_ID = e.DEVICE_ID AND d.DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ? LIMIT ?,?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, tenantId);
             stmt.setString(2, request.getOwnership());
@@ -250,7 +250,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches to ownership " +
-                                                   "'" + request.getOwnership() + "'", e);
+                    "'" + request.getOwnership() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -266,11 +266,11 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
         try {
             conn = this.getConnection();
             String sql = "SELECT d.ID AS DEVICE_ID, d.DESCRIPTION, d.NAME AS DEVICE_NAME, t.NAME AS DEVICE_TYPE, " +
-                         "d.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
-                         "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM (SELECT e.ID, e.DEVICE_ID, e.OWNER, e.OWNERSHIP, e.STATUS, " +
-                         "e.DATE_OF_ENROLMENT, e.DATE_OF_LAST_UPDATE, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e " +
-                         "WHERE TENANT_ID = ? AND STATUS = ?) e, DM_DEVICE d, DM_DEVICE_TYPE t " +
-                         "WHERE DEVICE_ID = e.DEVICE_ID AND d.DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ? LIMIT ?,?";
+                    "d.DEVICE_IDENTIFICATION, e.OWNER, e.OWNERSHIP, e.STATUS, e.DATE_OF_LAST_UPDATE, " +
+                    "e.DATE_OF_ENROLMENT, e.ID AS ENROLMENT_ID FROM (SELECT e.ID, e.DEVICE_ID, e.OWNER, e.OWNERSHIP, e.STATUS, " +
+                    "e.DATE_OF_ENROLMENT, e.DATE_OF_LAST_UPDATE, e.ID AS ENROLMENT_ID FROM DM_ENROLMENT e " +
+                    "WHERE TENANT_ID = ? AND STATUS = ?) e, DM_DEVICE d, DM_DEVICE_TYPE t " +
+                    "WHERE DEVICE_ID = e.DEVICE_ID AND d.DEVICE_TYPE_ID = t.ID AND d.TENANT_ID = ? LIMIT ?,?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, tenantId);
             stmt.setString(2, request.getStatus());
@@ -285,7 +285,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices that matches to status " +
-                                                   "'" + request.getStatus() + "'", e);
+                    "'" + request.getStatus() + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
@@ -350,7 +350,7 @@ public class GenericDeviceDAOImpl extends AbstractDeviceDAOImpl {
             }
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while fetching the list of devices corresponding" +
-            "to the mentioned filtering criteria", e);
+                    "to the mentioned filtering criteria", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, rs);
         }

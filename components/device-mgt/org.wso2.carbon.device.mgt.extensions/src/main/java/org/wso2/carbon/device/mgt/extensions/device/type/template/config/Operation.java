@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for Operation complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="Operation">
  *   &lt;complexContent>
@@ -45,13 +45,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Operation", propOrder = {
-    "queryParameters",
-    "formParameters"
+        "queryParameters",
+        "formParameters"
 })
 public class Operation {
 
@@ -69,10 +67,8 @@ public class Operation {
     /**
      * Gets the value of the Content Type property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getType() {
         return type;
@@ -81,10 +77,8 @@ public class Operation {
     /**
      * Sets the value of the Content Type property.
      *
-     * @param type
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param type allowed object is
+     *             {@link String }
      */
     public void setType(String type) {
         this.type = type;
@@ -92,11 +86,9 @@ public class Operation {
 
     /**
      * Gets the value of the queryParameters property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link QueryParameters }
-     *     
+     *
+     * @return possible object is
+     * {@link QueryParameters }
      */
     public QueryParameters getQueryParameters() {
         return queryParameters;
@@ -104,11 +96,9 @@ public class Operation {
 
     /**
      * Sets the value of the queryParameters property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link QueryParameters }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link QueryParameters }
      */
     public void setQueryParameters(QueryParameters value) {
         this.queryParameters = value;
@@ -116,11 +106,9 @@ public class Operation {
 
     /**
      * Gets the value of the formParameters property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link FormParameters }
-     *     
+     *
+     * @return possible object is
+     * {@link FormParameters }
      */
     public FormParameters getFormParameters() {
         return formParameters;
@@ -128,11 +116,9 @@ public class Operation {
 
     /**
      * Sets the value of the formParameters property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link FormParameters }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link FormParameters }
      */
     public void setFormParameters(FormParameters value) {
         this.formParameters = value;
@@ -140,11 +126,9 @@ public class Operation {
 
     /**
      * Gets the value of the context property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getContext() {
         return context;
@@ -152,11 +136,9 @@ public class Operation {
 
     /**
      * Sets the value of the context property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setContext(String value) {
         this.context = value;
@@ -164,11 +146,9 @@ public class Operation {
 
     /**
      * Gets the value of the method property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getMethod() {
         return method;
@@ -176,11 +156,9 @@ public class Operation {
 
     /**
      * Sets the value of the method property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setMethod(String value) {
         this.method = value;

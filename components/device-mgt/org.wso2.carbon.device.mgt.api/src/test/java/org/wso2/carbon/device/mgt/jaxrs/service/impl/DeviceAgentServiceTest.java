@@ -1103,7 +1103,8 @@ public class DeviceAgentServiceTest {
         PowerMockito.stub(PowerMockito.method(DeviceMgtAPIUtils.class, "getDeviceManagementService"))
                 .toReturn(this.deviceManagementProviderService);
         Mockito.when(this.deviceManagementProviderService.getAvailableDeviceTypes())
-                .thenReturn(new ArrayList<String>() {});
+                .thenReturn(new ArrayList<String>() {
+                });
 
         Response response = this.deviceAgentService.getOperationsByDeviceAndStatus(TEST_DEVICE_TYPE, TEST_DEVICE_IDENTIFIER,
                 Operation.Status.COMPLETED);

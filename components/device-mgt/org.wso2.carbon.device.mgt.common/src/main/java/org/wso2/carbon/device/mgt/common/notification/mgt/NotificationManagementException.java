@@ -23,38 +23,38 @@ package org.wso2.carbon.device.mgt.common.notification.mgt;
  */
 public class NotificationManagementException extends Exception {
 
-	private static final long serialVersionUID = -8933146283800122660L;
-	private String errorMessage;
+    private static final long serialVersionUID = -8933146283800122660L;
+    private String errorMessage;
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 
-	public NotificationManagementException(String msg, Exception nestedEx) {
-		super(msg, nestedEx);
-		setErrorMessage(msg);
-	}
+    public NotificationManagementException(String msg, Exception nestedEx) {
+        super(msg, nestedEx);
+        setErrorMessage(msg);
+    }
 
-	public NotificationManagementException(String message, Throwable cause) {
-		super(message, cause);
-		setErrorMessage(message);
-	}
+    public NotificationManagementException(String message, Throwable cause) {
+        super(message, cause);
+        setErrorMessage(message);
+    }
 
-	public NotificationManagementException(String msg) {
-		super(msg);
-		setErrorMessage(msg);
-	}
+    public NotificationManagementException(String msg) {
+        super(msg);
+        setErrorMessage(msg);
+    }
 
-	public NotificationManagementException() {
-		super();
-	}
+    public NotificationManagementException() {
+        super();
+    }
 
-	public NotificationManagementException(Throwable cause) {
-		super(cause);
-	}
+    public NotificationManagementException(Throwable cause) {
+        super(cause);
+    }
 
 }

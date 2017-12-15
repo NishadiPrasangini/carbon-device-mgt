@@ -100,6 +100,7 @@ public interface OperationManager {
 
     /**
      * retrive the push notification strategy.
+     *
      * @return NotificationStrategy
      */
     NotificationStrategy getNotificationStrategy();

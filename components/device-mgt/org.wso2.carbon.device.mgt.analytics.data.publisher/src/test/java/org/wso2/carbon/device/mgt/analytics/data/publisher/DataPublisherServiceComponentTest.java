@@ -39,7 +39,7 @@ public class DataPublisherServiceComponentTest extends BaseAnalyticsDataPublishe
         this.serviceComponent = new DataPublisherServiceComponent();
     }
 
-    @Test (description = "Test bundle activation with exception thrown when service resgistration")
+    @Test(description = "Test bundle activation with exception thrown when service resgistration")
     public void activateWithException() throws NoSuchMethodException, IllegalAccessException,
             InvocationTargetException {
         this.activate(new TestComponentContext());

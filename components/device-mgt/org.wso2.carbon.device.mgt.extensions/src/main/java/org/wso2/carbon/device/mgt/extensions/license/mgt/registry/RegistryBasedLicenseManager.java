@@ -106,7 +106,7 @@ public class RegistryBasedLicenseManager implements LicenseManager {
     public void addLicense(final String deviceType, final License license) throws LicenseManagementException {
         try {
             GenericArtifact artifact = this.getGenericArtifact(deviceType, license.getLanguage());
-            if(artifact != null) {
+            if (artifact != null) {
                 artifact.setAttribute(DeviceManagementConstants.LicenseProperties.NAME, license.getName());
                 artifact.setAttribute(DeviceManagementConstants.LicenseProperties.VERSION, license.getVersion());
                 artifact.setAttribute(DeviceManagementConstants.LicenseProperties.PROVIDER, license.getProvider());

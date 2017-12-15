@@ -23,35 +23,38 @@ package org.wso2.carbon.device.mgt.jaxrs.util;
  */
 public class MDMAppConstants {
 
-	public class IOSConstants {
+    public class IOSConstants {
 
-		private IOSConstants() {
-			throw new AssertionError();
-		}
-		public static final String IS_REMOVE_APP = "isRemoveApp";
-		public static final String IS_PREVENT_BACKUP = "isPreventBackup";
-		public static final String I_TUNES_ID = "iTunesId";
-		public static final String LABEL = "label";
-		public static final String OPCODE_INSTALL_ENTERPRISE_APPLICATION = "INSTALL_ENTERPRISE_APPLICATION";
-		public static final String OPCODE_INSTALL_STORE_APPLICATION = "INSTALL_STORE_APPLICATION";
-		public static final String OPCODE_INSTALL_WEB_APPLICATION = "WEB_CLIP";
-		public static final String OPCODE_REMOVE_APPLICATION = "REMOVE_APPLICATION";
-	}
+        private IOSConstants() {
+            throw new AssertionError();
+        }
 
-	public class AndroidConstants {
+        public static final String IS_REMOVE_APP = "isRemoveApp";
+        public static final String IS_PREVENT_BACKUP = "isPreventBackup";
+        public static final String I_TUNES_ID = "iTunesId";
+        public static final String LABEL = "label";
+        public static final String OPCODE_INSTALL_ENTERPRISE_APPLICATION = "INSTALL_ENTERPRISE_APPLICATION";
+        public static final String OPCODE_INSTALL_STORE_APPLICATION = "INSTALL_STORE_APPLICATION";
+        public static final String OPCODE_INSTALL_WEB_APPLICATION = "WEB_CLIP";
+        public static final String OPCODE_REMOVE_APPLICATION = "REMOVE_APPLICATION";
+    }
 
-		private AndroidConstants() {
-			throw new AssertionError();
-		}
-		public static final String OPCODE_INSTALL_APPLICATION = "INSTALL_APPLICATION";
-		public static final String OPCODE_UNINSTALL_APPLICATION = "UNINSTALL_APPLICATION";
-	}
+    public class AndroidConstants {
 
-	public class RegistryConstants {
+        private AndroidConstants() {
+            throw new AssertionError();
+        }
 
-		private RegistryConstants() {
-			throw new AssertionError();
-		}
-		public static final String GENERAL_CONFIG_RESOURCE_PATH = "general";
-	}
+        public static final String OPCODE_INSTALL_APPLICATION = "INSTALL_APPLICATION";
+        public static final String OPCODE_UNINSTALL_APPLICATION = "UNINSTALL_APPLICATION";
+    }
+
+    public class RegistryConstants {
+
+        private RegistryConstants() {
+            throw new AssertionError();
+        }
+
+        public static final String GENERAL_CONFIG_RESOURCE_PATH = "general";
+    }
 }

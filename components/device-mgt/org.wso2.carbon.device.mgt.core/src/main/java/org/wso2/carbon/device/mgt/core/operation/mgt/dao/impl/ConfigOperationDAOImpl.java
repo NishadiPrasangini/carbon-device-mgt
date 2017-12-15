@@ -99,7 +99,7 @@ public class ConfigOperationDAOImpl extends GenericOperationDAOImpl {
 
     @Override
     public List<? extends Operation> getOperationsByDeviceAndStatus(int enrolmentId,
-            Operation.Status status) throws OperationManagementDAOException {
+                                                                    Operation.Status status) throws OperationManagementDAOException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ConfigOperation configOperation;

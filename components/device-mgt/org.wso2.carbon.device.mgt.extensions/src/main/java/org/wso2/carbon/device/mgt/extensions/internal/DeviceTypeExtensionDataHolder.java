@@ -29,7 +29,8 @@ public class DeviceTypeExtensionDataHolder {
 
     private static DeviceTypeExtensionDataHolder thisInstance = new DeviceTypeExtensionDataHolder();
 
-    private DeviceTypeExtensionDataHolder() {}
+    private DeviceTypeExtensionDataHolder() {
+    }
 
     public static DeviceTypeExtensionDataHolder getInstance() {
         return thisInstance;

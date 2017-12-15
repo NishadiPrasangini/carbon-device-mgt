@@ -76,7 +76,7 @@ public abstract class AbstractNotificationDAOImpl implements NotificationDAO {
             conn = NotificationManagementDAOFactory.getConnection();
             String sql =
                     "SELECT NOTIFICATION_ID, OPERATION_ID, DESCRIPTION, STATUS FROM DM_NOTIFICATION WHERE " +
-                    "TENANT_ID = ? AND NOTIFICATION_ID = ?";
+                            "TENANT_ID = ? AND NOTIFICATION_ID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, tenantId);
             stmt.setInt(2, notificationId);
@@ -209,7 +209,6 @@ public abstract class AbstractNotificationDAOImpl implements NotificationDAO {
         }
         return notificationCount;
     }
-
 
 
     @Override

@@ -57,7 +57,7 @@ public class SecurityDefinitionConfigurator implements ReaderListener {
         schemes.put(TOKEN_AUTH_SCHEME, tokenScheme);
 
         swagger.setSecurityDefinitions(schemes);
-       //TODO: Have to add wso2-scopes to swagger definition from here
+        //TODO: Have to add wso2-scopes to swagger definition from here
     }
 
 }

@@ -36,6 +36,7 @@ public interface DeviceInformationManager {
 
     /**
      * This method will manage the storing of the device information as key value pairs.
+     *
      * @param deviceInfo - Device info object.
      * @throws DeviceDetailsMgtException
      */
@@ -44,6 +45,7 @@ public interface DeviceInformationManager {
 
     /**
      * This method will return the device information.
+     *
      * @param deviceIdentifier - Device identifier, device type.
      * @return - Device information object.
      * @throws DeviceDetailsMgtException
@@ -52,6 +54,7 @@ public interface DeviceInformationManager {
 
     /**
      * This method will return device information for the supplied devices list.
+     *
      * @param deviceIdentifiers
      * @return List of device info objects
      * @throws DeviceDetailsMgtException
@@ -60,6 +63,7 @@ public interface DeviceInformationManager {
 
     /**
      * This method will manage storing the device location as latitude, longitude, address, zip, country etc..
+     *
      * @param deviceLocation - Device location object.
      * @throws DeviceDetailsMgtException
      */
@@ -67,7 +71,8 @@ public interface DeviceInformationManager {
 
     /**
      * This method will return the device location with latitude, longitude, address etc..
-     * @param deviceIdentifier  - Device identifier, device type.
+     *
+     * @param deviceIdentifier - Device identifier, device type.
      * @return Device location object.
      * @throws DeviceDetailsMgtException
      */
@@ -75,6 +80,7 @@ public interface DeviceInformationManager {
 
     /**
      * This method will return the device location with latitude, longitude, address etc.. of supplied devices.
+     *
      * @param deviceIdentifiers - List of Device identifier and device type.
      * @return Device Location list.
      * @throws DeviceDetailsMgtException

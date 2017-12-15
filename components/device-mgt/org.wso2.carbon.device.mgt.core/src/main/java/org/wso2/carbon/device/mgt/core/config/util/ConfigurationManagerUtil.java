@@ -26,45 +26,45 @@ import org.wso2.carbon.registry.core.Registry;
 
 public class ConfigurationManagerUtil {
 
-	public static Registry getConfigurationRegistry() throws ConfigurationManagementException {
-		try {
-			int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
-			return DeviceManagementDataHolder.getInstance().getRegistryService()
-			                                 .getConfigSystemRegistry(
-					                                 tenantId);
-		} catch (RegistryException e) {
-			throw new ConfigurationManagementException(
-					"Error in retrieving governance registry instance: " +
-					e.getMessage(), e);
-		}
-	}
+    public static Registry getConfigurationRegistry() throws ConfigurationManagementException {
+        try {
+            int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+            return DeviceManagementDataHolder.getInstance().getRegistryService()
+                    .getConfigSystemRegistry(
+                            tenantId);
+        } catch (RegistryException e) {
+            throw new ConfigurationManagementException(
+                    "Error in retrieving governance registry instance: " +
+                            e.getMessage(), e);
+        }
+    }
 
-	public static Resource getRegistryResource(String path) throws ConfigurationManagementException {
-		try {
-			if(ConfigurationManagerUtil.getConfigurationRegistry().resourceExists(path)){
-				return ConfigurationManagerUtil.getConfigurationRegistry().get(path);
-			}
-			return null;
-		} catch (RegistryException e) {
-			throw new ConfigurationManagementException("Error in retrieving registry resource : " +
-			                                         e.getMessage(), e);
-		}
-	}
+    public static Resource getRegistryResource(String path) throws ConfigurationManagementException {
+        try {
+            if (ConfigurationManagerUtil.getConfigurationRegistry().resourceExists(path)) {
+                return ConfigurationManagerUtil.getConfigurationRegistry().get(path);
+            }
+            return null;
+        } catch (RegistryException e) {
+            throw new ConfigurationManagementException("Error in retrieving registry resource : " +
+                    e.getMessage(), e);
+        }
+    }
 
-	public static boolean putRegistryResource(String path,
-	                                          Resource resource)
-			throws ConfigurationManagementException {
-		boolean status;
-		try {
-			ConfigurationManagerUtil.getConfigurationRegistry().beginTransaction();
-			ConfigurationManagerUtil.getConfigurationRegistry().put(path, resource);
-			ConfigurationManagerUtil.getConfigurationRegistry().commitTransaction();
-			status = true;
-		} catch (RegistryException e) {
-			throw new ConfigurationManagementException(
-					"Error occurred while persisting registry resource : " +
-					e.getMessage(), e);
-		}
-		return status;
-	}
+    public static boolean putRegistryResource(String path,
+                                              Resource resource)
+            throws ConfigurationManagementException {
+        boolean status;
+        try {
+            ConfigurationManagerUtil.getConfigurationRegistry().beginTransaction();
+            ConfigurationManagerUtil.getConfigurationRegistry().put(path, resource);
+            ConfigurationManagerUtil.getConfigurationRegistry().commitTransaction();
+            status = true;
+        } catch (RegistryException e) {
+            throw new ConfigurationManagementException(
+                    "Error occurred while persisting registry resource : " +
+                            e.getMessage(), e);
+        }
+        return status;
+    }
 }

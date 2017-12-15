@@ -120,7 +120,7 @@ public class PolicyOperationDAOImpl extends GenericOperationDAOImpl {
 
     @Override
     public List<? extends Operation> getOperationsByDeviceAndStatus(int enrolmentId,
-            Operation.Status status) throws OperationManagementDAOException {
+                                                                    Operation.Status status) throws OperationManagementDAOException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         PolicyOperation policyOperation;

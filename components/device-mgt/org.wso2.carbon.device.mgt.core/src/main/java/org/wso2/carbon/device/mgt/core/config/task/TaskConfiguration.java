@@ -63,7 +63,7 @@ public class TaskConfiguration {
         this.taskClazz = taskClazz;
     }
 
-    @XmlElementWrapper(name="Operations")
+    @XmlElementWrapper(name = "Operations")
     @XmlElement(name = "Operation", required = true)
     public List<Operation> getOperations() {
         return operations;

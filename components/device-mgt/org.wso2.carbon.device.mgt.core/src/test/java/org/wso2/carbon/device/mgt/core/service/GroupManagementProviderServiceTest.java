@@ -306,7 +306,7 @@ public class GroupManagementProviderServiceTest extends BaseDeviceManagementTest
     @Test(dependsOnMethods = {"createGroup", "updateGroupSecondTime"}, expectedExceptions = {GroupManagementException.class})
     public void checkNullDeviceBelongsToGroup() throws GroupManagementException {
         groupManagementProviderService.isDeviceMappedToGroup(groupManagementProviderService.getGroup(
-                        TestUtils.createDeviceGroup1().getName()).getGroupId(), null);
+                TestUtils.createDeviceGroup1().getName()).getGroupId(), null);
     }
 
 }

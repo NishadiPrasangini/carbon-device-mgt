@@ -32,11 +32,10 @@ public interface NotificationManagementService {
     /**
      * Method to add a notification to the database.
      *
-     * @param deviceId  - DeviceIdentifier of the device
+     * @param deviceId     - DeviceIdentifier of the device
      * @param notification - Notification to be added to database.
      * @return boolean status of the operation.
-     * @throws NotificationManagementException
-     *          if something goes wrong while adding the Notification.
+     * @throws NotificationManagementException if something goes wrong while adding the Notification.
      */
     boolean addNotification(DeviceIdentifier deviceId,
                             Notification notification) throws NotificationManagementException;
@@ -46,8 +45,7 @@ public interface NotificationManagementService {
      *
      * @param notification - Notification to be updated in the database.
      * @return boolean status of the operation.
-     * @throws NotificationManagementException
-     *          if something goes wrong while updating the Notification.
+     * @throws NotificationManagementException if something goes wrong while updating the Notification.
      */
     boolean updateNotification(Notification notification) throws NotificationManagementException;
 
@@ -57,8 +55,7 @@ public interface NotificationManagementService {
      * @param notificationId - Notification id of the notification to be updated.
      * @param status         - New notification status.
      * @return boolean status of the operation.
-     * @throws NotificationManagementException
-     *          if something goes wrong while updating the Notification.
+     * @throws NotificationManagementException if something goes wrong while updating the Notification.
      */
     boolean updateNotificationStatus(int notificationId, Notification.Status status) throws
             NotificationManagementException;
@@ -68,7 +65,6 @@ public interface NotificationManagementService {
      *
      * @return List of all Notifications in the database.
      * @throws NotificationManagementException if something goes wrong while fetching the Notifications.
-     *
      */
     List<Notification> getAllNotifications() throws NotificationManagementException;
 
@@ -79,13 +75,12 @@ public interface NotificationManagementService {
     /**
      * @param status - Status of the notifications to be fetched from database.
      * @return A list of notifications matching the given status.
-     * @throws NotificationManagementException
-     *          if something goes wrong while fetching the Notification.
+     * @throws NotificationManagementException if something goes wrong while fetching the Notification.
      */
     List<Notification> getNotificationsByStatus(Notification.Status status) throws
             NotificationManagementException;
 
     PaginationResult getNotificationsByStatus(Notification.Status status,
-                                   PaginationRequest request) throws NotificationManagementException;
+                                              PaginationRequest request) throws NotificationManagementException;
 
 }

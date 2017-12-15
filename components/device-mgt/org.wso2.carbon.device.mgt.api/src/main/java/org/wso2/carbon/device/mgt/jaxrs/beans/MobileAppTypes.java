@@ -19,5 +19,5 @@
 package org.wso2.carbon.device.mgt.jaxrs.beans;
 
 public enum MobileAppTypes {
-    ENTERPRISE,WEBAPP,PUBLIC
+    ENTERPRISE, WEBAPP, PUBLIC
 }

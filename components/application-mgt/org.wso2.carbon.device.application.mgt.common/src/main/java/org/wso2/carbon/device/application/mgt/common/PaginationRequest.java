@@ -18,28 +18,28 @@
 
 package org.wso2.carbon.device.application.mgt.common;
 
-import java.sql.Timestamp;
 
+import org.apache.commons.fileupload.MultipartStream;
 
 /**
  * This class holds required parameters for a querying a paginated device response.
  */
 public class PaginationRequest {
 
-    private int startIndex;
+    private int offSet;
     private int limit;
 
     public PaginationRequest(int start, int limit) {
-        this.startIndex = start;
+        this.offSet = start;
         this.limit = limit;
     }
 
-    public int getStartIndex() {
-        return startIndex;
+    public int getOffSet() {
+        return offSet;
     }
 
-    public void setStartIndex(int startIndex) {
-        this.startIndex = startIndex;
+    public void setOffSet(int offSet) {
+        this.offSet = offSet;
     }
 
     public int getLimit() {
@@ -50,8 +50,19 @@ public class PaginationRequest {
         this.limit = limit;
     }
 
+    public boolean validatePaginationRequest(int offSet,int limit){
+        if (offSet<0){
+            throw new IllegalArgumentException("off set value can't be negative");
+        } else if(limit<0){
+            throw new IllegalArgumentException("limit value can't be negative");
+        }else {
+            return true;
+        }
+    }
+
+
     @Override
     public String toString() {
-        return "Start Index'" + this.startIndex + "' row count '" + this.limit;
+        return "Off Set'" + this.offSet + "' row count '" + this.limit;
     }
 }

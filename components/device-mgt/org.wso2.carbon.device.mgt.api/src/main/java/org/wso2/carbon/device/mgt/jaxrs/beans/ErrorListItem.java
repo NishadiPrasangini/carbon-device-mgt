@@ -37,11 +37,13 @@ public class ErrorListItem {
     public String getCode() {
         return code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
 
-    public ErrorListItem() {}
+    public ErrorListItem() {
+    }
 
     public ErrorListItem(String code, String msg) {
         this.code = code;
@@ -57,14 +59,14 @@ public class ErrorListItem {
     public String getMessage() {
         return message;
     }
+
     public void setMessage(String message) {
         this.message = message;
     }
 
 
-
     @Override
-    public String toString()  {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("errorItem {\n");
 

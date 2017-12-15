@@ -95,7 +95,7 @@ public class DeviceTypeUtils {
             }
         } catch (Exception e) {
             throw new DeviceTypeMgtPluginException("Error occurred while initializing Device " +
-                                                                       "Management database schema", e);
+                    "Management database schema", e);
         }
     }
 
@@ -128,7 +128,7 @@ public class DeviceTypeUtils {
 
     public static Resource getRegistryResource(String path) throws DeviceTypeMgtPluginException {
         try {
-            if(DeviceTypeUtils.getConfigurationRegistry().resourceExists(path)){
+            if (DeviceTypeUtils.getConfigurationRegistry().resourceExists(path)) {
                 return DeviceTypeUtils.getConfigurationRegistry().get(path);
             }
             return null;

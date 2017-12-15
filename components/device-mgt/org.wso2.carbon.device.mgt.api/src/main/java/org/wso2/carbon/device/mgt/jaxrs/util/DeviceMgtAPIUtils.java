@@ -698,8 +698,8 @@ public class DeviceMgtAPIUtils {
         String adminRoleName = realmService.getRealmConfiguration().getAdminRoleName();
         String userName = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
         String[] roles = realmService.getUserStoreManager().getRoleListOfUser(userName);
-        for (String role: roles){
-            if (role != null && role.equals(adminRoleName)){
+        for (String role : roles) {
+            if (role != null && role.equals(adminRoleName)) {
                 return true;
             }
         }

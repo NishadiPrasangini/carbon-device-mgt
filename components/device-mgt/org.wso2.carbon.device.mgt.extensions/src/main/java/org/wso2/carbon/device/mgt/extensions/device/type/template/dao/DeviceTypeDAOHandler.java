@@ -64,7 +64,7 @@ public class DeviceTypeDAOHandler {
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("Datasource connection associated with the current thread is null, hence commit "
-                                      + "has not been attempted");
+                            + "has not been attempted");
                 }
             }
         } catch (SQLException e) {
@@ -95,7 +95,7 @@ public class DeviceTypeDAOHandler {
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("Datasource connection associated with the current thread is null, hence rollback "
-                                      + "has not been attempted");
+                            + "has not been attempted");
                 }
             }
         } catch (SQLException e) {

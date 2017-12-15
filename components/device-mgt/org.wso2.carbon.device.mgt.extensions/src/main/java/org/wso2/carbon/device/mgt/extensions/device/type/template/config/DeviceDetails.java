@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for DeviceDetails complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="DeviceDetails">
  *   &lt;simpleContent>
@@ -39,12 +39,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DeviceDetails", propOrder = {
-    "properties"
+        "properties"
 })
 public class DeviceDetails {
 
@@ -55,11 +53,9 @@ public class DeviceDetails {
 
     /**
      * Gets the value of the tableId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getTableId() {
         return tableId;
@@ -67,11 +63,9 @@ public class DeviceDetails {
 
     /**
      * Sets the value of the tableId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setTableId(String value) {
         this.tableId = value;
@@ -80,10 +74,8 @@ public class DeviceDetails {
     /**
      * Gets the value of the properties property.
      *
-     * @return
-     *     possible object is
-     *     {@link Properties }
-     *
+     * @return possible object is
+     * {@link Properties }
      */
     public Properties getProperties() {
         return properties;
@@ -92,10 +84,8 @@ public class DeviceDetails {
     /**
      * Sets the value of the properties property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link Properties }
-     *
+     * @param value allowed object is
+     *              {@link Properties }
      */
     public void setProperties(Properties value) {
         this.properties = value;

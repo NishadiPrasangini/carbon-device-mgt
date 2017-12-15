@@ -25,12 +25,12 @@ import io.swagger.annotations.ApiModelProperty;
 public class EnrollmentCertificate {
 
     @ApiModelProperty(name = "serial", value = "The unique ID used to identify a certificate. This is the devices " +
-                                               "serial number in case of mutual SSL is used for enrollment.",
-                      required = true )
+            "serial number in case of mutual SSL is used for enrollment.",
+            required = true)
     String serial;
-    @ApiModelProperty(name = "pem", value = "Case 64 encode .pem file content.", required = true )
+    @ApiModelProperty(name = "pem", value = "Case 64 encode .pem file content.", required = true)
     String pem;
-    @ApiModelProperty(name = "tenantId", value = "The ID of the tenant who adds the certificate.", required = true )
+    @ApiModelProperty(name = "tenantId", value = "The ID of the tenant who adds the certificate.", required = true)
     int tenantId;
 
     public int getTenantId() {

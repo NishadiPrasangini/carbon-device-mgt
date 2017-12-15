@@ -30,7 +30,7 @@ public interface DeviceStatusTaskManagerService {
     /**
      * This method will start the task.
      *
-     * @param deviceType - DeviceType
+     * @param deviceType             - DeviceType
      * @param deviceStatusTaskConfig - DeviceStatusTaskConfig
      * @throws DeviceStatusTaskException
      */
@@ -40,7 +40,7 @@ public interface DeviceStatusTaskManagerService {
     /**
      * This method will stop the task.
      *
-     * @param deviceType - DeviceType
+     * @param deviceType             - DeviceType
      * @param deviceStatusTaskConfig - DeviceStatusTaskConfig
      * @throws DeviceStatusTaskException
      */
@@ -59,6 +59,7 @@ public interface DeviceStatusTaskManagerService {
 
     /**
      * This will check weather the task is scheduled.
+     *
      * @param deviceType - Device Type
      * @throws DeviceStatusTaskException
      */

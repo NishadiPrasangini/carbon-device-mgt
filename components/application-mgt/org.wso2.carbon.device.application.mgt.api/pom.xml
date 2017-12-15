@@ -385,5 +385,30 @@
             <artifactId>org.wso2.carbon.identity.oauth.scope.endpoint</artifactId>
             <version>5.5.160-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt</groupId>
+            <artifactId>org.wso2.carbon.device.mgt.api</artifactId>
+            <version>4.0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt</groupId>
+            <artifactId>org.wso2.carbon.device.mgt.api</artifactId>
+            <version>4.0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt</groupId>
+            <artifactId>org.wso2.carbon.certificate.mgt.api</artifactId>
+            <version>3.0.185-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt</groupId>
+            <artifactId>org.wso2.carbon.certificate.mgt.cert.admin.api</artifactId>
+            <version>3.0.185-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt</groupId>
+            <artifactId>org.wso2.carbon.certificate.mgt.cert.admin.api</artifactId>
+            <version>3.0.185-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

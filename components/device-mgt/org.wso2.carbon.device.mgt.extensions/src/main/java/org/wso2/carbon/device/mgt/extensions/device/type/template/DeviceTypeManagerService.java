@@ -92,7 +92,7 @@ public class DeviceTypeManagerService implements DeviceManagementService {
     }
 
     @Override
-    public OperationMonitoringTaskConfig getOperationMonitoringConfig(){
+    public OperationMonitoringTaskConfig getOperationMonitoringConfig() {
         return operationMonitoringConfigs;
     }
 

@@ -555,7 +555,7 @@ public class MockStatement implements PreparedStatement {
 
     }
 
-    public void addResultSet(MockResultSet resultSet){
+    public void addResultSet(MockResultSet resultSet) {
         this.resultSets.add(resultSet);
     }
 }

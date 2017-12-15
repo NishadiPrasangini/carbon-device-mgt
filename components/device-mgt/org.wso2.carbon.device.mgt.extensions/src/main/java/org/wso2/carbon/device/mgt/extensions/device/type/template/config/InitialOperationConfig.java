@@ -5,9 +5,9 @@ import java.util.List;
 
 /**
  * <p>Java class for InitialOperationConfig complex type.
- *
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>
  * <pre>
  * &lt;complexType name="InitialOperationConfig">
  *   &lt;complexContent>
@@ -19,8 +19,6 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 @XmlRootElement(name = "InitialOperationConfig")
 public class InitialOperationConfig {

@@ -3,6 +3,7 @@ package org.wso2.carbon.device.application.mgt.api.services.impl;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.application.mgt.api.APIUtil;
 import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
@@ -12,7 +13,15 @@ import org.wso2.carbon.device.application.mgt.common.exception.CommentManagement
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Path;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.PUT;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,35 +41,44 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
     @Path("/{uuid}")
     public Response getAllComments(
             @PathParam("uuid") String uuid,
-            @QueryParam("start")int start,
+            @QueryParam("offset")int offSet,
             @QueryParam("limit")int limit){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         List<Comment> comments = new ArrayList<>();
-
         try {
-            PaginationRequest request=new PaginationRequest(start,limit);
-            commentsManager.getAllComments(request,uuid);
-        } catch (CommentManagementException e) {
+            PaginationRequest request=new PaginationRequest(offSet,limit);
+            if(request.validatePaginationRequest(offSet,limit)) {
+                commentsManager.getAllComments(request, uuid);
+                return Response.status(Response.Status.OK).entity(comments).build();
+            }
+        } catch (NotFoundException e){
+            log.error("Not found exception occurs to uuid "+uuid+" .",e);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Application with UUID " + uuid + " not found").build();
+        }
+        catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQL Exception occurs", e);
         }
         return Response.status(Response.Status.OK).entity(comments).build();
     }
 
     @Override
     @POST
-    @Consumes("uuid/comments/json")
+    @Consumes("application/json")
+    @Path("/{uuid}")
     public Response addComments(
             @ApiParam Comment comment,
             @PathParam("uuid") String uuid){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
+        int tenantId= PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         try {
-            Comment newComment = commentsManager.addComment(comment,uuid);
+            Comment newComment = commentsManager.addComment(comment,uuid,tenantId);
             if (comment != null){
                 return Response.status(Response.Status.CREATED).entity(newComment).build();
             }else{
@@ -71,51 +89,63 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         }catch (CommentManagementException e) {
             String msg = "Error occurred while creating the comment";
             log.error(msg, e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @Override
     @PUT
-    @Consumes("/uuid/comment/json")
+    @Consumes("application/json")
+    @Path("/{apAppCommentId}")
     public Response updateComment(
-            @PathParam("uuid") String uuid,
-            @ApiParam Comment comment) {
+            @ApiParam Comment comment,
+            @PathParam("apAppCommentId") int apAppCommentId) {
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
+        //int tenantId= PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         try {
-            comment = commentsManager.updateComment(uuid,comment);
-        } catch (NotFoundException e) {
-            return APIUtil.getResponse(e, Response.Status.NOT_FOUND);
+            if (apAppCommentId == 0) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Comment with comment id " + apAppCommentId + " not found").build();
+            }else if(comment==null){
+                String msg = "Given comment is not valid ";
+                log.error(msg);
+                return  Response.status(Response.Status.BAD_REQUEST).build();
+            } else{
+                comment = commentsManager.updateComment(comment,apAppCommentId);
+                return Response.status(Response.Status.OK).entity(comment).build();
+            }
         } catch (CommentManagementException e) {
-            String msg = "Error occurred while editing the comment.";
+            String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
-            return APIUtil.getResponse(e, Response.Status.BAD_REQUEST);
-        } catch (SQLException | DBConnectionException e) {
-            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (SQLException e) {
+            log.error("SQL Exception occurs", e);
+        }catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs", e);
         }
-        return Response.status(Response.Status.OK).entity(comment).build();
 
+        return Response.status(Response.Status.OK).entity(comment).build();
     }
 
     @Override
     @DELETE
-    @Path("/{uuid}/{identifier}")
+    @Path("/{apAppCommentId}")
     public Response deleteComment(
-            @PathParam("uuid")
-                    String uuid,
-            @PathParam("identifier")
-                    int identifier){
+            @PathParam("apAppCommentId")
+                    int apAppCommentId){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         try {
-            commentsManager.deleteComment(identifier);
+            commentsManager.deleteComment(apAppCommentId);
         } catch (CommentManagementException e) {
             String msg = "Error occurred while deleting the comment.";
             log.error(msg, e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (NotFoundException e) {
+            log.error("Not found exception occurs to comment id "+apAppCommentId+" .",e);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Comment with" + apAppCommentId + " not found").build();
         }
         return Response.status(Response.Status.OK).entity("Comment is deleted successfully.").build();
     }
@@ -133,7 +163,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         try {
             Stars= commentsManager.getStars(uuid);
         }  catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQL Exception occurs", e);
         }
         return Response.status(Response.Status.OK).entity(Stars).build();
     }
@@ -151,7 +181,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         try {
             ratedUsers= commentsManager.getRatedUser(uuid);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQL Exception occurs", e);
         }
         return Response.status(Response.Status.OK).entity(ratedUsers).build();
     }
@@ -178,7 +208,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             }
 
         } catch (ApplicationManagementException e) {
-            e.printStackTrace();
+            log.error("Application Management Exception occurs", e);
         }
         return Response.status(Response.Status.OK).entity(newStars).build();
     }

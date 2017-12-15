@@ -300,7 +300,7 @@ public interface DeviceAgentService {
                     name = "payloadData",
                     value = "Information of the agent event to be published on DAS.")
             @Valid
-            Map<String, Object> payloadData,
+                    Map<String, Object> payloadData,
             @ApiParam(
                     name = "type",
                     value = "name of the device type")
@@ -328,19 +328,19 @@ public interface DeviceAgentService {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK. \n Successfully published the event",
-                                 responseHeaders = {
-                                         @ResponseHeader(
-                                                 name = "Content-Type",
-                                                 description = "The content type of the body"),
-                                         @ResponseHeader(
-                                                 name = "ETag",
-                                                 description = "Entity Tag of the response resource.\n" +
-                                                         "Used by caches, or in conditional requests."),
-                                         @ResponseHeader(
-                                                 name = "Last-Modified",
-                                                 description = "Date and time the resource was last modified.\n" +
-                                                         "Used by caches, or in conditional requests.")
-                                 }),
+                            responseHeaders = {
+                                    @ResponseHeader(
+                                            name = "Content-Type",
+                                            description = "The content type of the body"),
+                                    @ResponseHeader(
+                                            name = "ETag",
+                                            description = "Entity Tag of the response resource.\n" +
+                                                    "Used by caches, or in conditional requests."),
+                                    @ResponseHeader(
+                                            name = "Last-Modified",
+                                            description = "Date and time the resource was last modified.\n" +
+                                                    "Used by caches, or in conditional requests.")
+                            }),
                     @ApiResponse(
                             code = 303,
                             message = "See Other. \n The source can be retrieved from the URL specified in the location header.",
@@ -364,7 +364,7 @@ public interface DeviceAgentService {
                     name = "payloadData",
                     value = "Information of the agent event to be published on DAS.")
             @Valid
-            List<Object> payloadData,
+                    List<Object> payloadData,
             @ApiParam(
                     name = "type",
                     value = "name of the device type")
@@ -603,6 +603,6 @@ public interface DeviceAgentService {
                                             @ApiParam(name = "id", value = "The device id.", required = true)
                                             @PathParam("id") String deviceId,
                                             @ApiParam(name = "status", value = "status of the operation.", required = true)
-                                            @QueryParam("status")Operation.Status status);
+                                            @QueryParam("status") Operation.Status status);
 
 }

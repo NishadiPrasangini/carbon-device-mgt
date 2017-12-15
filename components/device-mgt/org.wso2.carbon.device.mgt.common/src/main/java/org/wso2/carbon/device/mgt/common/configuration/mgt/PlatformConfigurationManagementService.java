@@ -23,26 +23,26 @@ package org.wso2.carbon.device.mgt.common.configuration.mgt;
  */
 public interface PlatformConfigurationManagementService {
 
-	/**
-	 * Method to add a operation to a device or a set of devices.
-	 *
-	 * @param platformConfiguration Operation to be added.
-	 * @param resourcePath Registry resource path.
+    /**
+     * Method to add a operation to a device or a set of devices.
+     *
+     * @param platformConfiguration Operation to be added.
+     * @param resourcePath          Registry resource path.
      * @return A boolean indicating the status of the operation.
-	 * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while adding the
-	 * configuration.
-	 */
-	 boolean saveConfiguration(PlatformConfiguration platformConfiguration,
-                               String resourcePath) throws ConfigurationManagementException;
+     * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while adding the
+     *                                                                                              configuration.
+     */
+    boolean saveConfiguration(PlatformConfiguration platformConfiguration,
+                              String resourcePath) throws ConfigurationManagementException;
 
-	/**
-	 * Method to retrieve the list of general tenant configurations.
-	 *
-	 * @param resourcePath Registry resource path.
+    /**
+     * Method to retrieve the list of general tenant configurations.
+     *
+     * @param resourcePath Registry resource path.
      * @return Platform Configuration object.
-	 * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while fetching the
-	 * operation list.
-	 */
-	 PlatformConfiguration getConfiguration(String resourcePath) throws ConfigurationManagementException;
+     * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while fetching the
+     *                                                                                              operation list.
+     */
+    PlatformConfiguration getConfiguration(String resourcePath) throws ConfigurationManagementException;
 
 }

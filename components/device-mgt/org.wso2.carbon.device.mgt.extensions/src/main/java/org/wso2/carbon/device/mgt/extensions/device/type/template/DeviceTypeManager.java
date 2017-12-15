@@ -109,7 +109,7 @@ public class DeviceTypeManager implements DeviceManager {
             throw new DeviceTypeDeployerPayloadException(msg, e);
         }
         claimable = false;
-        if (deviceTypeConfiguration.getClaimable() != null ) {
+        if (deviceTypeConfiguration.getClaimable() != null) {
             claimable = deviceTypeConfiguration.getClaimable().isEnabled();
         }
 
@@ -132,13 +132,13 @@ public class DeviceTypeManager implements DeviceManager {
                 DataSource dataSource = deviceTypeConfiguration.getDataSource();
                 if (dataSource == null) {
                     throw new DeviceTypeDeployerPayloadException("Could not find the datasource related with the "
-                            + "table id " +  tableName + " for the device type " + deviceType);
+                            + "table id " + tableName + " for the device type " + deviceType);
                 }
                 TableConfig tableConfig = dataSource.getTableConfig();
 
                 if (tableConfig == null) {
                     throw new DeviceTypeDeployerPayloadException("Could not find the table config with the "
-                            + "table id " +  tableName + " for the device type " + deviceType);
+                            + "table id " + tableName + " for the device type " + deviceType);
                 }
                 List<Table> tables = deviceTypeConfiguration.getDataSource().getTableConfig().getTable();
                 Table deviceDefinitionTable = null;
@@ -183,7 +183,7 @@ public class DeviceTypeManager implements DeviceManager {
                 }
             } else {
                 if (deviceDetails.getProperties() != null && deviceDetails.getProperties().getProperty() != null
-                        && deviceDetails.getProperties().getProperty().size() > 0 ) {
+                        && deviceDetails.getProperties().getProperty().size() > 0) {
                     deviceTypePluginDAOManager = new DeviceTypePluginDAOManager(deviceType, deviceDetails);
                     propertiesExist = true;
                 }

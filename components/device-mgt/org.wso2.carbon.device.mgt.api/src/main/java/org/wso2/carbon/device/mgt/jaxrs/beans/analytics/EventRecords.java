@@ -24,6 +24,7 @@ import org.wso2.carbon.device.mgt.common.Device;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.wso2.carbon.analytics.datasource.commons.Record;
 import org.wso2.carbon.device.mgt.jaxrs.beans.BasePaginatedResult;
 

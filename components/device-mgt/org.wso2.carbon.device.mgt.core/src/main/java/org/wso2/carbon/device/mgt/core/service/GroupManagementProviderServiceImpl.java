@@ -494,7 +494,7 @@ public class GroupManagementProviderServiceImpl implements GroupManagementProvid
             count = groupDAO.getOwnGroupsCount(username, tenantId);
             count += groupDAO.getGroupsCount(roleList, tenantId);
             return count;
-        } catch (UserStoreException | GroupManagementDAOException | SQLException  e) {
+        } catch (UserStoreException | GroupManagementDAOException | SQLException e) {
             String msg = "Error occurred while retrieving group count of user '" + username + "'";
             log.error(msg, e);
             throw new GroupManagementException(msg, e);
@@ -842,23 +842,23 @@ public class GroupManagementProviderServiceImpl implements GroupManagementProvid
                     getDevice(deviceIdentifier, false);
             if (device == null) {
                 throw new GroupManagementException("Device not found for id '" + deviceIdentifier.getId() +
-                                                   "' type '" + deviceIdentifier.getType() + "'");
+                        "' type '" + deviceIdentifier.getType() + "'");
             }
         } catch (DeviceManagementException e) {
             throw new GroupManagementException("Device management exception occurred when retrieving device. " +
-                                               e.getMessage(), e);
+                    e.getMessage(), e);
         }
 
-        try{
+        try {
             GroupManagementDAOFactory.openConnection();
             return this.groupDAO.isDeviceMappedToGroup(groupId, device.getId(), tenantId);
         } catch (GroupManagementDAOException e) {
             throw new GroupManagementException("Error occurred when checking device, group mapping between device id '" +
-                                               deviceIdentifier.getId() + "' and group id '" + groupId + "'", e);
+                    deviceIdentifier.getId() + "' and group id '" + groupId + "'", e);
         } catch (SQLException e) {
             throw new GroupManagementException("Error occurred when opening db connection to check device, group " +
-                                               "mapping between device id '" + deviceIdentifier.getId() +
-                                               "' and group id '" + groupId + "'", e);
+                    "mapping between device id '" + deviceIdentifier.getId() +
+                    "' and group id '" + groupId + "'", e);
         } finally {
             GroupManagementDAOFactory.closeConnection();
         }

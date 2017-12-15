@@ -20,7 +20,7 @@ package org.wso2.carbon.device.mgt.extensions.device.type.template.exception;
 /**
  * This exception will be thrown when there is an issues with the plugin generation.
  */
-public class DeviceTypeMgtPluginException extends Exception{
+public class DeviceTypeMgtPluginException extends Exception {
 
     public DeviceTypeMgtPluginException(String msg) {
         super(msg);

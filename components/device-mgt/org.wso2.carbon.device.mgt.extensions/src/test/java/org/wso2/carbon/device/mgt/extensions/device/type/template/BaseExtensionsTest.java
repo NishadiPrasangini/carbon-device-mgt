@@ -72,7 +72,7 @@ public class BaseExtensionsTest {
         UserRegistry systemRegistry =
                 registryService.getRegistry(CarbonConstants.REGISTRY_SYSTEM_USERNAME);
 
-        GovernanceArtifactConfiguration configuration =  getGovernanceArtifactConfiguration(rxt);
+        GovernanceArtifactConfiguration configuration = getGovernanceArtifactConfiguration(rxt);
         List<GovernanceArtifactConfiguration> configurations = new ArrayList<>();
         configurations.add(configuration);
         GovernanceUtils.loadGovernanceArtifacts(systemRegistry, configurations);

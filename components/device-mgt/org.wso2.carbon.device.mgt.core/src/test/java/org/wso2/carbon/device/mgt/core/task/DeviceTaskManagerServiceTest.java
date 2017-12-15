@@ -102,7 +102,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testStopTask", expectedExceptions = {
-            DeviceMgtTaskException.class })
+            DeviceMgtTaskException.class})
     public void testUpdateUnscheduledTask() throws DeviceMgtTaskException {
         log.debug("Attempting to update unscheduled task");
         this.deviceTaskManagerService.updateTask(TestDataHolder.TEST_DEVICE_TYPE,
@@ -110,7 +110,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask", expectedExceptions = {
-            DeviceMgtTaskException.class })
+            DeviceMgtTaskException.class})
     public void testStartTaskWhenUnableToRetrieveTaskManager()
             throws DeviceMgtTaskException, TaskException {
         TaskService taskService = Mockito.mock(TestTaskServiceImpl.class);
@@ -122,7 +122,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask", expectedExceptions = {
-            DeviceMgtTaskException.class })
+            DeviceMgtTaskException.class})
     public void testUpdateTaskWhenUnableToRetrieveTaskManager()
             throws DeviceMgtTaskException, TaskException {
         TaskService taskService = Mockito.mock(TestTaskServiceImpl.class);
@@ -134,7 +134,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testStartTaskWhenFailedToRegisterTaskType()
             throws DeviceMgtTaskException, TaskException {
         TaskService taskService = Mockito.mock(TestTaskServiceImpl.class);
@@ -146,7 +146,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testStartTaskWhenFailedToRegisterTask()
             throws DeviceMgtTaskException, TaskException {
         TestTaskServiceImpl taskService = new TestTaskServiceImpl();
@@ -160,7 +160,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testUpdateTaskWhenFailedToRegisterTask()
             throws DeviceMgtTaskException, TaskException {
         TestTaskServiceImpl taskService = new TestTaskServiceImpl();
@@ -174,7 +174,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testUpdateTaskWhenFailedToRescheduleTask()
             throws DeviceMgtTaskException, TaskException {
         TestTaskServiceImpl taskService = new TestTaskServiceImpl();
@@ -188,7 +188,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testUpdateTaskWhenFailedToDeleteTask()
             throws DeviceMgtTaskException, TaskException {
         TestTaskServiceImpl taskService = new TestTaskServiceImpl();
@@ -202,7 +202,7 @@ public class DeviceTaskManagerServiceTest {
     }
 
     @Test(groups = "Device Task Manager Service Test Group", dependsOnMethods = "testUpdateUnscheduledTask",
-            expectedExceptions = {DeviceMgtTaskException.class })
+            expectedExceptions = {DeviceMgtTaskException.class})
     public void testStopTaskWhenFailedToDeleteTask()
             throws DeviceMgtTaskException, TaskException {
         TestTaskServiceImpl taskService = new TestTaskServiceImpl();

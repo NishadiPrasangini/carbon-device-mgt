@@ -54,8 +54,8 @@ import java.util.List;
 
 /**
  * This class holds unit test cases for org.wso2.carbon.device.mgt.core.search.mgt.impl.ProcessorImpl
- * */
-public class ProcessorImplTest extends BaseDeviceManagementTest{
+ */
+public class ProcessorImplTest extends BaseDeviceManagementTest {
 
     private DeviceAccessAuthorizationService deviceAccessAuthorizationService;
     private static final Log log = LogFactory.getLog(SearchManagementServiceTest.class);

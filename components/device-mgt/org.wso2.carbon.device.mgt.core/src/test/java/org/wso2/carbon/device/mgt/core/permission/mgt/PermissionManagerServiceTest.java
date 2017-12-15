@@ -38,7 +38,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @PrepareForTest(PermissionUtils.class)
 public class PermissionManagerServiceTest {
 
-    private static final Log log = LogFactory.getLog(PermissionManagerServiceTest.class);;
+    private static final Log log = LogFactory.getLog(PermissionManagerServiceTest.class);
+    ;
     private static final String PERMISSION_URL = "permission/admin/device-mgt/test/testPermission";
     private static final String PERMISSION_PATH = "permission/admin/device-mgt/test/testPermission";
     private static final String PERMISSION_METHOD = "ui.execute";
@@ -67,7 +68,7 @@ public class PermissionManagerServiceTest {
         permission.setUrl(PERMISSION_URL);
     }
 
-    @Test (description = "Create a new permission in the permission tree.")
+    @Test(description = "Create a new permission in the permission tree.")
     public void testCreatePermission() {
         try {
             PowerMockito.mockStatic(PermissionUtils.class);
@@ -79,7 +80,7 @@ public class PermissionManagerServiceTest {
         }
     }
 
-    @Test (dependsOnMethods = {"testCreatePermission"}, description = "Test for retrieving the created permission " +
+    @Test(dependsOnMethods = {"testCreatePermission"}, description = "Test for retrieving the created permission " +
             "from the permission tree.")
     public void testGetPermission() throws PermissionManagementException {
         Permission permission = permissionManagerService.getPermission(createProperties());
@@ -90,17 +91,18 @@ public class PermissionManagerServiceTest {
         Assert.assertEquals(permission.getUrl(), PERMISSION_URL);
     }
 
-    @Test (dependsOnMethods = {"testCreatePermission"},
+    @Test(dependsOnMethods = {"testCreatePermission"},
             expectedExceptions = {PermissionManagementException.class},
             expectedExceptionsMessageRegExp = "Resource URI/HTTP method is empty")
     public void testGetPermissionError() throws PermissionManagementException {
-            Permission permission = permissionManagerService.getPermission(createErrorProperty());
+        Permission permission = permissionManagerService.getPermission(createErrorProperty());
     }
 
     /**
      * Create a Property object which will be passed to getPermission method to retrieve a permission.
+     *
      * @return : Property object which contains permission url and method.
-     * */
+     */
     private Properties createProperties() {
         Properties properties = new Properties();
         properties.setProperty(URL, PERMISSION_URL);
@@ -110,8 +112,9 @@ public class PermissionManagerServiceTest {
 
     /**
      * Creates property object with empty properties.
+     *
      * @return : Properties object with empty set of properties.
-     * */
+     */
     private Properties createErrorProperty() {
         Properties properties = new Properties();
         properties.setProperty(URL, "");

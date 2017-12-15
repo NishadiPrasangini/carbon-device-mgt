@@ -79,7 +79,7 @@ public class DeviceTypeManagementServiceImpl implements DeviceTypeManagementServ
             if (fm == null) {
                 return Response.status(Response.Status.NOT_FOUND).entity(
                         new ErrorResponse.ErrorResponseBuilder().setMessage("No feature manager is " +
-                                                                                    "registered with the given type '" + type + "'").build()).build();
+                                "registered with the given type '" + type + "'").build()).build();
             }
             features = fm.getFeatures();
         } catch (DeviceManagementException e) {
@@ -133,6 +133,7 @@ public class DeviceTypeManagementServiceImpl implements DeviceTypeManagementServ
 
     /**
      * This cleans up the configs that should not be exposed to iot users.
+     *
      * @param deviceType
      * @return
      */

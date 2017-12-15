@@ -53,7 +53,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
 
     private static final String DEFAULT_ADMIN_ROLE = "admin";
     private static final String[] DEFAULT_ADMIN_PERMISSIONS = {"/permission/device-mgt/admin/groups",
-                                                               "/permission/device-mgt/user/groups"};
+            "/permission/device-mgt/user/groups"};
 
     @Override
     public Response getGroups(String name, String owner, int offset, int limit) {
@@ -174,7 +174,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
             return Response.status(Response.Status.OK).build();
         } catch (GroupManagementException e) {
             String msg = "Error occurred while managing group share. ";
-            if (e.getErrorMessage() != null){
+            if (e.getErrorMessage() != null) {
                 msg += e.getErrorMessage();
             }
             log.error(msg, e);
@@ -189,7 +189,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
         try {
             List<String> groupRoles = DeviceMgtAPIUtils.getGroupManagementProviderService().getRoles(groupId);
             RoleList deviceGroupRolesList = new RoleList();
-            if(groupRoles != null) {
+            if (groupRoles != null) {
                 deviceGroupRolesList.setList(groupRoles);
                 deviceGroupRolesList.setCount(groupRoles.size());
             } else {

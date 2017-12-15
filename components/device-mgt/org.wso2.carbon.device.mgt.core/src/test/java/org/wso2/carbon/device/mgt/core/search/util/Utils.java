@@ -68,7 +68,7 @@ public class Utils {
     }
 
 
-    private static DeviceLocation getSampleDeviceLocation(){
+    private static DeviceLocation getSampleDeviceLocation() {
         DeviceLocation deviceLocation = new DeviceLocation();
         deviceLocation.setDeviceIdentifier(Utils.getDeviceIdentifier());
         deviceLocation.setLatitude(76.2422);
@@ -84,7 +84,7 @@ public class Utils {
         return deviceLocation;
     }
 
-    public static DeviceIdentifier getDeviceIdentifier(){
+    public static DeviceIdentifier getDeviceIdentifier() {
         DeviceIdentifier deviceIdentifier = new DeviceIdentifier();
         deviceIdentifier.setType(TestDataHolder.TEST_DEVICE_TYPE);
         deviceIdentifier.setId("12345");
