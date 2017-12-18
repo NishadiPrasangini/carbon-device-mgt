@@ -41,19 +41,18 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
         ResultSet rs;
-        int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID," +
-                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)," +//app_release.id
+                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)," +
                 "(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
             stmt = conn.prepareStatement(sql, new String[] {"id"});
-            stmt.setInt(++index, tenantId);
-            stmt.setString(++index, comment.getComment());
-            stmt.setString(++index,createdBy);
-            stmt.setInt(++index,parentId);
-            stmt.setString(++index,uuid);
-            stmt.setString(++index,uuid);
+            stmt.setInt(1, tenantId);
+            stmt.setString(2, comment.getComment());
+            stmt.setString(3,createdBy);
+            stmt.setInt(4,parentId);
+            stmt.setString(5,uuid);
+            stmt.setString(6,uuid);
             stmt.executeUpdate();
 
             rs = stmt.getGeneratedKeys();
@@ -77,21 +76,20 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
         ResultSet rs;
-        int index = 0;
         int commentId = -1;
         String sql = "INSERT INTO AP_APP_COMMENT ( TENANT_ID,COMMENT_TEXT, CREATED_BY,AP_APP_RELEASE_ID,AP_APP_ID) " +
                 "VALUES (?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE VERSION =? AND (SELECT ID FROM AP_APP WHERE " +
                 "TYPE=? AND NAME=?)),(SELECT ID FROM AP_APP WHERE TYPE=? AND NAME=?));";
         try{
             stmt = conn.prepareStatement(sql, new String[] {"id"});
-            stmt.setInt(++index, tenantId);
-            stmt.setString(++index, comment.getComment());
-            stmt.setString(++index,createdBy);
-            stmt.setString(++index,version);
-            stmt.setString(++index,appType);
-            stmt.setString(++index,appName);
-            stmt.setString(++index,appType);
-            stmt.setString(++index,appName);
+            stmt.setInt(1, tenantId);
+            stmt.setString(2, comment.getComment());
+            stmt.setString(3,createdBy);
+            stmt.setString(4,version);
+            stmt.setString(5,appType);
+            stmt.setString(6,appName);
+            stmt.setString(7,appType);
+            stmt.setString(8,appName);
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
@@ -117,14 +115,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         PreparedStatement statement = null;
         ResultSet rs = null;
 
-        String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?, MODEFIED_BY=?, MODEFIED_AT=? WHERE ID=?;";
+        String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?, MODEFIED_BY=? WHERE ID=?;";
         try {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, updatedComment);
             statement.setString(2, modifiedBy);
-            statement.setTimestamp(3, modifiedAt);
-            statement.setInt(4, apAppCommentId);
+            statement.setInt(3, apAppCommentId);
 
             statement.executeUpdate();
             rs = statement.executeQuery();
@@ -147,14 +144,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         PreparedStatement statement = null;
         ResultSet rs = null;
 
-        String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?,MODEFIED_BY=?,MODEFIED_AT=? WHERE ID=?; ";
+        String sql = "UPDATE AP_APP_COMMENT SET COMMENT_TEXT=?,MODEFIED_BY=? WHERE ID=?; ";
         try {
             connection = this.getDBConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, updatedComment);
             statement.setString(2,modifiedBy);
-            statement.setTimestamp(3,modifiedAt);//
-            statement.setInt(4,apAppCommentID);
+            statement.setInt(3,apAppCommentID);
             statement.executeUpdate();
             rs= statement.executeQuery();
 

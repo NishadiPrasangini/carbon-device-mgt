@@ -53,7 +53,7 @@ public interface CommentsManager {
      * @param comment comment of the application.
      * @param uuid uuid of the application release
      * @param tenantId tenant id of the application
-     * @return {@link Comment}
+     * @return {@link Comment} Comment added
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment addComment(Comment comment,String uuid,int tenantId)throws CommentManagementException;
@@ -85,7 +85,7 @@ public interface CommentsManager {
      *
      *@param request Pagination request
      * @param uuid uuid of the application release
-     * @return {@link PaginationResult} pagination result with starting index and limit
+     * @return {@link PaginationResult} pagination result with starting offSet and limit
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws SQLException SQL Exception
      */
@@ -95,7 +95,7 @@ public interface CommentsManager {
      * To get the comment with id.
      *
      * @param apAppCommentId id of the comment
-     * @return Comment of the comment id
+     * @return {@link Comment}Comment of the comment id
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment getComment(int apAppCommentId)throws CommentManagementException;
@@ -325,12 +325,21 @@ public interface CommentsManager {
      *
      * @param comment comment of the application.
      * @param apAppCommentId id of the comment
-     * @return updated comment
+     * @return {@link Comment}updated comment
      * @throws CommentManagementException Exceptions of the comment management
      * @throws SQLException SQL Exception
      * @throws DBConnectionException Database connection Exception
      */
     Comment updateComment(Comment comment,int apAppCommentId) throws CommentManagementException, SQLException, DBConnectionException;
+
+    /**
+     * To get number of rated users
+     *
+     * @param uuid uuid of the application
+     * @return number of rated users
+     * @throws SQLException sql exception
+     */
+    int getRatedUser(String uuid)throws SQLException;
 
     /**
      * To get the average of stars
@@ -351,12 +360,5 @@ public interface CommentsManager {
      */
     int updateStars(int stars, String uuid) throws ApplicationManagementException;
 
-    /**
-     * To get number of rated users
-     *
-     * @param uuid uuid of the application
-     * @return number of rated users
-     * @throws SQLException sql exception
-     */
-    int getRatedUser(String uuid)throws SQLException;
+
 }

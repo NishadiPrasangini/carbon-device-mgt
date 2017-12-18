@@ -660,6 +660,7 @@ public class CommentsManagerImpl implements CommentsManager {
         if (log.isDebugEnabled()) {
             log.debug("Comment retrieval request is received for the comment id " +apAppCommentId);
         }
+        comment.setModifiedAt(Timestamp.from(Instant.now()));
         try {
             ConnectionManagerUtil.openDBConnection();
             ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
@@ -675,17 +676,15 @@ public class CommentsManagerImpl implements CommentsManager {
         return ApplicationManagementDAOFactory.getCommentDAO().getComment(apAppCommentId);
     }
 
-    @Override
-    public int getStars(String uuid) throws SQLException {
+    public int getRatedUser(String uuid){
 
+        int ratedUsers=0;
         if (log.isDebugEnabled()) {
-            log.debug("Get the average of rated stars for the application "+uuid);
+            log.debug("Get the rated users for the application release number"+uuid);
         }
-
         try {
             ConnectionManagerUtil.openDBConnection();
-
-            return ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
+            ratedUsers =ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
         } catch (DBConnectionException e) {
             log.error("DB Connection Exception occurs.", e);
         } catch (ApplicationManagementDAOException e) {
@@ -693,7 +692,27 @@ public class CommentsManagerImpl implements CommentsManager {
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
+        return ratedUsers;
+    }
+
+    @Override
+    public int getStars(String uuid) throws SQLException {
+
+        int stars=0;
+        if (log.isDebugEnabled()) {
+            log.debug("Get the average of rated stars for the application "+uuid);
+        }
+        try {
+            ConnectionManagerUtil.openDBConnection();
+            stars= ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
+        } catch (DBConnectionException e) {
+            log.error("DB Connection Exception occurs.", e);
+        } catch (ApplicationManagementDAOException e) {
+            log.error("Application Management Exception occurs.", e);
+        } finally {
+            ConnectionManagerUtil.closeDBConnection();
+        }
+        return stars;
     }
 
     @Override
@@ -702,51 +721,32 @@ public class CommentsManagerImpl implements CommentsManager {
         if (log.isDebugEnabled()) {
             log.debug("Stars are received for the application " + uuid);
         }
-        int totalStars=0;
+        int newStars=0;
         try {
             ConnectionManagerUtil.beginDBTransaction();
 
-            int ratedUsers=ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
-            int newStars=ApplicationManagementDAOFactory.getCommentDAO().updateStars(stars,uuid);
-            int oldStars=ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
-
-            if(ratedUsers!=0 && newStars!=0) {
-                totalStars = newStars + oldStars;
-                int avgStars = (totalStars * (ratedUsers - 1)) / ratedUsers;
-                ConnectionManagerUtil.commitDBTransaction();
-
-                return avgStars;
+            int ratedUsers = ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
+            int oldStars = ApplicationManagementDAOFactory.getCommentDAO().getStars(uuid);
+            if(ratedUsers==0){
+                newStars=ApplicationManagementDAOFactory.getCommentDAO().updateStars(stars,uuid);
+                return newStars;
             }else {
-                totalStars = newStars + oldStars;
+                int avgStars = ((oldStars*ratedUsers)+stars) / (ratedUsers+1);
+                newStars = ApplicationManagementDAOFactory.getCommentDAO().updateStars(avgStars, uuid);
                 ConnectionManagerUtil.commitDBTransaction();
-
-                return totalStars;
+                return newStars;
             }
         } catch (ApplicationManagementDAOException e) {
             ConnectionManagerUtil.rollbackDBTransaction();
             log.error("Application Management Exception occurs.", e);
-        } finally {
-            ConnectionManagerUtil.closeDBConnection();
-        }
-        return totalStars;
-    }
 
-    public int getRatedUser(String uuid){
-
-        if (log.isDebugEnabled()) {
-            log.debug("Get the rated users for the application release number"+uuid);
-        }
-        try {
-            ConnectionManagerUtil.openDBConnection();
-
-            return ApplicationManagementDAOFactory.getCommentDAO().getRatedUser(uuid);
         } catch (DBConnectionException e) {
-            log.error("DB Connection Exception occurs.", e);
-        } catch (ApplicationManagementDAOException e) {
-            log.error("Application Management Exception occurs.", e);
-        } finally {
+                log.error("DB Connection Exception occurs.", e);
+            } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return 0;
+        return newStars;
     }
+
+
 }

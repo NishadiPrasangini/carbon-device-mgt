@@ -112,7 +112,7 @@ public interface CommentManagementAPI {
                             responseContainer = "List"),
                     @ApiResponse(
                             code = 404,
-                            message = "Not Found. \n No activity found with the given ID.",
+                            message = "Not Found. \n No activity found with the given uuid.",
                             response = ErrorResponse.class),
                     @ApiResponse(
                             code = 500,
@@ -277,7 +277,7 @@ public interface CommentManagementAPI {
                             int apAppCommentId);
 
     @GET
-    @Path("/{uuid}/{stars}")
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
             produces = MediaType.APPLICATION_JSON,
@@ -300,6 +300,10 @@ public interface CommentManagementAPI {
                             response = List.class,
                             responseContainer = "List"),
                     @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given uuid.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred while getting the stars",
                             response = ErrorResponse.class)
@@ -314,7 +318,7 @@ public interface CommentManagementAPI {
                     String uuid);
 
     @GET
-    @Path("/{uuid}/{stars}")
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
             produces = MediaType.APPLICATION_JSON,
@@ -337,8 +341,12 @@ public interface CommentManagementAPI {
                             response = List.class,
                             responseContainer = "List"),
                     @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given uuid.",
+                            response = ErrorResponse.class),
+                    @ApiResponse(
                             code = 500,
-                            message = "Internal Server Error. \n Error occurred while getting the comment list.",
+                            message = "Internal Server Error. \n Error occurred while getting the rated users list.",
                             response = ErrorResponse.class)
             })
 
@@ -351,7 +359,7 @@ public interface CommentManagementAPI {
                     String uuid);
 
     @POST
-    @Path("/uuid/{uuid}")
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(
@@ -378,6 +386,13 @@ public interface CommentManagementAPI {
                             code = 304,
                             message = "Not Modified. \n " +
                                     "Empty body because the client already has the latest rating of the requested resource."),
+                    @ApiResponse(
+                            code = 400,
+                            message = "Bad Request. \n Invalid request or validation error."),
+                    @ApiResponse(
+                            code = 404,
+                            message = "Not Found. \n No activity found with the given ID.",
+                            response = ErrorResponse.class),
                     @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred rating for the application.",

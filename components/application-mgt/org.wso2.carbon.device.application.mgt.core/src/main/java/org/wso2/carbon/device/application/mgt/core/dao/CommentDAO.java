@@ -37,12 +37,11 @@ public interface CommentDAO  {
     /**
      * To add a comment to a application.
      *
-     * @param appReleaseId Id of the released version of the application.
-     * @param appId id of the commented application.
      * @param tenantId tenantId of the commented application.
      * @param comment comment of the application.
      * @param createdBy Username of the created person.
      * @param parentId parent id of the parent comment.
+     * @param uuid uuid of the application
      * @return Comment Id
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
@@ -69,7 +68,7 @@ public interface CommentDAO  {
      * @param updatedComment comment after updated
      * @param modifiedBy Username of the modified person.
      * @param modifiedAt time of the modification.
-     * @return Updated comment
+     * @return {@link Comment}Updated comment
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
@@ -83,7 +82,7 @@ public interface CommentDAO  {
      * @param updatedComment comment after updated
      * @param modifiedBy Username of the modified person.
      * @param modifiedAt time of the modification.
-     * @return Updated comment
+     * @return {@link Comment}Updated comment
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception
      * @throws SQLException sql exception
@@ -94,7 +93,7 @@ public interface CommentDAO  {
      * To get the comment with id.
      *
      * @param apAppCommentId id of the comment
-     * @return Comment
+     * @return {@link Comment}Comment
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment getComment(int apAppCommentId) throws CommentManagementException, SQLException, DBConnectionException;
@@ -103,7 +102,7 @@ public interface CommentDAO  {
      * To get the comment with id.
      *
      * @param uuid uuid of the comment
-     * @return
+     * @return {@link List} List of comments in the application
      * @throws CommentManagementException Exceptions of the comment management.
      */
     List<Comment> getComment(String uuid) throws CommentManagementException, SQLException, DBConnectionException;
@@ -111,7 +110,9 @@ public interface CommentDAO  {
     /**
      * To get all the comments
      *
-     * @return List of all the comments in an application
+     * @param uuid uuid of the application
+     * @param request {@link PaginationRequest}pagination request with offSet and limit
+     * @return {@link List}List of all the comments in an application
      * @throws CommentManagementException
      * @throws SQLException
      * @throws DBConnectionException
@@ -123,7 +124,7 @@ public interface CommentDAO  {
      *
      * @param appReleasedId Id of the released version of the application.
      * @param appId id of the commented application.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      */
     List<Comment> getComments(int appReleasedId,int appId)throws CommentManagementException;
@@ -134,7 +135,7 @@ public interface CommentDAO  {
      * @param appType type of the commented application.
      * @param appName name of the commented application.
      * @param version version of the commented application.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -145,7 +146,7 @@ public interface CommentDAO  {
      * To get list of comments using tenant id.
      *
      * @param tenantId tenant id of the commented application
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -156,7 +157,7 @@ public interface CommentDAO  {
      * To get list of comments by created user.
      *
      * @param createdBy Username of the created person.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -168,7 +169,7 @@ public interface CommentDAO  {
      *
      * @param createdBy Username of the created person.
      * @param createdAt time of the comment created.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -179,7 +180,7 @@ public interface CommentDAO  {
      * To get list of comments by modified users.
      *
      * @param modifiedBy Username of the modified person.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -192,7 +193,7 @@ public interface CommentDAO  {
      * @param modifiedBy Username of the modified person.
      * @param modifiedAt time of the modification
      * @return List of comments
-     * @throws CommentManagementException Exceptions of the comment management.
+     * @throws {@link List}CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
      */
@@ -205,7 +206,7 @@ public interface CommentDAO  {
      * @param appName name of the commented application.
      * @param version version of the commented application.
      * @param parentId parent id of the parent comment.
-     * @return List of comments
+     * @return {@link List}List of comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception

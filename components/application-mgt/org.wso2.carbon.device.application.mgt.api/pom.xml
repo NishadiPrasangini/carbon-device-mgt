@@ -388,12 +388,7 @@
         <dependency>
             <groupId>org.wso2.carbon.devicemgt</groupId>
             <artifactId>org.wso2.carbon.device.mgt.api</artifactId>
-            <version>4.0.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.devicemgt</groupId>
-            <artifactId>org.wso2.carbon.device.mgt.api</artifactId>
-            <version>4.0.5-SNAPSHOT</version>
+            <version>3.0.185-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.devicemgt</groupId>
@@ -409,6 +404,16 @@
             <groupId>org.wso2.carbon.devicemgt</groupId>
             <artifactId>org.wso2.carbon.certificate.mgt.cert.admin.api</artifactId>
             <version>3.0.185-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode.wso2</groupId>
+            <artifactId>ode</artifactId>
+            <version>1.3.5-wso2v14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode.wso2</groupId>
+            <artifactId>ode</artifactId>
+            <version>1.3.5-wso2v14</version>
         </dependency>
     </dependencies>
 </project>

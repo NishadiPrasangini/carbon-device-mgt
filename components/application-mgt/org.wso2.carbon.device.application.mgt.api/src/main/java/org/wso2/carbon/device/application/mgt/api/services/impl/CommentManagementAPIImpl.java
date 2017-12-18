@@ -161,8 +161,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         int Stars=0;
 
         try {
-            Stars= commentsManager.getStars(uuid);
-        }  catch (SQLException e) {
+            Stars = commentsManager.getStars(uuid);
+            return Response.status(Response.Status.OK).entity(Stars).build();
+        } catch (NotFoundException e){
+            log.error("Not found exception occurs to uuid "+uuid+" .",e);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Application with UUID " + uuid + " not found").build();
+        } catch (SQLException e) {
             log.error("SQL Exception occurs", e);
         }
         return Response.status(Response.Status.OK).entity(Stars).build();
@@ -180,6 +185,11 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         try {
             ratedUsers= commentsManager.getRatedUser(uuid);
+            return Response.status(Response.Status.OK).entity(ratedUsers).build();
+        } catch (NotFoundException e) {
+            log.error("Not found exception occurs to uuid " + uuid + " .", e);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Application with UUID " + uuid + " not found").build();
         } catch (SQLException e) {
             log.error("SQL Exception occurs", e);
         }
@@ -188,7 +198,8 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
     @Override
     @POST
-    @Consumes("uuid/stars/json")
+    @Path("/{uuid}")
+    @Consumes("stars/json")
     public Response updateStars(
             @ApiParam int stars,
             @PathParam("uuid") String uuid) throws SQLException {
@@ -197,16 +208,19 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         int newStars=commentsManager.getStars(uuid);
 
         try {
-            newStars = commentsManager.updateStars(stars,uuid);
-
-            if (stars != 0){
-                return Response.status(Response.Status.CREATED).entity(newStars).build();
-            }else{
+            if (stars <= 0){
                 String msg = "Given star value is not valid ";
                 log.error(msg);
                 return  Response.status(Response.Status.BAD_REQUEST).build();
+            }else{
+                newStars = commentsManager.updateStars(stars,uuid);
+                return Response.status(Response.Status.OK).entity(newStars).build();
             }
 
+        } catch (NotFoundException e) {
+            log.error("Not found exception occurs to uuid " + uuid + " .", e);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Application with UUID " + uuid + " not found").build();
         } catch (ApplicationManagementException e) {
             log.error("Application Management Exception occurs", e);
         }
