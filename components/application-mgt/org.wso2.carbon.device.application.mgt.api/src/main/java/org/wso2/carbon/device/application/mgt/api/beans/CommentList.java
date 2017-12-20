@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.wso2.carbon.device.application.mgt.common.Comment;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(value = "List of comments", description = "This contains a set of comments that matches a given"

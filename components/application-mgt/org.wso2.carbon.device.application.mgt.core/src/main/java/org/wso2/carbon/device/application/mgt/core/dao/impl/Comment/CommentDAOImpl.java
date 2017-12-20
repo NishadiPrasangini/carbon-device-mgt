@@ -37,7 +37,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         if (log.isDebugEnabled()) {
             log.debug("Request received in DAO Layer to add comment for application release ("+uuid+")");
         }
-
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
         ResultSet rs;

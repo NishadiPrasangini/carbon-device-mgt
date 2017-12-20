@@ -38,7 +38,6 @@ import org.wso2.carbon.device.application.mgt.core.util.ConnectionManagerUtil;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
-//import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,8 +107,8 @@ public class CommentsManagerImpl implements CommentsManager {
 
     public Boolean validateComment(int apAppCommentId,String comment) throws CommentManagementException{
 
-        if (apAppCommentId == 0) {
-            throw new CommentManagementException("Comment ID is null. Comment id is a required parameter to get the " +
+        if (apAppCommentId <= 0) {
+            throw new CommentManagementException("Comment ID is null or negative. Comment id is a required parameter to get the " +
                     "relevant comment.");
         }
 

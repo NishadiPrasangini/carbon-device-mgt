@@ -13,7 +13,7 @@ import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManage
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
-import org.wso2.carbon.device.mgt.common.operation.mgt.Activity;
+
 
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
@@ -26,7 +26,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +78,6 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         int tenantId= PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
-
         try {
             if(commentsManager.validateComment(comment.getId(),comment.getComment())){
                 Comment newComment = commentsManager.addComment(comment,uuid,tenantId);

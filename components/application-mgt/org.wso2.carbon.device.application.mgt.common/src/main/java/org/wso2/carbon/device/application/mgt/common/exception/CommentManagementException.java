@@ -1,7 +1,5 @@
 package org.wso2.carbon.device.application.mgt.common.exception;
 
-import org.wso2.carbon.device.application.mgt.common.Comment;
-
 public class CommentManagementException extends Exception{
     private String message;
 
