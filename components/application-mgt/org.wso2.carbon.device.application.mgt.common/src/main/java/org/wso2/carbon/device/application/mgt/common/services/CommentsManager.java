@@ -24,7 +24,6 @@ import org.wso2.carbon.device.application.mgt.common.PaginationResult;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
-import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -106,7 +105,7 @@ public interface CommentsManager {
     /**
      * Get all comments to pagination
      *
-     *@param request Pagination request
+     * @param request Pagination request
      * @param uuid uuid of the application release
      * @return {@link PaginationResult} pagination result with starting offSet and limit
      * @throws CommentManagementException Exceptions of the comment management.
@@ -383,6 +382,4 @@ public interface CommentsManager {
      * @throws ApplicationManagementException Application Management Exception.
      */
     int updateStars(int stars, String uuid) throws ApplicationManagementException;
-
-
 }

@@ -46,7 +46,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             @QueryParam("limit")int limit){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
-        List<Comment> comments=null;
+        List<Comment> comments;
         CommentList commentList=new CommentList();
         try {
             PaginationRequest request=new PaginationRequest(offSet,limit);
@@ -65,7 +65,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         } catch (SQLException e) {
             log.error("SQL Exception occurs", e);
         }
-        return Response.status(Response.Status.OK).entity(comments).build();
+        return Response.status(Response.Status.OK).entity(null).build();
     }
 
     @Override
@@ -160,10 +160,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         int Stars=0;
-
         try {
             Stars = commentsManager.getStars(uuid);
-            return Response.status(Response.Status.OK).entity(Stars).build();
+            if(Stars>=0) {
+                return Response.status(Response.Status.OK).entity(Stars).build();
+            }else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (NotFoundException e){
             log.error("Not found exception occurs to uuid "+uuid+" .",e);
             return Response.status(Response.Status.NOT_FOUND)
@@ -186,7 +189,11 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         try {
             ratedUsers= commentsManager.getRatedUser(uuid);
-            return Response.status(Response.Status.OK).entity(ratedUsers).build();
+            if(ratedUsers>=0) {
+                return Response.status(Response.Status.OK).entity(ratedUsers).build();
+            }else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (NotFoundException e) {
             log.error("Not found exception occurs to uuid " + uuid + " .", e);
             return Response.status(Response.Status.NOT_FOUND)
@@ -206,10 +213,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             @PathParam("uuid") String uuid) throws SQLException {
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
-        int newStars=commentsManager.getStars(uuid);
-
+        commentsManager.getStars(uuid);
+        int newStars;
         try {
-            if (stars <= 0){
+            if (stars <= 0 || stars>10){
                 String msg = "Given star value is not valid ";
                 log.error(msg);
                 return  Response.status(Response.Status.BAD_REQUEST).build();
@@ -217,14 +224,13 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
                 newStars = commentsManager.updateStars(stars,uuid);
                 return Response.status(Response.Status.OK).entity(newStars).build();
             }
-
         } catch (NotFoundException e) {
             log.error("Not found exception occurs to uuid " + uuid + " .", e);
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Application with UUID " + uuid + " not found").build();
         } catch (ApplicationManagementException e) {
             log.error("Application Management Exception occurs", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.status(Response.Status.OK).entity(newStars).build();
     }
 }

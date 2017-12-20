@@ -848,11 +848,9 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection conn;
         PreparedStatement stmt = null;
-
         try {
             conn = this.getDBConnection();
             String sql = "DELETE FROM AP_APP_COMMENT WHERE ID=?;";
-
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, apAppCommentId);
             stmt.executeUpdate();

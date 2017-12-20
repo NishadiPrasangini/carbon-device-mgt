@@ -116,7 +116,7 @@ public interface CommentManagementAPI {
                             response = ErrorResponse.class),
                     @ApiResponse(
                             code = 500,
-                            message = "Store ManagemInternal Server Error. \n Error occurred while getting the comment list.",
+                            message = "Store Management Internal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
 
@@ -366,8 +366,8 @@ public interface CommentManagementAPI {
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "POST",
-            value = "Add a star value",
-            notes = "This will add star value",
+            value = "Updated star value",
+            notes = "Add the star value.",
             tags = "Store Management",
             extensions = {
                     @Extension(properties = {
@@ -382,11 +382,7 @@ public interface CommentManagementAPI {
                             code = 200,
                             message = "OK. \n Successfully rated to the application.",
                             response = Comment.class),
-                    @ApiResponse(
-                            code = 304,
-                            message = "Not Modified. \n " +
-                                    "Empty body because the client already has the latest rating of the requested resource."),
-                    @ApiResponse(
+                     @ApiResponse(
                             code = 400,
                             message = "Bad Request. \n Invalid request or validation error."),
                     @ApiResponse(

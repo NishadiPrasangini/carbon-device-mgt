@@ -170,7 +170,7 @@ public class CommentsManagerImpl implements CommentsManager {
             SQLException {
 
         PaginationResult paginationResult = new PaginationResult();
-        List<Comment> comments=null;
+        List<Comment> comments;
         request = Util.validateCommentListPageSize(request);
 
 
@@ -192,7 +192,7 @@ public class CommentsManagerImpl implements CommentsManager {
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return comments;
+        return null;
     }
 
     @Override

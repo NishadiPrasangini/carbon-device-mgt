@@ -79,6 +79,7 @@ public interface CommentDAO  {
      * To update already added comment.
      *
      * @param uuid uuid of the comment
+     * @param apAppCommentId id of the comment
      * @param updatedComment comment after updated
      * @param modifiedBy Username of the modified person.
      * @param modifiedAt time of the modification.
@@ -95,6 +96,8 @@ public interface CommentDAO  {
      * @param apAppCommentId id of the comment
      * @return {@link Comment}Comment
      * @throws CommentManagementException Exceptions of the comment management.
+     * @throws DBConnectionException db connection exception
+     * @throws SQLException sql exception
      */
     Comment getComment(int apAppCommentId) throws CommentManagementException, SQLException, DBConnectionException;
 
@@ -104,6 +107,8 @@ public interface CommentDAO  {
      * @param uuid uuid of the comment
      * @return {@link List} List of comments in the application
      * @throws CommentManagementException Exceptions of the comment management.
+     * @throws DBConnectionException db connection exception
+     * @throws SQLException sql exception
      */
     List<Comment> getComment(String uuid) throws CommentManagementException, SQLException, DBConnectionException;
 
@@ -113,10 +118,10 @@ public interface CommentDAO  {
      * @param uuid uuid of the application
      * @param request {@link PaginationRequest}pagination request with offSet and limit
      * @return {@link List}List of all the comments in an application
-     * @throws CommentManagementException
-     * @throws SQLException
-     * @throws DBConnectionException
-     */
+     * @throws CommentManagementException Exception of the comment management
+     * @throws DBConnectionException db connection exception
+     * @throws SQLException sql exception
+     **/
     List<Comment> getAllComments(String uuid,PaginationRequest request) throws CommentManagementException, SQLException, DBConnectionException;
 
     /**
@@ -216,7 +221,7 @@ public interface CommentDAO  {
     /**
      * To get a count of the comments by usernames.
      *
-     * @param createdBy Username of the created person.
+     * @param uuid uuid of the application
      * @return Count of the comments
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
@@ -288,7 +293,6 @@ public interface CommentDAO  {
      * To delete comment using comment id.
      *
      * @param apAppCommentId id of the comment
-     * @param updatedComment comment after updated
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -300,7 +304,6 @@ public interface CommentDAO  {
      * To delete comment using comment id.
      *
      * @param uuid uuid of the comment
-     * @param updatedComment comment after updated
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws DBConnectionException db connection exception.
      * @throws SQLException sql exception
@@ -343,9 +346,7 @@ public interface CommentDAO  {
     /**
      * To delete comments by parent id of the comment.
      *
-     * @param appType type of the commented application.
-     * @param appName name of the commented application.
-     * @param version version of the commented application.
+     * @param uuid uuid of the application
      * @param parentId parent id of the parent comment.
      * @throws CommentManagementException Exceptions of the comment management.
      */
@@ -355,10 +356,8 @@ public interface CommentDAO  {
     /**
      * To add the star rating to the application.
      *
-     * @param version Version of the application
-     * @param appName Name of the Application
      * @param stars Star value
-     * @param uuid      UUID of the application
+     * @param uuid UUID of the application
      * @return Star value
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
@@ -367,8 +366,7 @@ public interface CommentDAO  {
     /**
      * To get the average star value of the application
      *
-     * @param version Version of the application
-     * @param appName Name of the Application
+     * @param uuid uuid of the application
      * @return Average of star values
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
@@ -377,8 +375,7 @@ public interface CommentDAO  {
     /**
      * To get number of rated users
      *
-     * @param version Version of the application
-     * @param appName  Name of the Application
+     * @param uuid uuid of the application
      * @return Number of rated users
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
