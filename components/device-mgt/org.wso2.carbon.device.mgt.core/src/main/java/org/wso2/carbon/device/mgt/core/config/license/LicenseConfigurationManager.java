@@ -32,42 +32,42 @@ import java.io.File;
 
 public class LicenseConfigurationManager {
 
-    private LicenseConfig licenseConfig;
-    private static LicenseConfigurationManager licenseConfigManager;
+	private LicenseConfig licenseConfig;
+	private static LicenseConfigurationManager licenseConfigManager;
 
-    private static final String LICENSE_CONFIG_PATH =
-            CarbonUtils.getEtcCarbonConfigDirPath() + File.separator +
-                    DeviceManagementConstants.Common.DEFAULT_LICENSE_CONFIG_XML_NAME;
+	private static final String LICENSE_CONFIG_PATH =
+			CarbonUtils.getEtcCarbonConfigDirPath() + File.separator +
+			DeviceManagementConstants.Common.DEFAULT_LICENSE_CONFIG_XML_NAME;
 
-    public static LicenseConfigurationManager getInstance() {
-        if (licenseConfigManager == null) {
-            synchronized (LicenseConfigurationManager.class) {
-                if (licenseConfigManager == null) {
-                    licenseConfigManager = new LicenseConfigurationManager();
-                }
-            }
-        }
-        return licenseConfigManager;
-    }
+	public static LicenseConfigurationManager getInstance() {
+		if (licenseConfigManager == null) {
+			synchronized (LicenseConfigurationManager.class) {
+				if (licenseConfigManager == null) {
+					licenseConfigManager = new LicenseConfigurationManager();
+				}
+			}
+		}
+		return licenseConfigManager;
+	}
 
-    public synchronized void initConfig() throws LicenseManagementException {
-        try {
-            File licenseMgtConfig = new File(LicenseConfigurationManager.LICENSE_CONFIG_PATH);
-            Document doc = DeviceManagerUtil.convertToDocument(licenseMgtConfig);
+	public synchronized void initConfig() throws LicenseManagementException {
+		try {
+			File licenseMgtConfig = new File(LicenseConfigurationManager.LICENSE_CONFIG_PATH);
+			Document doc = DeviceManagerUtil.convertToDocument(licenseMgtConfig);
 
             /* Un-marshaling License Management configuration */
-            JAXBContext cdmContext = JAXBContext.newInstance(LicenseConfig.class);
-            Unmarshaller unmarshaller = cdmContext.createUnmarshaller();
-            this.licenseConfig = (LicenseConfig) unmarshaller.unmarshal(doc);
-        } catch (Exception e) {
+			JAXBContext cdmContext = JAXBContext.newInstance(LicenseConfig.class);
+			Unmarshaller unmarshaller = cdmContext.createUnmarshaller();
+			this.licenseConfig = (LicenseConfig) unmarshaller.unmarshal(doc);
+		} catch (Exception e) {
             /* Catches generic exception as there's no specific task to be carried out catching a particular
             exception */
             throw new LicenseManagementException("Error occurred while initializing License Configurations", e);
         }
     }
 
-    public LicenseConfig getLicenseConfig() {
-        return licenseConfig;
-    }
+	public LicenseConfig getLicenseConfig() {
+		return licenseConfig;
+	}
 
 }

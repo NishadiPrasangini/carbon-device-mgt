@@ -385,7 +385,4 @@ $(document).ready(function () {
         $("#policy-listing-status").removeClass("hidden");
     }
     $("#policy-grid").removeClass("hidden");
-
-    $('[data-toggle="tooltip"]').tooltip();
-
 });

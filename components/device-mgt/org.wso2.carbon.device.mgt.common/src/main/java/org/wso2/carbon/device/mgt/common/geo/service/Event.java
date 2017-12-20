@@ -35,33 +35,24 @@ import java.util.Map;
 @XmlRootElement(name = "event")
 public class Event {
 
-    /**
-     * The id.
-     */
+    /** The id. */
     @XmlElement(required = false, name = "id")
     private String id;
 
-    /**
-     * The table name.
-     */
+    /** The table name. */
     @XmlElement(required = false, name = "tableName")
     private String tableName;
 
-    /**
-     * The timestamp.
-     */
+    /** The timestamp. */
     @XmlElement(required = false, nillable = true, name = "timestamp")
     private long timestamp;
 
-    /**
-     * The values.
-     */
+    /** The values. */
     @XmlElementWrapper(required = true, name = "values")
     private Map<String, Object> values;
 
     /**
      * Sets the table name.
-     *
      * @param tableName the new table name
      */
     public void setTableName(String tableName) {
@@ -70,7 +61,6 @@ public class Event {
 
     /**
      * Sets the values.
-     *
      * @param values the values
      */
     public void setValues(Map<String, Object> values) {
@@ -79,7 +69,6 @@ public class Event {
 
     /**
      * Sets the timestamp.
-     *
      * @param timestamp the new timestamp
      */
     public void setTimestamp(long timestamp) {
@@ -88,7 +77,6 @@ public class Event {
 
     /**
      * Sets the id.
-     *
      * @param id the new id
      */
     public void setId(String id) {
@@ -97,16 +85,13 @@ public class Event {
 
     /**
      * Gets the id.
-     *
      * @return the id
      */
     public String getId() {
         return id;
     }
-
     /**
      * Gets the table name.
-     *
      * @return the table name
      */
     public String getTableName() {
@@ -115,7 +100,6 @@ public class Event {
 
     /**
      * Gets the values.
-     *
      * @return the values
      */
     public Map<String, Object> getValues() {
@@ -124,8 +108,8 @@ public class Event {
 
     /**
      * Gets the value.
-     *
-     * @param name the name
+     * @param name
+     *            the name
      * @return the value
      */
     public Object getValue(String name) {
@@ -134,7 +118,6 @@ public class Event {
 
     /**
      * Gets the timestamp.
-     *
      * @return the timestamp
      */
     public long getTimestamp() {
@@ -142,7 +125,7 @@ public class Event {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         List<String> valueList = new ArrayList<>();
         for (Map.Entry<String, Object> entry : values.entrySet()) {
             valueList.add(entry.getKey() + ":" + entry.getValue());

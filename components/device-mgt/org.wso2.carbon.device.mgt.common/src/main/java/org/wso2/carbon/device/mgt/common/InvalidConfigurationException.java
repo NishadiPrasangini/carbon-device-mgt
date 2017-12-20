@@ -21,7 +21,7 @@ package org.wso2.carbon.device.mgt.common;
 /**
  * This exception is thrown when configured with invalid configuration.
  */
-public class InvalidConfigurationException extends RuntimeException {
+public class InvalidConfigurationException extends  RuntimeException {
 
     public InvalidConfigurationException(String msg, Exception nestedEx) {
         super(msg, nestedEx);

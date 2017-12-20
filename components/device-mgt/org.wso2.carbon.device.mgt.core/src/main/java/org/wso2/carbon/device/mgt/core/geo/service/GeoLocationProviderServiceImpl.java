@@ -262,7 +262,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
 
         //persist alert in registry
         updateRegistry(getRegistryPath(alertType, identifier, alert.getQueryName()), identifier, content,
-                options);
+                       options);
 
         //deploy alert into event processor
         EventProcessorAdminServiceStub eventprocessorStub = null;
@@ -274,7 +274,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
             if (validationResponse.equals("success")) {
                 if (isUpdate) {
                     String executionPlanName = getExecutionPlanName(alertType, alert.getQueryName(),
-                            identifier.getId());
+                                                                    identifier.getId());
                     eventprocessorStub.editActiveExecutionPlan(parsedTemplate, executionPlanName);
                 } else {
                     eventprocessorStub.deployExecutionPlan(parsedTemplate);
@@ -284,7 +284,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
                         "'within' is neither a function extension nor an aggregated attribute extension"
                 )) {
                     log.error("GPL Siddhi Geo Extension is not configured. Please execute maven script " +
-                            "`siddhi-geo-extention-deployer.xml` in $IOT_HOME/analytics/scripts");
+                                      "`siddhi-geo-extention-deployer.xml` in $IOT_HOME/analytics/scripts");
                 } else {
                     log.error("Execution plan validation failed: " + validationResponse);
                 }
@@ -390,7 +390,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
         }
     }
 
-    protected EventProcessorAdminServiceStub getEventProcessorAdminServiceStub() throws JWTClientException {
+    private EventProcessorAdminServiceStub getEventProcessorAdminServiceStub() throws JWTClientException {
         //send alert to event-processing
         String eventProcessorAdminServiceWSUrl = Utils.replaceSystemProperty(GeoServices.DAS_URL) +
                 "/services/EventProcessorAdminService";
@@ -441,7 +441,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
         try {
             Registry registry = getGovernanceRegistry();
             Resource resource = registry.get(GeoServices.REGISTRY_PATH_FOR_ALERTS +
-                    GeoServices.ALERT_TYPE_SPEED + "/" + identifier.getId());
+                                                     GeoServices.ALERT_TYPE_SPEED + "/" + identifier.getId());
             if (resource == null) {
                 return "{'content': false}";
             }
@@ -459,8 +459,8 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
         try {
             Registry registry = getGovernanceRegistry();
             Resource resource = registry.get(GeoServices.REGISTRY_PATH_FOR_ALERTS +
-                    GeoServices.ALERT_TYPE_PROXIMITY
-                    + "/" + identifier.getId());
+                                                     GeoServices.ALERT_TYPE_PROXIMITY
+                                                     + "/" + identifier.getId());
             if (resource != null) {
                 Properties props = resource.getProperties();
 
@@ -468,8 +468,8 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
                 List proxTimeObj = (List) props.get(GeoServices.PROXIMITY_TIME);
 
                 return String.format("{proximityDistance:\"%s\", proximityTime:\"%s\"}",
-                        proxDisObj != null ? proxDisObj.get(0).toString() : "",
-                        proxTimeObj != null ? proxTimeObj.get(0).toString() : "");
+                                     proxDisObj != null ? proxDisObj.get(0).toString() : "",
+                                     proxTimeObj != null ? proxTimeObj.get(0).toString() : "");
             } else {
                 return "{'content': false}";
             }
@@ -591,7 +591,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
     }
 
     private String parseTemplate(String alertType, Map<String, String> parseMap) throws
-            GeoLocationBasedServiceException {
+                                                                                 GeoLocationBasedServiceException {
         String templatePath = "alerts/Geo-ExecutionPlan-" + alertType + "_alert.siddhiql";
         InputStream resource = getClass().getClassLoader().getResourceAsStream(templatePath);
         if (resource == null) {
@@ -679,7 +679,7 @@ public class GeoLocationProviderServiceImpl implements GeoLocationProviderServic
      */
     private SSLContext initSSLConnection(String tenantAdminUser)
             throws NoSuchAlgorithmException, UnrecoverableKeyException,
-            KeyStoreException, KeyManagementException, IOException, CertificateException {
+                   KeyStoreException, KeyManagementException, IOException, CertificateException {
         String keyStorePassword = ServerConfiguration.getInstance().getFirstProperty("Security.KeyStore.Password");
         String trustStorePassword = ServerConfiguration.getInstance().getFirstProperty(
                 "Security.TrustStore.Password");

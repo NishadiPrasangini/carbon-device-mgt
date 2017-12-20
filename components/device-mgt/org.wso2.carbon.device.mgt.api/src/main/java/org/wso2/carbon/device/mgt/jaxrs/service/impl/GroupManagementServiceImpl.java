@@ -33,7 +33,6 @@ import org.wso2.carbon.device.mgt.common.group.mgt.DeviceGroup;
 import org.wso2.carbon.device.mgt.common.group.mgt.GroupAlreadyExistException;
 import org.wso2.carbon.device.mgt.common.group.mgt.GroupManagementException;
 import org.wso2.carbon.device.mgt.common.group.mgt.RoleDoesNotExistException;
-import org.wso2.carbon.device.mgt.common.group.mgt.GroupNotExistException;
 import org.wso2.carbon.device.mgt.core.service.GroupManagementProviderService;
 import org.wso2.carbon.device.mgt.jaxrs.beans.DeviceGroupList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.DeviceList;
@@ -53,13 +52,14 @@ public class GroupManagementServiceImpl implements GroupManagementService {
 
     private static final String DEFAULT_ADMIN_ROLE = "admin";
     private static final String[] DEFAULT_ADMIN_PERMISSIONS = {"/permission/device-mgt/admin/groups",
-            "/permission/device-mgt/user/groups"};
+                                                               "/permission/device-mgt/user/groups"};
+    private static final String EMPTY_RESULT = "EMPTY";
 
     @Override
     public Response getGroups(String name, String owner, int offset, int limit) {
         try {
             RequestValidationUtil.validatePaginationParameters(offset, limit);
-            String currentUser = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+            String currentUser = CarbonContext.getThreadLocalCarbonContext().getUsername();
             GroupPaginationRequest request = new GroupPaginationRequest(offset, limit);
             request.setGroupName(name);
             request.setOwner(owner);
@@ -84,7 +84,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
     @Override
     public Response getGroupCount() {
         try {
-            String currentUser = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+            String currentUser = CarbonContext.getThreadLocalCarbonContext().getUsername();
             int count = DeviceMgtAPIUtils.getGroupManagementProviderService().getGroupCount(currentUser);
             return Response.status(Response.Status.OK).entity(count).build();
         } catch (GroupManagementException e) {
@@ -109,7 +109,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
             log.error(msg, e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(msg).build();
         } catch (GroupAlreadyExistException e) {
-            String msg = "Group already exists with name " + group.getName() + ".";
+            String msg = "Group already exists with name '" + group.getName() + "'.";
             log.warn(msg);
             return Response.status(Response.Status.CONFLICT).entity(msg).build();
         }
@@ -144,7 +144,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
             String msg = "Error occurred while adding new group.";
             log.error(msg, e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(msg).build();
-        } catch (GroupNotExistException e) {
+        } catch (GroupAlreadyExistException e) {
             String msg = "There is another group already exists with name '" + deviceGroup.getName() + "'.";
             log.warn(msg);
             return Response.status(Response.Status.CONFLICT).entity(msg).build();
@@ -174,7 +174,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
             return Response.status(Response.Status.OK).build();
         } catch (GroupManagementException e) {
             String msg = "Error occurred while managing group share. ";
-            if (e.getErrorMessage() != null) {
+            if (e.getErrorMessage() != null){
                 msg += e.getErrorMessage();
             }
             log.error(msg, e);
@@ -189,11 +189,11 @@ public class GroupManagementServiceImpl implements GroupManagementService {
         try {
             List<String> groupRoles = DeviceMgtAPIUtils.getGroupManagementProviderService().getRoles(groupId);
             RoleList deviceGroupRolesList = new RoleList();
-            if (groupRoles != null) {
+            if(groupRoles != null) {
                 deviceGroupRolesList.setList(groupRoles);
                 deviceGroupRolesList.setCount(groupRoles.size());
             } else {
-                deviceGroupRolesList.setList(new ArrayList<>());
+                deviceGroupRolesList.setList(new ArrayList<String>());
                 deviceGroupRolesList.setCount(0);
             }
             return Response.status(Response.Status.OK).entity(deviceGroupRolesList).build();
@@ -214,7 +214,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
             if (deviceList != null) {
                 deviceListWrapper.setList(deviceList);
             } else {
-                deviceListWrapper.setList(new ArrayList<>());
+                deviceListWrapper.setList(new ArrayList<Device>());
             }
             deviceListWrapper.setCount(deviceCount);
             return Response.status(Response.Status.OK).entity(deviceListWrapper).build();

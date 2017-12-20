@@ -81,7 +81,7 @@ import javax.ws.rs.core.Response;
 )
 @Path("/geo-services")
 @Api(value = "Geo Service",
-        description = "This carries all the resources related to the geo service functionalities.")
+     description = "This carries all the resources related to the geo service functionalities.")
 public interface GeoLocationBasedService {
     /**
      * Retrieve Analytics for the device type

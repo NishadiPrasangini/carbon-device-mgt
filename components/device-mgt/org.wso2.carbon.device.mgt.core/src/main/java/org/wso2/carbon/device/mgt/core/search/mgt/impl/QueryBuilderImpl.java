@@ -23,11 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.mgt.common.search.Condition;
-import org.wso2.carbon.device.mgt.core.search.mgt.Constants;
-import org.wso2.carbon.device.mgt.core.search.mgt.InvalidOperatorException;
-import org.wso2.carbon.device.mgt.core.search.mgt.QueryBuilder;
-import org.wso2.carbon.device.mgt.core.search.mgt.QueryHolder;
-import org.wso2.carbon.device.mgt.core.search.mgt.ValueType;
+import org.wso2.carbon.device.mgt.core.search.mgt.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,8 +93,8 @@ public class QueryBuilderImpl implements QueryBuilder {
             intArr[0] = 1;
             //int x = 1;
             String query = this.getGenericQueryPart(valueTypeArray) +
-                    this.processAND(andColumns, valueTypeArray, intArr) +
-                    this.processOR(orColumns, valueTypeArray, intArr);
+                    this.processAND(andColumns, valueTypeArray,  intArr) +
+                    this.processOR(orColumns, valueTypeArray,  intArr);
             List<QueryHolder> queryHolders = new ArrayList<>();
             QueryHolder queryHolder = new QueryHolder();
             queryHolder.setQuery(query);
@@ -139,13 +135,20 @@ public class QueryBuilderImpl implements QueryBuilder {
                                 + " LIKE  ? ";
                         ValueType type = new ValueType();
                         type.setColumnType(ValueType.columnType.STRING);
-                        type.setStringValue("%" + con.getValue() + "%");
+                        type.setStringValue("%"+con.getValue()+"%");
                         valueType[x] = type;
                         x++;
                     } else {
                         querySuffix = querySuffix + " AND DD." + Utils.getDeviceDetailsColumnNames().get(con.getKey()) + con
                                 .getOperator() + " ? ";
-                        ValueType type = this.getValueType(con);
+                        ValueType type = new ValueType();
+                        if (Utils.checkColumnType(con.getKey())) {
+                            type.setColumnType(ValueType.columnType.STRING);
+                            type.setStringValue(con.getValue());
+                        } else {
+                            type.setColumnType(ValueType.columnType.INTEGER);
+                            type.setIntValue(Integer.parseInt(con.getValue()));
+                        }
                         valueType[x] = type;
                         x++;
                     }
@@ -179,15 +182,21 @@ public class QueryBuilderImpl implements QueryBuilder {
                                 + " LIKE  ? ";
                         ValueType type = new ValueType();
                         type.setColumnType(ValueType.columnType.STRING);
-                        type.setStringValue("%" + con.getValue() + "%");
+                        type.setStringValue("%"+con.getValue()+"%");
                         valueType[x] = type;
                         x++;
                     } else {
                         querySuffix = querySuffix + " OR DD." + Utils.getDeviceDetailsColumnNames().get(con.getKey()) + con
                                 .getOperator() + " ? ";
 
-                        ValueType type = this.getValueType(con);
-
+                        ValueType type = new ValueType();
+                        if (Utils.checkColumnType(con.getKey())) {
+                            type.setColumnType(ValueType.columnType.STRING);
+                            type.setStringValue(con.getValue());
+                        } else {
+                            type.setColumnType(ValueType.columnType.INTEGER);
+                            type.setIntValue(Integer.parseInt(con.getValue()));
+                        }
                         valueType[x] = type;
                         x++;
                     }
@@ -376,36 +385,5 @@ public class QueryBuilderImpl implements QueryBuilder {
         } catch (Exception e) {
             throw new InvalidOperatorException("Error occurred while building the sql", e);
         }
-    }
-
-    /**
-     * Returns a Value type based on the Condition data.
-     *
-     * @param con : The condition that passed.
-     * @re
-     */
-    private ValueType getValueType(Condition con) {
-        ValueType type = new ValueType();
-        String colValue = Utils.checkColumnType(con.getKey());
-
-        switch (colValue) {
-            case "String":
-                type.setColumnType(ValueType.columnType.STRING);
-                type.setStringValue(con.getValue());
-                break;
-            case "Double":
-                type.setColumnType(ValueType.columnType.DOUBLE);
-                type.setDoubleValue(Double.parseDouble(con.getValue()));
-                break;
-            case "Integer":
-                type.setColumnType(ValueType.columnType.INTEGER);
-                type.setIntValue(Integer.parseInt(con.getValue()));
-                break;
-            case "Long":
-                type.setColumnType(ValueType.columnType.STRING);
-                type.setLongValue(Long.parseLong(con.getValue()));
-        }
-
-        return type;
     }
 }

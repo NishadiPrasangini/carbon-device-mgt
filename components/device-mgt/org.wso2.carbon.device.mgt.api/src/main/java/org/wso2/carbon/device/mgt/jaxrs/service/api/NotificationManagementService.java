@@ -91,9 +91,9 @@ public interface NotificationManagementService {
             notes = "Get the details of all the notifications that were pushed to the devices registered with WSO2 EMM using this REST API.",
             tags = "Device Notification Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:notifications:view")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:notifications:view")
+                })
             }
     )
     @ApiResponses(
@@ -180,9 +180,9 @@ public interface NotificationManagementService {
                     + "change from NEW to CHECKED. This API is used to update device notification status.",
             tags = "Device Notification Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:notifications:mark-checked")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:notifications:mark-checked")
+                })
             }
     )
     @ApiResponses(

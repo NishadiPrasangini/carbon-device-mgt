@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-
 @XmlRootElement
 @ApiModel(value = "Profile", description = "This class carries all information related to policy profiles")
 
@@ -90,7 +89,6 @@ public class Profile implements Serializable {
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
-
     @XmlElement
     public int getTenantId() {
         return tenantId;

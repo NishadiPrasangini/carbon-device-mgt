@@ -58,7 +58,7 @@ public class DeviceManagementDataHolder {
     private AppManagementConfig appManagerConfig;
     private OperationManager operationManager;
     private ConfigurationContextService configurationContextService;
-    private HashMap<String, Boolean> requireDeviceAuthorization = new HashMap<>();
+    private HashMap<String,Boolean> requireDeviceAuthorization = new HashMap<>();
     private DeviceAccessAuthorizationService deviceAccessAuthorizationService;
     private GroupManagementProviderService groupManagementProviderService;
     private TaskService taskService;
@@ -72,12 +72,11 @@ public class DeviceManagementDataHolder {
 
     private Map<String, OperationMonitoringTaskConfig> map = new HashMap<>();
 
-    public Map<String, OperationMonitoringTaskConfig> getMap() {
+    public Map<String, OperationMonitoringTaskConfig> getMap(){
         return this.map;
     }
 
-    private DeviceManagementDataHolder() {
-    }
+    private DeviceManagementDataHolder() {}
 
     public static DeviceManagementDataHolder getInstance() {
         return thisInstance;
@@ -186,7 +185,7 @@ public class DeviceManagementDataHolder {
     }
 
     public void setRequireDeviceAuthorization(String pluginType, boolean requireAuthentication) {
-        requireDeviceAuthorization.put(pluginType, requireAuthentication);
+        requireDeviceAuthorization.put(pluginType,requireAuthentication);
     }
 
     public boolean requireDeviceAuthorization(String pluginType) {

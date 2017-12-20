@@ -32,7 +32,6 @@ public class UnexpectedServerErrorException extends WebApplicationException {
     public UnexpectedServerErrorException(ErrorResponse error) {
         super(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build());
     }
-
     public UnexpectedServerErrorException(ErrorDTO errorDTO) {
         super(Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(errorDTO)

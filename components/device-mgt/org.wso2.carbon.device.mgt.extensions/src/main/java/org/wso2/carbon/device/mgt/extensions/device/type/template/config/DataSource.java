@@ -26,9 +26,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for DataSource complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="DataSource">
  *   &lt;complexContent>
@@ -41,11 +41,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DataSource", propOrder = {
-        "jndiConfig",
-        "tableConfig"
+    "jndiConfig",
+    "tableConfig"
 })
 public class DataSource {
 
@@ -57,9 +59,11 @@ public class DataSource {
 
     /**
      * Gets the value of the jndiConfig property.
-     *
-     * @return possible object is
-     * {@link JndiConfig }
+     * 
+     * @return
+     *     possible object is
+     *     {@link JndiConfig }
+     *     
      */
     public JndiConfig getJndiConfig() {
         return jndiConfig;
@@ -67,9 +71,11 @@ public class DataSource {
 
     /**
      * Sets the value of the jndiConfig property.
-     *
-     * @param value allowed object is
-     *              {@link JndiConfig }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JndiConfig }
+     *     
      */
     public void setJndiConfig(JndiConfig value) {
         this.jndiConfig = value;
@@ -77,9 +83,11 @@ public class DataSource {
 
     /**
      * Gets the value of the tableConfig property.
-     *
-     * @return possible object is
-     * {@link TableConfig }
+     * 
+     * @return
+     *     possible object is
+     *     {@link TableConfig }
+     *     
      */
     public TableConfig getTableConfig() {
         return tableConfig;
@@ -87,9 +95,11 @@ public class DataSource {
 
     /**
      * Sets the value of the tableConfig property.
-     *
-     * @param value allowed object is
-     *              {@link TableConfig }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TableConfig }
+     *     
      */
     public void setTableConfig(TableConfig value) {
         this.tableConfig = value;

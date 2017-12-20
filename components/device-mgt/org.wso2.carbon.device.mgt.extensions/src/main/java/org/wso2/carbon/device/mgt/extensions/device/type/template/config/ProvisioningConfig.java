@@ -26,9 +26,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for ProvisioningConfig complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="ProvisioningConfig">
  *   &lt;complexContent>
@@ -40,10 +40,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProvisioningConfig", propOrder = {
-        "sharedWithAllTenants"
+    "sharedWithAllTenants"
 })
 public class ProvisioningConfig {
 
@@ -52,6 +54,7 @@ public class ProvisioningConfig {
 
     /**
      * Gets the value of the sharedWithAllTenants property.
+     * 
      */
     public boolean isSharedWithAllTenants() {
         return sharedWithAllTenants;
@@ -59,6 +62,7 @@ public class ProvisioningConfig {
 
     /**
      * Sets the value of the sharedWithAllTenants property.
+     * 
      */
     public void setSharedWithAllTenants(boolean value) {
         this.sharedWithAllTenants = value;

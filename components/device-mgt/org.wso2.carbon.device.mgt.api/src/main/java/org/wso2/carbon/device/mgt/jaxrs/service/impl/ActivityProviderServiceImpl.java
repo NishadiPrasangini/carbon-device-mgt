@@ -29,17 +29,15 @@ import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse;
 import org.wso2.carbon.device.mgt.jaxrs.service.api.ActivityInfoProviderService;
 import org.wso2.carbon.device.mgt.jaxrs.service.impl.util.RequestValidationUtil;
 import org.wso2.carbon.device.mgt.jaxrs.util.DeviceMgtAPIUtils;
-import org.wso2.carbon.user.api.UserStoreException;
 
 import javax.validation.constraints.Size;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.sun.xml.internal.ws.api.message.Packet.Status.Response;
 
 @Path("/activities")
 @Produces(MediaType.APPLICATION_JSON)
@@ -56,27 +54,22 @@ public class ActivityProviderServiceImpl implements ActivityInfoProviderService 
                                 @HeaderParam("If-Modified-Since") String ifModifiedSince) {
         Activity activity;
         DeviceManagementProviderService dmService;
-        Response response = validateAdminUser();
-        if (response == null) {
-            try {
-                RequestValidationUtil.validateActivityId(id);
+        try {
+            RequestValidationUtil.validateActivityId(id);
 
-                dmService = DeviceMgtAPIUtils.getDeviceManagementService();
-                activity = dmService.getOperationByActivityId(id);
-                if (activity == null) {
-                    return Response.status(404).entity(
-                            new ErrorResponse.ErrorResponseBuilder().setMessage("No activity can be " +
-                                    "found upon the provided activity id '" + id + "'").build()).build();
-                }
-                return Response.status(Response.Status.OK).entity(activity).build();
-            } catch (OperationManagementException e) {
-                String msg = "ErrorResponse occurred while fetching the activity for the supplied id.";
-                log.error(msg, e);
-                return Response.serverError().entity(
-                        new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
+            dmService = DeviceMgtAPIUtils.getDeviceManagementService();
+            activity = dmService.getOperationByActivityId(id);
+            if (activity == null) {
+                return Response.status(404).entity(
+                        new ErrorResponse.ErrorResponseBuilder().setMessage("No activity can be " +
+                                "found upon the provided activity id '" + id + "'").build()).build();
             }
-        } else {
-            return response;
+            return Response.status(Response.Status.OK).entity(activity).build();
+        } catch (OperationManagementException e) {
+            String msg = "ErrorResponse occurred while fetching the activity for the supplied id.";
+            log.error(msg, e);
+            return Response.serverError().entity(
+                    new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
         }
     }
 
@@ -127,6 +120,7 @@ public class ActivityProviderServiceImpl implements ActivityInfoProviderService 
         long sinceTimestamp;
         long timestamp = 0;
         boolean isIfModifiedSinceSet = false;
+        boolean isSinceSet = false;
         if (log.isDebugEnabled()) {
             log.debug("getActivities since: " + since + " , offset: " + offset + " ,limit: " + limit + " ," +
                     "ifModifiedSince: " + ifModifiedSince);
@@ -156,6 +150,7 @@ public class ActivityProviderServiceImpl implements ActivityInfoProviderService 
                                 "Invalid date string is provided in 'since' filter").build()).build();
             }
             sinceTimestamp = sinceDate.getTime();
+            isSinceSet = true;
             timestamp = sinceTimestamp / 1000;
         }
 
@@ -167,57 +162,38 @@ public class ActivityProviderServiceImpl implements ActivityInfoProviderService 
         if (log.isDebugEnabled()) {
             log.debug("getActivities final timestamp " + timestamp);
         }
-        Response response = validateAdminUser();
-        if (response == null) {
-            List<Activity> activities;
-            ActivityList activityList = new ActivityList();
-            DeviceManagementProviderService dmService;
-            try {
-                if (log.isDebugEnabled()) {
-                    log.debug("Calling database to get activities.");
-                }
-                dmService = DeviceMgtAPIUtils.getDeviceManagementService();
-                activities = dmService.getActivitiesUpdatedAfter(timestamp, limit, offset);
-                activityList.setList(activities);
-                if (log.isDebugEnabled()) {
-                    log.debug("Calling database to get activity count.");
-                }
-                int count = dmService.getActivityCountUpdatedAfter(timestamp);
-                if (log.isDebugEnabled()) {
-                    log.debug("Activity count: " + count);
-                }
-                activityList.setCount(count);
-                if (activities == null || activities.size() == 0) {
-                    if (isIfModifiedSinceSet) {
-                        return Response.notModified().build();
-                    }
-                }
-                return Response.ok().entity(activityList).build();
-            } catch (OperationManagementException e) {
-                String msg
-                        = "ErrorResponse occurred while fetching the activities updated after given time stamp.";
-                log.error(msg, e);
-                return Response.serverError().entity(
-                        new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
-            }
-        } else {
-            return response;
-        }
-    }
 
-    private Response validateAdminUser() {
+        List<Activity> activities;
+        ActivityList activityList = new ActivityList();
+        DeviceManagementProviderService dmService;
         try {
-            if (!DeviceMgtAPIUtils.isAdmin()) {
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized operation! Only admin role can perform " +
-                        "this operation.").build();
+            if (log.isDebugEnabled()) {
+                log.debug("Calling database to get activities.");
             }
-            return null;
-        } catch (UserStoreException e) {
+            dmService = DeviceMgtAPIUtils.getDeviceManagementService();
+            activities = dmService.getActivitiesUpdatedAfter(timestamp, limit, offset);
+            activityList.setList(activities);
+            if (log.isDebugEnabled()) {
+                log.debug("Calling database to get activity count.");
+            }
+            int count = dmService.getActivityCountUpdatedAfter(timestamp);
+            if (log.isDebugEnabled()) {
+                log.debug("Activity count: " + count);
+            }
+            activityList.setCount(count);
+            if (activities == null || activities.size() == 0) {
+                if (isIfModifiedSinceSet) {
+                    return Response.notModified().build();
+                }
+            }
+            return Response.ok().entity(activityList).build();
+        } catch (OperationManagementException e) {
             String msg
-                    = "Error occurred while validating the user have admin role!";
+                    = "ErrorResponse occurred while fetching the activities updated after given time stamp.";
             log.error(msg, e);
             return Response.serverError().entity(
                     new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
         }
     }
+
 }

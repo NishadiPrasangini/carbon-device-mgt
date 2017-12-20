@@ -98,6 +98,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
     private static final String SSLV3 = "SSLv3";
 
 
+
     private KeyStore keyStore;
     private KeyStore trustStore;
     private char[] keyStorePassword;
@@ -108,7 +109,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
     private static final Log log = LogFactory.getLog(DeviceAnalyticsArtifactUploaderAdminServiceImpl.class);
     private static final String DEFAULT_RESOURCE_LOCATION = "/resources/devicetypes";
     private static final String CAR_FILE_LOCATION = CarbonUtils.getCarbonHome() + File.separator + "repository" +
-            File.separator + "resources" + File.separator + "devicetypes";
+    File.separator + "resources" + File.separator + "devicetypes";
     private static final String DAS_PORT = "${iot.analytics.https.port}";
     private static final String DAS_HOST_NAME = "${iot.analytics.host}";
     private static final String DEFAULT_HTTP_PROTOCOL = "https";
@@ -153,7 +154,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
             initSSLConnection();
             JWTClient jwtClient = DeviceMgtAPIUtils.getJWTClientManagerService().getJWTClient();
 
-            String authValue = AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
+            String authValue =  AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
                     jwtClient.getJwtToken(tenantAdminUser).getBytes()));
 
             List<Header> list = new ArrayList<>();
@@ -176,7 +177,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
             if (streamFileList != null) {
                 publishDynamicEventStream(type, tenantDomain, streamFileList);
             }
-            if (deployAnalyticsCapp(type, list)) {
+            if (deployAnalyticsCapp(type, list)){
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("\"Error, Artifact does not exist.\"").build();
             }
@@ -227,9 +228,9 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
                         appUploaderOptions.setProperty(HTTPConstants.HTTP_HEADERS, list);
                         appUploaderOptions.setProperty(HTTPConstants.CUSTOM_PROTOCOL_HANDLER
                                 , new Protocol(DEFAULT_HTTP_PROTOCOL,
-                                        (ProtocolSocketFactory) new SSLProtocolSocketFactory
-                                                (sslContext), Integer.parseInt(Utils.replaceSystemProperty(
-                                        IOT_MGT_PORT))));
+                                               (ProtocolSocketFactory) new SSLProtocolSocketFactory
+                                                       (sslContext), Integer.parseInt(Utils.replaceSystemProperty(
+                                IOT_MGT_PORT))));
 
                         carbonAppUploaderStub._getServiceClient().setOptions(appUploaderOptions);
                         carbonAppUploaderStub.uploadApp(uploadedFileItems);
@@ -242,8 +243,8 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
                         appUploaderOptions.setProperty(HTTPConstants.HTTP_HEADERS, list);
                         appUploaderOptions.setProperty(HTTPConstants.CUSTOM_PROTOCOL_HANDLER
                                 , new Protocol(DEFAULT_HTTP_PROTOCOL
-                                        , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
-                                        , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
+                                , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
+                                , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
 
                         carbonAppUploaderStub._getServiceClient().setOptions(appUploaderOptions);
                         carbonAppUploaderStub.uploadApp(uploadedFileItems);
@@ -272,10 +273,10 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
                 eventReciverOptions = new Options();
             }
             String username;
-            if (!tenantDomain.equals(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME)) {
-                username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUserRealm()
-                        .getRealmConfiguration().getAdminUserName() + "@" + tenantDomain;
-            } else {
+            if(!tenantDomain.equals(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME)) {
+               username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUserRealm()
+                        .getRealmConfiguration().getAdminUserName()+"@"+tenantDomain;
+            }else {
                 username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUserRealm()
                         .getRealmConfiguration().getAdminUserName();
             }
@@ -283,7 +284,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
 
             JWTClient jwtClient = DeviceMgtAPIUtils.getJWTClientManagerService().getJWTClient();
 
-            String authValue = AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
+            String authValue =  AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
                     jwtClient.getJwtToken(username).getBytes()));
 
             List<Header> list = new ArrayList<>();
@@ -295,11 +296,11 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
             eventReciverOptions.setProperty(HTTPConstants.HTTP_HEADERS, list);
             eventReciverOptions.setProperty(HTTPConstants.CUSTOM_PROTOCOL_HANDLER
                     , new Protocol(DEFAULT_HTTP_PROTOCOL
-                            , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
-                            , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
+                    , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
+                    , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
 
             receiverAdminServiceStub._getServiceClient().setOptions(eventReciverOptions);
-            for (String receiverContent : receiversList) {
+            for (String receiverContent:receiversList) {
                 receiverAdminServiceStub.deployEventReceiverConfiguration(receiverContent);
             }
         } finally {
@@ -322,10 +323,10 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
                 eventReciverOptions = new Options();
             }
             String username;
-            if (!tenantDomain.equals(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME)) {
+            if(!tenantDomain.equals(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME)) {
                 username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUserRealm()
-                        .getRealmConfiguration().getAdminUserName() + "@" + tenantDomain;
-            } else {
+                        .getRealmConfiguration().getAdminUserName()+"@"+tenantDomain;
+            }else {
                 username = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUserRealm()
                         .getRealmConfiguration().getAdminUserName();
             }
@@ -333,7 +334,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
 
             JWTClient jwtClient = DeviceMgtAPIUtils.getJWTClientManagerService().getJWTClient();
 
-            String authValue = AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
+            String authValue =  AUTHORIZATION_HEADER_VALUE + " " + new String(Base64.encodeBase64(
                     jwtClient.getJwtToken(username).getBytes()));
 
             List<Header> list = new ArrayList<>();
@@ -345,16 +346,16 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
             eventReciverOptions.setProperty(HTTPConstants.HTTP_HEADERS, list);
             eventReciverOptions.setProperty(HTTPConstants.CUSTOM_PROTOCOL_HANDLER
                     , new Protocol(DEFAULT_HTTP_PROTOCOL
-                            , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
-                            , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
+                    , (ProtocolSocketFactory) new SSLProtocolSocketFactory(sslContext)
+                    , Integer.parseInt(Utils.replaceSystemProperty(DAS_PORT))));
 
             eventStreamAdminServiceStub._getServiceClient().setOptions(eventReciverOptions);
-            for (String streamContent : streamList) {
+            for (String streamContent:streamList) {
                 JSONParser jsonParser = new JSONParser();
-                JSONObject steamJson = (JSONObject) jsonParser.parse(streamContent);
+                JSONObject steamJson = (JSONObject)jsonParser.parse(streamContent);
                 String name = (String) steamJson.get("name");
                 String version = (String) steamJson.get("version");
-                String streamId = name + ":" + version;
+                String streamId = name +":"+version;
                 if (eventStreamAdminServiceStub.getStreamDefinitionDto(streamId) == null) {
                     eventStreamAdminServiceStub.addEventStreamDefinitionAsString(streamContent);
                 }
@@ -367,7 +368,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
 
 
     private List<String> getReceiversList(String deviceType) throws IOException {
-        File directory = new File(CAR_FILE_LOCATION + File.separator + deviceType + File.separator + "receiver");
+        File directory = new File(CAR_FILE_LOCATION + File.separator + deviceType+File.separator+"receiver");
         if (!directory.exists()) {
             return null;
         }
@@ -377,9 +378,9 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
                 return name.toLowerCase().endsWith(".xml");
             }
         });
-        List<String> receiverList = new ArrayList<>();
-        for (File receiverFile : receiverFiles) {
-            String receiverContentTemplate = new String(Files.readAllBytes(receiverFile.toPath()));
+       List<String> receiverList = new ArrayList<>();
+        for (File receiverFile:receiverFiles) {
+            String receiverContentTemplate =new String(Files.readAllBytes(receiverFile.toPath()));
             final String receiverContent = receiverContentTemplate.replaceAll(TENANT_DOMAIN_PROPERTY, tenantDomain.toLowerCase());
             receiverList.add(receiverContent);
         }
@@ -388,7 +389,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
     }
 
     private List<String> getStreamsList(String deviceType) throws IOException {
-        File directory = new File(CAR_FILE_LOCATION + File.separator + deviceType + File.separator + "streams");
+        File directory = new File(CAR_FILE_LOCATION + File.separator + deviceType+File.separator+"streams");
         if (!directory.exists()) {
             return null;
         }
@@ -399,8 +400,8 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
             }
         });
         List<String> streamList = new ArrayList<>();
-        for (File StreamFile : receiverFiles) {
-            String streamContent = new String(Files.readAllBytes(StreamFile.toPath()));
+        for (File StreamFile:receiverFiles) {
+            String streamContent =new String(Files.readAllBytes(StreamFile.toPath()));
             streamList.add(streamContent);
         }
         return streamList;
@@ -478,7 +479,7 @@ public class DeviceAnalyticsArtifactUploaderAdminServiceImpl implements DeviceAn
      * Initializes the SSL Context
      */
     private void initSSLConnection() throws NoSuchAlgorithmException, UnrecoverableKeyException,
-            KeyStoreException, KeyManagementException {
+                                                  KeyStoreException, KeyManagementException {
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KEY_MANAGER_TYPE);
         keyManagerFactory.init(keyStore, keyStorePassword);
         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TRUST_MANAGER_TYPE);

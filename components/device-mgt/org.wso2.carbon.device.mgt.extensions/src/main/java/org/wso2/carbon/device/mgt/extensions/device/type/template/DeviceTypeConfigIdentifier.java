@@ -24,33 +24,33 @@ import java.io.Serializable;
  */
 public class DeviceTypeConfigIdentifier implements Serializable {
 
-    private String deviceType;
-    private String tenantDomain;
+	private String deviceType;
+	private String tenantDomain;
 
-    public DeviceTypeConfigIdentifier(String deviceType, String tenantDomain) {
-        this.deviceType = deviceType;
-        this.tenantDomain = tenantDomain;
-    }
+	public DeviceTypeConfigIdentifier(String deviceType, String tenantDomain) {
+		this.deviceType = deviceType;
+		this.tenantDomain = tenantDomain;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = this.deviceType.hashCode();
-        result = 31 * result + ("@" + this.tenantDomain).hashCode();
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = this.deviceType.hashCode();
+		result = 31 * result + ("@" + this.tenantDomain).hashCode();
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return (obj instanceof DeviceTypeConfigIdentifier) && deviceType.equals(
-                ((DeviceTypeConfigIdentifier) obj).deviceType) && tenantDomain.equals(
-                ((DeviceTypeConfigIdentifier) obj).tenantDomain);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof DeviceTypeConfigIdentifier) && deviceType.equals(
+				((DeviceTypeConfigIdentifier) obj).deviceType) && tenantDomain.equals(
+				((DeviceTypeConfigIdentifier) obj).tenantDomain);
+	}
 
-    public String getDeviceType() {
-        return deviceType;
-    }
+	public String getDeviceType() {
+		return deviceType;
+	}
 
-    public String getTenantDomain() {
-        return tenantDomain;
-    }
+	public String getTenantDomain() {
+		return tenantDomain;
+	}
 }

@@ -22,7 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-@Produces({"application/json"})
+@Produces({ "application/json" })
 public class ErrorHandler implements ExceptionMapper<Throwable> {
 
     public Response toResponse(Throwable e) {

@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for PushNotificationProvider complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="PushNotificationProvider">
  *   &lt;complexContent>
@@ -43,11 +43,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PushNotificationProvider", propOrder = {
-        "fileBasedProperties",
-        "configProperties"
+    "fileBasedProperties",
+    "configProperties"
 })
 public class PushNotificationProvider {
 
@@ -62,6 +64,7 @@ public class PushNotificationProvider {
 
     /**
      * Gets the value of the fileBasedProperties property.
+     * 
      */
     public boolean isFileBasedProperties() {
         return fileBasedProperties;
@@ -69,6 +72,7 @@ public class PushNotificationProvider {
 
     /**
      * Sets the value of the fileBasedProperties property.
+     * 
      */
     public void setFileBasedProperties(boolean value) {
         this.fileBasedProperties = value;
@@ -76,9 +80,11 @@ public class PushNotificationProvider {
 
     /**
      * Gets the value of the configProperties property.
-     *
-     * @return possible object is
-     * {@link ConfigProperties }
+     * 
+     * @return
+     *     possible object is
+     *     {@link ConfigProperties }
+     *     
      */
     public ConfigProperties getConfigProperties() {
         return configProperties;
@@ -86,9 +92,11 @@ public class PushNotificationProvider {
 
     /**
      * Sets the value of the configProperties property.
-     *
-     * @param value allowed object is
-     *              {@link ConfigProperties }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ConfigProperties }
+     *     
      */
     public void setConfigProperties(ConfigProperties value) {
         this.configProperties = value;
@@ -96,9 +104,11 @@ public class PushNotificationProvider {
 
     /**
      * Gets the value of the type property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getType() {
         return type;
@@ -106,9 +116,11 @@ public class PushNotificationProvider {
 
     /**
      * Sets the value of the type property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setType(String value) {
         this.type = value;
@@ -120,8 +132,10 @@ public class PushNotificationProvider {
      * If true push notification will be sent using scheduler task
      * If false push notifications will be sent immediately.
      *
-     * @return possible object is
-     * {@link Boolean }
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *
      */
     public boolean isScheduled() {
         return isScheduled;
@@ -130,8 +144,10 @@ public class PushNotificationProvider {
     /**
      * Sets the value of the isScheduled property.
      *
-     * @return possible object is
-     * {@link Boolean }
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *
      */
     public void setScheduled(boolean scheduled) {
         isScheduled = scheduled;

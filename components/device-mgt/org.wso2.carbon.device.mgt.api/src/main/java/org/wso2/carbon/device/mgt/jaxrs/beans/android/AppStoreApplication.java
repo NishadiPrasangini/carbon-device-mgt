@@ -27,28 +27,28 @@ import java.io.Serializable;
  */
 public class AppStoreApplication implements Serializable {
 
-    private String type;
-    private String appIdentifier;
+	private String type;
+	private String appIdentifier;
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getAppIdentifier() {
-        return appIdentifier;
-    }
+	public String getAppIdentifier() {
+		return appIdentifier;
+	}
 
-    public void setAppIdentifier(String appIdentifier) {
-        this.appIdentifier = appIdentifier;
-    }
+	public void setAppIdentifier(String appIdentifier) {
+		this.appIdentifier = appIdentifier;
+	}
 
-    public String toJSON() {
+	public String toJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);
-    }
+	}
 
 }

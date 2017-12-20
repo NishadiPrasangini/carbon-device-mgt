@@ -31,24 +31,24 @@ import java.util.List;
 @XmlRootElement
 public class DeviceOperationContext {
 
-    private List<DeviceIdentifier> devices;
-    private Operation operation;
+	private List<DeviceIdentifier> devices;
+	private Operation operation;
 
-    @XmlElement
-    public List<DeviceIdentifier> getDevices() {
-        return devices;
-    }
+	@XmlElement
+	public List<DeviceIdentifier> getDevices() {
+		return devices;
+	}
 
-    public void setDevices(List<DeviceIdentifier> devices) {
-        this.devices = devices;
-    }
+	public void setDevices(List<DeviceIdentifier> devices) {
+		this.devices = devices;
+	}
 
-    @XmlElement
-    public Operation getOperation() {
-        return operation;
-    }
+	@XmlElement
+	public Operation getOperation() {
+		return operation;
+	}
 
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
+	public void setOperation(Operation operation) {
+		this.operation = operation;
+	}
 }

@@ -328,19 +328,19 @@ public interface DeviceAgentService {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK. \n Successfully published the event",
-                            responseHeaders = {
-                                    @ResponseHeader(
-                                            name = "Content-Type",
-                                            description = "The content type of the body"),
-                                    @ResponseHeader(
-                                            name = "ETag",
-                                            description = "Entity Tag of the response resource.\n" +
-                                                    "Used by caches, or in conditional requests."),
-                                    @ResponseHeader(
-                                            name = "Last-Modified",
-                                            description = "Date and time the resource was last modified.\n" +
-                                                    "Used by caches, or in conditional requests.")
-                            }),
+                                 responseHeaders = {
+                                         @ResponseHeader(
+                                                 name = "Content-Type",
+                                                 description = "The content type of the body"),
+                                         @ResponseHeader(
+                                                 name = "ETag",
+                                                 description = "Entity Tag of the response resource.\n" +
+                                                         "Used by caches, or in conditional requests."),
+                                         @ResponseHeader(
+                                                 name = "Last-Modified",
+                                                 description = "Date and time the resource was last modified.\n" +
+                                                         "Used by caches, or in conditional requests.")
+                                 }),
                     @ApiResponse(
                             code = 303,
                             message = "See Other. \n The source can be retrieved from the URL specified in the location header.",

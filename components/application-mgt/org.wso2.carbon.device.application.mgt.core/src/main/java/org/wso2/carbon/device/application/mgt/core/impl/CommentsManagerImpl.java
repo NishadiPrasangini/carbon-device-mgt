@@ -85,11 +85,8 @@ public class CommentsManagerImpl implements CommentsManager {
     @Override
     public Comment addComment(Comment comment,String uuid,int tenantId) throws CommentManagementException {
 
-        Comment validation= validateComment(comment.getId(),comment.getComment());
-
-
         if (log.isDebugEnabled()) {
-            log.debug("Request for comment is received. " + validation.toString());
+            log.debug("Request for comment is received for uuid" +uuid);
         }
         comment.setCreatedAt(Timestamp.from(Instant.now()));
 
@@ -108,16 +105,8 @@ public class CommentsManagerImpl implements CommentsManager {
         return comment;
     }
 
-    /**
-     * To validate the pre-request of the comment
-     *
-     * @param apAppCommentId ID of the comment.
-     * @param comment comment needed to be validate.
-     * @return Application related with the UUID.
-     *
-     *
-     */
-    private Comment validateComment(int apAppCommentId,String comment) throws CommentManagementException{
+
+    public Boolean validateComment(int apAppCommentId,String comment) throws CommentManagementException{
 
         if (apAppCommentId == 0) {
             throw new CommentManagementException("Comment ID is null. Comment id is a required parameter to get the " +
@@ -133,7 +122,7 @@ public class CommentsManagerImpl implements CommentsManager {
         } catch (NotFoundException e) {
             log.error("Not Found Exception occurs.", e);
         }
-        return getComment(apAppCommentId);
+        return true;
     }
 
 //    @Override
@@ -178,11 +167,11 @@ public class CommentsManagerImpl implements CommentsManager {
 //    }
 
     @Override
-    public PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException,
+    public List<Comment> getAllComments(PaginationRequest request,String uuid) throws CommentManagementException,
             SQLException {
 
         PaginationResult paginationResult = new PaginationResult();
-        List<Comment> comments;
+        List<Comment> comments=null;
         request = Util.validateCommentListPageSize(request);
 
 
@@ -193,18 +182,18 @@ public class CommentsManagerImpl implements CommentsManager {
         try {
             ConnectionManagerUtil.openDBConnection();
             comments=commentDAO.getAllComments(uuid,request);//count ,pagination request
-           // count=commentDAO.getCommentCount(request,uuid);
+            int count=commentDAO.getCommentCount(request,uuid);
             paginationResult.setData(comments);
-            paginationResult.setRecordsFiltered(comments.size());
-            paginationResult.setRecordsTotal(comments.size());
+            paginationResult.setRecordsFiltered(count);
+            paginationResult.setRecordsTotal(count);
 
-            return paginationResult;
+            return comments;
         } catch (DBConnectionException e) {
             log.error("DB Connection Exception occurs.", e);
         } finally {
             ConnectionManagerUtil.closeDBConnection();
         }
-        return paginationResult;
+        return comments;
     }
 
     @Override

@@ -149,9 +149,9 @@ public interface DeviceTypeManagementService {
                     " such as iOS, Android or Windows.",
             tags = "Device Type Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:device-types:features")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:device-types:features")
+                })
             }
     )
     @ApiResponses(
@@ -224,13 +224,13 @@ public interface DeviceTypeManagementService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully fetched the device type.",
-                    response = DeviceType.class,
-                    responseContainer = "List",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body")
-                    }),
+                         response = DeviceType.class,
+                         responseContainer = "List",
+                         responseHeaders = {
+                                 @ResponseHeader(
+                                         name = "Content-Type",
+                                         description = "The content type of the body")
+                         }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +
@@ -277,13 +277,13 @@ public interface DeviceTypeManagementService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully fetched the device type.",
-                    response = DeviceType.class,
-                    responseContainer = "List",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body")
-                    }),
+                         response = DeviceType.class,
+                         responseContainer = "List",
+                         responseHeaders = {
+                                 @ResponseHeader(
+                                         name = "Content-Type",
+                                         description = "The content type of the body")
+                         }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +

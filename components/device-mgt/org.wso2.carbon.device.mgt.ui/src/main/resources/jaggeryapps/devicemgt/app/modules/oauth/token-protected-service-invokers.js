@@ -39,7 +39,7 @@ var invokers = function () {
     var constants = require("/app/modules/constants.js");
     var userModule = require("/app/modules/business-controllers/user.js")["userModule"];
     var tokenUtil = require("/app/modules/oauth/token-handlers.js")["handlers"];
-    var tokenHandler = require("/app/modules/oauth/token-handler-utils.js")["utils"];
+
     /**
      * This method reads the token pair from the session and return the access token.
      * If the token pair is not set in the session, this will return null.
@@ -116,11 +116,6 @@ var invokers = function () {
         log.debug("Request payload if any : " + stringify(requestPayload));
         log.debug("Response status : " + xmlHttpRequest.status);
         log.debug("Response payload if any : " + xmlHttpRequest.responseText);
-        if (devicemgtProps["isCloud"]) {
-            log.info("Request : " + httpMethod + " " + endpoint);
-            log.info("Request payload if any : " + stringify(requestPayload));
-            log.info("Response status : " + xmlHttpRequest.status);
-        }
 
         if (xmlHttpRequest.status == 401) {
             if ((xmlHttpRequest.responseText == TOKEN_EXPIRED ||
@@ -264,12 +259,10 @@ var invokers = function () {
         var wsRequest = new ws.WSRequest();
         var options = [];
         if (devicemgtProps["isOAuthEnabled"]) {
-            var adminUsername = devicemgtProps["adminUser"];
-            var accessToken = tokenHandler.getJwtToken(adminUsername);
-            var decoded = tokenHandler.encode(accessToken);
+            var accessToken = privateMethods.getAccessToken();
             if (accessToken) {
                 var authenticationHeaderName = String(constants["AUTHORIZATION_HEADER"]);
-                var authenticationHeaderValue = String(constants["BEARER_PREFIX"] + decoded);
+                var authenticationHeaderValue = String(constants["BEARER_PREFIX"] + accessToken);
                 var headers = [];
                 var oAuthAuthenticationData = {};
                 oAuthAuthenticationData.name = authenticationHeaderName;

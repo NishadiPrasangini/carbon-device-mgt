@@ -18,6 +18,8 @@
 
 function onRequest(context) {
     var userModule = require("/app/modules/business-controllers/user.js")["userModule"];
+    var username = request.getParameter("username");
+    var user = userModule.getUser(username)["content"];
     var deviceMgtProps = require("/app/modules/conf-reader/main.js")["conf"];
     var isExsistingUser = false;
     var userName = request.getParameter("username");
@@ -46,14 +48,7 @@ function onRequest(context) {
         canView = true;
     }
 
-    var canEdit = false;
-    if (userModule.isAuthorized("/permission/admin/device-mgt/users/edit") &&
-        userName !== deviceMgtProps['adminUser'].split("@")[0]) {
-        canEdit = true;
-    }
-
     var isCloud =  deviceMgtProps.isCloud;
 
-    return {"exists": isExsistingUser, "user": user, "userRoles": userRoles, "devices": devices, "canEdit": canEdit,
-            "canView": canView, "isCloud" : isCloud};
+    return {"exists": isExsistingUser, "user": user, "userRoles": userRoles, "devices": devices, "canView": canView, "isCloud" : isCloud};
 }

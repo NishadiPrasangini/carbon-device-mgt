@@ -54,11 +54,11 @@ import javax.ws.rs.core.Response;
         " operation details and responses from devices.")
 @Scopes(
         scopes = {
-                @Scope(
-                        name = "Get activities",
-                        description = "Get activities",
-                        key = "perm:get-activity",
-                        permissions = {"/device-mgt/devices/owning-device/view"}
+        @Scope(
+                name = "Get activities",
+                description = "Get activities",
+                key = "perm:get-activity",
+                permissions = {"/device-mgt/devices/owning-device/view"}
                 )
         }
 )
@@ -76,9 +76,9 @@ public interface ActivityInfoProviderService {
                     "an operation, including the responses from the devices.",
             tags = "Activity Info Provider",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:get-activity")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:get-activity")
+                })
             }
     )
     @ApiResponses(value = {

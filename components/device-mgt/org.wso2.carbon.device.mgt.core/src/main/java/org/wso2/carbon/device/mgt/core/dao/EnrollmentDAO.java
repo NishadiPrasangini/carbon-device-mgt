@@ -48,6 +48,6 @@ public interface EnrollmentDAO {
     EnrolmentInfo getEnrollment(int deviceId, String currentUser, int tenantId) throws DeviceManagementDAOException;
 
     List<EnrolmentInfo> getEnrollmentsOfUser(int deviceId, String user, int tenantId) throws
-            DeviceManagementDAOException;
+                                                                                             DeviceManagementDAOException;
 
 }

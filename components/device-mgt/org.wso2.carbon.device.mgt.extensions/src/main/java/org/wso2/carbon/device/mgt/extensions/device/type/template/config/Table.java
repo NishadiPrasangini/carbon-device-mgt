@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for Table complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="Table">
  *   &lt;complexContent>
@@ -43,11 +43,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Table", propOrder = {
-        "primaryKey",
-        "attributes"
+    "primaryKey",
+    "attributes"
 })
 public class Table {
 
@@ -60,9 +62,11 @@ public class Table {
 
     /**
      * Gets the value of the primaryKey property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getPrimaryKey() {
         return primaryKey;
@@ -70,9 +74,11 @@ public class Table {
 
     /**
      * Sets the value of the primaryKey property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setPrimaryKey(String value) {
         this.primaryKey = value;
@@ -80,9 +86,11 @@ public class Table {
 
     /**
      * Gets the value of the attributes property.
-     *
-     * @return possible object is
-     * {@link Attributes }
+     * 
+     * @return
+     *     possible object is
+     *     {@link Attributes }
+     *     
      */
     public Attributes getAttributes() {
         return attributes;
@@ -90,9 +98,11 @@ public class Table {
 
     /**
      * Sets the value of the attributes property.
-     *
-     * @param value allowed object is
-     *              {@link Attributes }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Attributes }
+     *     
      */
     public void setAttributes(Attributes value) {
         this.attributes = value;
@@ -100,9 +110,11 @@ public class Table {
 
     /**
      * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getName() {
         return name;
@@ -110,9 +122,11 @@ public class Table {
 
     /**
      * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setName(String value) {
         this.name = value;

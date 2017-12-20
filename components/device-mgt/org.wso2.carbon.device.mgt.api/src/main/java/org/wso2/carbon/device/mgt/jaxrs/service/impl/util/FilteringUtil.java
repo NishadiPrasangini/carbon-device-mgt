@@ -19,6 +19,7 @@
 package org.wso2.carbon.device.mgt.jaxrs.service.impl.util;
 
 
+
 import java.util.Collections;
 import java.util.List;
 

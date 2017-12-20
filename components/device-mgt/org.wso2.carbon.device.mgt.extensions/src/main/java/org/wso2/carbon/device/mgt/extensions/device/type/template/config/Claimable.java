@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlValue;
 
 /**
  * <p>Java class for DeviceDetails complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="DeviceDetails">
  *   &lt;simpleContent>
@@ -39,10 +39,12 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Claimable", propOrder = {
-        "value"
+    "value"
 })
 public class Claimable {
 
@@ -53,9 +55,11 @@ public class Claimable {
 
     /**
      * Gets the value of the value property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getValue() {
         return value;
@@ -63,9 +67,11 @@ public class Claimable {
 
     /**
      * Sets the value of the value property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setValue(String value) {
         this.value = value;
@@ -74,8 +80,10 @@ public class Claimable {
     /**
      * Gets the value of the enabled property.
      *
-     * @return possible object is
-     * {@link String }
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
      */
     public boolean isEnabled() {
         return enabled;
@@ -83,9 +91,11 @@ public class Claimable {
 
     /**
      * Sets the value of the enabled property.
-     *
-     * @param enabled allowed object is
-     *                {@link String }
+     * 
+     * @param enabled
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

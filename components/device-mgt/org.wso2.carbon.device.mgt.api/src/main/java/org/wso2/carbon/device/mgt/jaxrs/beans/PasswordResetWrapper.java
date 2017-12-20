@@ -24,22 +24,22 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "PasswordResetWrapper", description = "User credential is included in this class.")
 public class PasswordResetWrapper {
 
-    /*
-        Base64 encoded password
-    */
-    @ApiModelProperty(
-            name = "newPassword",
-            value = "New password of the user.",
-            required = true,
+	/*
+		Base64 encoded password
+	*/
+	@ApiModelProperty(
+			name = "newPassword",
+			value = "New password of the user.",
+			required = true,
             example = "JiM&100%pW")
-    private String newPassword;
+	private String newPassword;
 
-    public String getNewPassword() {
-        return newPassword;
-    }
+	public String getNewPassword() {
+		return newPassword;
+	}
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 
 }

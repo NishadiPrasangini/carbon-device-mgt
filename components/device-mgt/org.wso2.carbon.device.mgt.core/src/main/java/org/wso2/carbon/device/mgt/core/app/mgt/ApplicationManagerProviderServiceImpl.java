@@ -364,7 +364,7 @@ public class ApplicationManagerProviderServiceImpl implements ApplicationManagem
                     deviceId.getType() + "' device carrying the identifier'" + deviceId.getId(), e);
         } catch (SQLException e) {
             throw new ApplicationManagementException("Error occurred while opening a connection to the data source", e);
-        } finally {
+        }  finally {
             DeviceManagementDAOFactory.closeConnection();
         }
     }

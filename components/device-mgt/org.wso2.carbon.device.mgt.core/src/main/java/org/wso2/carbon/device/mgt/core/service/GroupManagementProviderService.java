@@ -26,7 +26,6 @@ import org.wso2.carbon.device.mgt.common.PaginationResult;
 import org.wso2.carbon.device.mgt.common.group.mgt.DeviceGroup;
 import org.wso2.carbon.device.mgt.common.group.mgt.GroupAlreadyExistException;
 import org.wso2.carbon.device.mgt.common.group.mgt.GroupManagementException;
-import org.wso2.carbon.device.mgt.common.group.mgt.GroupNotExistException;
 import org.wso2.carbon.device.mgt.common.group.mgt.RoleDoesNotExistException;
 
 import java.util.List;
@@ -50,11 +49,11 @@ public interface GroupManagementProviderService {
     /**
      * Update existing device group.
      *
-     * @param deviceGroup to update.
-     * @param groupId     of the group.
+     * @param deviceGroup  to update.
+     * @param groupId of the group.
      * @throws GroupManagementException
      */
-    void updateGroup(DeviceGroup deviceGroup, int groupId) throws GroupManagementException, GroupNotExistException;
+    void updateGroup(DeviceGroup deviceGroup, int groupId) throws GroupManagementException, GroupAlreadyExistException;
 
     /**
      * Delete existing device group.
@@ -94,7 +93,7 @@ public interface GroupManagementProviderService {
     /**
      * Get all device groups for user.
      *
-     * @param username of the user.
+     * @param username   of the user.
      * @return list of groups
      * @throws GroupManagementException
      */
@@ -112,7 +111,7 @@ public interface GroupManagementProviderService {
     /**
      * Get device groups belongs to specified user with pagination.
      *
-     * @param username          of the user.
+     * @param username   of the user.
      * @param paginationRequest to filter results
      * @return list of groups.
      * @throws GroupManagementException
@@ -149,7 +148,7 @@ public interface GroupManagementProviderService {
     /**
      * Get all sharing roles for device group
      *
-     * @param groupId of the group
+     * @param groupId   of the group
      * @return list of roles
      * @throws GroupManagementException
      */
@@ -158,7 +157,7 @@ public interface GroupManagementProviderService {
     /**
      * Get all devices in device group as paginated result.
      *
-     * @param groupId    of the group
+     * @param groupId   of the group
      * @param startIndex for pagination.
      * @param rowCount   for pagination.
      * @return list of devices in group.
@@ -169,7 +168,7 @@ public interface GroupManagementProviderService {
     /**
      * This method is used to retrieve the device count of a given group.
      *
-     * @param groupId of the group
+     * @param groupId   of the group
      * @return returns the device count.
      * @throws GroupManagementException
      */
@@ -178,7 +177,7 @@ public interface GroupManagementProviderService {
     /**
      * Add device to device group.
      *
-     * @param groupId           of the group.
+     * @param groupId   of the group.
      * @param deviceIdentifiers of devices.
      * @throws GroupManagementException
      */
@@ -188,13 +187,12 @@ public interface GroupManagementProviderService {
     /**
      * Remove device from device group.
      *
-     * @param groupId           of the group.
+     * @param groupId   of the group.
      * @param deviceIdentifiers of devices.
      * @throws GroupManagementException
      */
     void removeDevice(int groupId, List<DeviceIdentifier> deviceIdentifiers) throws GroupManagementException,
-            DeviceNotFoundException;
-
+                                                                                       DeviceNotFoundException;
     /**
      * Get device groups of user with permission.
      *
@@ -216,20 +214,10 @@ public interface GroupManagementProviderService {
 
     /**
      * Checks for the default group existence and create group based on device ownership.
-     *
-     * @param groupName of the group
-     * @return DeviceGroup object
+     * @param groupName
+     * @return
      * @throws GroupManagementException
      */
     DeviceGroup createDefaultGroup(String groupName) throws GroupManagementException;
-
-    /**
-     * Check device is belonging to a Device Group.
-     *
-     * @param groupId          of Device Group.
-     * @param deviceIdentifier of the device.
-     * @throws GroupManagementException on errors.
-     */
-    boolean isDeviceMappedToGroup(int groupId, DeviceIdentifier deviceIdentifier) throws GroupManagementException;
 
 }

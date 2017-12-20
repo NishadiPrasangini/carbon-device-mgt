@@ -51,7 +51,7 @@ public class DeviceMgtUtil {
     }
 
     public static org.wso2.carbon.device.mgt.common.policy.mgt.ProfileFeature convertProfileFeature(ProfileFeature
-                                                                                                            mdmProfileFeature) {
+                                                                                                 mdmProfileFeature) {
 
         org.wso2.carbon.device.mgt.common.policy.mgt.ProfileFeature profileFeature =
                 new org.wso2.carbon.device.mgt.common.policy.mgt.ProfileFeature();
@@ -96,7 +96,6 @@ public class DeviceMgtUtil {
         }
         return convertedScopes;
     }
-
     /**
      * Returns a new BadRequestException
      *
@@ -105,14 +104,13 @@ public class DeviceMgtUtil {
      */
     public static BadRequestException buildBadRequestException(String description) {
         ErrorResponse errorResponse = getErrorResponse(Constants.
-                ErrorMessages.STATUS_BAD_REQUEST_MESSAGE_DEFAULT, 400l, description);
+                ErrorMessages.STATUS_BAD_REQUEST_MESSAGE_DEFAULT,400l, description);
         return new BadRequestException(errorResponse);
     }
 
     /**
      * Returns generic ErrorResponse.
-     *
-     * @param message     specific error message
+     * @param message specific error message
      * @param code
      * @param description
      * @return generic Response with error specific details.

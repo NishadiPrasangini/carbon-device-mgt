@@ -57,7 +57,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
     }
 
     public Object readFrom(Class<Object> objectClass, Type type, Annotation[] annotations, MediaType mediaType,
-                           MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream entityStream)
+            MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream entityStream)
             throws IOException, WebApplicationException {
 
         InputStreamReader reader = new InputStreamReader(entityStream, "UTF-8");
@@ -78,7 +78,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
     }
 
     public void writeTo(Object object, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType,
-                        MultivaluedMap<String, Object> stringObjectMultivaluedMap, OutputStream entityStream)
+            MultivaluedMap<String, Object> stringObjectMultivaluedMap, OutputStream entityStream)
             throws IOException, WebApplicationException {
 
         OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);

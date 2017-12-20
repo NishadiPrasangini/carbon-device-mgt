@@ -17,38 +17,30 @@
  */
 
 function onRequest(context) {
-
     var log = new Log("geo-dashboard.js");
     var devicemgtProps = require("/app/modules/conf-reader/main.js")["conf"];
     var viewModel = {};
+
     var carbonServer = require("carbon").server;
     var device = context.unit.params.device;
+
     var constants = require("/app/modules/constants.js");
-    var wsEndpoint = null;
+    var wsEndpoint = devicemgtProps["wssURL"].replace("https", "wss") + "/secured-websocket/t/";
+    var spatialWSEndpoint = devicemgtProps["wssURL"].replace("https", "wss");
+    var alertsWSEndpoint = devicemgtProps["wssURL"].replace("https", "wss");
+
     var jwtService = carbonServer.osgiService(
         'org.wso2.carbon.identity.jwt.client.extension.service.JWTClientManagerService');
     var jwtClient = jwtService.getJWTClient();
     var encodedClientKeys = session.get(constants["ENCODED_TENANT_BASED_WEB_SOCKET_CLIENT_CREDENTIALS"]);
-    var tokenPair = null;
     var token = "";
     if (encodedClientKeys) {
         var tokenUtil = require("/app/modules/oauth/token-handler-utils.js")["utils"];
         var resp = tokenUtil.decode(encodedClientKeys).split(":");
-        if (context.user.domain == "carbon.super") {
-            tokenPair = jwtClient.getAccessToken(resp[0], resp[1], context.user.username,"default", {});
-            if (tokenPair) {
-                token = tokenPair.accessToken;
-                wsEndpoint = devicemgtProps["wssURL"].replace("https", "wss") + "/secured-websocket/";
-            }
-        } else {
-            tokenPair = jwtClient.getAccessToken(resp[0], resp[1], context.user.username + "@" + context.user.domain,"default", {});
-            if (tokenPair) {
-                token = tokenPair.accessToken;
-                wsEndpoint = devicemgtProps["wssURL"].replace("https", "wss") + "/secured-websocket/t/"+context.user.domain+"/";
-            }
-
+        var tokenPair = jwtClient.getAccessToken(resp[0], resp[1], context.user.username, "default", {});
+        if (tokenPair) {
+            token = tokenPair.accessToken;
         }
-
     }
     viewModel.device = device;
     viewModel.wsToken = token;
@@ -60,6 +52,6 @@ function onRequest(context) {
     } else {
         viewModel.lastLocation = stringify({});
     }
-    viewModel.geoServicesEnabled = devicemgtProps.serverConfig.operationAnalyticsConfiguration.isEnabled;
+    viewModel.geoServicesEnabled = devicemgtProps.serverConfig.geoLocationConfiguration.isEnabled;
     return viewModel;
 }

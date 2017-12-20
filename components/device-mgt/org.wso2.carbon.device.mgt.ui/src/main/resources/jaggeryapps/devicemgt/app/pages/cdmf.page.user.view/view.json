@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+    "version": "1.0.0",
   "uri": "/user/view",
-  "layout": "cdmf.layout.default"
+    "layout": "cdmf.layout.default"
 }

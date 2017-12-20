@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.application.mgt.api.APIUtil;
+import org.wso2.carbon.device.application.mgt.api.beans.CommentList;
 import org.wso2.carbon.device.application.mgt.api.services.CommentManagementAPI;
 import org.wso2.carbon.device.application.mgt.common.Comment;
 import org.wso2.carbon.device.application.mgt.common.PaginationRequest;
@@ -12,6 +13,7 @@ import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManage
 import org.wso2.carbon.device.application.mgt.common.exception.CommentManagementException;
 import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionException;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
+import org.wso2.carbon.device.mgt.common.operation.mgt.Activity;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
@@ -45,19 +47,19 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
             @QueryParam("limit")int limit){
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
-        List<Comment> comments = new ArrayList<>();
+        List<Comment> comments=null;
+        CommentList commentList=new CommentList();
         try {
             PaginationRequest request=new PaginationRequest(offSet,limit);
-            if(request.validatePaginationRequest(offSet,limit)) {
-                commentsManager.getAllComments(request, uuid);
-                return Response.status(Response.Status.OK).entity(comments).build();
-            }
+            request.validatePaginationRequest(offSet,limit);
+            comments=commentsManager.getAllComments(request, uuid);
+            commentList.setList(comments);
+            return Response.status(Response.Status.OK).entity(comments).build();
         } catch (NotFoundException e){
             log.error("Not found exception occurs to uuid "+uuid+" .",e);
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Application with UUID " + uuid + " not found").build();
-        }
-        catch (CommentManagementException e) {
+        } catch (CommentManagementException e) {
             String msg = "Error occurred while retrieving comments.";
             log.error(msg, e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -77,9 +79,10 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
 
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         int tenantId= PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
+
         try {
-            Comment newComment = commentsManager.addComment(comment,uuid,tenantId);
-            if (comment != null){
+            if(commentsManager.validateComment(comment.getId(),comment.getComment())){
+                Comment newComment = commentsManager.addComment(comment,uuid,tenantId);
                 return Response.status(Response.Status.CREATED).entity(newComment).build();
             }else{
                 String msg = "Given comment is not valid ";
@@ -104,7 +107,7 @@ public class CommentManagementAPIImpl implements CommentManagementAPI{
         CommentsManager commentsManager = APIUtil.getCommentsManager();
         //int tenantId= PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId(true);
         try {
-            if (apAppCommentId == 0) {
+            if (apAppCommentId <= 0) {
                 return Response.status(Response.Status.NOT_FOUND)
                         .entity("Comment with comment id " + apAppCommentId + " not found").build();
             }else if(comment==null){

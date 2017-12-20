@@ -22,22 +22,22 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "OldPasswordResetWrapper", description = "User credentials are included in this class.")
-public class OldPasswordResetWrapper extends PasswordResetWrapper {
+public class OldPasswordResetWrapper extends PasswordResetWrapper{
 
-    /*
-        Base64 encoded password
-    */
+	/*
+	    Base64 encoded password
+	*/
     @ApiModelProperty(
-            name = "oldPassword",
-            value = "Old password of the user.",
-            required = true)
-    private String oldPassword;
+			name = "oldPassword",
+			value = "Old password of the user.",
+			required = true )
+	private String oldPassword;
 
-    public String getOldPassword() {
-        return oldPassword;
-    }
+	public String getOldPassword() {
+		return oldPassword;
+	}
 
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
 }

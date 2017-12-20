@@ -27,12 +27,11 @@ public interface EventsPublisherService {
 
     /**
      * This is used to publish an event to DAS.
-     *
-     * @param streamName           is the name of the stream that the data needs to pushed
-     * @param version              is the version of the stream
-     * @param metaDataArray        - meta data that needs to pushed
+     * @param streamName is the name of the stream that the data needs to pushed
+     * @param version is the version of the stream
+     * @param metaDataArray - meta data that needs to pushed
      * @param correlationDataArray - correlation data that needs to be pushed
-     * @param payloadDataArray     - payload data that needs to be pushed
+     * @param payloadDataArray - payload data that needs to be pushed
      * @return
      * @throws DataPublisherConfigurationException
      */

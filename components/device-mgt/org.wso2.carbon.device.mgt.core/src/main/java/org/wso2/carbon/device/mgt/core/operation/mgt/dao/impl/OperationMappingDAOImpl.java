@@ -138,7 +138,7 @@ public class OperationMappingDAOImpl implements OperationMappingDAO {
 
     @Override
     public List<OperationEnrolmentMapping> getFirstPendingOperationMappingsForActiveEnrolments(long minDuration,
-                                                                                               long maxDuration, int deviceTypeId) throws OperationManagementDAOException {
+                                   long maxDuration, int deviceTypeId) throws OperationManagementDAOException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<OperationEnrolmentMapping> enrolmentOperationMappingList = null;
@@ -150,7 +150,7 @@ public class OperationMappingDAOImpl implements OperationMappingDAO {
                     "AS CREATED_TIMESTAMP, E.STATUS AS ENROLMENT_STATUS, E.TENANT_ID FROM " +
                     "DM_ENROLMENT_OP_MAPPING OP INNER JOIN DM_ENROLMENT E ON OP.ENROLMENT_ID = E.ID INNER JOIN " +
                     "DM_DEVICE D ON E.DEVICE_ID = D.ID WHERE " +
-                    "OP.STATUS IN ('" + Operation.Status.PENDING.name() + "','" + Operation.Status.REPEATED.name() + "') " +
+                    "OP.STATUS IN ('"+ Operation.Status.PENDING.name() + "','" + Operation.Status.REPEATED.name() + "') " +
                     "AND OP.CREATED_TIMESTAMP BETWEEN ? AND ? AND E.STATUS IN ('" + EnrolmentInfo.Status.ACTIVE.name() +
                     "','" + EnrolmentInfo.Status.UNREACHABLE.name() + "') AND D.DEVICE_TYPE_ID = ? GROUP BY ENROLMENT_ID," +
                     " D.DEVICE_IDENTIFICATION, E.STATUS, E.TENANT_ID";

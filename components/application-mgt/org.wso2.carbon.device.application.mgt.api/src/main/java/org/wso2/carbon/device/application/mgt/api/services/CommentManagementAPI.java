@@ -80,7 +80,7 @@ import java.util.List;
 )
 
 @Path("/comments")
-@Api(value = "Comments Management", description = "This API carries all comments management related operations " +
+@Api(value = "Store Management", description = "This API carries all comments management related operations " +
         "such as get all the comments, add comment, etc.")
 @Produces(MediaType.APPLICATION_JSON)
 
@@ -116,7 +116,7 @@ public interface CommentManagementAPI {
                             response = ErrorResponse.class),
                     @ApiResponse(
                             code = 500,
-                            message = "Internal Server Error. \n Error occurred while getting the comment list.",
+                            message = "Store ManagemInternal Server Error. \n Error occurred while getting the comment list.",
                             response = ErrorResponse.class)
             })
 
@@ -148,8 +148,8 @@ public interface CommentManagementAPI {
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "POST",
-            value = "Add a comment",
-            notes = "This will add a new comment",
+            value = "add comment",
+            notes = "Add a new comment",
             tags = "Store Management",
             extensions = {
                     @Extension(properties = {
@@ -167,7 +167,7 @@ public interface CommentManagementAPI {
                     @ApiResponse(
                             code = 400,
                             message =
-                                    "Bad Request. \n"),
+                                    "Bad Request. \n Invalid request or validation error."),
                     @ApiResponse(
                             code = 500,
                             message = "Internal Server Error. \n Error occurred adding a comment.",
@@ -195,8 +195,8 @@ public interface CommentManagementAPI {
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "PUT",
-            value = "Edit a comment",
-            notes = "This will edit the comment",
+            value = "edit comment",
+            notes = "Update the old comment",
             tags = "Store Management",
             extensions = {
                     @Extension(properties = {
@@ -243,7 +243,7 @@ public interface CommentManagementAPI {
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "DELETE",
-            value = "Remove comment",
+            value = "delete comment",
             notes = "Remove comment",
             tags = "Store Management",
             extensions = {
@@ -256,7 +256,7 @@ public interface CommentManagementAPI {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            code = 200,
+                            code = 201,
                             message = "OK. \n Successfully deleted the comment"),
                     @ApiResponse(
                             code = 404,
@@ -379,7 +379,7 @@ public interface CommentManagementAPI {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            code = 201,
+                            code = 200,
                             message = "OK. \n Successfully rated to the application.",
                             response = Comment.class),
                     @ApiResponse(

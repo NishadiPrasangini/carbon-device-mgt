@@ -67,7 +67,7 @@ public class OperationManagementDAOFactory {
     }
 
     public static OperationDAO getOperationDAO() {
-        if (databaseEngine != null) {
+        if(databaseEngine != null) {
             switch (databaseEngine) {
                 case DeviceManagementConstants.DataBaseTypes.DB_TYPE_ORACLE:
                     return new OracleOperationDAOImpl();

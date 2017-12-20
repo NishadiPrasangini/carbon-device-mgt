@@ -185,9 +185,6 @@ function setSpeedAlert() {
     if (speedAlertValue == null || speedAlertValue === undefined || speedAlertValue == "") {
         var message = "Speed cannot be empty.";
         noty({text:  message, type : 'error' });
-    } else if (areaName.indexOf(" ") > -1) {
-        var message = "Area Name cannot contain spaces.";
-        noty({text: message, type : 'error' });
     } else {
         data = {
             'parseData': JSON.stringify({'speedAlertValue': speedAlertValue, 'deviceId': deviceId}), // parseKey : parseValue pair , this key pair is replace with the key in the template file
@@ -238,9 +235,6 @@ function setWithinAlert(leafletId) {
     if (areaName == null || areaName === undefined || areaName == "") {
         var message = "Area Name cannot be empty.";
         noty({text: message, type : 'error' });
-    } else if (areaName.indexOf(" ") > -1) {
-        var message = "Area Name cannot contain spaces.";
-        noty({text: message, type : 'error' });
     } else {
         var data = {
             'parseData': JSON.stringify({
@@ -264,7 +258,6 @@ function setWithinAlert(leafletId) {
             } else {
                 var ptrn = /(?:<am\:description>)(.*)(?:<\/am\:description>)/g;
                 var errorTxt;
-                var result = (ptrn.exec(data));
                 if (result) {
                     errorTxt = result.length > 1 ? result[1] : data;
                 } else {
@@ -278,7 +271,6 @@ function setWithinAlert(leafletId) {
                          responseHandler, function (xhr) {
                 responseHandler(xhr.responseText, xhr.statusText, xhr);
             });
-        viewFenceByData(selectedAreaGeoJson, queryName, areaName, null, 'Within');
     }
 }
 
@@ -295,9 +287,6 @@ function setExitAlert(leafletId) {
 
     if (areaName == null || areaName === undefined || areaName == "") {
         var message = "Area Name cannot be empty.";
-        noty({text: message, type : 'error' });
-    } else if (areaName.indexOf(" ") > -1) {
-        var message = "Area Name cannot contain spaces.";
         noty({text: message, type : 'error' });
     } else {
         var data = {
@@ -322,7 +311,6 @@ function setExitAlert(leafletId) {
             } else {
                 var ptrn = /(?:<am\:description>)(.*)(?:<\/am\:description>)/g;
                 var errorTxt;
-                var result = (ptrn.exec(data));
                 if (result) {
                     errorTxt = result.length > 1 ? result[1] : data;
                 } else {
@@ -336,7 +324,6 @@ function setExitAlert(leafletId) {
                          responseHandler, function (xhr) {
                 responseHandler(xhr.responseText, xhr.statusText, xhr);
             });
-        viewFenceByData(selectedAreaGeoJson, queryName, areaName, null, 'Exit');
     }
 }
 
@@ -360,9 +347,6 @@ function setStationeryAlert(leafletId) {
 
     if (stationeryName == null || stationeryName === undefined || stationeryName == "") {
         var message = "Stationery Name cannot be empty.";
-        noty({text: message, type : 'error' });
-    } else if (stationeryName.indexOf(" ") > -1) {
-        var message = "Stationery Name cannot contain spaces.";
         noty({text: message, type : 'error' });
     } else if (fluctuationRadius == null || fluctuationRadius === undefined || fluctuationRadius == "") {
         var message = "Fluctuation Radius cannot be empty.";
@@ -395,7 +379,6 @@ function setStationeryAlert(leafletId) {
             } else {
                 var ptrn = /(?:<am\:description>)(.*)(?:<\/am\:description>)/g;
                 var errorTxt;
-                var result = (ptrn.exec(data));
                 if (result) {
                     errorTxt = result.length > 1 ? result[1] : data;
                 } else {
@@ -409,7 +392,6 @@ function setStationeryAlert(leafletId) {
                          responseHandler, function (xhr) {
                 responseHandler(xhr.responseText, xhr.statusText, xhr);
             });
-        viewFenceByData(selectedProcessedAreaGeoJson, queryName, areaName, time, 'Stationery');
     }
 
 
@@ -480,9 +462,6 @@ function setTrafficAlert(leafletId) {
     if (areaName == null || areaName === undefined || areaName == "") {
         var message = "Area Name cannot be empty.";
         noty({text: message, type : 'error' });
-    } else if (areaName.indexOf(" ") > -1) {
-        var message = "Area Name cannot contain spaces.";
-        noty({text: message, type : 'error' });
     } else {
         var data = {
             'parseData': JSON.stringify({
@@ -505,7 +484,6 @@ function setTrafficAlert(leafletId) {
             } else {
                 var ptrn = /(?:<am\:description>)(.*)(?:<\/am\:description>)/g;
                 var errorTxt;
-                var result = (ptrn.exec(data));
                 if (result) {
                     errorTxt = result.length > 1 ? result[1] : data;
                 } else {
@@ -610,7 +588,6 @@ function setProximityAlert() {
             } else {
                 var ptrn = /(?:<am\:description>)(.*)(?:<\/am\:description>)/g;
                 var errorTxt;
-                var result = (ptrn.exec(data));
                 if (result) {
                     errorTxt = result.length > 1 ? result[1] : data;
                 } else {

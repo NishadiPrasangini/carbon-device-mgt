@@ -23,12 +23,9 @@ import org.wso2.carbon.device.mgt.core.dao.DeviceManagementDAOException;
 import org.wso2.carbon.device.mgt.core.dao.DeviceManagementDAOFactory;
 import org.wso2.carbon.device.mgt.core.dao.EnrollmentDAO;
 import org.wso2.carbon.device.mgt.core.dao.util.DeviceManagementDAOUtil;
+import org.wso2.carbon.device.mgt.core.operation.mgt.OperationMapping;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +43,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
             conn = this.getConnection();
             String sql = "INSERT INTO DM_ENROLMENT(DEVICE_ID, OWNER, OWNERSHIP, STATUS, " +
                     "DATE_OF_ENROLMENT, DATE_OF_LAST_UPDATE, TENANT_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql, new String[]{"id"});
+            stmt = conn.prepareStatement(sql, new String[] {"id"});
             stmt.setInt(1, deviceId);
             stmt.setString(2, enrolmentInfo.getOwner());
             stmt.setString(3, enrolmentInfo.getOwnership().toString());
@@ -77,7 +74,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
         try {
             conn = this.getConnection();
             String sql = "UPDATE DM_ENROLMENT SET OWNERSHIP = ?, STATUS = ?, DATE_OF_LAST_UPDATE = ? WHERE DEVICE_ID = ?" +
-                    " AND OWNER = ? AND TENANT_ID = ? AND ID = ?";
+                         " AND OWNER = ? AND TENANT_ID = ? AND ID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, enrolmentInfo.getOwnership().toString());
             stmt.setString(2, enrolmentInfo.getStatus().toString());
@@ -164,7 +161,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
         try {
             conn = this.getConnection();
             String sql = "DELETE FROM DM_ENROLMENT WHERE DEVICE_ID = ? AND OWNER = ? AND TENANT_ID = ?";
-            stmt = conn.prepareStatement(sql, new String[]{"id"});
+            stmt = conn.prepareStatement(sql, new String[] {"id"});
             stmt.setInt(1, deviceId);
             stmt.setString(2, currentOwner);
             stmt.setInt(3, tenantId);
@@ -204,53 +201,25 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
         return true;
     }
 
-    private int getCountOfDevicesOfOwner(String owner, int tenantID) throws DeviceManagementDAOException {
-        Connection conn;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            conn = this.getConnection();
-            String checkQuery = "SELECT COUNT(ID) AS COUNT FROM DM_ENROLMENT WHERE OWNER = ? AND TENANT_ID = ?";
-            stmt = conn.prepareStatement(checkQuery);
-            stmt.setString(1, owner);
-            stmt.setInt(2, tenantID);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt("COUNT");
-            }
-        } catch (SQLException e) {
-            throw new DeviceManagementDAOException("Error occurred while trying to get device " +
-                    "count of Owner : " + owner, e);
-        } finally {
-            DeviceManagementDAOUtil.cleanupResources(stmt, rs);
-        }
-        return count;
-    }
-
     @Override
     public boolean setStatus(String currentOwner, EnrolmentInfo.Status status,
                              int tenantId) throws DeviceManagementDAOException {
         Connection conn;
         PreparedStatement stmt = null;
-        if (getCountOfDevicesOfOwner(currentOwner, tenantId) > 0) {
-            try {
-                conn = this.getConnection();
-                String sql = "UPDATE DM_ENROLMENT SET STATUS = ? WHERE OWNER = ? AND TENANT_ID = ?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, status.toString());
-                stmt.setString(2, currentOwner);
-                stmt.setInt(3, tenantId);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                throw new DeviceManagementDAOException("Error occurred while setting the status of device enrolment", e);
-            } finally {
-                DeviceManagementDAOUtil.cleanupResources(stmt, null);
-            }
-            return true;
-        } else {
-            return false;
+        try {
+            conn = this.getConnection();
+            String sql = "UPDATE DM_ENROLMENT SET STATUS = ? WHERE OWNER = ? AND TENANT_ID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, status.toString());
+            stmt.setString(2, currentOwner);
+            stmt.setInt(3, tenantId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DeviceManagementDAOException("Error occurred while setting the status of device enrolment", e);
+        } finally {
+            DeviceManagementDAOUtil.cleanupResources(stmt, null);
         }
+        return true;
     }
 
     @Override
@@ -338,7 +307,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
         try {
             conn = this.getConnection();
             String sql = "SELECT ID, DEVICE_ID, OWNER, OWNERSHIP, STATUS, DATE_OF_ENROLMENT, " +
-                    "DATE_OF_LAST_UPDATE, TENANT_ID FROM DM_ENROLMENT WHERE DEVICE_ID = ? AND OWNER = ? AND TENANT_ID = ?";
+                         "DATE_OF_LAST_UPDATE, TENANT_ID FROM DM_ENROLMENT WHERE DEVICE_ID = ? AND OWNER = ? AND TENANT_ID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, deviceId);
             stmt.setString(2, user);
@@ -351,7 +320,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
             return enrolmentInfos;
         } catch (SQLException e) {
             throw new DeviceManagementDAOException("Error occurred while retrieving the enrolments " +
-                    "information of user '" + user + "' upon device '" + deviceId + "'", e);
+                                                   "information of user '" + user + "' upon device '" + deviceId + "'", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, rs);
         }

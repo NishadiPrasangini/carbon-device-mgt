@@ -35,7 +35,6 @@ import org.wso2.carbon.device.mgt.common.Device;
 import org.wso2.carbon.device.mgt.common.EnrolmentInfo;
 import org.wso2.carbon.device.mgt.common.Feature;
 import org.wso2.carbon.device.mgt.common.app.mgt.Application;
-import org.wso2.carbon.device.mgt.common.device.details.DeviceInfo;
 import org.wso2.carbon.device.mgt.common.operation.mgt.Activity;
 import org.wso2.carbon.device.mgt.common.operation.mgt.Operation;
 import org.wso2.carbon.device.mgt.common.policy.mgt.Policy;
@@ -142,11 +141,11 @@ import javax.ws.rs.core.Response;
                         permissions = {"/device-mgt/devices/owning-device/view"}
                 ),
                 @Scope(
-                        name = "Change device status.",
-                        description = "Change device status.",
-                        key = "perm:devices:change-status",
-                        permissions = {"/device-mgt/devices/change-status"}
-                ),
+                name = "Change device status.",
+                description = "Change device status.",
+                key = "perm:devices:change-status",
+                permissions = {"/device-mgt/devices/change-status"}
+        ),
         }
 )
 @Path("/devices")
@@ -164,10 +163,10 @@ public interface DeviceManagementService {
             notes = "Provides details of all the devices enrolled with WSO2 IoT Server.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:view")
-                    })
-            }
+            @Extension(properties = {
+                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:view")
+            })
+    }
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully fetched the list of devices.",
@@ -322,16 +321,16 @@ public interface DeviceManagementService {
                             @ResponseHeader(
                                     name = "ETag",
                                     description = "Entity Tag of the response resource.\n" +
-                                            "Used by caches, or in conditional requests."),
+                                                  "Used by caches, or in conditional requests."),
                             @ResponseHeader(
                                     name = "Last-Modified",
                                     description = "Date and time the resource was last modified.\n" +
-                                            "Used by caches, or in conditional requests."),
+                                                  "Used by caches, or in conditional requests."),
                     }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. \n Empty body because the client already has the latest version of " +
-                            "the requested resource.\n"),
+                              "the requested resource.\n"),
             @ApiResponse(
                     code = 400,
                     message = "The incoming request has more than one selection criteria defined via the query parameters.",
@@ -378,13 +377,12 @@ public interface DeviceManagementService {
             produces = MediaType.APPLICATION_JSON,
             httpMethod = "GET",
             value = "Getting Details of a Device",
-            notes = "Get the details of a device by specifying the device type and device identifier and optionally " +
-                    "the owner.",
+            notes = "Get the details of a device by specifying the device type and device identifier.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:details")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:details")
+                })
             }
     )
     @ApiResponses(
@@ -439,13 +437,6 @@ public interface DeviceManagementService {
             @PathParam("id")
             @Size(max = 45)
                     String id,
-            @ApiParam(
-                    name = "owner",
-                    value = "The owner of the device you want ot get details.",
-                    required = false)
-            @QueryParam("owner")
-            @Size(max = 100)
-                    String owner,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -529,7 +520,7 @@ public interface DeviceManagementService {
                     @ApiResponse(
                             code = 200,
                             message = "OK. \n Successfully fetched the location details of the device.",
-                            response = Device.class, //TODO, This should be DeviceLocation.class
+                            response = Device.class,
                             responseHeaders = {
                                     @ResponseHeader(
                                             name = "Content-Type",
@@ -585,81 +576,6 @@ public interface DeviceManagementService {
             @HeaderParam("If-Modified-Since")
                     String ifModifiedSince);
 
-
-    @GET
-    @Path("/{type}/{id}/info")
-    @ApiOperation(
-            produces = MediaType.APPLICATION_JSON,
-            httpMethod = "GET",
-            value = "Getting the information of a Device",
-            notes = "Get the information of a device by specifying the device type and device identifier.",
-            tags = "Device Management",
-            extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:details")
-                    })
-            }
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            code = 200,
-                            message = "OK. \n Successfully fetched the information of the device.",
-                            response = DeviceInfo.class,
-                            responseHeaders = {
-                                    @ResponseHeader(
-                                            name = "Content-Type",
-                                            description = "The content type of the body"),
-                                    @ResponseHeader(
-                                            name = "ETag",
-                                            description = "Entity Tag of the response resource.\n" +
-                                                    "Used by caches, or in conditional requests."),
-                                    @ResponseHeader(
-                                            name = "Last-Modified",
-                                            description = "Date and time the resource was last modified.\n" +
-                                                    "Used by caches, or in conditional requests."),
-                            }),
-                    @ApiResponse(
-                            code = 304,
-                            message = "Not Modified. Empty body because the client already has the latest version" +
-                                    " of the requested resource.\n"),
-                    @ApiResponse(
-                            code = 400,
-                            message = "Bad Request. \n Invalid request or validation error.",
-                            response = ErrorResponse.class),
-                    @ApiResponse(
-                            code = 404,
-                            message = "Not Found. \n Location data for the specified device was not found.",
-                            response = ErrorResponse.class),
-                    @ApiResponse(
-                            code = 500,
-                            message = "Internal Server Error. \n " +
-                                    "Server error occurred while retrieving the device details.",
-                            response = ErrorResponse.class)
-            })
-    Response getDeviceInformation(
-            @ApiParam(
-                    name = "type",
-                    value = "The device type name, such as ios, android, windows or fire-alarm.",
-                    required = true)
-            @PathParam("type")
-            @Size(max = 45)
-                    String type,
-            @ApiParam(
-                    name = "id",
-                    value = "The device identifier of the device you want ot get details.",
-                    required = true)
-            @PathParam("id")
-            @Size(max = 45)
-                    String id,
-            @ApiParam(
-                    name = "If-Modified-Since",
-                    value = "Checks if the requested variant was modified, since the specified date-time. \n" +
-                            "Provide the value in the following format: EEE, d MMM yyyy HH:mm:ss Z. \n" +
-                            "Example: Mon, 05 Jan 2014 15:10:00 +0200",
-                    required = false)
-            @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince);
 
     //device rename request would looks like follows
     //POST devices/type/virtual_firealarm/id/us06ww93auzp/rename
@@ -818,10 +734,10 @@ public interface DeviceManagementService {
                     " such as iOS, Android or Windows.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:features")
-                    })
-            }
+            @Extension(properties = {
+                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:features")
+            })
+    }
     )
     @ApiResponses(
             value = {
@@ -906,9 +822,9 @@ public interface DeviceManagementService {
             notes = "Search for devices by filtering the search result through the specified search terms.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:search")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:search")
+                })
             }
     )
     @ApiResponses(
@@ -983,11 +899,11 @@ public interface DeviceManagementService {
             notes = "Get the list of applications subscribed to by a device.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:applications")
-                    })
+            @Extension(properties = {
+                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:applications")
+            })
 
-            }
+    }
     )
     @ApiResponses(
             value = {
@@ -1085,10 +1001,10 @@ public interface DeviceManagementService {
             notes = "Get the details of operations carried out on a selected device.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:operations")
-                    })
-            }
+            @Extension(properties = {
+                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:operations")
+            })
+    }
     )
     @ApiResponses(
             value = {
@@ -1195,10 +1111,10 @@ public interface DeviceManagementService {
                     "the device ownership type, the user role or name and finally, the policy that matches these filters will be enforced on the device.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:effective-policy")
-                    })
-            }
+            @Extension(properties = {
+                    @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:effective-policy")
+            })
+    }
     )
     @ApiResponses(
             value = {
@@ -1283,9 +1199,9 @@ public interface DeviceManagementService {
                     "The server checks if the settings in the device comply with the policy that is enforced on the device using this REST API.",
             tags = "Device Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:compliance-data")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:devices:compliance-data")
+                })
             }
     )
     @ApiResponses(

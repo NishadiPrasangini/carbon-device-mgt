@@ -23,38 +23,38 @@ package org.wso2.carbon.device.mgt.common.app.mgt;
  */
 public class ApplicationManagementException extends Exception {
 
-    private static final long serialVersionUID = -8933142342423122660L;
-    private String errorMessage;
+	private static final long serialVersionUID = -8933142342423122660L;
+	private String errorMessage;
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 
-    public ApplicationManagementException(String msg, Exception nestedEx) {
-        super(msg, nestedEx);
-        setErrorMessage(msg);
-    }
+	public ApplicationManagementException(String msg, Exception nestedEx) {
+		super(msg, nestedEx);
+		setErrorMessage(msg);
+	}
 
-    public ApplicationManagementException(String message, Throwable cause) {
-        super(message, cause);
-        setErrorMessage(message);
-    }
+	public ApplicationManagementException(String message, Throwable cause) {
+		super(message, cause);
+		setErrorMessage(message);
+	}
 
-    public ApplicationManagementException(String msg) {
-        super(msg);
-        setErrorMessage(msg);
-    }
+	public ApplicationManagementException(String msg) {
+		super(msg);
+		setErrorMessage(msg);
+	}
 
-    public ApplicationManagementException() {
-        super();
-    }
+	public ApplicationManagementException() {
+		super();
+	}
 
-    public ApplicationManagementException(Throwable cause) {
-        super(cause);
-    }
+	public ApplicationManagementException(Throwable cause) {
+		super(cause);
+	}
 
 }

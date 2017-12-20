@@ -32,7 +32,6 @@ public interface DeviceTaskManager {
 
     /**
      * This method will take the monitoring frequency.
-     *
      * @return - integer
      * @throws DeviceMgtTaskException
      */
@@ -47,7 +46,6 @@ public interface DeviceTaskManager {
 
     /**
      * This method checks whether task is enabled in config file.
-     *
      * @return - return true or false
      * @throws DeviceMgtTaskException
      */
@@ -56,7 +54,6 @@ public interface DeviceTaskManager {
 
     /**
      * This method will add the operations to devices
-     *
      * @throws DeviceMgtTaskException
      */
     void addOperations() throws DeviceMgtTaskException;
@@ -71,7 +68,6 @@ public interface DeviceTaskManager {
 
     /**
      * This method will check whether given operation is added by the task.
-     *
      * @param opName - Operation name
      * @return - true or false
      * @throws DeviceMgtTaskException

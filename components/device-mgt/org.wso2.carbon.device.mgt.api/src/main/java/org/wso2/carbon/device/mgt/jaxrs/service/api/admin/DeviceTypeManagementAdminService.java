@@ -31,21 +31,17 @@ import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import org.wso2.carbon.apimgt.annotations.api.Scope;
 import org.wso2.carbon.apimgt.annotations.api.Scopes;
-import org.wso2.carbon.device.mgt.common.Device;
 import org.wso2.carbon.device.mgt.core.dto.DeviceType;
 import org.wso2.carbon.device.mgt.jaxrs.beans.DeviceTypeList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse;
 import org.wso2.carbon.device.mgt.jaxrs.util.Constants;
 
-import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -148,11 +144,11 @@ public interface DeviceTypeManagementAdminService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully added the device type.",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body")
-                    }),
+                         responseHeaders = {
+                                 @ResponseHeader(
+                                         name = "Content-Type",
+                                         description = "The content type of the body")
+                         }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +
@@ -194,11 +190,11 @@ public interface DeviceTypeManagementAdminService {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK. \n Successfully updated the device type.",
-                    responseHeaders = {
-                            @ResponseHeader(
-                                    name = "Content-Type",
-                                    description = "The content type of the body")
-                    }),
+                         responseHeaders = {
+                                 @ResponseHeader(
+                                         name = "Content-Type",
+                                         description = "The content type of the body")
+                         }),
             @ApiResponse(
                     code = 304,
                     message = "Not Modified. Empty body because the client already has the latest version of the " +

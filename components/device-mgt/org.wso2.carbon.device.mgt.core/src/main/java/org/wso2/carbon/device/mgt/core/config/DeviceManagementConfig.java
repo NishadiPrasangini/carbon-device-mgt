@@ -17,8 +17,7 @@
  */
 package org.wso2.carbon.device.mgt.core.config;
 
-import org.wso2.carbon.device.mgt.core.config.cache.CertificateCacheConfiguration;
-import org.wso2.carbon.device.mgt.core.config.geo.location.OperationAnalyticsConfiguration;
+import org.wso2.carbon.device.mgt.core.config.geo.location.GeoLocationConfiguration;
 import org.wso2.carbon.device.mgt.core.config.cache.DeviceCacheConfiguration;
 import org.wso2.carbon.device.mgt.core.config.identity.IdentityConfigurations;
 import org.wso2.carbon.device.mgt.core.config.pagination.PaginationConfiguration;
@@ -47,8 +46,7 @@ public final class DeviceManagementConfig {
     private PullNotificationConfiguration pullNotificationConfiguration;
     private DeviceStatusTaskConfig deviceStatusTaskConfig;
     private DeviceCacheConfiguration deviceCacheConfiguration;
-    private CertificateCacheConfiguration certificateCacheConfiguration;
-    private OperationAnalyticsConfiguration operationAnalyticsConfiguration;
+    private GeoLocationConfiguration geoLocationConfiguration;
     private String defaultGroupsConfiguration;
 
     @XmlElement(name = "ManagementRepository", required = true)
@@ -133,22 +131,13 @@ public final class DeviceManagementConfig {
         this.deviceCacheConfiguration = deviceCacheConfiguration;
     }
 
-    @XmlElement(name = "CertificateCacheConfiguration", required = true)
-    public CertificateCacheConfiguration getCertificateCacheConfiguration() {
-        return certificateCacheConfiguration;
+    @XmlElement(name = "GeoLocationConfiguration", required = true)
+    public GeoLocationConfiguration getGeoLocationConfiguration() {
+        return geoLocationConfiguration;
     }
 
-    public void setCertificateCacheConfiguration(CertificateCacheConfiguration certificateCacheConfiguration) {
-        this.certificateCacheConfiguration = certificateCacheConfiguration;
-    }
-
-    @XmlElement(name = "OperationAnalyticsConfiguration", required = true)
-    public OperationAnalyticsConfiguration getOperationAnalyticsConfiguration() {
-        return operationAnalyticsConfiguration;
-    }
-
-    public void setOperationAnalyticsConfiguration(OperationAnalyticsConfiguration operationAnalyticsConfiguration) {
-        this.operationAnalyticsConfiguration = operationAnalyticsConfiguration;
+    public void setGeoLocationConfiguration(GeoLocationConfiguration geoLocationConfiguration) {
+        this.geoLocationConfiguration = geoLocationConfiguration;
     }
 
     @XmlElement(name = "DefaultGroupsConfiguration", required = true)

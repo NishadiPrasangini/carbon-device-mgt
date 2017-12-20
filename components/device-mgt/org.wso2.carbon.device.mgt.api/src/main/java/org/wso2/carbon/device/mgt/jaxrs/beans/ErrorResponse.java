@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *   Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *   WSO2 Inc. licenses this file to you under the Apache License,
  *   Version 2.0 (the "License"); you may not use this file except
@@ -25,25 +25,26 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(description = "")
+/**
+ * This represents a response that need to be send back to the client, when the request cannot be completed
+ * successfully.
+ */
+@ApiModel(description = "Error Response")
 public class ErrorResponse {
 
-    private Long code = null;
+    private Integer code = null;
     private String message = null;
     private String description = null;
     private String moreInfo = null;
     private List<ErrorListItem> errorItems = new ArrayList<>();
 
-    public ErrorResponse() {
-    }
-
     @JsonProperty(value = "code")
     @ApiModelProperty(required = true, value = "")
-    public Long getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -94,100 +95,4 @@ public class ErrorResponse {
     public void setErrorItems(List<ErrorListItem> error) {
         this.errorItems = error;
     }
-
-    @Override
-    public String toString() {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("{");
-//        boolean cont = false;
-//        if (code != null) {
-//            cont = true;
-//            sb.append("  \"code\": ").append(code);
-//        }
-//        if (message != null) {
-//            if (cont) {
-//                sb.append(",");
-//            }
-//            cont = true;
-//            sb.append("  \"message\": \"").append(message).append("\"");
-//        }
-//        if (description != null) {
-//            if (cont) {
-//                sb.append(",");
-//            }
-//            cont = true;
-//            sb.append("  \"description\": ").append(description).append("\"");
-//        }
-//        if (moreInfo != null) {
-//            if (cont) {
-//                sb.append(",");
-//            }
-//            cont = true;
-//            sb.append("  \"moreInfo\": \"").append(moreInfo).append("\"");
-//        }
-//        if (error != null && error.size() > 0) {
-//            if (cont) {
-//                sb.append(",");
-//            }
-//            sb.append("  \"errorItems\": ").append(error);
-//        }
-//        sb.append("}");
-//        return sb.toString();
-        return null;
-    }
-
-    public static class ErrorResponseBuilder {
-
-        private Long code = null;
-        private String message = null;
-        private String description = null;
-        private String moreInfo = null;
-        private List<ErrorListItem> error;
-
-
-        public ErrorResponseBuilder() {
-            this.error = new ArrayList<>();
-        }
-
-        public ErrorResponseBuilder setCode(long code) {
-            this.code = code;
-            return this;
-        }
-
-        public ErrorResponseBuilder setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public ErrorResponseBuilder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public ErrorResponseBuilder setMoreInfo(String moreInfo) {
-            this.moreInfo = moreInfo;
-            return this;
-        }
-
-        public ErrorResponseBuilder addErrorItem(String code, String msg) {
-            ErrorListItem item = new ErrorListItem();
-            item.setCode(code);
-            item.setMessage(msg);
-            this.error.add(item);
-            return this;
-        }
-
-        public ErrorResponse build() {
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setCode(code);
-            errorResponse.setMessage(message);
-            errorResponse.setErrorItems(error);
-            errorResponse.setDescription(description);
-            errorResponse.setMoreInfo(moreInfo);
-            return errorResponse;
-        }
-    }
-
 }
-
-

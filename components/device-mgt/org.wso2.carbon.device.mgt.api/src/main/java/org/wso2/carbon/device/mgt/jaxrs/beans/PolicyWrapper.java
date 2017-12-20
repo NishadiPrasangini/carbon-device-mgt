@@ -47,11 +47,11 @@ public class PolicyWrapper {
     @ApiModelProperty(
             name = "compliance",
             value = "Provides the non-compliance rules. WSO2 EMM provides the following non-compliance rules:\n"
-                    + "Enforce - Forcefully enforce the policies on the devices\n"
-                    + "Warning - If the device does not adhere to the given policies a warning message will be sent\n"
-                    + "Monitor - If the device does not adhere to the given policies the server is notified of the "
-                    + "violation unknown to the user and the administrator can take the necessary actions with regard"
-                    + " to the reported",
+            + "Enforce - Forcefully enforce the policies on the devices\n"
+            + "Warning - If the device does not adhere to the given policies a warning message will be sent\n"
+            + "Monitor - If the device does not adhere to the given policies the server is notified of the "
+            + "violation unknown to the user and the administrator can take the necessary actions with regard"
+            + " to the reported",
             required = true)
     @Size(max = 100)
     private String compliance;
@@ -59,10 +59,10 @@ public class PolicyWrapper {
     @ApiModelProperty(
             name = "ownershipType",
             value = "The policy ownership type. It can be any of the following values:\n"
-                    + "ANY - The policy will be applied on the BYOD and COPE device types\n"
-                    + "BYOD (Bring Your Own Device) - The policy will only be applied on the BYOD device type\n"
-                    + "COPE (Corporate-Owned, Personally-Enabled) - The policy will only be applied on the COPE "
-                    + "device type",
+            + "ANY - The policy will be applied on the BYOD and COPE device types\n"
+            + "BYOD (Bring Your Own Device) - The policy will only be applied on the BYOD device type\n"
+            + "COPE (Corporate-Owned, Personally-Enabled) - The policy will only be applied on the COPE "
+            + "device type",
             required = true)
     @Size(max = 45)
     private String ownershipType;
@@ -123,11 +123,11 @@ public class PolicyWrapper {
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+	this.description = description;
     }
 
     public void setPolicyName(String policyName) {

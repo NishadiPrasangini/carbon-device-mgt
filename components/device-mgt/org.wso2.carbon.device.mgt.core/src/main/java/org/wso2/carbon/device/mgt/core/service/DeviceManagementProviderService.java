@@ -61,7 +61,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to retrieve all the devices of a given device type.
      *
-     * @param deviceType        Device-type of the required devices
+     * @param deviceType Device-type of the required devices
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices of given device-type.
@@ -124,7 +124,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to retrieve all the devices with pagination support.
      *
-     * @param request           PaginationRequest object holding the data for pagination
+     * @param request PaginationRequest object holding the data for pagination
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return PaginationResult - Result including the required parameters necessary to do pagination.
@@ -146,7 +146,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to retrieve all the devices with pagination support.
      *
-     * @param request           PaginationRequest object holding the data for pagination
+     * @param request PaginationRequest object holding the data for pagination
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return PaginationResult - Result including the required parameters necessary to do pagination.
@@ -176,7 +176,7 @@ public interface DeviceManagementProviderService {
     /**
      * Returns the device of specified id.
      *
-     * @param deviceId          device Id
+     * @param deviceId device Id
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return Device returns null when device is not available.
@@ -188,7 +188,7 @@ public interface DeviceManagementProviderService {
      * Returns the device of specified id.
      *
      * @param deviceId device Id
-     * @param since    - Date value where the resource was last modified
+     * @param since - Date value where the resource was last modified
      * @return Device returns null when device is not available.
      * @throws DeviceManagementException
      */
@@ -197,8 +197,8 @@ public interface DeviceManagementProviderService {
     /**
      * Returns the device of specified id.
      *
-     * @param deviceId          device Id
-     * @param since             - Date value where the resource was last modified
+     * @param deviceId device Id
+     * @param since - Date value where the resource was last modified
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return Device returns null when device is not available.
@@ -210,7 +210,8 @@ public interface DeviceManagementProviderService {
      * Returns the device of specified id with the given status.
      *
      * @param deviceId device Id
-     * @param status   - Status of the device
+     * @param status - Status of the device
+     *
      * @return Device returns null when device is not available.
      * @throws DeviceManagementException
      */
@@ -219,8 +220,8 @@ public interface DeviceManagementProviderService {
     /**
      * Returns the device of specified id with the given status.
      *
-     * @param deviceId          device Id
-     * @param status            - Status of the device
+     * @param deviceId device Id
+     * @param status - Status of the device
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return Device returns null when device is not available.
@@ -241,7 +242,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to get the list of devices owned by an user with paging information.
      *
-     * @param request           PaginationRequest object holding the data for pagination
+     * @param request PaginationRequest object holding the data for pagination
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices owned by a particular user along with the required parameters necessary to do pagination.
@@ -263,7 +264,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to get the list of devices filtered by the ownership with paging information.
      *
-     * @param request           PaginationRequest object holding the data for pagination
+     * @param request PaginationRequest object holding the data for pagination
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices owned by a particular user along with the required parameters necessary to do pagination.
@@ -285,7 +286,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to get the list of devices owned by an user.
      *
-     * @param userName          Username of the user
+     * @param userName Username of the user
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices owned by a particular user
@@ -308,8 +309,8 @@ public interface DeviceManagementProviderService {
     /**
      * This method returns the list of device owned by a user of given device type.
      *
-     * @param userName          user name.
-     * @param deviceType        device type name
+     * @param userName   user name.
+     * @param deviceType device type name
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of device owned by the given user and type.
@@ -331,7 +332,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to get the list of devices owned by users of a particular user-role.
      *
-     * @param roleName          Role name of the users
+     * @param roleName Role name of the users
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices owned by users of a particular role
@@ -353,7 +354,7 @@ public interface DeviceManagementProviderService {
     /**
      * This method is used to retrieve list of devices based on the device status with paging information.
      *
-     * @param request           PaginationRequest object holding the data for pagination and filter info
+     * @param request PaginationRequest object holding the data for pagination and filter info
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices in given status along with the required parameters necessary to do pagination.
@@ -365,7 +366,7 @@ public interface DeviceManagementProviderService {
     /**
      * Method to get the list of devices that matches with the given device name.
      *
-     * @param request           PaginationRequest object holding the data for pagination and filter info
+     * @param request PaginationRequest object holding the data for pagination and filter info
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices that matches with the given device name.
@@ -387,7 +388,7 @@ public interface DeviceManagementProviderService {
     /**
      * This method is used to retrieve list of devices that matches with the given device name with paging information.
      *
-     * @param request           PaginationRequest object holding the data for pagination
+     * @param request PaginationRequest object holding the data for pagination
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices in given status along with the required parameters necessary to do pagination.
@@ -408,7 +409,7 @@ public interface DeviceManagementProviderService {
     /**
      * This method is used to retrieve list of devices based on the device status.
      *
-     * @param status            Device status
+     * @param status Device status
      * @param requireDeviceInfo - A boolean indicating whether the device-info (location, app-info etc) is also required
      *                          along with the device data.
      * @return List of devices
@@ -563,17 +564,15 @@ public interface DeviceManagementProviderService {
      */
     boolean changeDeviceStatus(DeviceIdentifier deviceIdentifier, EnrolmentInfo.Status newStatus)
             throws DeviceManagementException;
-
+    
     /**
      * This will handle add and update of device type services.
-     *
      * @param deviceManagementService
      */
     void registerDeviceType(DeviceManagementService deviceManagementService) throws DeviceManagementException;
 
     /**
      * This retrieves the device type info for the given type
-     *
      * @param deviceType name of the type.
      * @throws DeviceManagementException
      */
@@ -581,14 +580,12 @@ public interface DeviceManagementProviderService {
 
     /**
      * This retrieves the device type info for the given type
-     *
      * @throws DeviceManagementException
      */
     List<DeviceType> getDeviceTypes() throws DeviceManagementException;
 
     /**
      * This retrieves the device pull notification payload and passes to device type pull notification subscriber.
-     *
      * @throws PullNotificationExecutionFailedException
      */
     void notifyPullNotificationSubscriber(DeviceIdentifier deviceIdentifier, Operation operation)

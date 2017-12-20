@@ -25,11 +25,9 @@ import org.wso2.carbon.apimgt.annotations.api.Scopes;
 import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse;
 import org.wso2.carbon.device.mgt.jaxrs.util.Constants;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 @SwaggerDefinition(
@@ -99,6 +97,7 @@ public interface DeviceAnalyticsArtifactUploaderAdminService {
                             " for a specified set of devices.",
                     response = ErrorResponse.class)
     })
+
     Response doPublish(
             @ApiParam(name = "type",
                     value = "The type of deployment." +

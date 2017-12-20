@@ -36,7 +36,6 @@ import org.wso2.carbon.device.mgt.common.app.mgt.Application;
 import org.wso2.carbon.device.mgt.common.app.mgt.ApplicationManagementException;
 import org.wso2.carbon.device.mgt.common.authorization.DeviceAccessAuthorizationException;
 import org.wso2.carbon.device.mgt.common.authorization.DeviceAccessAuthorizationService;
-import org.wso2.carbon.device.mgt.common.device.details.DeviceInfo;
 import org.wso2.carbon.device.mgt.common.device.details.DeviceLocation;
 import org.wso2.carbon.device.mgt.common.operation.mgt.Activity;
 import org.wso2.carbon.device.mgt.common.operation.mgt.Operation;
@@ -50,7 +49,6 @@ import org.wso2.carbon.device.mgt.core.device.details.mgt.DeviceDetailsMgtExcept
 import org.wso2.carbon.device.mgt.core.device.details.mgt.DeviceInformationManager;
 import org.wso2.carbon.device.mgt.core.operation.mgt.CommandOperation;
 import org.wso2.carbon.device.mgt.core.operation.mgt.ConfigOperation;
-import org.wso2.carbon.device.mgt.core.operation.mgt.ProfileOperation;
 import org.wso2.carbon.device.mgt.core.search.mgt.SearchManagerService;
 import org.wso2.carbon.device.mgt.core.search.mgt.SearchMgtException;
 import org.wso2.carbon.device.mgt.core.service.DeviceManagementProviderService;
@@ -91,8 +89,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class DeviceManagementServiceImpl implements DeviceManagementService {
 
-    public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
     private static final Log log = LogFactory.getLog(DeviceManagementServiceImpl.class);
+    public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
     @GET
     @Path("/{type}/{id}/status")
@@ -355,7 +353,6 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
     public Response getDevice(
             @PathParam("type") @Size(max = 45) String type,
             @PathParam("id") @Size(max = 45) String id,
-            @QueryParam("owner") @Size(max = 100) String owner,
             @HeaderParam("If-Modified-Since") String ifModifiedSince) {
         Device device = null;
         try {
@@ -369,14 +366,14 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
             DeviceIdentifier deviceIdentifier = new DeviceIdentifier(id, type);
             // check whether the user is authorized
             if (!deviceAccessAuthorizationService.isUserAuthorized(deviceIdentifier, authorizedUser)) {
-                String msg = "User '" + authorizedUser + "' is not authorized to retrieve the given device id '" + id + "'";
+                String msg = "User '" + authorizedUser + "' is not authorized to retrieve the given device id '" + id;
                 log.error(msg);
                 return Response.status(Response.Status.UNAUTHORIZED).entity(
                         new ErrorResponse.ErrorResponseBuilder().setCode(401l).setMessage(msg).build()).build();
             }
 
-            Date sinceDate = null;
             if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
+                Date sinceDate;
                 SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
                 try {
                     sinceDate = format.parse(ifModifiedSince);
@@ -385,47 +382,13 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
                             new ErrorResponse.ErrorResponseBuilder().setMessage("Invalid date " +
                                     "string is provided in 'If-Modified-Since' header").build()).build();
                 }
-            }
-
-            if (!StringUtils.isEmpty(owner)) {
-                if (authorizedUser.equalsIgnoreCase(owner) || deviceAccessAuthorizationService.isDeviceAdminUser()) {
-                    if (sinceDate != null) {
-                        device = dms.getDevice(new DeviceIdentifier(id, type), owner, sinceDate, true);
-                        if (device == null) {
-                            return Response.status(Response.Status.NOT_MODIFIED).entity("No device is modified " +
-                                    "after the timestamp provided in 'If-Modified-Since' header").build();
-                        }
-                    } else {
-                        device = dms.getDevice(new DeviceIdentifier(id, type), owner, true);
-                    }
-                } else {
-                    String msg = "User '" + authorizedUser + "' is not authorized to retrieve the given device id '" + id +
-                            "' which belongs to user '" + owner + "'";
-                    log.error(msg);
-                    return Response.status(Response.Status.UNAUTHORIZED).entity(
-                            new ErrorResponse.ErrorResponseBuilder().setCode(401l).setMessage(msg).build()).build();
-                }
-            } else if (deviceAccessAuthorizationService.isDeviceAdminUser()) {
-                if (sinceDate != null) {
-                    device = dms.getDevice(new DeviceIdentifier(id, type), sinceDate);
-                    if (device == null) {
-                        return Response.status(Response.Status.NOT_MODIFIED).entity("No device is modified " +
-                                "after the timestamp provided in 'If-Modified-Since' header").build();
-                    }
-                } else {
-                    device = dms.getDevice(new DeviceIdentifier(id, type));
+                device = dms.getDevice(new DeviceIdentifier(id, type), sinceDate);
+                if (device == null) {
+                    return Response.status(Response.Status.NOT_MODIFIED).entity("No device is modified " +
+                            "after the timestamp provided in 'If-Modified-Since' header").build();
                 }
             } else {
-                owner = authorizedUser;
-                if (sinceDate != null) {
-                    device = dms.getDevice(new DeviceIdentifier(id, type), owner, sinceDate, true);
-                    if (device == null) {
-                        return Response.status(Response.Status.NOT_MODIFIED).entity("No device is modified " +
-                                "after the timestamp provided in 'If-Modified-Since' header").build();
-                    }
-                } else {
-                    device = dms.getDevice(new DeviceIdentifier(id, type), owner, true);
-                }
+                device = dms.getDevice(new DeviceIdentifier(id, type));
             }
         } catch (DeviceManagementException e) {
             String msg = "Error occurred while fetching the device information.";
@@ -469,33 +432,6 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
                     new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
         }
         return Response.status(Response.Status.OK).entity(deviceLocation).build();
-
-    }
-
-
-    @GET
-    @Path("/{type}/{id}/info")
-    @Override
-    public Response getDeviceInformation(
-            @PathParam("type") @Size(max = 45) String type,
-            @PathParam("id") @Size(max = 45) String id,
-            @HeaderParam("If-Modified-Since") String ifModifiedSince) {
-        DeviceInformationManager informationManager;
-        DeviceInfo deviceInfo;
-        try {
-            DeviceIdentifier deviceIdentifier = new DeviceIdentifier();
-            deviceIdentifier.setId(id);
-            deviceIdentifier.setType(type);
-            informationManager = DeviceMgtAPIUtils.getDeviceInformationManagerService();
-            deviceInfo = informationManager.getDeviceInfo(deviceIdentifier);
-
-        } catch (DeviceDetailsMgtException e) {
-            String msg = "Error occurred while getting the device information of id : " + id + " type : " + type;
-            log.error(msg, e);
-            return Response.serverError().entity(
-                    new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
-        }
-        return Response.status(Response.Status.OK).entity(deviceInfo).build();
 
     }
 
@@ -560,13 +496,15 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
             @QueryParam("offset") int offset,
             @QueryParam("limit") int limit) {
         List<Application> applications;
+        //ApplicationList appList;
         ApplicationManagementProviderService amc;
         try {
             RequestValidationUtil.validateDeviceIdentifier(type, id);
 
             amc = DeviceMgtAPIUtils.getAppManagementService();
             applications = amc.getApplicationListForDevice(new DeviceIdentifier(id, type));
-            return Response.status(Response.Status.OK).entity(applications).build();
+
+            //TODO: return app list
         } catch (ApplicationManagementException e) {
             String msg = "Error occurred while fetching the apps of the '" + type + "' device, which carries " +
                     "the id '" + id + "'";
@@ -574,6 +512,7 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
             return Response.serverError().entity(
                     new ErrorResponse.ErrorResponseBuilder().setMessage(msg).build()).build();
         }
+        return Response.status(Response.Status.OK).entity(applications).build();
     }
 
     @GET
@@ -678,8 +617,8 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
     /**
      * Change device status.
      *
-     * @param type       Device type
-     * @param id         Device id
+     * @param type Device type
+     * @param id Device id
      * @param newsStatus Device new status
      * @return {@link Response} object
      */
@@ -724,7 +663,7 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
             Operation.Type operationType = operationRequest.getOperation().getType();
-            if (operationType == Operation.Type.COMMAND || operationType == Operation.Type.CONFIG || operationType == Operation.Type.PROFILE) {
+            if (operationType == Operation.Type.COMMAND || operationType == Operation.Type.CONFIG) {
                 DeviceIdentifier deviceIdentifier;
                 List<DeviceIdentifier> deviceIdentifiers = new ArrayList<>();
                 for (String deviceId : operationRequest.getDeviceIdentifiers()) {
@@ -742,7 +681,7 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
                     operation.setEnabled(commandOperation.isEnabled());
                     operation.setStatus(commandOperation.getStatus());
 
-                } else if (operationType == Operation.Type.CONFIG) {
+                } else {
                     Operation configOperation = operationRequest.getOperation();
                     operation = new ConfigOperation();
                     operation.setType(Operation.Type.CONFIG);
@@ -750,20 +689,11 @@ public class DeviceManagementServiceImpl implements DeviceManagementService {
                     operation.setEnabled(configOperation.isEnabled());
                     operation.setPayLoad(configOperation.getPayLoad());
                     operation.setStatus(configOperation.getStatus());
-
-                } else {
-                    Operation profileOperation = operationRequest.getOperation();
-                    operation = new ProfileOperation();
-                    operation.setType(Operation.Type.PROFILE);
-                    operation.setCode(profileOperation.getCode());
-                    operation.setEnabled(profileOperation.isEnabled());
-                    operation.setPayLoad(profileOperation.getPayLoad());
-                    operation.setStatus(profileOperation.getStatus());
                 }
                 String date = new SimpleDateFormat(DATE_FORMAT_NOW).format(new Date());
                 operation.setCreatedTimeStamp(date);
                 Activity activity = DeviceMgtAPIUtils.getDeviceManagementService().addOperation(type, operation,
-                        deviceIdentifiers);
+                                                                                       deviceIdentifiers);
                 return Response.status(Response.Status.CREATED).entity(activity).build();
             } else {
                 String message = "Only Command and Config operation is supported through this api";

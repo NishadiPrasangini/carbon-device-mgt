@@ -19,7 +19,7 @@
 
 package org.wso2.carbon.device.mgt.core.device.details.mgt;
 
-public class DeviceDetailsMgtException extends Exception {
+public class DeviceDetailsMgtException extends Exception{
     private static final long serialVersionUID = -315127931137777499L;
 
     private String errorMessage;

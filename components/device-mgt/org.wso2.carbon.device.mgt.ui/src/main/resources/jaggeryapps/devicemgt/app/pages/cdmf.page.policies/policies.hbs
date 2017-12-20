@@ -138,7 +138,7 @@
                 <th data-for="By Status" class="select-filter"></th>
                 <th class="no-sort"></th>
             </tr>
-            <tr class="bulk-action-row hidden">
+            <tr class="bulk-action-row">
                 <th colspan="9">
                     <ul class="tiles">
                         {{#if removePermitted}}
@@ -237,12 +237,10 @@
                         data-search="{{status}}"
                         data-display="{{status}}">
                     </td>
-                    <td class="text-right content-fill text-left-on-grid-view no-wrap tooltip-overflow-fix">
+                    <td class="text-right content-fill text-left-on-grid-view no-wrap">
                         <!--suppress HtmlUnknownTarget -->
                         <a href="{{@app.context}}/policy/edit?id={{id}}&deviceType={{platform}}"
                            data-id="{{id}}"
-                           data-toggle="tooltip"
-                           data-original-title="Edit"
                            data-click-event="remove-form"
                            class="btn padding-reduce-on-grid-view policy-update-link">
                                 <span class="fw-stack">

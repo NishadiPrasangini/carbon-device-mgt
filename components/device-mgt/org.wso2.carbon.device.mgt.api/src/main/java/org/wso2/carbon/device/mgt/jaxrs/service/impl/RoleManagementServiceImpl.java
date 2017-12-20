@@ -30,7 +30,6 @@ import org.wso2.carbon.device.mgt.jaxrs.beans.RoleList;
 import org.wso2.carbon.device.mgt.jaxrs.service.api.RoleManagementService;
 import org.wso2.carbon.device.mgt.jaxrs.service.impl.util.FilteringUtil;
 import org.wso2.carbon.device.mgt.jaxrs.service.impl.util.RequestValidationUtil;
-import org.wso2.carbon.device.mgt.jaxrs.util.Constants;
 import org.wso2.carbon.device.mgt.jaxrs.util.DeviceMgtAPIUtils;
 import org.wso2.carbon.device.mgt.jaxrs.util.SetReferenceTransformer;
 import org.wso2.carbon.registry.api.Registry;
@@ -69,9 +68,6 @@ public class RoleManagementServiceImpl implements RoleManagementService {
             @HeaderParam("If-Modified-Since") String ifModifiedSince,
             @QueryParam("offset") int offset, @QueryParam("limit") int limit) {
         RequestValidationUtil.validatePaginationParameters(offset, limit);
-        if (limit == 0) {
-            limit = Constants.DEFAULT_PAGE_LIMIT;
-        }
         List<String> filteredRoles;
         RoleList targetRoles = new RoleList();
 
@@ -122,8 +118,8 @@ public class RoleManagementServiceImpl implements RoleManagementService {
             finalRoleList = new ArrayList<String>();
 
             filteredRoles = FilteringUtil.getFilteredList(getRolesFromUserStore(filter, userStore), offset, limit);
-            for (String rolename : filteredRoles) {
-                if (rolename.startsWith(prefix)) {
+            for (String rolename : filteredRoles){
+                if (rolename.startsWith(prefix)){
                     finalRoleList.add(rolename);
                 }
             }

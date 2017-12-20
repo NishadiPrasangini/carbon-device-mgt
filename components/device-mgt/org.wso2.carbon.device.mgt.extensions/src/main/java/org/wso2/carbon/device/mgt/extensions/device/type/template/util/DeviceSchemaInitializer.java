@@ -30,29 +30,29 @@ import java.io.File;
 /**
  * Provides methods for initializing the database script.
  */
-public class DeviceSchemaInitializer extends DatabaseCreator {
+public class DeviceSchemaInitializer extends DatabaseCreator{
 
-    private static final Log log = LogFactory.getLog(DeviceSchemaInitializer.class);
-    private String setupSQLScriptBaseLocation;
+	private static final Log log = LogFactory.getLog(DeviceSchemaInitializer.class);
+	private String setupSQLScriptBaseLocation;
 
-    public DeviceSchemaInitializer(DataSource dataSource, String deviceType, String tenantDomain) {
-        super(dataSource);
-        String tenantSeperator = "";
-        if (!MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
-            tenantSeperator = tenantDomain + File.separator;
-        }
+	public DeviceSchemaInitializer(DataSource dataSource, String deviceType, String tenantDomain) {
+		super(dataSource);
+		String tenantSeperator = "";
+		if (!MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+			tenantSeperator = tenantDomain + File.separator;
+		}
 
-        setupSQLScriptBaseLocation = CarbonUtils.getCarbonHome() + File.separator + "dbscripts"
-                + File.separator + "cdm" + File.separator + "plugins" + File.separator + tenantSeperator
-                + deviceType + File.separator;
-    }
+		setupSQLScriptBaseLocation = CarbonUtils.getCarbonHome() + File.separator + "dbscripts"
+				+ File.separator + "cdm" + File.separator + "plugins" + File.separator + tenantSeperator
+				+ deviceType + File.separator;
+	}
 
-    @Override
-    protected String getDbScriptLocation(String databaseType) {
-        String scriptName = databaseType + ".sql";
-        if (log.isDebugEnabled()) {
-            log.debug("Loading database script from :" + scriptName);
-        }
-        return setupSQLScriptBaseLocation.replaceFirst("DBTYPE", databaseType) + scriptName;
-    }
+	@Override
+	protected String getDbScriptLocation(String databaseType) {
+		String scriptName = databaseType + ".sql";
+		if (log.isDebugEnabled()) {
+			log.debug("Loading database script from :" + scriptName);
+		}
+		return setupSQLScriptBaseLocation.replaceFirst("DBTYPE", databaseType) + scriptName;
+	}
 }

@@ -26,9 +26,20 @@ public class DeviceTypeDeployerPayloadException extends RuntimeException {
         super(msg, nestedEx);
     }
 
+    public DeviceTypeDeployerPayloadException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public DeviceTypeDeployerPayloadException(String msg) {
         super(msg);
     }
 
+    public DeviceTypeDeployerPayloadException() {
+        super();
+    }
+
+    public DeviceTypeDeployerPayloadException(Throwable cause) {
+        super(cause);
+    }
 
 }

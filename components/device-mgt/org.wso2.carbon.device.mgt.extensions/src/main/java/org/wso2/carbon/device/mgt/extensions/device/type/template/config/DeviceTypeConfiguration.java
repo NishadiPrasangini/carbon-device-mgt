@@ -98,8 +98,10 @@ public class DeviceTypeConfiguration {
     /**
      * Gets the value of the deviceStatusTaskConfiguration property.
      *
-     * @return possible object is
-     * {@link DeviceStatusTaskConfiguration }
+     * @return
+     *     possible object is
+     *     {@link DeviceStatusTaskConfiguration }
+     *
      */
     public DeviceStatusTaskConfiguration getDeviceStatusTaskConfiguration() {
         return deviceStatusTaskConfiguration;
@@ -108,8 +110,10 @@ public class DeviceTypeConfiguration {
     /**
      * Sets the value of the deviceStatusTaskConfiguration property.
      *
-     * @param deviceStatusTaskConfiguration allowed object is
-     *                                      {@link DeviceStatusTaskConfiguration }
+     * @param deviceStatusTaskConfiguration
+     *     allowed object is
+     *     {@link DeviceStatusTaskConfiguration }
+     *
      */
     public void setDeviceStatusTaskConfiguration(DeviceStatusTaskConfiguration deviceStatusTaskConfiguration) {
         this.deviceStatusTaskConfiguration = deviceStatusTaskConfiguration;
@@ -118,8 +122,10 @@ public class DeviceTypeConfiguration {
     /**
      * Gets the value of the taskConfiguration property.
      *
-     * @return possible object is
-     * {@link TaskConfiguration }
+     * @return
+     *     possible object is
+     *     {@link TaskConfiguration }
+     *
      */
     public TaskConfiguration getTaskConfiguration() {
         return taskConfiguration;
@@ -128,8 +134,10 @@ public class DeviceTypeConfiguration {
     /**
      * Sets the value of the taskConfiguration property.
      *
-     * @param taskConfiguration allowed object is
-     *                          {@link TaskConfiguration }
+     * @param taskConfiguration
+     *     allowed object is
+     *     {@link TaskConfiguration }
+     *
      */
     public void setTaskConfiguration(TaskConfiguration taskConfiguration) {
         this.taskConfiguration = taskConfiguration;

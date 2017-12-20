@@ -35,12 +35,12 @@ var zoomLevel = 15;
 var tileSet = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 var attribution = "&copy; <a href='https://openstreetmap.org/copyright'>OpenStreetMap</a> contributors";
 
-function initialLoad(geoFencingEnabled) {
+function initialLoad() {
     if (document.getElementById('map') == null) {
         setTimeout(initialLoad, 500); // give everything some time to render
     } else {
         initializeMap();
-        processAfterInitializationMap(geoFencingEnabled);
+        processAfterInitializationMap();
         $("#loading").hide();
     }
 }
@@ -111,7 +111,7 @@ var geoAlertsBar;
 var groupedOverlays;
 var layerControl;
 
-function processAfterInitializationMap(geoFencingEnabled) {
+function processAfterInitializationMap() {
     attributionControl = L.control({
         position: "bottomright"
     });
@@ -123,9 +123,7 @@ function processAfterInitializationMap(geoFencingEnabled) {
     map.addControl(L.control.fullscreen({position: 'bottomright'}));
 
     geoAlertsBar = L.control.geoAlerts({position: 'topright'});
-    if (geoFencingEnabled) {
-        map.addControl(geoAlertsBar);
-    }
+    map.addControl(geoAlertsBar);
 
     groupedOverlays = {
         "Web Map Service layers": {}
@@ -256,7 +254,7 @@ function focusOnSpatialObject(objectId) {
     // TODO: check the map._layersMaxZoom and set the zoom level accordingly
 
     spatialObject.marker.openPopup();
-    getAlertsHistory(deviceType, deviceId, new Date($('#timeFromCal').val()).getTime(), new Date($('#timeToCal').val()).getTime());
+    getAlertsHistory(deviceType, deviceId, new Date($('#timeFrom').val()).getTime(), new Date($('#timeTo').val()).getTime());
     spatialObject.drawPath();
     if (speedGraphControl) {
         setTimeout(function () {
@@ -279,7 +277,6 @@ var getProviderData = function (timeFrom, timeTo) {
         var serviceUrl = '/api/device-mgt/v1.0/geo-services/stats/' + deviceType + '/' + deviceId + '?from=' + timeFrom + '&to=' + timeTo;
         invokerUtil.get(serviceUrl,
                         function (data) {
-                            if(data === ""){showCurrentLocation(tableData);}
                             tableData = JSON.parse(data);
                             if (tableData.length === 0) {
                             showCurrentLocation(tableData);
@@ -362,8 +359,7 @@ function notifyError(message) {
 }
 
 function enableRealTime() {
-    $("#realTimeShow").hide();
-    $(".geo-alert").show();
+    document.getElementById('realTimeShow').style.display = 'none';
     spatialObject = currentSpatialObjects[selectedSpatialObject];
     if (spatialObject) {
         spatialObject.removePath();
@@ -372,13 +368,8 @@ function enableRealTime() {
     selectedSpatialObject = null;
     clearFocus();
     clearMap();
+    document.getElementById('objectInfo').style.display = 'none';
     isBatchModeOn = false;
-    initializeGeoLocation(geoFencingEnabled);
-}
-
-function disableRealTime(){
-    $(".geo-alert").hide();
-    $("#realTimeShow").show();
 }
 
 var geoFencingEnabled = true;
@@ -465,7 +456,7 @@ function focusOnHistorySpatialObject(objectId, timeFrom, timeTo) {
         notifyError('No end time provided to show history. Please provide a suitable value' + timeTo);
     } else {
         $('#dateRangePopup').dialog('close');
-        disableRealTime();
+        document.getElementById('realTimeShow').style.display = 'block';
         isBatchModeOn = true;
         clearFocus(); // Clear current focus if any
         clearMap();
@@ -513,7 +504,7 @@ function focusOnHistorySpatialObject(objectId, timeFrom, timeTo) {
         // TODO: check the map._layersMaxZoom and set the zoom level accordingly
 
         spatialObject.marker.openPopup();
-        getAlertsHistory(deviceType, deviceId, new Date($('#timeFromCal').val()).getTime(), new Date($('#timeToCal').val()).getTime());
+        getAlertsHistory(deviceType, deviceId, new Date($('#timeFrom').val()).getTime(), new Date($('#timeTo').val()).getTime());
         spatialObject.drawPath();
         if (speedGraphControl) {
             setTimeout(function () {
@@ -533,13 +524,11 @@ function clearFocus() {
     }
 }
 
-function createGeoToolListItem(link, text, icon, menuRoot, noModal) {
+function createGeoToolListItem(link, text, icon, menuRoot) {
     var listItem = $("<div/>", { class: 'action-btn filter'}).appendTo(menuRoot);
     var anchor = $("<a/>", {href: link, text: ' ' + text}).appendTo(listItem);
-    if(!noModal){
-        anchor.attr('data-toggle', 'modal');
-        anchor.attr('data-target', '#commonModal');
-    }
+    anchor.attr('data-toggle', 'modal');
+    anchor.attr('data-target', '#commonModal');
     $("<i/>", {class: icon}).prependTo(anchor);
     return listItem;
 }

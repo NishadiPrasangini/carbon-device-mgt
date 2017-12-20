@@ -117,6 +117,6 @@ public class ValidationInterceptor extends AbstractPhaseInterceptor<Message> {
         }
     }
 
-    public void handleFault(org.apache.cxf.message.Message messageParam) {
+    public void handleFault(Message messageParam) {
     }
 }

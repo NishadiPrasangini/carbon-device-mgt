@@ -45,7 +45,6 @@ public class OperationManagementDAOUtil {
             }
         }
     }
-
     public static void cleanupResources(Statement stmt) {
         if (stmt != null) {
             try {

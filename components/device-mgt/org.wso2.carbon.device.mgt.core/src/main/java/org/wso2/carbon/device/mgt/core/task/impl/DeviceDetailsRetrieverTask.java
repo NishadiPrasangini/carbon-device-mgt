@@ -61,10 +61,10 @@ public class DeviceDetailsRetrieverTask implements Task {
     @Override
     public void execute() {
 
-        if (System.getProperty(IS_CLOUD) != null && Boolean.parseBoolean(System.getProperty(IS_CLOUD))) {
+        if(System.getProperty(IS_CLOUD) != null && Boolean.parseBoolean(System.getProperty(IS_CLOUD))){
             executeForTenants = true;
         }
-        if (executeForTenants) {
+        if(executeForTenants){
             this.executeForAllTenants();
         } else {
             if (log.isDebugEnabled()) {

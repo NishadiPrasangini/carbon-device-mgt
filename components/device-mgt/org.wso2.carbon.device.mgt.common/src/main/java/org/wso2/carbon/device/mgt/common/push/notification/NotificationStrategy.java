@@ -33,7 +33,6 @@ public interface NotificationStrategy {
 
     /**
      * Provides push notification configuration.
-     *
      * @return PushNotificationConfig for this NotificationStrategy
      */
     PushNotificationConfig getConfig();

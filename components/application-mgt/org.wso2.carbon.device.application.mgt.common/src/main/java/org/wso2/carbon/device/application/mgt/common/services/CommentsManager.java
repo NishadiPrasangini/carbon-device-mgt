@@ -27,6 +27,7 @@ import org.wso2.carbon.device.application.mgt.common.exception.DBConnectionExcep
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * CommentsManager is responsible for handling all the add/update/delete/get operations related with
@@ -57,6 +58,17 @@ public interface CommentsManager {
      * @throws CommentManagementException Exceptions of the comment management.
      */
     Comment addComment(Comment comment,String uuid,int tenantId)throws CommentManagementException;
+
+    /**
+     * To validate the pre-request of the comment
+     *
+     * @param apAppCommentId ID of the comment.
+     * @param comment comment needed to be validate.
+     * @return validated the comment.
+     * @throws CommentManagementException Exceptions of the comment management.
+     *
+     */
+    Boolean validateComment(int apAppCommentId,String comment) throws CommentManagementException;
 //
 //    /**
 //     * To update already added comment.
@@ -80,6 +92,17 @@ public interface CommentsManager {
 //     */
 //    List <Comment> getAllComments(String uuid)throws CommentManagementException;
 
+//    /**
+//     * Get all comments to pagination
+//     *
+//     *@param request Pagination request
+//     * @param uuid uuid of the application release
+//     * @return {@link PaginationResult} pagination result with starting offSet and limit
+//     * @throws CommentManagementException Exceptions of the comment management.
+//     * @throws SQLException SQL Exception
+//     */
+//    PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException;
+
     /**
      * Get all comments to pagination
      *
@@ -89,7 +112,8 @@ public interface CommentsManager {
      * @throws CommentManagementException Exceptions of the comment management.
      * @throws SQLException SQL Exception
      */
-    PaginationResult getAllComments(PaginationRequest request,String uuid) throws CommentManagementException, SQLException;
+    List<Comment> getAllComments(PaginationRequest request, String uuid) throws CommentManagementException, SQLException;
+
 
     /**
      * To get the comment with id.

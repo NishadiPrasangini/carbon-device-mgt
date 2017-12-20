@@ -25,7 +25,6 @@ import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.mgt.extensions.device.type.template.exception.DeviceTypeMgtPluginException;
 import org.wso2.carbon.device.mgt.extensions.internal.DeviceTypeExtensionDataHolder;
 import org.wso2.carbon.registry.api.RegistryException;
-import org.wso2.carbon.registry.api.RegistryService;
 import org.wso2.carbon.registry.api.Resource;
 import org.wso2.carbon.registry.core.Registry;
 
@@ -95,40 +94,37 @@ public class DeviceTypeUtils {
             }
         } catch (Exception e) {
             throw new DeviceTypeMgtPluginException("Error occurred while initializing Device " +
-                    "Management database schema", e);
+                                                                       "Management database schema", e);
         }
     }
 
     public static Registry getConfigurationRegistry() throws DeviceTypeMgtPluginException {
         try {
             int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
-            org.wso2.carbon.registry.core.service.RegistryService registryService = DeviceTypeExtensionDataHolder
-                    .getInstance().getRegistryService();
-            if (registryService == null) {
-                throw new DeviceTypeMgtPluginException("Registry Service is not initialized properly");
-            }
-            return registryService.getConfigSystemRegistry(tenantId);
+            return DeviceTypeExtensionDataHolder.getInstance().getRegistryService()
+                    .getConfigSystemRegistry(tenantId);
         } catch (RegistryException e) {
             throw new DeviceTypeMgtPluginException("Error in retrieving conf registry instance: " + e.getMessage(), e);
         }
     }
 
     public static boolean putRegistryResource(String path, Resource resource) throws DeviceTypeMgtPluginException {
+        boolean status;
         try {
-            Registry registry = getConfigurationRegistry();
-            registry.beginTransaction();
-            registry.put(path, resource);
-            registry.commitTransaction();
-            return true;
+            DeviceTypeUtils.getConfigurationRegistry().beginTransaction();
+            DeviceTypeUtils.getConfigurationRegistry().put(path, resource);
+            DeviceTypeUtils.getConfigurationRegistry().commitTransaction();
+            status = true;
         } catch (RegistryException e) {
-            throw new DeviceTypeMgtPluginException(
-                    "Error occurred while persisting registry resource : " + e.getMessage(), e);
+            throw new DeviceTypeMgtPluginException("Error occurred while persisting registry resource : " +
+                            e.getMessage(), e);
         }
+        return status;
     }
 
     public static Resource getRegistryResource(String path) throws DeviceTypeMgtPluginException {
         try {
-            if (DeviceTypeUtils.getConfigurationRegistry().resourceExists(path)) {
+            if(DeviceTypeUtils.getConfigurationRegistry().resourceExists(path)){
                 return DeviceTypeUtils.getConfigurationRegistry().get(path);
             }
             return null;

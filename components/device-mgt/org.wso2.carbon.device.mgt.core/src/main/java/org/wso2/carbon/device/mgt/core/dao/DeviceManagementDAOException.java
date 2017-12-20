@@ -29,7 +29,7 @@ public class DeviceManagementDAOException extends Exception {
     /**
      * Constructs a new exception with the specified detail message and nested exception.
      *
-     * @param message         error message
+     * @param message error message
      * @param nestedException exception
      */
     public DeviceManagementDAOException(String message, Exception nestedException) {
@@ -61,7 +61,7 @@ public class DeviceManagementDAOException extends Exception {
     /**
      * Constructs a new exception with the specified and cause.
      *
-     * @param cause the cause of this exception.
+     * @param cause   the cause of this exception.
      */
     public DeviceManagementDAOException(Throwable cause) {
         super(cause);

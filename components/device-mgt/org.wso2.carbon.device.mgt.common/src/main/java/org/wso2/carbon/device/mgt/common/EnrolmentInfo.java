@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 @ApiModel(value = "EnrolmentInfo", description = "This class carries all information related to a devices enrollment" +
-        " status.")
+                                                 " status.")
 public class EnrolmentInfo implements Serializable {
 
     private static final long serialVersionUID = 1998101712L;
@@ -38,21 +38,21 @@ public class EnrolmentInfo implements Serializable {
     }
 
     @ApiModelProperty(name = "id", value = "ID of the device in the WSO2 EMM device information database.",
-            required = true)
+                      required = true)
     private int id;
-    @ApiModelProperty(name = "dateOfEnrolment", value = "Date of the device enrollment. This value is not necessary.", required = false)
+    @ApiModelProperty(name = "dateOfEnrolment", value = "Date of the device enrollment. This value is not necessary.", required = false )
     private Long dateOfEnrolment;
-    @ApiModelProperty(name = "dateOfLastUpdate", value = "Date of the device's last update. This value is not necessary.", required = false)
+    @ApiModelProperty(name = "dateOfLastUpdate", value = "Date of the device's last update. This value is not necessary.", required = false )
     private Long dateOfLastUpdate;
     @ApiModelProperty(name = "ownership", value = "Defines the ownership details. The ownership type can be any of the" +
-            " following values.\n" +
-            "BYOD - Bring your own device (BYOD).\n" +
-            "COPE - Corporate owned personally enabled (COPE).", required = true)
+                                                  " following values.\n" +
+                                                  "BYOD - Bring your own device (BYOD).\n" +
+                                                  "COPE - Corporate owned personally enabled (COPE).", required = true )
     private OwnerShip ownership;
     @ApiModelProperty(name = "status", value = "Current status of the device, such as whether the device " +
-            "is active, removed etc.", required = true)
+                                               "is active, removed etc.", required = true )
     private Status status;
-    @ApiModelProperty(name = "owner", value = "The device owner's name.", required = true)
+    @ApiModelProperty(name = "owner", value = "The device owner's name.", required = true )
     private String owner;
 
     public EnrolmentInfo() {

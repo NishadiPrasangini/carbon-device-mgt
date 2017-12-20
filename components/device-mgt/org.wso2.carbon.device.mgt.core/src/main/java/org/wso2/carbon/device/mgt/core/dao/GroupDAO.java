@@ -42,8 +42,8 @@ public interface GroupDAO {
      * Update an existing Device Group.
      *
      * @param deviceGroup group to update.
-     * @param groupId     of Device Group.
-     * @param tenantId    of the group.
+     * @param groupId of Device Group.
+     * @param tenantId of the group.
      * @throws GroupManagementDAOException
      */
     void updateGroup(DeviceGroup deviceGroup, int groupId, int tenantId)
@@ -52,8 +52,8 @@ public interface GroupDAO {
     /**
      * Delete an existing Device Group.
      *
-     * @param groupId  of Device Group.
-     * @param tenantId of the group.
+     * @param groupId of Device Group.
+     * @param tenantId  of the group.
      * @throws GroupManagementDAOException
      */
     void deleteGroup(int groupId, int tenantId) throws GroupManagementDAOException;
@@ -61,8 +61,8 @@ public interface GroupDAO {
     /**
      * Get device group by id.
      *
-     * @param groupId  of Device Group.
-     * @param tenantId of the group.
+     * @param groupId of Device Group.
+     * @param tenantId  of the group.
      * @return Device Group in tenant with specified name.
      * @throws GroupManagementDAOException
      */
@@ -70,7 +70,6 @@ public interface GroupDAO {
 
     /**
      * Get the groups of device with device id provided
-     *
      * @param deviceId
      * @return groups which has the device.
      * @throws GroupManagementDAOException
@@ -81,7 +80,7 @@ public interface GroupDAO {
      * Get paginated list of Device Groups in tenant.
      *
      * @param paginationRequest to filter results.
-     * @param tenantId          of user's tenant.
+     * @param tenantId of user's tenant.
      * @return List of all Device Groups in tenant.
      * @throws GroupManagementDAOException
      */
@@ -121,7 +120,7 @@ public interface GroupDAO {
      * Get paginated count of Device Groups in tenant.
      *
      * @param paginationRequest to filter results.
-     * @param tenantId          of user's tenant.
+     * @param tenantId of user's tenant.
      * @return List of all Device Groups in tenant.
      * @throws GroupManagementDAOException
      */
@@ -131,7 +130,7 @@ public interface GroupDAO {
      * Check group already existed with given name.
      *
      * @param groupName of the Device Group.
-     * @param tenantId  of user's tenant.
+     * @param tenantId of user's tenant.
      * @return existence of group with name
      * @throws GroupManagementDAOException
      */
@@ -140,7 +139,7 @@ public interface GroupDAO {
     /**
      * Add device to a given Device Group.
      *
-     * @param groupId  of Device Group.
+     * @param groupId of Device Group.
      * @param deviceId of the device.
      * @param tenantId of user's tenant.
      * @throws GroupManagementDAOException
@@ -150,7 +149,7 @@ public interface GroupDAO {
     /**
      * Remove device from the Device Group.
      *
-     * @param groupId  of Device Group.
+     * @param groupId of Device Group.
      * @param deviceId of the device.
      * @param tenantId of user's tenant.
      * @throws GroupManagementDAOException
@@ -160,7 +159,7 @@ public interface GroupDAO {
     /**
      * Check device is belonging to a Device Group.
      *
-     * @param groupId  of Device Group.
+     * @param groupId of Device Group.
      * @param deviceId of the device.
      * @param tenantId of user's tenant.
      * @throws GroupManagementDAOException
@@ -171,7 +170,7 @@ public interface GroupDAO {
     /**
      * Get count of devices in a Device Group.
      *
-     * @param groupId  of Device Group.
+     * @param groupId of Device Group.
      * @param tenantId of user's tenant.
      * @return device count.
      * @throws GroupManagementDAOException
@@ -181,10 +180,10 @@ public interface GroupDAO {
     /**
      * Get paginated result of devices of a given tenant and device group.
      *
-     * @param groupId    of Device Group.
+     * @param groupId of Device Group.
      * @param startIndex for pagination.
-     * @param rowCount   for pagination.
-     * @param tenantId   of user's tenant.
+     * @param rowCount for pagination.
+     * @param tenantId of user's tenant.
      * @return list of device in group
      * @throws GroupManagementDAOException
      */

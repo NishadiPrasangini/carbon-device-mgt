@@ -66,7 +66,7 @@ public class DeviceStatusTaskManagerServiceImpl implements DeviceStatusTaskManag
 
             TaskInfo.TriggerInfo triggerInfo = new TaskInfo.TriggerInfo();
             //Convert to milli seconds
-            triggerInfo.setIntervalMillis(deviceStatusTaskConfig.getFrequency() * 1000);
+            triggerInfo.setIntervalMillis(deviceStatusTaskConfig.getFrequency()*1000);
             triggerInfo.setRepeatCount(-1);
 
             Gson gson = new Gson();

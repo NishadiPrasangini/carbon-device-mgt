@@ -64,7 +64,7 @@ public class Notification {
 
     @JsonProperty(value = "deviceName", required = false)
     @ApiModelProperty(name = "deviceName", value = "Defines the device Name related to the notification.",
-            required = false)
+                      required = false)
     private String deviceName;
 
     @JsonProperty(value = "devieType", required = false)

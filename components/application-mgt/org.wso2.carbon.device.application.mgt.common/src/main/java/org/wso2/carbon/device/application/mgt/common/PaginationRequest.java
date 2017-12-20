@@ -18,8 +18,8 @@
 
 package org.wso2.carbon.device.application.mgt.common;
 
-
-import org.apache.commons.fileupload.MultipartStream;
+import org.wso2.carbon.device.application.mgt.common.exception.InputValidationException;
+import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse.ErrorResponse;
 
 /**
  * This class holds required parameters for a querying a paginated device response.
@@ -50,19 +50,27 @@ public class PaginationRequest {
         this.limit = limit;
     }
 
-    public boolean validatePaginationRequest(int offSet,int limit){
-        if (offSet<0){
-            throw new IllegalArgumentException("off set value can't be negative");
-        } else if(limit<0){
-            throw new IllegalArgumentException("limit value can't be negative");
-        }else {
-            return true;
+    public void validatePaginationRequest(int offSet,int limit){
+        if (offSet < 0) {
+            throw new InputValidationException(
+                    new ErrorResponse.ErrorResponseBuilder().setCode(400l).setMessage("Request parameter offset is s " +
+                            "negative value.").build());
+        }
+        if (limit < 0) {
+            throw new InputValidationException(
+                    new ErrorResponse.ErrorResponseBuilder().setCode(400l).setMessage("Request parameter limit is a " +
+                            "negative value.").build());
+        }
+        if (limit > 100) {
+            throw new InputValidationException(
+                    new ErrorResponse.ErrorResponseBuilder().setCode(400l).setMessage("Request parameter limit should" +
+                            " be less than or equal to 100.").build());
         }
     }
 
 
     @Override
     public String toString() {
-        return "Off Set'" + this.offSet + "' row count '" + this.limit;
+        return "Off Set'" + this.offSet + "' limit '" + this.limit;
     }
 }

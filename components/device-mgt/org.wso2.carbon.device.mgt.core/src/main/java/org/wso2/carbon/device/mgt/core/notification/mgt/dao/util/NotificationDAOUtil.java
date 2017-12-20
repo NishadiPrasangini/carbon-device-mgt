@@ -41,108 +41,108 @@ import java.util.Hashtable;
  */
 public class NotificationDAOUtil {
 
-    private static final Log log = LogFactory.getLog(NotificationDAOUtil.class);
+	private static final Log log = LogFactory.getLog(NotificationDAOUtil.class);
 
-    public static void cleanupResources(Connection conn, PreparedStatement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                log.warn("Error occurred while closing result set", e);
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                log.warn("Error occurred while closing prepared statement", e);
-            }
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                log.warn("Error occurred while closing database connection", e);
-            }
-        }
-    }
+	public static void cleanupResources(Connection conn, PreparedStatement stmt, ResultSet rs) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				log.warn("Error occurred while closing result set", e);
+			}
+		}
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				log.warn("Error occurred while closing prepared statement", e);
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				log.warn("Error occurred while closing database connection", e);
+			}
+		}
+	}
 
-    public static void cleanupResources(PreparedStatement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                log.warn("Error occurred while closing result set", e);
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                log.warn("Error occurred while closing prepared statement", e);
-            }
-        }
-    }
+	public static void cleanupResources(PreparedStatement stmt, ResultSet rs) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				log.warn("Error occurred while closing result set", e);
+			}
+		}
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				log.warn("Error occurred while closing prepared statement", e);
+			}
+		}
+	}
 
-    /**
-     * Get id of the current tenant.
-     *
-     * @return tenant id
-     * @throws org.wso2.carbon.device.mgt.core.dao.DeviceManagementDAOException if an error is observed when getting tenant id
-     */
-    public static int getTenantId() throws NotificationManagementException {
-        CarbonContext context = CarbonContext.getThreadLocalCarbonContext();
-        int tenantId = context.getTenantId();
-        if (tenantId != MultitenantConstants.INVALID_TENANT_ID) {
-            return tenantId;
-        }
-        String tenantDomain = context.getTenantDomain();
-        if (tenantDomain == null) {
-            String msg = "Tenant domain is not properly set and thus, is null";
-            throw new NotificationManagementException(msg);
-        }
-        TenantManager tenantManager = DeviceManagementDataHolder.getInstance().getTenantManager();
-        try {
-            tenantId = tenantManager.getTenantId(tenantDomain);
-        } catch (UserStoreException e) {
-            String msg =
-                    "Error occurred while retrieving id from the domain of tenant " + tenantDomain;
-            throw new NotificationManagementException(msg);
-        }
-        return tenantId;
-    }
+	/**
+	 * Get id of the current tenant.
+	 *
+	 * @return tenant id
+	 * @throws org.wso2.carbon.device.mgt.core.dao.DeviceManagementDAOException if an error is observed when getting tenant id
+	 */
+	public static int getTenantId() throws NotificationManagementException {
+		CarbonContext context = CarbonContext.getThreadLocalCarbonContext();
+		int tenantId = context.getTenantId();
+		if (tenantId != MultitenantConstants.INVALID_TENANT_ID) {
+			return tenantId;
+		}
+		String tenantDomain = context.getTenantDomain();
+		if (tenantDomain == null) {
+			String msg = "Tenant domain is not properly set and thus, is null";
+			throw new NotificationManagementException(msg);
+		}
+		TenantManager tenantManager = DeviceManagementDataHolder.getInstance().getTenantManager();
+		try {
+			tenantId = tenantManager.getTenantId(tenantDomain);
+		} catch (UserStoreException e) {
+			String msg =
+					"Error occurred while retrieving id from the domain of tenant " + tenantDomain;
+			throw new NotificationManagementException(msg);
+		}
+		return tenantId;
+	}
 
-    public static DataSource lookupDataSource(String dataSourceName,
-                                              final Hashtable<Object, Object> jndiProperties) {
-        try {
-            if (jndiProperties == null || jndiProperties.isEmpty()) {
-                return (DataSource) InitialContext.doLookup(dataSourceName);
-            }
-            final InitialContext context = new InitialContext(jndiProperties);
-            return (DataSource) context.lookup(dataSourceName);
-        } catch (Exception e) {
-            throw new RuntimeException("Error in looking up data source: " + e.getMessage(), e);
-        }
-    }
+	public static DataSource lookupDataSource(String dataSourceName,
+	                                          final Hashtable<Object, Object> jndiProperties) {
+		try {
+			if (jndiProperties == null || jndiProperties.isEmpty()) {
+				return (DataSource) InitialContext.doLookup(dataSourceName);
+			}
+			final InitialContext context = new InitialContext(jndiProperties);
+			return (DataSource) context.lookup(dataSourceName);
+		} catch (Exception e) {
+			throw new RuntimeException("Error in looking up data source: " + e.getMessage(), e);
+		}
+	}
 
-    public static Notification getNotification(ResultSet rs) throws SQLException {
-        Notification notification = new Notification();
-        notification.setNotificationId(rs.getInt("NOTIFICATION_ID"));
-        notification.setOperationId(rs.getInt("OPERATION_ID"));
-        notification.setDescription(rs.getString("DESCRIPTION"));
-        notification.setStatus(rs.getString("STATUS"));
-        return notification;
-    }
+	public static Notification getNotification(ResultSet rs) throws SQLException {
+		Notification notification = new Notification();
+		notification.setNotificationId(rs.getInt("NOTIFICATION_ID"));
+		notification.setOperationId(rs.getInt("OPERATION_ID"));
+		notification.setDescription(rs.getString("DESCRIPTION"));
+		notification.setStatus(rs.getString("STATUS"));
+		return notification;
+	}
 
-    public static Notification getNotificationWithDeviceInfo(ResultSet rs) throws SQLException {
-        Notification notification = new Notification();
-        notification.setNotificationId(rs.getInt("NOTIFICATION_ID"));
-        notification.setOperationId(rs.getInt("OPERATION_ID"));
-        notification.setDescription(rs.getString("DESCRIPTION"));
-        notification.setStatus(rs.getString("STATUS"));
-        notification.setDeviceIdentifier(rs.getString("DEVICE_IDENTIFICATION"));
-        notification.setDeviceName(rs.getString("DEVICE_NAME"));
-        notification.setDeviceType(rs.getString("DEVICE_TYPE"));
-        return notification;
-    }
+	public static Notification getNotificationWithDeviceInfo(ResultSet rs) throws SQLException {
+		Notification notification = new Notification();
+		notification.setNotificationId(rs.getInt("NOTIFICATION_ID"));
+		notification.setOperationId(rs.getInt("OPERATION_ID"));
+		notification.setDescription(rs.getString("DESCRIPTION"));
+		notification.setStatus(rs.getString("STATUS"));
+		notification.setDeviceIdentifier(rs.getString("DEVICE_IDENTIFICATION"));
+		notification.setDeviceName(rs.getString("DEVICE_NAME"));
+		notification.setDeviceType(rs.getString("DEVICE_TYPE"));
+		return notification;
+	}
 }

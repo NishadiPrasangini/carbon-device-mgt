@@ -52,7 +52,7 @@ public class ApplicationMappingDAOImpl implements ApplicationMappingDAO {
             conn = this.getConnection();
             String sql = "INSERT INTO DM_DEVICE_APPLICATION_MAPPING (DEVICE_ID, APPLICATION_ID, " +
                     "TENANT_ID) VALUES (?, ?, ?)";
-            stmt = conn.prepareStatement(sql, new String[]{"id"});
+            stmt = conn.prepareStatement(sql, new String[] {"id"});
             stmt.setInt(1, deviceId);
             stmt.setInt(2, applicationId);
             stmt.setInt(3, tenantId);
@@ -72,7 +72,7 @@ public class ApplicationMappingDAOImpl implements ApplicationMappingDAO {
 
     @Override
     public void addApplicationMappings(int deviceId, List<Integer> applicationIds,
-                                       int tenantId) throws DeviceManagementDAOException {
+                                                int tenantId) throws DeviceManagementDAOException {
         Connection conn;
         PreparedStatement stmt = null;
         ResultSet rs = null;

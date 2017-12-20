@@ -73,21 +73,23 @@ public class DeviceTypeManagementAdminServiceImpl implements DeviceTypeManagemen
                     return Response.status(Response.Status.CONFLICT).entity(msg).build();
                 }
                 Matcher matcher = patternMatcher.matcher(deviceType.getName());
-                if (matcher.find()) {
+                if(matcher.find()) {
                     DeviceManagementService httpDeviceTypeManagerService =
                             DeviceMgtAPIUtils.getDeviceTypeGeneratorService()
                                     .populateDeviceManagementService(deviceType.getName(),
-                                            deviceType.getDeviceTypeMetaDefinition());
+                                                                     deviceType.getDeviceTypeMetaDefinition());
                     DeviceMgtAPIUtils.getDeviceManagementService().registerDeviceType(httpDeviceTypeManagerService);
                     return Response.status(Response.Status.OK).build();
                 } else {
                     return Response.status(Response.Status.BAD_REQUEST).entity("Device type name does not match the pattern "
-                            + DEVICETYPE_REGEX_PATTERN).build();
+                                                                                       + DEVICETYPE_REGEX_PATTERN).build();
                 }
             } catch (DeviceManagementException e) {
                 String msg = "Error occurred at server side while adding a device type.";
                 log.error(msg, e);
                 return Response.serverError().entity(msg).build();
+            } catch (InvalidConfigurationException e) {
+                return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
             }
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -111,6 +113,8 @@ public class DeviceTypeManagementAdminServiceImpl implements DeviceTypeManagemen
                 String msg = "Error occurred at server side while updating the device type.";
                 log.error(msg, e);
                 return Response.serverError().entity(msg).build();
+            } catch (InvalidConfigurationException e) {
+                return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
             }
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();

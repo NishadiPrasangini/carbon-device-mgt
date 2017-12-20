@@ -26,7 +26,7 @@ final class ExtendedFileProtocolIteratorFactory implements DirectoryIteratorFact
     @Override
     public StreamIterator create(URL url, Filter filter) throws IOException {
         File f = new File(java.net.URLDecoder.decode(url.getPath(), "UTF-8"));
-        return f.isDirectory() ? new FileIterator(f, filter) : new JarIterator(url.openStream(), filter);
+        return f.isDirectory()?new FileIterator(f, filter):new JarIterator(url.openStream(), filter);
     }
 
 }

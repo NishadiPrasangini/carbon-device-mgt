@@ -257,13 +257,13 @@ public class DeviceManagementServiceComponent {
         String defaultGroups =
                 DeviceConfigurationManager.getInstance().getDeviceManagementConfig().getDefaultGroupsConfiguration();
         List<String> groups = this.parseDefaultGroups(defaultGroups);
-        for (String group : groups) {
+        for(String group : groups){
             try {
                 groupManagementProvider.createDefaultGroup(group);
             } catch (GroupManagementException e) {
                 // Error is ignored, because error could be group already exist exception. Therefore it does not require
                 // to print the error.
-                if (log.isDebugEnabled()) {
+                if(log.isDebugEnabled()){
                     log.error("Error occurred while adding the group");
                 }
             }
@@ -332,7 +332,7 @@ public class DeviceManagementServiceComponent {
         if (defaultGroups != null && !defaultGroups.isEmpty()) {
             String gps[] = defaultGroups.split(",");
             if (gps.length != 0) {
-                for (String group : gps) {
+                for(String group : gps){
                     defaultGroupsList.add(group.trim());
                 }
             }

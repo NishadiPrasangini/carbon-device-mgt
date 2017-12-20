@@ -20,7 +20,6 @@ package org.wso2.carbon.device.mgt.extensions.device.type.template.dao;
 
 import org.wso2.carbon.device.mgt.common.Device;
 import org.wso2.carbon.device.mgt.extensions.device.type.template.exception.DeviceTypeMgtPluginException;
-
 import java.util.List;
 
 public interface PluginDAO {
@@ -30,6 +29,8 @@ public interface PluginDAO {
     boolean addDevice(Device device) throws DeviceTypeMgtPluginException;
 
     boolean updateDevice(Device device) throws DeviceTypeMgtPluginException;
+
+    boolean deleteDevice(String deviceId) throws DeviceTypeMgtPluginException;
 
     List<Device> getAllDevices() throws DeviceTypeMgtPluginException;
 }

@@ -36,7 +36,6 @@ import java.util.List;
 public class DefaultPolicyMonitoringManager implements PolicyMonitoringManager {
 
     private static Log log = LogFactory.getLog(DefaultPolicyMonitoringManager.class);
-
     @Override
     public NonComplianceData checkPolicyCompliance(DeviceIdentifier deviceIdentifier, Policy policy, Object response)
             throws PolicyComplianceException {
@@ -55,6 +54,7 @@ public class DefaultPolicyMonitoringManager implements PolicyMonitoringManager {
             if (!complianceFeature.isCompliant()) {
                 nonComplianceFeatures.add(complianceFeature);
                 nonComplianceData.setStatus(false);
+                break;
             }
         }
         nonComplianceData.setComplianceFeatures(nonComplianceFeatures);

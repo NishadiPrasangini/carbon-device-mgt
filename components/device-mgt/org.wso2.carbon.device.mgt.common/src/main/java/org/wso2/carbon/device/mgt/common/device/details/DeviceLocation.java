@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @ApiModel(value = "DeviceLocation", description = "This class carries all information related to the device location " +
-        "details provided by a device.")
+                                                  "details provided by a device.")
 public class DeviceLocation implements Serializable {
 
     private static final long serialVersionUID = 1998101722L;
@@ -35,7 +35,7 @@ public class DeviceLocation implements Serializable {
     @ApiModelProperty(name = "deviceId", value = "Device id", required = true)
     private int deviceId;
     @ApiModelProperty(name = "deviceIdentifier", value = "Device identifier used to identify a device uniquely.",
-            required = true)
+                      required = true)
     private DeviceIdentifier deviceIdentifier;
     @ApiModelProperty(name = "latitude", value = "Device GPS latitude.", required = true)
     private Double latitude;
@@ -137,7 +137,7 @@ public class DeviceLocation implements Serializable {
     }
 
     public Date getUpdatedTime() {
-        if (updatedTime == null) {
+        if(updatedTime == null ){
             updatedTime = new Date();
         }
         return updatedTime;

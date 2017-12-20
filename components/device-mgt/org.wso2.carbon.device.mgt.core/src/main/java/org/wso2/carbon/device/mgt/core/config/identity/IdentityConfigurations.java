@@ -25,35 +25,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "IdentityConfiguration")
 public class IdentityConfigurations {
-    private String serverUrl;
-    private String adminUsername;
-    private String adminPassword;
+	private String serverUrl;
+	private String adminUsername;
+	private String adminPassword;
 
-    @XmlElement(name = "AdminUsername", required = true)
-    public String getAdminUsername() {
-        return adminUsername;
-    }
+	@XmlElement(name = "AdminUsername", required = true)
+	public String getAdminUsername() {
+		return adminUsername;
+	}
 
-    public void setAdminUsername(String adminUsername) {
-        this.adminUsername = adminUsername;
-    }
+	public void setAdminUsername(String adminUsername) {
+		this.adminUsername = adminUsername;
+	}
 
-    @XmlElement(name = "AdminPassword", required = true)
-    public String getAdminPassword() {
-        return adminPassword;
-    }
+	@XmlElement(name = "AdminPassword", required = true)
+	public String getAdminPassword() {
+		return adminPassword;
+	}
 
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
+	}
 
-    @XmlElement(name = "ServerUrl", required = true)
-    public String getServerUrl() {
-        return serverUrl;
-    }
+	@XmlElement(name = "ServerUrl", required = true)
+	public String getServerUrl() {
+		return serverUrl;
+	}
 
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
+	}
 
 }

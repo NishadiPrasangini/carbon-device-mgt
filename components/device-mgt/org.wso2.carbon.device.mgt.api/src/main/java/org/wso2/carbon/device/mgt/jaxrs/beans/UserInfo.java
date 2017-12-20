@@ -24,10 +24,10 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "UserInfo", description = "User details and the roles of the user.")
 public class UserInfo extends BasicUserInfo {
 
-    @ApiModelProperty(name = "password", value = "Base64 encoded password.", required = true)
+    @ApiModelProperty(name = "password", value = "Base64 encoded password.", required = true )
     private String password;
 
-    @ApiModelProperty(name = "roles", value = "List of roles.", required = true)
+    @ApiModelProperty(name = "roles", value = "List of roles.", required = true )
     private String[] roles;
 
     public String getPassword() {
@@ -40,7 +40,7 @@ public class UserInfo extends BasicUserInfo {
 
     public String[] getRoles() {
         String[] copiedRoles = roles;
-        if (roles != null) {
+        if (roles != null){
             copiedRoles = roles.clone();
         }
         return copiedRoles;

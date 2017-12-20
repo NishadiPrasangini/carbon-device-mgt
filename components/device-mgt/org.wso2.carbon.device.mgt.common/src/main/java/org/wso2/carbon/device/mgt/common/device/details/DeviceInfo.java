@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ApiModel(value = "DeviceInfo", description = "This class carries all information related to the device information " +
-        "provided by a device.")
+                                              "provided by a device.")
 public class DeviceInfo implements Serializable {
 
     private static final long serialVersionUID = 1998101733L;
@@ -67,14 +67,14 @@ public class DeviceInfo implements Serializable {
     private Double internalTotalMemory;
 
     @ApiModelProperty(name = "internalAvailableMemory", value = "Total available memory of the device.",
-            required = true)
+                      required = true)
     private Double internalAvailableMemory;
 
     @ApiModelProperty(name = "externalTotalMemory", value = "Total external memory of the device.", required = true)
     private Double externalTotalMemory;
 
     @ApiModelProperty(name = "externalAvailableMemory", value = "Total external memory avilable of the device.",
-            required = true)
+                      required = true)
     private Double externalAvailableMemory;
 
     @ApiModelProperty(name = "operator", value = "Mobile operator of the device.", required = true)
@@ -99,7 +99,7 @@ public class DeviceInfo implements Serializable {
     private Double availableRAMMemory;
 
     @ApiModelProperty(name = "pluggedIn", value = "Whether the device is plugged into power or not.",
-            required = true)
+                      required = true)
     private boolean pluggedIn;
 
     @ApiModelProperty(name = "updatedTime", value = "Device updated time.", required = true)
@@ -142,6 +142,30 @@ public class DeviceInfo implements Serializable {
 
     public void setLocation(DeviceLocation location) {
         this.location = location;
+    }
+
+    public String getIMEI() {
+        if (IMEI != null) {
+            return IMEI;
+        } else {
+            return "";
+        }
+    }
+
+    public void setIMEI(String IMEI) {
+        this.IMEI = IMEI;
+    }
+
+    public String getIMSI() {
+        if (IMSI != null) {
+            return IMSI;
+        } else {
+            return "";
+        }
+    }
+
+    public void setIMSI(String IMSI) {
+        this.IMSI = IMSI;
     }
 
     public String getDeviceModel() {
@@ -346,7 +370,7 @@ public class DeviceInfo implements Serializable {
     }
 
     public Date getUpdatedTime() {
-        if (updatedTime == null) {
+        if(updatedTime == null){
             updatedTime = new Date();
         }
         return updatedTime;

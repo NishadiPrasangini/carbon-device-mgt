@@ -20,11 +20,10 @@ function onRequest(context) {
     var log = new Log("cdmf.unit.device.view/view.js");
     var deviceType = context["uriParams"]["deviceType"];
     var deviceId = request.getParameter("id");
-    var owner = request.getParameter("owner");
     var deviceViewData = {};
     if (deviceType && deviceId) {
         var deviceModule = require("/app/modules/business-controllers/device.js")["deviceModule"];
-        var response = deviceModule.viewDevice(deviceType, deviceId, owner);
+        var response = deviceModule.viewDevice(deviceType, deviceId);
         if (response["status"] == "success") {
             deviceViewData["deviceFound"] = true;
             deviceViewData["isAuthorized"] = true;

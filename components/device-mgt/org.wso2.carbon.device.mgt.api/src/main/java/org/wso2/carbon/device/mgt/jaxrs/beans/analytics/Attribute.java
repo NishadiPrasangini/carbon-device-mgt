@@ -41,7 +41,6 @@ public class Attribute {
         this.name = name;
         this.type = attributeType;
     }
-
     public String getName() {
         return name;
     }

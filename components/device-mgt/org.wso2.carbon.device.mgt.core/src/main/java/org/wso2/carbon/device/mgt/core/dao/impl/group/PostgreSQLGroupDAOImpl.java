@@ -195,7 +195,7 @@ public class PostgreSQLGroupDAOImpl extends AbstractGroupDAOImpl {
             }
         } catch (SQLException e) {
             throw new GroupManagementDAOException("Error occurred while retrieving information of all " +
-                    "registered devices", e);
+                                                          "registered devices", e);
         } finally {
             DeviceManagementDAOUtil.cleanupResources(stmt, rs);
         }

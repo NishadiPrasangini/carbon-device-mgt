@@ -24,8 +24,6 @@ import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.Extension;
 import io.swagger.annotations.Tag;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.AuthorizationScope;
-import io.swagger.annotations.Authorization;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -158,9 +156,9 @@ public interface UserManagementService {
             notes = "WSO2 IoTS supports user management. Add a new user to the WSO2 IoTS user management system via this REST API",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:add")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:add")
+                })
             }
     )
     @ApiResponses(
@@ -218,9 +216,9 @@ public interface UserManagementService {
             response = BasicUserInfo.class,
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:details")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:details")
+                })
             }
     )
     @ApiResponses(value = {
@@ -289,9 +287,9 @@ public interface UserManagementService {
                     + "situation you can update the user details using this REST API.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:update")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:update")
+                })
             }
     )
     @ApiResponses(value = {
@@ -354,9 +352,9 @@ public interface UserManagementService {
             notes = "When an employee leaves the organization, you can remove the user details from WSO2 IoTS using this REST API.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:delete")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:delete")
+                })
             }
     )
     @ApiResponses(value = {
@@ -397,9 +395,9 @@ public interface UserManagementService {
             notes = "A user can be assigned to one or more role in IoTS. Using this REST API you can get the role/roles a user is assigned to.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:roles")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:roles")
+                })
             }
     )
     @ApiResponses(value = {
@@ -459,9 +457,9 @@ public interface UserManagementService {
                     + "using this REST API",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:user-details")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:user-details")
+                })
             }
     )
     @ApiResponses(value = {
@@ -565,9 +563,9 @@ public interface UserManagementService {
             notes = "Check if the user exists in the user store.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:is-exist")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:is-exist")
+                })
             }
     )
     @ApiResponses(value = {
@@ -608,9 +606,9 @@ public interface UserManagementService {
                     + "characters you provided.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:search")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:search")
+                })
             }
     )
     @ApiResponses(value = {
@@ -685,9 +683,9 @@ public interface UserManagementService {
             notes = "A user is able to change the password to secure their WSO2 IoTS profile via this REST API.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:credentials")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:credentials")
+                })
             }
     )
     @ApiResponses(value = {
@@ -730,9 +728,9 @@ public interface UserManagementService {
                     "Before running the REST API command to send the enrollment invitations to users make sure to configure WSO2 IoTS as explained in step 4, under the WSO2 IoTS general server configurations documentation.",
             tags = "User Management",
             extensions = {
-                    @Extension(properties = {
-                            @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:send-invitation")
-                    })
+                @Extension(properties = {
+                        @ExtensionProperty(name = Constants.SCOPE, value = "perm:users:send-invitation")
+                })
             }
     )
     @ApiResponses(value = {
@@ -796,7 +794,7 @@ public interface UserManagementService {
             @ApiResponse(
                     code = 500,
                     message = "Internal Server Error. \n " +
-                            "Server error occurred while updating the user credentials.",
+                              "Server error occurred while updating the user credentials.",
                     response = ErrorResponse.class)
     })
     Response inviteToEnrollDevice(

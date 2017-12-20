@@ -28,9 +28,9 @@ import java.util.List;
 
 /**
  * <p>Java class for Features complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="Features">
  *   &lt;complexContent>
@@ -42,10 +42,12 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Features", propOrder = {
-        "feature"
+    "feature"
 })
 public class Features {
 
@@ -54,9 +56,11 @@ public class Features {
 
     /**
      * Gets the value of the feature property.
-     *
-     * @return possible object is
-     * {@link Feature }
+     * 
+     * @return
+     *     possible object is
+     *     {@link Feature }
+     *     
      */
     public List<Feature> getFeature() {
         if (feature == null) {

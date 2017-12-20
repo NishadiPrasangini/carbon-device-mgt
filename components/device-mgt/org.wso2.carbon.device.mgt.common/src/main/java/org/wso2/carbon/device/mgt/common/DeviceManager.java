@@ -37,8 +37,7 @@ public interface DeviceManager {
 
     /**
      * Method to save platform specific Configuration.
-     *
-     * @param configuration - A Platform configuration object which needs to save
+     * @param  configuration - A Platform configuration object which needs to save
      * @return Returns the status of the operation
      * @throws DeviceManagementException If something goes wrong while saving the configuration.
      */
