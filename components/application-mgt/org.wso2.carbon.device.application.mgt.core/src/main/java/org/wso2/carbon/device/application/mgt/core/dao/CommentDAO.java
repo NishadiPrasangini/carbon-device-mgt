@@ -31,6 +31,7 @@ import java.util.List;
 /**
  * This interface specifies the database access operations performed for comments.
  */
+
 @SuppressWarnings("ALL")
 public interface CommentDAO  {
 
