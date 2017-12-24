@@ -19,8 +19,7 @@
 package org.wso2.carbon.device.application.mgt.common;
 
 import org.wso2.carbon.device.application.mgt.common.exception.InputValidationException;
-import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse.ErrorResponse;
-
+import org.wso2.carbon.device.application.mgt.common.jaxrs.beans.ErrorResponse;
 /**
  * This class holds required parameters for a querying a paginated device response.
  */
@@ -50,7 +49,7 @@ public class PaginationRequest {
         this.limit = limit;
     }
 
-    public void validatePaginationRequest(int offSet,int limit){
+    public void validatePaginationRequest(int offSet, int limit) {
         if (offSet < 0) {
             throw new InputValidationException(
                     new ErrorResponse.ErrorResponseBuilder().setCode(400l).setMessage("Request parameter offset is s " +
@@ -67,6 +66,8 @@ public class PaginationRequest {
                             " be less than or equal to 100.").build());
         }
     }
+
+
 
 
     @Override
