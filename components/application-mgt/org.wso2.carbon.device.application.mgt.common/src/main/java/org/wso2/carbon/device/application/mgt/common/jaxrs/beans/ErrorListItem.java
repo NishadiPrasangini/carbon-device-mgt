@@ -16,13 +16,12 @@
  *   under the License.
  *
  */
-package org.wso2.carbon.device.application.mgt.api.beans;
+package org.wso2.carbon.device.application.mgt.common.jaxrs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Represents a single error item in the error response.
