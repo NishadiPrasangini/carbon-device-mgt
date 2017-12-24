@@ -27,7 +27,7 @@ import org.wso2.carbon.device.application.mgt.core.dao.impl.Comment.CommentDAOIm
 import org.wso2.carbon.device.application.mgt.core.dao.impl.application.GenericApplicationDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.application.release.GenericApplicationReleaseDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.application.release.OracleApplicationDAOImpl;
-import org.wso2.carbon.device.application.mgt.core.dao.impl.lifecycle.GenericLifecycleImpl;
+//import org.wso2.carbon.device.application.mgt.core.dao.impl.lifecycle.GenericLifecycleImpl;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.lifecyclestate.GenericLifecycleStateImpl;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.subscription.GenericSubscriptionDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.dao.impl.visibility.GenericVisibilityDAOImpl;
