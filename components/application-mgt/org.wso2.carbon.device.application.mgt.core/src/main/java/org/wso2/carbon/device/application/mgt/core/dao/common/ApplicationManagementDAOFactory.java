@@ -52,8 +52,8 @@ public class ApplicationManagementDAOFactory {
     private static String databaseEngine;
     private static final Log log = LogFactory.getLog(ApplicationManagementDAOFactory.class);
 
-    public static void init(String datasourceName) {
-        ConnectionManagerUtil.resolveDataSource(datasourceName);
+    public static void init(String dataSourceName) {
+        ConnectionManagerUtil.resolveDataSource(dataSourceName);
         databaseEngine = ConnectionManagerUtil.getDatabaseType();
     }
 
