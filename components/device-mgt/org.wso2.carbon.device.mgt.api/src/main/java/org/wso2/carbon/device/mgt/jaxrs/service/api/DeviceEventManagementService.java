@@ -13,15 +13,19 @@ import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import org.wso2.carbon.apimgt.annotations.api.Scope;
 import org.wso2.carbon.apimgt.annotations.api.Scopes;
+import org.wso2.carbon.device.mgt.jaxrs.beans.DeviceTypeList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse;
 import org.wso2.carbon.device.mgt.jaxrs.beans.analytics.DeviceTypeEvent;
+import org.wso2.carbon.device.mgt.jaxrs.beans.analytics.EventAttributeList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.analytics.EventRecords;
+import org.wso2.carbon.device.mgt.jaxrs.beans.analytics.TransportType;
 import org.wso2.carbon.device.mgt.jaxrs.util.Constants;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -117,7 +121,7 @@ public interface DeviceEventManagementService {
             }
     )
     Response deployDeviceTypeEventDefinition(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                             @PathParam("type") String deviceType,
+                                             @PathParam("type")String deviceType,
                                              @ApiParam(name = "deviceTypeEvent", value = "DeviceTypeEvent object with data.", required = true)
                                              @Valid DeviceTypeEvent deviceTypeEvent);
 
@@ -170,7 +174,7 @@ public interface DeviceEventManagementService {
             }
     )
     Response deleteDeviceTypeEventDefinitions(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                              @PathParam("type") String deviceType);
+                                              @PathParam("type")String deviceType);
 
     @GET
     @Path("/{type}/{deviceId}")
@@ -228,7 +232,7 @@ public interface DeviceEventManagementService {
                      @ApiParam(name = "to", value = "unix time to retrieve", required = false)
                      @QueryParam("to") long to,
                      @ApiParam(name = "type", value = "name of the device type", required = false)
-                     @PathParam("type") String deviceType,
+                     @PathParam("type")  String deviceType,
                      @ApiParam(name = "offset", value = "offset of the records that needs to be picked up", required = false)
                      @QueryParam("offset") int offset,
                      @ApiParam(name = "limit", value = "limit of the records that needs to be picked up", required = false)
@@ -284,9 +288,9 @@ public interface DeviceEventManagementService {
             }
     )
     Response getLastKnownData(@ApiParam(name = "deviceId", value = "id of the device ", required = false)
-                              @PathParam("deviceId") String deviceId,
-                              @ApiParam(name = "type", value = "name of the device type", required = false)
-                              @PathParam("type") String deviceType);
+                     @PathParam("deviceId") String deviceId,
+                     @ApiParam(name = "type", value = "name of the device type", required = false)
+                     @PathParam("type")  String deviceType);
 
     @GET
     @Path("/{type}")
@@ -338,6 +342,6 @@ public interface DeviceEventManagementService {
             }
     )
     Response getDeviceTypeEventDefinition(@ApiParam(name = "type", value = "name of the device type", required = false)
-                                          @PathParam("type") String deviceType) ;
+                                          @PathParam("type")String deviceType) ;
 
 }

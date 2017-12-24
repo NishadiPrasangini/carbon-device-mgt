@@ -45,6 +45,7 @@ public class PolicyEvaluationTestCase extends BasePolicyManagementDAOTest {
 
 
     @BeforeClass
+    @Override
     public void init() throws Exception {
         PolicyEvaluationPoint evaluationPoint = new SimplePolicyEvaluationTest();
         PolicyManagementDataHolder.getInstance().setPolicyEvaluationPoint(evaluationPoint.getName(), evaluationPoint);

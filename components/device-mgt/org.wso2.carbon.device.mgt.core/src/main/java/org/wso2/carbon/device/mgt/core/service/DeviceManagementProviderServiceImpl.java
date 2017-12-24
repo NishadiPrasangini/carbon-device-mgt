@@ -76,7 +76,10 @@ import org.wso2.carbon.device.mgt.core.internal.DeviceManagementServiceComponent
 import org.wso2.carbon.device.mgt.core.internal.PluginInitializationListener;
 import org.wso2.carbon.device.mgt.core.operation.mgt.CommandOperation;
 import org.wso2.carbon.device.mgt.core.util.DeviceManagerUtil;
-import org.wso2.carbon.email.sender.core.*;
+import org.wso2.carbon.email.sender.core.ContentProviderInfo;
+import org.wso2.carbon.email.sender.core.EmailContext;
+import org.wso2.carbon.email.sender.core.EmailSendingFailedException;
+import org.wso2.carbon.email.sender.core.TypedValue;
 import org.wso2.carbon.user.api.UserStoreException;
 
 import java.sql.SQLException;
@@ -631,8 +634,6 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
             DeviceManagementDataHolder.getInstance().getEmailSenderService().sendEmail(ctx);
         } catch (EmailSendingFailedException ex) {
             throw new DeviceManagementException("Error occurred while sending enrollment invitation", ex);
-        } catch (EmailTransportNotConfiguredException e1) {
-            e1.printStackTrace();
         }
     }
 
@@ -661,8 +662,6 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
             DeviceManagementDataHolder.getInstance().getEmailSenderService().sendEmail(ctx);
         } catch (EmailSendingFailedException e) {
             throw new DeviceManagementException("Error occurred while sending user registration notification", e);
-        } catch (EmailTransportNotConfiguredException e) {
-            e.printStackTrace();
         }
     }
 

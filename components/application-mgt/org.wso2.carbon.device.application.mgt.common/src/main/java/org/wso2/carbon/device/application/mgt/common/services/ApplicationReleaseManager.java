@@ -98,5 +98,4 @@ public interface ApplicationReleaseManager {
      * @throws ApplicationManagementException Application Management Exception.
      */
     void deleteApplicationReleases(String applicationUuid) throws ApplicationManagementException;
-
 }

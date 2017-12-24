@@ -24,6 +24,8 @@ import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.Extension;
 import io.swagger.annotations.Tag;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.AuthorizationScope;
+import io.swagger.annotations.Authorization;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -589,10 +591,10 @@ public interface UserManagementService {
                     response = ErrorResponse.class)
     })
     Response isUserExists(@ApiParam(
-            name = "username",
-            value = "The username of the user.",
-            required = true)
-                          @QueryParam("username") String userName);
+                    name = "username",
+                    value = "The username of the user.",
+                    required = true)
+            @QueryParam("username") String userName);
 
     @GET
     @Path("/search/usernames")

@@ -55,7 +55,7 @@ public interface OperationDAO {
 
     Operation getNextOperation(int enrolmentId) throws OperationManagementDAOException;
 
-    boolean updateOperationStatus(int enrolmentId, int operationId, Operation.Status status)
+    boolean updateOperationStatus(int enrolmentId, int operationId,Operation.Status status)
             throws OperationManagementDAOException;
 
     void updateEnrollmentOperationsStatus(int enrolmentId, String operationCode, Operation.Status existingStatus,
@@ -93,6 +93,6 @@ public interface OperationDAO {
      * @throws OperationManagementDAOException
      */
     Map<Integer, List<OperationMapping>> getOperationMappingsByStatus(Operation.Status opStatus, Operation.PushNotificationStatus pushNotificationStatus,
-                                                                      int limit) throws OperationManagementDAOException;
+                                                                     int limit) throws OperationManagementDAOException;
 
 }

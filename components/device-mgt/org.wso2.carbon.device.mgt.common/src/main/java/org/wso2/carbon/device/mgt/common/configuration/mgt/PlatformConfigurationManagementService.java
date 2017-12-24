@@ -29,7 +29,7 @@ public interface PlatformConfigurationManagementService {
 	 * @param platformConfiguration Operation to be added.
 	 * @param resourcePath Registry resource path.
      * @return A boolean indicating the status of the operation.
-	 * @throws ConfigurationManagementException If some unusual behaviour is observed while adding the
+	 * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while adding the
 	 * configuration.
 	 */
 	 boolean saveConfiguration(PlatformConfiguration platformConfiguration,
@@ -40,7 +40,7 @@ public interface PlatformConfigurationManagementService {
 	 *
 	 * @param resourcePath Registry resource path.
      * @return Platform Configuration object.
-	 * @throws ConfigurationManagementException If some unusual behaviour is observed while fetching the
+	 * @throws org.wso2.carbon.device.mgt.common.configuration.mgt.ConfigurationManagementException If some unusual behaviour is observed while fetching the
 	 * operation list.
 	 */
 	 PlatformConfiguration getConfiguration(String resourcePath) throws ConfigurationManagementException;

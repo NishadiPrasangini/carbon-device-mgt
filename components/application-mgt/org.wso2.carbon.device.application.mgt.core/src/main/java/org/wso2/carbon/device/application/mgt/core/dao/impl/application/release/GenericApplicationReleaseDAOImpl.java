@@ -308,8 +308,6 @@ public class GenericApplicationReleaseDAOImpl extends AbstractDAOImpl implements
         }
     }
 
-
-
     /**
      * To insert the application release properties.
      *

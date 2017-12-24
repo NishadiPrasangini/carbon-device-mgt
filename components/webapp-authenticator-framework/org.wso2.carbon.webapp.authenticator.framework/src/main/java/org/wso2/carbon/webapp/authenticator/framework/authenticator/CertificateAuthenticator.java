@@ -33,7 +33,7 @@ import org.wso2.carbon.device.mgt.common.DeviceManagementConstants;
 import org.wso2.carbon.device.mgt.common.EnrolmentInfo;
 import org.wso2.carbon.webapp.authenticator.framework.AuthenticationException;
 import org.wso2.carbon.webapp.authenticator.framework.AuthenticationInfo;
-import org.wso2.carbon.webapp.authenticator.framework.internal.AuthenticatorFrameworkDataHolder;
+import org.wso2.carbon.webapp.authenticator.framework.AuthenticatorFrameworkDataHolder;
 import org.wso2.carbon.webapp.authenticator.framework.Utils.Utils;
 
 import java.security.cert.X509Certificate;
@@ -58,8 +58,11 @@ public class CertificateAuthenticator implements WebappAuthenticator {
 
     @Override
     public boolean canHandle(Request request) {
-        return request.getHeader(CERTIFICATE_VERIFICATION_HEADER) != null
-                || request.getHeader(MUTUAL_AUTH_HEADER) != null || request.getHeader(PROXY_MUTUAL_AUTH_HEADER) != null;
+        if (request.getHeader(CERTIFICATE_VERIFICATION_HEADER) != null || request.getHeader(MUTUAL_AUTH_HEADER) != null
+                || request.getHeader(PROXY_MUTUAL_AUTH_HEADER) != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -80,12 +83,8 @@ public class CertificateAuthenticator implements WebappAuthenticator {
                 authenticationInfo = checkCertificateResponse(certificateResponse);
             }
             else if (request.getHeader(MUTUAL_AUTH_HEADER) != null) {
-                Object object = request.getAttribute(CLIENT_CERTIFICATE_ATTRIBUTE);
-                X509Certificate[] clientCertificate = null;
-                if (object instanceof  X509Certificate[]) {
-                    clientCertificate = (X509Certificate[]) request.
-                            getAttribute(CLIENT_CERTIFICATE_ATTRIBUTE);
-                }
+                X509Certificate[] clientCertificate = (X509Certificate[]) request.
+                                                                        getAttribute(CLIENT_CERTIFICATE_ATTRIBUTE);
                 if (clientCertificate != null && clientCertificate[0] != null) {
                     CertificateResponse certificateResponse = AuthenticatorFrameworkDataHolder.getInstance().
                             getCertificateManagementService().verifyPEMSignature(clientCertificate[0]);
@@ -96,6 +95,7 @@ public class CertificateAuthenticator implements WebappAuthenticator {
                     authenticationInfo.setMessage("No client certificate is present");
                 }
             } else if (request.getHeader(CERTIFICATE_VERIFICATION_HEADER) != null) {
+
                 String certHeader = request.getHeader(CERTIFICATE_VERIFICATION_HEADER);
                 if (certHeader != null &&
                     AuthenticatorFrameworkDataHolder.getInstance().getCertificateManagementService().

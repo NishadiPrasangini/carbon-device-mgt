@@ -258,7 +258,7 @@ public interface DeviceTypeManagementService {
                     required = true)
             @PathParam("type")
             @Size(min = 2, max = 45)
-                    String type);
+            String type);
 
     @GET
     @Path("/all")

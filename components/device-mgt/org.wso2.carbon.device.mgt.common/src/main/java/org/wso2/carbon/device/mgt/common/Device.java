@@ -59,7 +59,7 @@ public class Device implements Serializable {
     @ApiModelProperty(name = "features", value = "List of features.", required = true)
     private List<Feature> features;
 
-    private List<Property> properties;
+    private List<Device.Property> properties;
 
     @ApiModelProperty(name = "advanceInfo", value = "This defines the device registration related information. " +
             "It is mandatory to define this information.", required = false)
@@ -139,11 +139,11 @@ public class Device implements Serializable {
         this.features = features;
     }
 
-    public List<Property> getProperties() {
+    public List<Device.Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(List<Device.Property> properties) {
         this.properties = properties;
     }
 

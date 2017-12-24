@@ -208,7 +208,7 @@ public interface PolicyManagementService {
                     name = "policy",
                     value = "The properties required to add a new policy.",
                     required = true)
-            @Valid PolicyWrapper policy);
+                    @Valid PolicyWrapper policy);
 
     @GET
     @ApiOperation(
@@ -419,7 +419,7 @@ public interface PolicyManagementService {
                     name = "policy",
                     value = "Update the required property details.",
                     required = true)
-            @Valid PolicyWrapper policy);
+                    @Valid PolicyWrapper policy);
 
     @POST
     @Path("/remove-policy")

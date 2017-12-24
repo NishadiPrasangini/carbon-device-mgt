@@ -130,7 +130,7 @@ public interface ActivityInfoProviderService {
                     defaultValue = "ACTIVITY_1")
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time\n." +

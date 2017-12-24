@@ -146,7 +146,7 @@ public interface DeviceDAO {
      * @return returns the device object.
      * @throws DeviceManagementDAOException
      */
-    Device getDevice(DeviceIdentifier deviceIdentifier, EnrolmentInfo.Status status, int tenantId)
+    Device getDevice(DeviceIdentifier deviceIdentifier, EnrolmentInfo.Status status,int tenantId)
             throws DeviceManagementDAOException;
 
     /**

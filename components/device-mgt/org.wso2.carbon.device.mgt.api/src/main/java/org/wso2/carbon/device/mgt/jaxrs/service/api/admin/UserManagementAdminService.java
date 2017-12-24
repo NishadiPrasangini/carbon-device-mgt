@@ -116,11 +116,11 @@ public interface UserManagementAdminService {
                     required = true)
             @PathParam("username")
             @Size(max = 45)
-                    String username,
+            String username,
             @ApiParam(
-                    name = "domain",
-                    value = "The domain name of the user store.",
-                    required = false)
+                name = "domain",
+                value = "The domain name of the user store.",
+                required = false)
             @QueryParam("domain") String domain,
             @ApiParam(
                     name = "credentials",
