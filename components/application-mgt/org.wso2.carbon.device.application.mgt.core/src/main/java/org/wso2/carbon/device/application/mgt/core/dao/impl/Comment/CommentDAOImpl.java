@@ -264,8 +264,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         return comments;
     }
 
-
-
     @Override
     public List<Comment> getAllComments(String uuid,PaginationRequest request) throws CommentManagementException, SQLException,
             DBConnectionException {
