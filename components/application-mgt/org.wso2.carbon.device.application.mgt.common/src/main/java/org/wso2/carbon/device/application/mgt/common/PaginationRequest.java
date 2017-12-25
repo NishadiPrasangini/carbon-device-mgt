@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.device.application.mgt.common;
 
-import org.wso2.carbon.device.application.mgt.common.exception.InputValidationException;
 import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse.ErrorResponse;
 
 /**
