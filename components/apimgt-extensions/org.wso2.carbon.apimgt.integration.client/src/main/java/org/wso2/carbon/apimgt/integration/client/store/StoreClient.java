@@ -27,7 +27,7 @@ import feign.gson.GsonEncoder;
 import feign.slf4j.Slf4jLogger;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.apimgt.integration.client.configs.APIMConfigReader;
-import org.wso2.carbon.apimgt.integration.generated.client.store.api.*;
+import org.wso2.carbon.apimgt.integration.client.;
 import org.wso2.carbon.core.util.Utils;
 
 import java.util.concurrent.TimeUnit;
