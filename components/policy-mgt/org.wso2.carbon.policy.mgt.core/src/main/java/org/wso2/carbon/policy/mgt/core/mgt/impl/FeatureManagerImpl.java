@@ -225,7 +225,7 @@ public class FeatureManagerImpl implements FeatureManager {
         }
         return features;
     }
-
+    
 
     @Override
     public List<Feature> getAllFeatures(String deviceType) throws FeatureManagementException {
