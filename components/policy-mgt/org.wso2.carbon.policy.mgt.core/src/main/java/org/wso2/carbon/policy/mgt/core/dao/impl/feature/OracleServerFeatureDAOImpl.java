@@ -63,7 +63,7 @@ public class OracleServerFeatureDAOImpl extends AbstractFeatureDAO {
                 if (noRecords >= BATCH_SIZE && noRecords % BATCH_SIZE == 0) {
                     stmt.executeBatch();
                     generatedKeys = stmt.getGeneratedKeys();
-                    int i = noRecords - this.BATCH_SIZE;
+                    int i = noRecords - BATCH_SIZE;
                     while (generatedKeys.next()) {
                         features.get(i).setId(generatedKeys.getInt(1));
                         i++;

@@ -213,8 +213,8 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response getGroups(@ApiParam(
-            name = "name",
-            value = "Name of the group.")
+                               name = "name",
+                               value = "Name of the group.")
                        @QueryParam("name")
                                String name,
                        @ApiParam(
@@ -340,9 +340,9 @@ public interface GroupManagementService {
                             response = ErrorResponse.class)
             })
     Response createGroup(@ApiParam(
-            name = "group",
-            value = "Group object with data.",
-            required = true)
+                                 name = "group",
+                                 value = "Group object with data.",
+                                 required = true)
                          @Valid DeviceGroup group);
 
     @Path("/id/{groupId}")
@@ -392,9 +392,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response getGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group to view.",
-            required = true)
+                              name = "groupId",
+                              value = "ID of the group to view.",
+                              required = true)
                       @PathParam("groupId") int groupId);
 
     @Path("/id/{groupId}")
@@ -444,9 +444,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response updateGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group to be updated.",
-            required = true)
+                                 name = "groupId",
+                                 value = "ID of the group to be updated.",
+                                 required = true)
                          @PathParam("groupId") int groupId,
                          @ApiParam(
                                  name = "group",
@@ -501,9 +501,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response deleteGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group to be deleted.",
-            required = true)
+                                 name = "groupId",
+                                 value = "ID of the group to be deleted.",
+                                 required = true)
                          @PathParam("groupId") int groupId);
 
     @Path("/id/{groupId}/share")
@@ -553,9 +553,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response manageGroupSharing(@ApiParam(
-            name = "groupName",
-            value = "Name of the group to be shared or unshared.",
-            required = true)
+                                        name = "groupName",
+                                        value = "Name of the group to be shared or unshared.",
+                                        required = true)
                                 @PathParam("groupId") int groupId,
                                 @ApiParam(
                                         name = "userRoles",
@@ -610,9 +610,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response getRolesOfGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group.",
-            required = true)
+                                     name = "groupId",
+                                     value = "ID of the group.",
+                                     required = true)
                              @PathParam("groupId") int groupId);
 
     @Path("/id/{groupId}/devices")
@@ -662,9 +662,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response getDevicesOfGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group.",
-            required = true)
+                                       name = "groupId",
+                                       value = "ID of the group.",
+                                       required = true)
                                @PathParam("groupId")
                                        int groupId,
                                @ApiParam(
@@ -727,10 +727,10 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response getDeviceCountOfGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group.",
-            required = true)
-                                   @PathParam("groupId") int groupId);
+                                           name = "groupId",
+                                           value = "ID of the group.",
+                                           required = true)
+                               @PathParam("groupId") int groupId);
 
     @Path("/id/{groupId}/devices/add")
     @POST
@@ -778,9 +778,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response addDevicesToGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group.",
-            required = true)
+                                       name = "groupId",
+                                       value = "ID of the group.",
+                                       required = true)
                                @PathParam("groupId") int groupId,
                                @ApiParam(
                                        name = "deviceIdentifiers",
@@ -834,9 +834,9 @@ public interface GroupManagementService {
                     response = ErrorResponse.class)
     })
     Response removeDevicesFromGroup(@ApiParam(
-            name = "groupId",
-            value = "ID of the group.",
-            required = true)
+                                            name = "groupId",
+                                            value = "ID of the group.",
+                                            required = true)
                                     @PathParam("groupId") int groupId,
                                     @ApiParam(
                                             name = "deviceIdentifiers",

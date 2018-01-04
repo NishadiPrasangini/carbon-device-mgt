@@ -35,11 +35,15 @@ import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManageme
 import org.wso2.carbon.device.application.mgt.core.util.ApplicationMgtDatabaseCreator;
 import org.wso2.carbon.device.application.mgt.core.util.ConnectionManagerUtil;
 import org.wso2.carbon.device.application.mgt.core.util.Constants;
+import org.wso2.carbon.device.mgt.core.config.datasource.DataSourceConfig;
 import org.wso2.carbon.device.mgt.core.dao.DeviceTypeDAO;
 import org.wso2.carbon.device.mgt.core.dao.impl.DeviceTypeDAOImpl;
 import org.wso2.carbon.utils.dbcreator.DatabaseCreator;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
+
+import static org.wso2.carbon.device.mgt.core.util.DeviceManagerUtil.resolveDataSource;
 
 /**
  * This class intends to act as the primary entity that hides all DAO instantiation related complexities and logic so
@@ -50,12 +54,30 @@ import java.sql.SQLException;
 public class ApplicationManagementDAOFactory {
 
     private static String databaseEngine;
+    private static DataSource dataSource;
     private static final Log log = LogFactory.getLog(ApplicationManagementDAOFactory.class);
 
-    public static void init(String dataSourceName) {
-        ConnectionManagerUtil.resolveDataSource(dataSourceName);
+    public static void init(String datasourceName) {
+        ConnectionManagerUtil.resolveDataSource(datasourceName);
         databaseEngine = ConnectionManagerUtil.getDatabaseType();
     }
+    public static void init(DataSource dtSource){
+        dataSource=dtSource;
+        try {
+            databaseEngine = dataSource.getConnection().getMetaData().getDatabaseProductName();
+        } catch (SQLException e) {
+            log.error("Error occurred while retrieving config.datasource connection", e);
+        }
+    }
+    public static void init(DataSourceConfig config) {
+        dataSource = resolveDataSource(config);
+        try {
+            databaseEngine = dataSource.getConnection().getMetaData().getDatabaseProductName();
+        } catch (SQLException e) {
+            log.error("Error occurred while retrieving config.datasource connection", e);
+        }
+    }
+
 
     public static ApplicationDAO getApplicationDAO() {
         if (databaseEngine != null) {

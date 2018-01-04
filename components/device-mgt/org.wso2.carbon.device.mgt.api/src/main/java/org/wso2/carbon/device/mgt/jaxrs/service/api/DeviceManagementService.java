@@ -32,6 +32,7 @@ import io.swagger.annotations.Tag;
 import org.wso2.carbon.apimgt.annotations.api.Scope;
 import org.wso2.carbon.apimgt.annotations.api.Scopes;
 import org.wso2.carbon.device.mgt.common.Device;
+import org.wso2.carbon.device.mgt.common.DeviceIdentifier;
 import org.wso2.carbon.device.mgt.common.EnrolmentInfo;
 import org.wso2.carbon.device.mgt.common.Feature;
 import org.wso2.carbon.device.mgt.common.app.mgt.Application;
@@ -42,6 +43,7 @@ import org.wso2.carbon.device.mgt.common.policy.mgt.monitor.NonComplianceData;
 import org.wso2.carbon.device.mgt.common.search.SearchContext;
 import org.wso2.carbon.device.mgt.jaxrs.beans.DeviceList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse;
+import org.wso2.carbon.device.mgt.jaxrs.beans.OperationList;
 import org.wso2.carbon.device.mgt.jaxrs.beans.OperationRequest;
 import org.wso2.carbon.device.mgt.jaxrs.util.Constants;
 
@@ -59,6 +61,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Device related REST-API. This can be used to manipulated device related details.
@@ -210,14 +213,14 @@ public interface DeviceManagementService {
                     value = "The device name, such as shamu, bullhead or angler Nexus device names. ",
                     required = false)
             @Size(max = 45)
-                    String name,
+            String name,
             @ApiParam(
                     name = "type",
                     value = "The device type, such as ios, android or windows.",
                     required = false)
             @QueryParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "user",
                     value = "The username of the owner of the device.",

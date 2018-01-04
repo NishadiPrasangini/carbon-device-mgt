@@ -24,6 +24,8 @@ import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.Extension;
 import io.swagger.annotations.Tag;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.AuthorizationScope;
+import io.swagger.annotations.Authorization;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;

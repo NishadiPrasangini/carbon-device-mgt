@@ -40,9 +40,8 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To get a release details with the particular version.
-     *
      * @param applicationUuid UUID of the application to get the release.
-     * @param versionName     Name of the version
+     * @param versionName Name of the version
      * @return ApplicationRelease for the particular version of the given application
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
@@ -61,7 +60,6 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To update an Application release.
-     *
      * @param applicationRelease ApplicationRelease that need to be updated.
      * @return the updated Application Release
      * @throws ApplicationManagementDAOException Application Management DAO Exception
@@ -87,13 +85,13 @@ public interface ApplicationReleaseDAO {
 
     /**
      * To change the default version of a particular release channel.
-     *
-     * @param uuid      UUID of the application
-     * @param version   Version of the application
+     * @param uuid UUID of the application
+     * @param version Version of the application
      * @param isDefault true if the request is to make the application as default one unless false
      * @throws ApplicationManagementDAOException Application Management DAO Exception.
      */
     void changeReleaseDefault(String uuid, String version, boolean isDefault, String releaseChannel, int tenantId)
             throws ApplicationManagementDAOException;
+
 
 }

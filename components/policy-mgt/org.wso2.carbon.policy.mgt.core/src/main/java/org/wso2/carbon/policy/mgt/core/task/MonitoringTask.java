@@ -83,10 +83,7 @@ public class MonitoringTask implements Task {
     private boolean isPlatformExist(String deviceType) {
         PolicyMonitoringManager policyMonitoringManager = PolicyManagementDataHolder.getInstance()
                 .getDeviceManagementService().getPolicyMonitoringManager(deviceType);
-        if (policyMonitoringManager != null) {
-            return true;
-        }
-        return false;
+        return policyMonitoringManager != null;
     }
 
     private void executeforAllTenants() {

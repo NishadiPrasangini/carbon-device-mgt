@@ -65,10 +65,7 @@ public class DeviceCacheKey {
         final DeviceCacheKey other = (DeviceCacheKey) obj;
         String thisId = this.deviceId + "-" + this.deviceType + "_" + this.tenantId;
         String otherId = other.deviceId + "-" + other.deviceType + "_" + other.tenantId;
-        if (!thisId.equals(otherId)) {
-            return false;
-        }
-        return true;
+        return thisId.equals(otherId);
     }
 
     @Override

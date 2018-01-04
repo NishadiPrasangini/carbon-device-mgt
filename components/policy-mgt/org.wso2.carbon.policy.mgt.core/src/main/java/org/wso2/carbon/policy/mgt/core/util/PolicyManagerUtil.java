@@ -121,7 +121,7 @@ public class PolicyManagerUtil {
 
         PolicyOperation policyOperation = new PolicyOperation();
         policyOperation.setEnabled(true);
-        policyOperation.setType(org.wso2.carbon.device.mgt.common.operation.mgt.Operation.Type.POLICY);
+        policyOperation.setType(Operation.Type.POLICY);
         policyOperation.setCode(PolicyOperation.POLICY_OPERATION_CODE);
 
         for (ProfileFeature feature : effectiveFeatures) {
@@ -129,8 +129,8 @@ public class PolicyManagerUtil {
 
             profileOperation.setCode(feature.getFeatureCode());
             profileOperation.setEnabled(true);
-            profileOperation.setStatus(org.wso2.carbon.device.mgt.common.operation.mgt.Operation.Status.PENDING);
-            profileOperation.setType(org.wso2.carbon.device.mgt.common.operation.mgt.Operation.Type.PROFILE);
+            profileOperation.setStatus(Operation.Status.PENDING);
+            profileOperation.setType(Operation.Type.PROFILE);
             profileOperation.setPayLoad(feature.getContent());
             profileOperationList.add(profileOperation);
         }
@@ -166,14 +166,14 @@ public class PolicyManagerUtil {
 
     public static Cache<Integer, Policy> getPolicyCache(String name) {
         CacheManager manager = getCacheManager();
-        return (manager != null) ? manager.<Integer, Policy>getCache(name) :
-                Caching.getCacheManager().<Integer, Policy>getCache(name);
+        return (manager != null) ? manager.getCache(name) :
+                Caching.getCacheManager().getCache(name);
     }
 
     public static Cache<Integer, List<Policy>> getPolicyListCache(String name) {
         CacheManager manager = getCacheManager();
-        return (manager != null) ? manager.<Integer, List<Policy>>getCache(name) :
-                Caching.getCacheManager().<Integer, List<Policy>>getCache(name);
+        return (manager != null) ? manager.getCache(name) :
+                Caching.getCacheManager().getCache(name);
     }
 
     private static CacheManager getCacheManager() {

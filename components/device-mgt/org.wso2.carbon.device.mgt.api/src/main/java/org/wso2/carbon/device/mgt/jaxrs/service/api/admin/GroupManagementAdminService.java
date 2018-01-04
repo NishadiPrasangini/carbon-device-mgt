@@ -122,8 +122,8 @@ public interface GroupManagementAdminService {
                     response = ErrorResponse.class)
     })
     Response getGroups(@ApiParam(
-            name = "name",
-            value = "Name of the group.")
+                               name = "name",
+                               value = "Name of the group.")
                        @QueryParam("name")
                                String name,
                        @ApiParam(

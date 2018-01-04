@@ -121,7 +121,7 @@ public class OperationDAOUtil {
         byte[] contentBytes;
         try {
             if (rs.getBytes("OPERATION_RESPONSE") != null) {
-                contentBytes = (byte[]) rs.getBytes("OPERATION_RESPONSE");
+                contentBytes = rs.getBytes("OPERATION_RESPONSE");
                 bais = new ByteArrayInputStream(contentBytes);
                 ois = new ObjectInputStream(bais);
                 response.setResponse(ois.readObject().toString());

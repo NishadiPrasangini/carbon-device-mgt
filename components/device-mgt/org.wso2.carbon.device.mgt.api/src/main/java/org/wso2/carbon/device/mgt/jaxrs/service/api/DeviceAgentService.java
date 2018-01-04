@@ -300,7 +300,7 @@ public interface DeviceAgentService {
                     name = "payloadData",
                     value = "Information of the agent event to be published on DAS.")
             @Valid
-                    Map<String, Object> payloadData,
+            Map<String, Object> payloadData,
             @ApiParam(
                     name = "type",
                     value = "name of the device type")
@@ -364,7 +364,7 @@ public interface DeviceAgentService {
                     name = "payloadData",
                     value = "Information of the agent event to be published on DAS.")
             @Valid
-                    List<Object> payloadData,
+            List<Object> payloadData,
             @ApiParam(
                     name = "type",
                     value = "name of the device type")
@@ -603,6 +603,6 @@ public interface DeviceAgentService {
                                             @ApiParam(name = "id", value = "The device id.", required = true)
                                             @PathParam("id") String deviceId,
                                             @ApiParam(name = "status", value = "status of the operation.", required = true)
-                                            @QueryParam("status") Operation.Status status);
+                                            @QueryParam("status")Operation.Status status);
 
 }

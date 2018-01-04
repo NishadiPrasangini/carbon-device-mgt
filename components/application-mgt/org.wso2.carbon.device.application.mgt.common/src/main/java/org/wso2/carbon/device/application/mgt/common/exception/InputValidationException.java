@@ -18,7 +18,7 @@
  */
 package org.wso2.carbon.device.application.mgt.common.exception;
 
-import org.wso2.carbon.device.application.mgt.common.jaxrs.beans.ErrorResponse;
+import org.wso2.carbon.device.mgt.jaxrs.beans.ErrorResponse.ErrorResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;

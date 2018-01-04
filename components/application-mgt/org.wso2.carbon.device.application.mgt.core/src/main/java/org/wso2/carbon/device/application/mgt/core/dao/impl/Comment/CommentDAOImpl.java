@@ -343,7 +343,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         return commentCount;
     }
 
-
     @Override
     public List<Comment> getComments(int appReleasedId, int appId) throws CommentManagementException {
 
@@ -701,7 +700,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
     @Override
     public int getCommentCount(String uuid) throws CommentManagementException, DBConnectionException,
             SQLException {
-
         Connection conn;
         PreparedStatement stmt = null;
         int commentCount = 0;

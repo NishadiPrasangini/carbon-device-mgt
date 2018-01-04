@@ -25,9 +25,7 @@ import org.wso2.carbon.device.application.mgt.common.Application;
 import org.wso2.carbon.device.application.mgt.common.ApplicationRelease;
 import org.wso2.carbon.device.application.mgt.common.exception.ApplicationManagementException;
 import org.wso2.carbon.device.application.mgt.common.services.ApplicationReleaseManager;
-import org.wso2.carbon.device.application.mgt.core.dao.ApplicationReleaseDAO;
 import org.wso2.carbon.device.application.mgt.core.dao.common.DAOFactory;
-import org.wso2.carbon.device.application.mgt.core.dao.impl.application.release.GenericApplicationReleaseDAOImpl;
 import org.wso2.carbon.device.application.mgt.core.exception.ApplicationManagementDAOException;
 import org.wso2.carbon.device.application.mgt.core.exception.NotFoundException;
 import org.wso2.carbon.device.application.mgt.core.internal.DataHolder;
@@ -184,8 +182,6 @@ public class ApplicationReleaseManagerImpl implements ApplicationReleaseManager 
             deleteApplicationRelease(applicationUuid, applicationRelease.getVersionName());
         }
     }
-
-
 
     /**
      * To validate the pre-request of the ApplicationRelease.

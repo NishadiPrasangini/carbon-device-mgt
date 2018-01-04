@@ -308,6 +308,17 @@ public class ConnectionManagerUtil {
     }
 
 
+    /**
+     * Setting the datasource.
+     *
+     * @param datasource datasource
+     * @return DataSource resolved by the datasource name
+     */
+    public static void setDataSource(DataSource datasource) {
+        dataSource = datasource;
+    }
+
+
     public static String getDatabaseType() {
         try {
             return dataSource.getConnection().getMetaData().getDatabaseProductName();

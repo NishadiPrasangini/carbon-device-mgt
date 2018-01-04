@@ -31,7 +31,7 @@ public interface PolicyFilter {
      * @param roles
      * @return
      */
-    public List<Policy> extractPoliciesRelatedToRoles(List<Policy> policyList, List<String> roles);
+    List<Policy> extractPoliciesRelatedToRoles(List<Policy> policyList, List<String> roles);
 
     /**
      * This mehtod extract the policies related to a given device type from policy list.
@@ -39,5 +39,5 @@ public interface PolicyFilter {
      * @param deviceType
      * @return
      */
-    public List<Policy> extractPoliciesRelatedToDeviceType(List<Policy> policyList, String deviceType);
+    List<Policy> extractPoliciesRelatedToDeviceType(List<Policy> policyList, String deviceType);
 }
