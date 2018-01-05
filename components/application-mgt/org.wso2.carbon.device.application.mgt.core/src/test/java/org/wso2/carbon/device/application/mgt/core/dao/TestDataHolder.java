@@ -56,24 +56,41 @@ public class TestDataHolder {
         return comment;
     }
 
-//    public static Application generateApplicationDummyData(String appIdentifier){
-//
-//        Application application = new Application();
-//        Properties properties = new Properties();
-//        properties.setProperty("test1","testVal");
-//
-//        application.setName("SimpleCalculator");
+    public static Application generateApplicationDummyData(int appIdentifier){
+
+        Application application = new Application();
+        Properties properties = new Properties();
+        properties.setProperty("test1","testVal");
+
+        application.setName("SimpleCalculator");
 //        application.setCategory("TestCategory");
-//        application.setApplicationIdentifier(appIdentifier);
-//        application.setType("TestType");
-//        application.setVersion("1.0.0");
+        application.setId(1);
+//        application.set.setType("TestType");
+//        application.se.setVersion("1.0.0");
 //        application.setImageUrl("http://test.org/image/");
 //        application.setLocationUrl("http://test.org/location/");
 //        application.setAppProperties(properties);
-//
-//        return application;
-//    }
-//
+
+        return application;
+    }
+    public static ApplicationRelease generateApplicationReleaseDummyData(int appIdentifier){
+
+        ApplicationRelease application = new ApplicationRelease();
+        Properties properties = new Properties();
+        properties.setProperty("test1","testVal");
+
+//        application.setName("SimpleCalculator");
+//        application.setCategory("TestCategory");
+        application.setId(1);
+//        application.set.setType("TestType");
+//        application.se.setVersion("1.0.0");
+//        application.setImageUrl("http://test.org/image/");
+//        application.setLocationUrl("http://test.org/location/");
+//        application.setAppProperties(properties);
+
+        return application;
+    }
+
 //    public static DeviceGroup generateDummyGroupData() {
 //        DeviceGroup deviceGroup = new DeviceGroup();
 //        deviceGroup.setName("Test device group");

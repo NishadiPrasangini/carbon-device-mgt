@@ -36,6 +36,7 @@ import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,13 +58,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         }
         Connection conn=this.getDBConnection();
         PreparedStatement stmt = null;
-        ResultSet rs;
+        ResultSet rs=null;
         int commentId = -1;
         String sql = "INSERT INTO AP_APP_COMMENT (TENANT_ID, COMMENT_TEXT, CREATED_BY, PARENT_ID,AP_APP_RELEASE_ID," +
-                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID=?)," +
+                "AP_APP_ID) VALUES (?,?,?,?,(SELECT ID FROM AP_APP_RELEASE WHERE UUID= ?)," +
                 "(SELECT AP_APP_ID FROM AP_APP_RELEASE WHERE UUID=?));";
         try{
-            stmt = conn.prepareStatement(sql, new String[] {"id"});
+            stmt = conn.prepareStatement(sql,new String[] {"id"});
             stmt.setInt(1, tenantId);
             stmt.setString(2, comment.getComment());
             stmt.setString(3,createdBy);
@@ -76,10 +77,10 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             if (rs.next()) {
                 commentId = rs.getInt(1);
             }
+            return commentId;
         }  finally {
-            Util.cleanupResources(stmt, null);
+            Util.cleanupResources(stmt, rs);
         }
-        return  commentId;
     }
 
     @Override
@@ -169,7 +170,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             statement.setString(2,modifiedBy);
             statement.setInt(3,apAppCommentID);
             statement.executeUpdate();
-            rs= statement.executeQuery();
+            rs= statement.getResultSet();
 
           } finally {
             Util.cleanupResources(statement, rs);
@@ -715,7 +716,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             stmt.setString(1, uuid);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                commentCount = rs.getInt("COMMENT_COUNT");
+                commentCount = rs.getInt("ID");
             }
         } finally {
             Util.cleanupResources(stmt, null);
@@ -1004,25 +1005,33 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
         Connection connection;
         PreparedStatement stmt = null;
+//        java.sql.Statement statement = null;
         ResultSet resultSet = null;
-
         try {
             connection = this.getDBConnection();
             String sql = "UPDATE AP_APP_RELEASE SET STARS=?, NO_OF_RATED_USERS=(NO_OF_RATED_USERS+1) WHERE UUID=?;";
 
             stmt = connection.prepareStatement(sql);
+//            statement = connection.createStatement();
             stmt.setInt(1,stars);
             stmt.setString(2, uuid);
-            stmt.executeUpdate();
-            resultSet = stmt.getResultSet();
-
+//            stmt.executeUpdate();
+//            String str=stmt.toString();
+            resultSet=stmt.executeQuery();
+//
+//            resultSet = stmt.executeQuery(sql);
+//            if (resultSet != null) {
+//                resultSet.getInt("STARS");
+//            }
+//            int numORows=resultSet.getRow();
+//
             if (resultSet.next()) {
                 ApplicationRelease applicationRelease=new ApplicationRelease();
-                applicationRelease.setStars(resultSet.getInt(1));
+                applicationRelease.setStars(resultSet.getInt("STARS"));
 
                 Util.cleanupResources(stmt, resultSet);
                 }
-            return getStars(uuid);
+//            return getStars(uuid);
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
                     "SQL Exception while trying to add stars to an application (UUID : " + uuid + "), by executing " +
@@ -1030,9 +1039,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } catch (DBConnectionException e) {
             log.error("DB Connection Exception occurs.", e);
         } finally {
-            Util.cleanupResources(stmt, resultSet);
+            Util.cleanupResources(stmt, null);
+            return getStars(uuid);
+
         }
-        return stars;
+
     }
 
     @Override
