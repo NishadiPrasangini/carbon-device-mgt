@@ -64,7 +64,7 @@ public class TestDataHolder {
 
         application.setName("SimpleCalculator");
 //        application.setCategory("TestCategory");
-        application.setId(1);
+        application.setId(appIdentifier);
 //        application.set.setType("TestType");
 //        application.se.setVersion("1.0.0");
 //        application.setImageUrl("http://test.org/image/");
@@ -81,7 +81,7 @@ public class TestDataHolder {
 
 //        application.setName("SimpleCalculator");
 //        application.setCategory("TestCategory");
-        application.setId(1);
+        application.setId(appIdentifier);
 //        application.set.setType("TestType");
 //        application.se.setVersion("1.0.0");
 //        application.setImageUrl("http://test.org/image/");

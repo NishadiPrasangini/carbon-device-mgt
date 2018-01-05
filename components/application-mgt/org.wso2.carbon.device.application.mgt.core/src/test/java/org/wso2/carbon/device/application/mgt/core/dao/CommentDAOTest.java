@@ -43,9 +43,9 @@ public class CommentDAOTest extends BaseCommentManagementTest {
         try {
 //            ApplicationManagementDAOFactory.initDatabases();
             ConnectionManagerUtil.beginDBTransaction();
-
-            deviceTypeDAO.addDeviceType(null,123,true);
-            applicationDAO.createApplication(app);
+//            DeviceManagementDAOFactory.beginTransaction();
+//            deviceTypeDAO.addDeviceType(null,123,true);
+//            applicationDAO.createApplication(app);
             applicationReleaseDAO.createRelease(appRelease);
             int apAppCommentId=commentDAO.addComment(123,comment,"test created by",1,"test uuid");
             Assert.assertEquals(apAppCommentId,1,"comment is added");
@@ -111,9 +111,7 @@ public class CommentDAOTest extends BaseCommentManagementTest {
         try {
 //            ApplicationManagementDAOFactory.initDatabases();
             ConnectionManagerUtil.beginDBTransaction();
-            PaginationRequest request=null;
-            request.setOffSet(1);
-            request.setLimit(5);
+            PaginationRequest request=new PaginationRequest(1,5);
             commentDAO.getAllComments("a", request);
         } catch (CommentManagementException e) {
             String msg = "Error occurred while getting comment '" + comment + "'";
