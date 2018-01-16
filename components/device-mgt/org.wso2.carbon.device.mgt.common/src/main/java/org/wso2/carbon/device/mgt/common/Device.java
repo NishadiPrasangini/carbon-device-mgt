@@ -139,11 +139,11 @@ public class Device implements Serializable {
         this.features = features;
     }
 
-    public List<Property> getProperties() {
+    public List<Device.Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(List<Device.Property> properties) {
         this.properties = properties;
     }
 

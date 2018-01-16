@@ -1446,7 +1446,10 @@ public class DeviceManagementProviderServiceImpl implements DeviceManagementProv
     @Override
     public boolean isEnrolled(DeviceIdentifier deviceId, String user) throws DeviceManagementException {
         Device device = this.getDevice(deviceId, false);
-        return device != null && device.getEnrolmentInfo() != null && device.getEnrolmentInfo().getOwner().equals(user);
+        if (device != null && device.getEnrolmentInfo() != null && device.getEnrolmentInfo().getOwner().equals(user)) {
+            return true;
+        }
+        return false;
     }
 
     @Override

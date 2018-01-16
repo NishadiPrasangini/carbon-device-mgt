@@ -249,14 +249,14 @@ public interface DeviceManagementService {
                     required = false)
             @QueryParam("ownership")
             @Size(max = 45)
-                    String ownership,
+            String ownership,
             @ApiParam(
                     name = "status",
                     value = "Provide the device status details, such as active or inactive.",
                     required = false)
             @QueryParam("status")
             @Size(max = 45)
-                    String status,
+            String status,
             @ApiParam(
                     name = "groupId",
                     value = "Id of the group which device belongs",
@@ -270,7 +270,7 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @QueryParam("since")
-                    String since,
+            String since,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time.\n" +
@@ -278,7 +278,7 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String timestamp,
+            String timestamp,
             @ApiParam(
                     name = "requireDeviceInfo",
                     value = "Boolean flag indicating whether to include device-info (location, application list etc) \n" +
@@ -292,14 +292,14 @@ public interface DeviceManagementService {
                     required = false,
                     defaultValue = "0")
             @QueryParam("offset")
-                    int offset,
+            int offset,
             @ApiParam(
                     name = "limit",
                     value = "Provide how many device details you require from the starting pagination index/offset.",
                     required = false,
                     defaultValue = "5")
             @QueryParam("limit")
-                    int limit);
+            int limit);
 
     @GET
     @ApiOperation(
@@ -432,14 +432,14 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "The device identifier of the device you want ot get details.",
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -447,7 +447,7 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince);
+            String ifModifiedSince);
 
     @PUT
     @Path("/{type}/{id}")
@@ -797,7 +797,7 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "The device identifier of the device.\n" +
@@ -805,7 +805,7 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -813,7 +813,7 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince);
+            String ifModifiedSince);
 
     @POST
     @Path("/search-devices")
@@ -879,19 +879,19 @@ public interface DeviceManagementService {
                     required = false,
                     defaultValue = "0")
             @QueryParam("offset")
-                    int offset,
+            int offset,
             @ApiParam(
                     name = "limit",
                     value = "Provide how many activity details you require from the starting pagination index/offset.",
                     required = false,
                     defaultValue = "5")
             @QueryParam("limit")
-                    int limit,
+            int limit,
             @ApiParam(
                     name = "searchContext",
                     value = "The properties to advanced search devices.",
                     required = true)
-                    SearchContext searchContext);
+            SearchContext searchContext);
 
     @GET
     @Path("/{type}/{id}/applications")
@@ -963,14 +963,14 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "The device identifier of the device.",
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -978,21 +978,21 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince,
+            String ifModifiedSince,
             @ApiParam(
                     name = "offset",
                     value = "The starting pagination index for the complete list of qualified items.",
                     required = false,
                     defaultValue = "0")
             @QueryParam("offset")
-                    int offset,
+            int offset,
             @ApiParam(
                     name = "limit",
                     value = "Provide how many application details you require from the starting pagination index/offset.",
                     required = false,
                     defaultValue = "5")
             @QueryParam("limit")
-                    int limit);
+            int limit);
 
 
     @GET
@@ -1064,7 +1064,7 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "The device identifier of the device you wish to get details.\n" +
@@ -1072,7 +1072,7 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -1080,21 +1080,21 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince,
+            String ifModifiedSince,
             @ApiParam(
                     name = "offset",
                     value = "The starting pagination index for the complete list of qualified items.",
                     required = false,
                     defaultValue = "0")
             @QueryParam("offset")
-                    int offset,
+            int offset,
             @ApiParam(
                     name = "limit",
                     value = "Provide how many activity details you require from the starting pagination index/offset.",
                     required = false,
                     defaultValue = "5")
             @QueryParam("limit")
-                    int limit,
+            int limit,
             @ApiParam(
                     name = "owner",
                     value = "Provides the owner of the required device.",
@@ -1174,14 +1174,14 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "The device identifier.",
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id,
+            String id,
             @ApiParam(
                     name = "If-Modified-Since",
                     value = "Checks if the requested variant was modified, since the specified date-time. \n" +
@@ -1189,7 +1189,7 @@ public interface DeviceManagementService {
                             "Example: Mon, 05 Jan 2014 15:10:00 +0200",
                     required = false)
             @HeaderParam("If-Modified-Since")
-                    String ifModifiedSince);
+            String ifModifiedSince);
 
 
     @GET
@@ -1230,14 +1230,14 @@ public interface DeviceManagementService {
                     required = true)
             @PathParam("type")
             @Size(max = 45)
-                    String type,
+            String type,
             @ApiParam(
                     name = "id",
                     value = "Device Identifier",
                     required = true)
             @PathParam("id")
             @Size(max = 45)
-                    String id);
+            String id);
 
     @PUT
     @Path("/{type}/{id}/changestatus")
