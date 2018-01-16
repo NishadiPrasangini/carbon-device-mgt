@@ -93,6 +93,6 @@ public interface OperationDAO {
      * @throws OperationManagementDAOException
      */
     Map<Integer, List<OperationMapping>> getOperationMappingsByStatus(Operation.Status opStatus, Operation.PushNotificationStatus pushNotificationStatus,
-                                                                      int limit) throws OperationManagementDAOException;
+                                                                     int limit) throws OperationManagementDAOException;
 
 }

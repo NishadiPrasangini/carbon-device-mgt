@@ -280,7 +280,7 @@ public class GenericOperationDAOImpl implements OperationDAO {
                 ObjectInputStream ois = null;
                 byte[] contentBytes;
                 try {
-                    contentBytes = rs.getBytes("OPERATION_RESPONSE");
+                    contentBytes = (byte[]) rs.getBytes("OPERATION_RESPONSE");
                     bais = new ByteArrayInputStream(contentBytes);
                     ois = new ObjectInputStream(bais);
                     response.setResponse(ois.readObject().toString());

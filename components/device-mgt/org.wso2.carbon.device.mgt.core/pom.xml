@@ -316,16 +316,6 @@
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.devicemgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.annotations</artifactId>
-            <version>3.0.47</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.devicemgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.annotations</artifactId>
-            <version>3.0.46</version>
-        </dependency>
     </dependencies>
 
 </project>

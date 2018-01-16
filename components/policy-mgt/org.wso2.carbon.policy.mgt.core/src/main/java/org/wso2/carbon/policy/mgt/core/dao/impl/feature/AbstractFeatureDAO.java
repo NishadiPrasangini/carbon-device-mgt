@@ -121,7 +121,10 @@ public abstract class AbstractFeatureDAO implements FeatureDAO {
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, profileId);
             stmt.setInt(2, tenantId);
-            return stmt.executeUpdate() > 0;
+            if (stmt.executeUpdate() > 0) {
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw new FeatureManagerDAOException("Error occurred while deleting the feature related to a profile.", e);
         } finally {
@@ -141,7 +144,10 @@ public abstract class AbstractFeatureDAO implements FeatureDAO {
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, featureId);
             stmt.setInt(2, tenantId);
-            return stmt.executeUpdate() > 0;
+            if (stmt.executeUpdate() > 0) {
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw new FeatureManagerDAOException("Error occurred while deleting the feature related to a profile.", e);
         } finally {
@@ -177,10 +183,10 @@ public abstract class AbstractFeatureDAO implements FeatureDAO {
                 ObjectInputStream ois = null;
                 byte[] contentBytes;
                 try {
-                    contentBytes = resultSet.getBytes("CONTENT");
+                    contentBytes = (byte[]) resultSet.getBytes("CONTENT");
                     bais = new ByteArrayInputStream(contentBytes);
                     ois = new ObjectInputStream(bais);
-                    profileFeature.setContent(ois.readObject().toString());
+                    profileFeature.setContent((Object) ois.readObject().toString());
                 } finally {
                     if (bais != null) {
                         try {
@@ -317,7 +323,10 @@ public abstract class AbstractFeatureDAO implements FeatureDAO {
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, featureId);
             stmt.setInt(2, tenantId);
-            return stmt.executeUpdate() > 0;
+            if(stmt.executeUpdate() > 0) {
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw new FeatureManagerDAOException("Unable to delete the feature " + featureId + " (Feature ID) " +
                                                  "from database.", e);

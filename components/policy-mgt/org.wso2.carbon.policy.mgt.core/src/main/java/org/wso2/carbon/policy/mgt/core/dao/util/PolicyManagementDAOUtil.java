@@ -39,7 +39,7 @@ public class PolicyManagementDAOUtil {
                 return (DataSource) InitialContext.doLookup(dataSourceName);
             }
             final InitialContext context = new InitialContext(jndiProperties);
-            return (DataSource) InitialContext.doLookup(dataSourceName);
+            return (DataSource) context.doLookup(dataSourceName);
         } catch (Exception e) {
             throw new RuntimeException("Error in looking up data source: " + e.getMessage(), e);
         }

@@ -29,5 +29,5 @@
     <!--<Url>jdbc:mysql://localhost:3306/WSO2CDM</Url>-->
     <!--<DriverClassName>com.mysql.jdbc.Driver</DriverClassName>-->
     <!--<User>root</User>-->
-    <!--<Password>rootpassword</Password>-->
+    <!--<Password></Password>-->
 </DataSourceConfig>

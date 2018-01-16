@@ -529,10 +529,10 @@ public final class DeviceManagerUtil {
                 initializeDeviceCache();
             }
             if (manager != null) {
-                deviceCache = manager.getCache(DeviceManagementConstants.DEVICE_CACHE);
+                deviceCache = manager.<DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE);
             } else {
                 deviceCache =  Caching.getCacheManager(DeviceManagementConstants.DM_CACHE_MANAGER).
-                        getCache(DeviceManagementConstants.DEVICE_CACHE);
+                        <DeviceCacheKey, Device>getCache(DeviceManagementConstants.DEVICE_CACHE);
             }
         }
         return deviceCache;

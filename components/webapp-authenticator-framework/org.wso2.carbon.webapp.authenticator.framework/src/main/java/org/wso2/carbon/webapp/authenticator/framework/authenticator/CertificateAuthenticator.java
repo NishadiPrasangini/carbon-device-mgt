@@ -39,8 +39,11 @@ public class CertificateAuthenticator implements WebappAuthenticator {
 
     @Override
     public boolean canHandle(Request request) {
-        return request.getHeader(CERTIFICATE_VERIFICATION_HEADER) != null || request.getHeader(MUTUAL_AUTH_HEADER) != null
-                || request.getHeader(PROXY_MUTUAL_AUTH_HEADER) != null;
+        if (request.getHeader(CERTIFICATE_VERIFICATION_HEADER) != null || request.getHeader(MUTUAL_AUTH_HEADER) != null
+                || request.getHeader(PROXY_MUTUAL_AUTH_HEADER) != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
