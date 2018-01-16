@@ -15,11 +15,11 @@
 */
 package org.wso2.carbon.device.application.mgt.core.dao;
 
-import org.wso2.carbon.device.application.mgt.common.ApplicationRelease;
-import org.wso2.carbon.device.application.mgt.common.Comment;
+import org.wso2.carbon.device.application.mgt.common.*;
 import org.wso2.carbon.device.mgt.common.EnrolmentInfo;
-import org.wso2.carbon.device.application.mgt.common.Application;
 import org.wso2.carbon.device.mgt.common.group.mgt.DeviceGroup;
+import org.wso2.carbon.device.mgt.common.type.mgt.DeviceTypeMetaDefinition;
+import org.wso2.carbon.device.mgt.core.dto.DeviceType;
 
 
 import java.util.Date;
@@ -30,9 +30,9 @@ public class TestDataHolder {
     public final static String TEST_COMMENT = "Test";
     public final static Integer SUPER_TENANT_ID = -1234;
     public final static String SUPER_TENANT_DOMAIN = "carbon.super";
-    public final static Integer initialDeviceIdentifier = 12345;
-    public final static String CREATED_BY="Test created by";
-    public final static String UUID="TestUuid";
+    public final static Integer initialDeviceIdentifier = 1;
+    public final static String CREATED_BY="abc";
+    public final static String UUID="abc";
     public static Comment initialTestComment;
     public  static ApplicationRelease initialTestApplication;
 
@@ -61,10 +61,28 @@ public class TestDataHolder {
         Application application = new Application();
         Properties properties = new Properties();
         properties.setProperty("test1","testVal");
+        application.setId(initialDeviceIdentifier);
+        application.setUuid("a");
+        application.setName("abc");
+        application.setShortDescription("abc");
+        application.setDescription("abc");
+        application.setVideoName("abc");
+        application.setScreenShotCount(1);
+        User user=new User("abc",123);
+        application.setUser(user);
+        Date date=new Date();
+        application.setCreatedAt(date);
+        application.setModifiedAt(date);
+        Category category=new Category();
+        application.setCategory(category);
+        Platform platform=new Platform();
+        application.setPlatform(platform);
+        Lifecycle lifecycle=new Lifecycle();
+        application.setCurrentLifecycle(lifecycle);
 
-        application.setName("SimpleCalculator");
+//        application.setName("SimpleCalculator");
 //        application.setCategory("TestCategory");
-        application.setId(appIdentifier);
+//        application.setId(appIdentifier);
 //        application.set.setType("TestType");
 //        application.se.setVersion("1.0.0");
 //        application.setImageUrl("http://test.org/image/");
@@ -75,20 +93,38 @@ public class TestDataHolder {
     }
     public static ApplicationRelease generateApplicationReleaseDummyData(int appIdentifier){
 
-        ApplicationRelease application = new ApplicationRelease();
+        ApplicationRelease applicationRelease = new ApplicationRelease();
         Properties properties = new Properties();
         properties.setProperty("test1","testVal");
+        applicationRelease.setId(initialDeviceIdentifier);
+
+        applicationRelease.setVersionName("abc");
+        applicationRelease.setResource("abc");
+//        applicationRelease.setReleaseChannel("abc");
+        applicationRelease.setReleaseDetails("abc");
+        Date date=new Date();
+        applicationRelease.setCreatedAt(date);
+        Application application=new Application();
+        applicationRelease.setApplication(application);
+//        applicationRelease.isDefault();
 
 //        application.setName("SimpleCalculator");
 //        application.setCategory("TestCategory");
-        application.setId(appIdentifier);
+//        application.setId(appIdentifier);
 //        application.set.setType("TestType");
 //        application.se.setVersion("1.0.0");
 //        application.setImageUrl("http://test.org/image/");
 //        application.setLocationUrl("http://test.org/location/");
 //        application.setAppProperties(properties);
-
-        return application;
+        return applicationRelease;
+    }
+    public static DeviceType generateDummyDeviceType(){
+        DeviceType deviceType=new DeviceType();
+        deviceType.setName("abc");
+        DeviceTypeMetaDefinition deviceTypeMetaDefinition=new DeviceTypeMetaDefinition();
+        deviceType.setDeviceTypeMetaDefinition(deviceTypeMetaDefinition);
+        deviceType.setId(1);
+        return deviceType;
     }
 
 //    public static DeviceGroup generateDummyGroupData() {

@@ -20,7 +20,7 @@ package org.wso2.carbon.apimgt.application.extension.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.ComponentContext;;
 import org.wso2.carbon.apimgt.application.extension.APIManagementProviderService;
 import org.wso2.carbon.apimgt.application.extension.APIManagementProviderServiceImpl;
 import org.wso2.carbon.apimgt.integration.client.service.IntegrationClientService;

@@ -187,6 +187,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         PreparedStatement stmt = null;
         ResultSet rs ;
         String sql = "";
+        Comment comment=new Comment();
 
         try {
             conn = this.getDBConnection();
@@ -196,7 +197,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             rs=stmt.executeQuery();
 
             if (rs.next()) {
-                Comment comment=new Comment();
+
                 comment.setId(rs.getInt("ID"));
                 comment.setTenantId(rs.getInt("TENANT_ID"));
                 comment.setComment(rs.getString("COMMENT_TEXT"));
@@ -217,7 +218,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         }   finally {
             Util.cleanupResources(stmt, null);
         }
-        return null;
+        return comment;
     }
 
     @Override
@@ -720,8 +721,9 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
             }
         } finally {
             Util.cleanupResources(stmt, null);
+
+            return commentCount;
         }
-        return commentCount;
     }
 
     @Override
@@ -1018,13 +1020,13 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 //            stmt.executeUpdate();
 //            String str=stmt.toString();
             resultSet=stmt.executeQuery();
-//
-//            resultSet = stmt.executeQuery(sql);
-//            if (resultSet != null) {
-//                resultSet.getInt("STARS");
-//            }
-//            int numORows=resultSet.getRow();
-//
+
+            resultSet = stmt.executeQuery(sql);
+            if (resultSet != null) {
+                resultSet.getInt("STARS");
+            }
+            int numORows=resultSet.getRow();
+
             if (resultSet.next()) {
                 ApplicationRelease applicationRelease=new ApplicationRelease();
                 applicationRelease.setStars(resultSet.getInt("STARS"));
@@ -1053,6 +1055,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         String sql;
+        int Stars=0;
 
         try {
             connection = this.getDBConnection();
@@ -1064,10 +1067,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
             if (resultSet.next()) {
                 ApplicationRelease applicationRelease = new ApplicationRelease();
-                applicationRelease.setStars(resultSet.getInt("STARS"));
+                Stars=resultSet.getInt("STARS");
+//                applicationRelease.setStars(Stars);
 
-                Util.cleanupResources(statement, resultSet);
-                return applicationRelease.getStars();
+//                Util.cleanupResources(statement, resultSet);
+                return Stars;
             }
         } catch (SQLException e) {
             throw new ApplicationManagementDAOException(
@@ -1078,7 +1082,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } finally {
             Util.cleanupResources(statement, resultSet);
         }
-        return 0;
+        return Stars ;
     }
 
     @Override
@@ -1088,6 +1092,7 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         String sql;
+        int ratedUsers=0;
 
         try {
             connection = this.getDBConnection();
@@ -1098,10 +1103,11 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
 
             if (resultSet.next()) {
                 ApplicationRelease applicationRelease = new ApplicationRelease();
-                applicationRelease.setNoOfRatedUsers(resultSet.getInt("NO_OF_RATED_USERS"));
+                ratedUsers =resultSet.getInt("NO_OF_RATED_USERS");
+                applicationRelease.setNoOfRatedUsers(ratedUsers);
 
                 Util.cleanupResources(statement, resultSet);
-                return applicationRelease.getNoOfRatedUsers();
+                return ratedUsers;
             }
         } catch (SQLException e) {
             log.error("SQL Exception occurs.", e);
@@ -1110,6 +1116,6 @@ public class CommentDAOImpl extends AbstractDAOImpl implements CommentDAO {
         } finally {
             Util.cleanupResources(statement, resultSet);
         }
-        return 0;
+        return ratedUsers;
     }
 }

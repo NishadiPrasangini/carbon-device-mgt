@@ -23,13 +23,13 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.device.application.mgt.api.beans.ErrorResponse;
 import org.wso2.carbon.device.application.mgt.common.services.ApplicationManager;
-import org.wso2.carbon.device.application.mgt.common.services.PlatformManager;
-import org.wso2.carbon.device.application.mgt.common.services.LifecycleStateManager;
 import org.wso2.carbon.device.application.mgt.common.services.ApplicationReleaseManager;
 import org.wso2.carbon.device.application.mgt.common.services.ApplicationStorageManager;
-import org.wso2.carbon.device.application.mgt.common.services.SubscriptionManager;
-import org.wso2.carbon.device.application.mgt.common.services.PlatformStorageManager;
 import org.wso2.carbon.device.application.mgt.common.services.CategoryManager;
+import org.wso2.carbon.device.application.mgt.common.services.LifecycleStateManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformManager;
+import org.wso2.carbon.device.application.mgt.common.services.PlatformStorageManager;
+import org.wso2.carbon.device.application.mgt.common.services.SubscriptionManager;
 import org.wso2.carbon.device.application.mgt.common.services.CommentsManager;
 
 import javax.ws.rs.core.Response;

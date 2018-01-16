@@ -76,8 +76,8 @@ public class AuthenticationHandler extends AbstractHandler {
     /**
      * Handling the message and checking the security.
      *
-     * @param messageContext Request message context.
-     * @return Boolean value of the result of the processing the request.
+     * @param messageContext
+     * @return
      */
     @Override
     public boolean handleRequest(org.apache.synapse.MessageContext messageContext) {
