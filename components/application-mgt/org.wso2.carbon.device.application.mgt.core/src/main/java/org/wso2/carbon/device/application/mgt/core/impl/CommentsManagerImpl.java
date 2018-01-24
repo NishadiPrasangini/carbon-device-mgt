@@ -46,10 +46,10 @@ public class CommentsManagerImpl implements CommentsManager {
 
     private static final Log log = LogFactory.getLog(CommentsManagerImpl.class);
     private CommentDAO commentDAO;
-
-    public CommentsManagerImpl() {
-        initDataAccessObjects();
-    }
+//
+//    public CommentsManagerImpl() {
+//        initDataAccessObjects();
+//    }
 
     private void initDataAccessObjects() {
         this.commentDAO = ApplicationManagementDAOFactory.getCommentDAO();
